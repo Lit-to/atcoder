@@ -1,0 +1,5 @@
+{
+    "files.readonlyInclude": {
+        "python/contest/template/template.py": true
+    }
+}
