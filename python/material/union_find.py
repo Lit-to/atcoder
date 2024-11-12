@@ -12,4 +12,6 @@ class unionFind: #UnionFind
         if a==b:
             return
         self.par[b]=a
+    def is_same(self,a,b):
+        return self.root(a)==self.root(b)
 
