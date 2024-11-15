@@ -1,5 +1,5 @@
 # インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq,pypyjit as pypyjit
+import sys,itertools,math,heapq,pypyjit
 from collections import defaultdict,deque
 from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
 pypyjit.set_param('max_unroll_recursion=-1')
