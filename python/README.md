@@ -12,18 +12,20 @@ Pythonディレクトリへようこそ。
 # テンプレートの中身とその説明
 ```py
 # インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq,pypyjit as pypyjit
+import sys,itertools,math,heapq,pypyjit
 from collections import defaultdict,deque
-from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
+from sortedcontainers import SortedSet, SortedList, SortedDict
 pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
 ```
-インポートとおまじないセット。
-よく使う便利なライブラリは常にロードしており、ここで150ms程度の処理時間がある。
-おまじないセットは各種アルゴリズムの高速化をするためのおまじない。詳しくは調べてくれ。
-最後の行はdictの上書き。dictがdefaultdictになって困ることはないのでこのようにしている。
+pypy3.10で動かすことを想定している。Cpythonでは動かない
+インポートとおまじないセット。  
+インポート部分:よく使う便利なライブラリは使用の有無に関係なくインポートしており、ここで150ms程度の処理時間がある。(``sortedcontainers``が1/3くらいの時間を占めてたはず)
+おまじないセット部分:各種アルゴリズムの高速化をするためのおまじない。詳しくは調べてくれ。    
+最後の行はdictの上書き。dictがdefaultdictになって困ることはないのでこのようにしている。  
+
 ```py
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -31,8 +33,8 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 MOD=998244353
 MAX=10**18
 ```
-あると便利な定数を宣言している。
-ALPHABETは重宝しているがそれ以外は忘れて直で書いていることもしばしば。
+あると便利な定数を宣言している。  
+ALPHABETは重宝しているがそれ以外は忘れて直で書いていることもしばしば。  
 
 ```py
 # 便利関数定義
@@ -49,10 +51,10 @@ def printYN(f:bool): yes() if f else no()
 ```
 あると便利な関数を宣言している。
 -   inputの上書きは定数倍高速化の一種。標準入力の読み取りが多少高速になる。
--   yes/no yesと出力したのち**プログラムを終了する**。地味に便利。
--   printe(str) 引数の文字列を出力したのち**プログラムを終了する。** print and endの略としているが、ぷりんて と読むことがほとんど。
--   listr(list) 引数の配列をすべて結合した文字列を返す。
--   debug(str) 引数の文字列を**標準エラー出力として**出力する。VSコード上では見分けがないが、提出の回答としては無視されるためデバッグに便利。
+-   yes/no yes/endと出力したのち**プログラムを終了する**。地味に便利。
+-   printe(str) 引数はprint関数とまったく同じ。文字列を出力したのち**プログラムを終了する。** print and endの略としているが、ぷりんて と読むことがほとんど。
+-   listr(list) 引数の配列をすべて結合した文字列を返す。登場することは多くない。
+-   debug(str) 引数はprint関数とまったく同じ。文字列を**標準エラー出力として**出力する。VSコード上では標準出力との見分けがつかないが、このまま提出しても標準出力のみチェックされるためデバッグに便利。
 -   printYN(bool) True/Falseをyes/noに対応させて出力し、**プログラムを終了する**。しょうもない条件分岐や、三項演算子を書く必要がなくなる。
 
 その他、各問題で関数を宣言する場合はこれらの下の関数定義スペースで宣言・定義する。
