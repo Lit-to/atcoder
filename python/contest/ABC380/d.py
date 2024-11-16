@@ -23,18 +23,33 @@ def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(
 def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
+def func(group:int,rank):
+    if rank==2:
+        return group
+    else:
+        rank=rank>>1
+        if group<rank:
+            return func(group,rank)
+        elif rank<=group:
+            return func(group-rank,rank)+1
+
+
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
 S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
+N = len(S)
+Q = int(input())
+A = list(map(lambda x: int(x)-1,input().split()))
 # 処理スペース ================================================================================================Lit_to
+result=[]
+for i in A:
+    chr=S[i%N]
+    if func(i//N,1<<60)%2==0:
+        result.append(chr)
+    else:
+        result.append(chr.swapcase())
+
+print(*result)
+
 

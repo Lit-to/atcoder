@@ -23,11 +23,25 @@ def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(
 def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
+def runLength(s=str or list) -> list:#ランレングス圧縮
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
+# N = int(input())
+# H, W = map(int,input().split())
+# A = list(map(int,input().split()))
 S = input()
 # S = list(input())
 # S = list(input().split())
@@ -37,4 +51,5 @@ S = input()
 # A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
 # debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
-
+result=runLength(S)
+print(*list(map(lambda x:x[1],result[1::2])))
