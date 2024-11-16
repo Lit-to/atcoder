@@ -1,7 +1,7 @@
 {
     "files.readonlyInclude": {
         "python/contest/template/*.py": true,
-        "python/contest/template/template.py": true,
+        "python/contest/template/*.md": true,
         "python/material/*.py": true
     }
 }
