@@ -3,5 +3,9 @@
         "python/contest/template/*.py": true,
         "python/contest/template/*.md": true,
         "python/material/*.py": true
+    },
+    "launch": {
+        "configurations": [],
+        "compounds": []
     }
 }
