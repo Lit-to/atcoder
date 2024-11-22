@@ -36,9 +36,10 @@
                 "-Xfrozen_modules=off",
                 "-m"
             ],
-            "env":{
-                "PYTHONPATH":"/home/lit-to/atcoder:$PYTHONPATH"
-            }
+            "env": {
+                "PYTHONPATH": "/home/lit-to/atcoder:$PYTHONPATH"
+            },
+            "preLaunchTask": "export pypy_path"
         },
         {
             "name": "C/C++ Runner: Debug Session",
