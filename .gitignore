@@ -3,3 +3,4 @@
 !*.*
 *.ini
 /ignore
+/test/correct.py
