@@ -28,15 +28,33 @@ def printYN(f:bool): yes() if f else no()
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+# H, W = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
 # S = list(input())
-# S = list(input().split())
+S = list(input())
+if N%2==0:
+    no()
+if S==["/"]:
+    yes()
+if "/" not in S:
+    no()
 # BOARD = [list(input()) for i in range(H)]#文字列のリスト
 # BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
 # A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
 # A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
 # debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
+center=(N+1)//2
+
+pre=set(list(S[:center-1]))
+back=set(list(S[center:]))
+if len(pre) == 1 and len(back)==1 and "1" in pre and "2" in back:
+    yes()
+no()
+# if A[center]=="/":
+#     pre=set(A[:center])
+#     back=set(A[center+1:])
+#     if len(pre) == 1 and len(back)==1 and 1 in pre and 2 in back:
+#         yes()
 

@@ -25,18 +25,77 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
+def check1122(s:str,n:int):
+    if n%2==1:
+        return False
+    center=n//2
+    for i in range(1,center+1):
+        if not(s[2*i-2]==s[2*i-1]):
+            return False
+    d=dict(lambda:0)
+    for i in s:
+        d[i]+=1
+    for i in d:
+        if d[i]!=2:
+            return False
+    return True
+
+def runLengthEncode(s=str or list) -> list:#ランレングス圧縮(エンコード)
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
+def runLengthDecode(data:list): #ランレングス圧縮(デコード)
+    result=""
+    for i in data:
+        result+=i[0]*i[1]
+    return result
+
+
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
 A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
+
+rl=runLengthEncode(A)
+q=len(rl)
+result=0
+count=0
+used=set()
+d=dict(lambda:0)
+for i in range(q):
+    if count==0:
+        if 2<=rl[i][1]:
+            count+=1
+            d[rl[i][0]]+=1
+    elif rl[i][1]==2 and d[rl[i][0]]<1:
+        count+=1
+        d[rl[i][0]]+=1
+    elif d[rl[i][0]]<2:
+        d[rl[i][0]]+=1
+        continue
+    else:
+        keep=False
+        if 2<=rl[i][1] not in used:
+            keep=True
+            count+=1
+        result=max(count,result)
+        count=0
+        d=dict(lambda:0)
+        if keep:
+            count+=1
+            d[rl[i][0]]+=1
+result=max(count,result)
+print(result*2)
 

@@ -27,11 +27,11 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+# H, W = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
+S = list(input())
+N = len(S)
 # S = list(input().split())
 # BOARD = [list(input()) for i in range(H)]#文字列のリスト
 # BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
@@ -39,4 +39,21 @@ S = input()
 # A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
 # debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
+if N%2==1:
+    no()
+center=N//2
+for i in range(1,center+1):
+    if not(S[2*i-2]==S[2*i-1]):
+        no()
+
+d=dict(lambda:0)
+for i in S:
+    d[i]+=1
+
+for i in d:
+    if d[i]!=2:
+        no()
+yes()
+
+
 

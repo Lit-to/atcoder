@@ -25,18 +25,50 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
+def check11_22(n:int,s:str):
+    if n%2==0:
+        return False
+    if s==["/"]:
+        return True
+    if "/" not in s:
+        return False
+    center=(n+1)//2
+    pre=set(list(s[:center-1]))
+    back=set(list(s[center:]))
+    if len(pre) == 1 and len(back)==1 and "1" in pre and "2" in back:
+        return True
+    return False
+
+
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
+S = list(input())+["0"]
 # 処理スペース ================================================================================================Lit_to
+
+slash=[]
+for i in range(N):
+    if S[i]=="/":
+        slash.append(i)
+
+result=0
+for i in slash:
+    pos=[i-1,i+1]
+    count=1
+    while True:
+        left,right=pos
+        if (S[left]=="0" or S[right]=="0") and (S[left]=="/" or S[right]=="/"):
+            break
+        if not(S[left]=="1" and S[right]=="2"):
+            count-=1
+            break
+        if count!=1 and not(S[left-1]==S[left] and S[right]==S[right+1]):
+            break
+        pos=[left-1,right+1]
+        count+=1
+    result=max(result,count)
+
+printe(result*2+1)
+
 
