@@ -67,35 +67,30 @@ def runLengthDecode(data:list): #ランレングス圧縮(デコード)
 N = int(input())
 A = list(map(int,input().split()))
 # 処理スペース ================================================================================================Lit_to
-
-rl=runLengthEncode(A)
-q=len(rl)
+if N==1:
+    printe(0)
 result=0
-count=0
+r=0
 used=set()
-d=dict(lambda:0)
-for i in range(q):
-    if count==0:
-        if 2<=rl[i][1]:
-            count+=1
-            d[rl[i][0]]+=1
-    elif rl[i][1]==2 and d[rl[i][0]]<1:
-        count+=1
-        d[rl[i][0]]+=1
-    elif d[rl[i][0]]<2:
-        d[rl[i][0]]+=1
-        continue
-    else:
-        keep=False
-        if 2<=rl[i][1] not in used:
-            keep=True
-            count+=1
-        result=max(count,result)
-        count=0
-        d=dict(lambda:0)
-        if keep:
-            count+=1
-            d[rl[i][0]]+=1
-result=max(count,result)
-print(result*2)
+for l in range(0,N,2):
+    while r<N and A[r-1]==A[r] and A[r] not in used:
+        used.add(A[r])
+        r+=2
+    result=max(result,r-l)
+    if A[l] in used:
+        used.remove(A[l])
+    if r<=l:
+        r+=2
+r=1
+used=set()
+for l in range(1,N,2):
+    while r<N and A[r-1]==A[r] and A[r] not in used:
+        used.add(A[r])
+        r+=2
+    result=max(result,r-l)
+    if A[l] in used:
+        used.remove(A[l])
+    if r<=l:
+        r+=2
+print(result)
 
