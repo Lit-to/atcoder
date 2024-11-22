@@ -26,18 +26,26 @@
     -   その他の命名は定数に準ずる。
     -   
 
-# Python用ディレクトリ
-[全体ディレクトリ](https://github.com/Lit-to/atcoder)
+## devディレクトリ
+-   作業途中のファイルを格納する場所
 
-Pythonディレクトリへようこそ。
+## contestディレクトリ
 
--   python/template内は1コンテストのテンプレートセット
--   python/material内はコピペ素材
+コンテスト提出のためのプログラムと記録が入っている。  
+コミットは以下のタイミングで行う。
+-   コンテスト開始前にディレクトリをコピーしたとき
+-   コンテスト終了直後
+-   終了後の延長戦終了後
+-   その他必要そうなとき(あいまい)
 
-を置きました。
+## templateディレクトリ
 
+python/template内は1コンテストのテンプレートセット  
+a~gまでのpyファイルと、記録ファイル(report.md)がある。  
+このディレクトリを丸ごとコピーして1コンテストで使用する。  
 
-# テンプレートの中身とその説明
+a~g.pyはmaterial/template.pyと同様で、その中身は以下になっている。
+
 ```py
 # インポート(本編はだいたい30行目あたり)
 import sys,itertools,math,heapq,pypyjit
@@ -67,8 +75,8 @@ ALPHABETは重宝しているがそれ以外は忘れて直で書いているこ
 ```py
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def yes(): print("Yes"); exit()
-def no(): print("No"); exit()
+def yes(f=None): print("Yes") if (f==None or f) else None; exit() if f!=None else None
+def no(f=None): print("No") if (f==None or f) else None;exit() if f!=None else None
 def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
 def listr(l:list): return "".join(l)
 def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
@@ -80,7 +88,7 @@ def printYN(f:bool): yes() if f else no()
 ```
 あると便利な関数を宣言している。
 -   inputの上書きは定数倍高速化の一種。標準入力の読み取りが多少高速になる。
--   yes/no yes/endと出力したのち**プログラムを終了する**。地味に便利。
+-   yes/no yes/endと出力したのち**プログラムを終了する**。地味に便利。引数にラムダ式を入れることで評価してTrueの時のみ動作させることも出来る。
 -   printe(str) 引数はprint関数とまったく同じ。文字列を出力したのち**プログラムを終了する。** print and endの略としているが、ぷりんて と読むことがほとんど。
 -   listr(list) 引数の配列をすべて結合した文字列を返す。登場することは多くない。
 -   debug(str) 引数はprint関数とまったく同じ。文字列を**標準エラー出力として**出力する。VSコード上では標準出力との見分けがつかないが、このまま提出しても標準出力のみチェックされるためデバッグに便利。
@@ -109,5 +117,6 @@ S = input()
 実際の処理を書くスペース。ここで宣言した変数はすべて小文字にする。
 
 
-
+## pypyjit.py
+pypyjitはpypyでないとインポートできないためいちいち提出時にコメントを解除する手間を省くためこの場所に配置
 

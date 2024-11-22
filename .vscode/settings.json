@@ -1,8 +1,8 @@
 {
   "files.readonlyInclude": {
-    "python/contest/template/*.py": true,
-    "python/contest/template/*.md": true,
-    "python/material/*.py": true
+    "contest/template/*.md": true,
+    "contest/template/*.py": true,
+    "material/*.py": true
   },
   "launch": {
     "configurations": [],
