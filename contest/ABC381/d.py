@@ -73,7 +73,7 @@ result=0
 r=0
 used=set()
 for l in range(0,N,2):
-    while r<N and A[r-1]==A[r] and A[r] not in used:
+    while 0<r and r<N and A[r-1]==A[r] and A[r] not in used:
         used.add(A[r])
         r+=2
     result=max(result,r-l)

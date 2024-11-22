@@ -5,8 +5,8 @@ import os
 from collections import defaultdict
 LOG_PATH=os.path.join("test","log.txt")#ログファイルのパスを書く
 INPUT_PATH=os.path.join("test")#入力ファイルが入ったディレクトリのパス
-TARGET_PROGRAM=["python3",os.path.join("contest","ABC379","a.py")]#チェックするプログラムの実行コマンド
-CORRECT_PROGRAM=["python3",os.path.join("contest","ABC379","a.py")]#正しいと思われるプログラムの実行コマンド
+TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC381","d.py")]#チェックするプログラムの実行コマンド
+CORRECT_PROGRAM=["pypy3",os.path.join("test","correct.py")]#正しいと思われるプログラムの実行コマンド
 
 with open(os.path.join(LOG_PATH), 'w',encoding="utf-8") as f:
     print("",file=f)
@@ -92,19 +92,19 @@ for i in iodata:
         ngs.append(c)
     c+=1
 # 結果のまとめ
-if input_type!="H":
-    with open(os.path.join("abc","tester","input",'ngs.txt'), 'w',encoding="utf-8") as f:
-        print("# py",file=f)
-    for i in range(len(ngs)):
-        with open(os.path.join("abc","tester","input",'ngs.txt'), 'a',encoding="utf-8") as f:
-            print("##",iodata[ngs[i]]["name"],file=f)
-            print("```",file=f)
-            for j in iodata[ngs[i]]["input"]:
-                print(j[:-1],file=f,end="\n")
-            print("",file=f,end="")
-            print("```",file=f)
-            print("```",file=f)
-            print(*iodata[ngs[i]]["output"],file=f)
-            print("```",file=f)
+# if input_type!="H":
+#     with open(os.path.join("abc","tester","input",'ngs.txt'), 'w',encoding="utf-8") as f:
+#         print("# py",file=f)
+#     for i in range(len(ngs)):
+#         with open(os.path.join("abc","tester","input",'ngs.txt'), 'a',encoding="utf-8") as f:
+#             print("##",iodata[ngs[i]]["name"],file=f)
+#             print("```",file=f)
+#             for j in iodata[ngs[i]]["input"]:
+#                 print(j[:-1],file=f,end="\n")
+#             print("",file=f,end="")
+#             print("```",file=f)
+#             print("```",file=f)
+#             print(*iodata[ngs[i]]["output"],file=f)
+#             print("```",file=f)
     
 

@@ -12,16 +12,16 @@ def printf(*args,sep=" "):
     with open(TEST_PATH, 'a',encoding="utf-8") as f:
         print(*args,sep=sep,file=f)
 
-N=1000
+N=2000
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    n=random.randint(100,999)
-    # A=[]
-    # for i in range(n):
-    #     A.append(random.randint(0,n))
+    n=random.randint(1,21)
+    A=[]
+    for i in range(n):
+        A.append(random.randint(0,n))
     printf(n)
-    # printf(*A,sep=" ")
+    printf(*A,sep=" ")
     printf("```")
     printf("```")
     printf("")
