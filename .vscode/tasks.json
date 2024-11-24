@@ -10,7 +10,8 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
+                "${fileDirname}/a",
+                "-std=c++20",
                 ""
             ],
             "options": {
