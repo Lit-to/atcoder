@@ -28,14 +28,29 @@ def printYN(f:bool): yes() if f else no()
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
 A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
 # debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
+
+b=[0]*N
+b[N-1]=A[N-1]
+
+for i in range(N-1,0,-1):
+    pos=i
+    j=1
+    r=0
+    while pos*j<N:
+        r+=b[pos*j-1]
+        j+=1
+    if r%2==A[i-1]:
+        b[i-1]=0
+    else:
+        b[i-1]=1
+result=[]
+for i in range(N):
+    if b[i]==1:
+        result.append(i+1)
+print(len(result))
+print(*result)
+
+
