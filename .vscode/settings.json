@@ -5,7 +5,6 @@
     "material/*.py": true,
   },
   "files.readonlyExclude": {
-    "material/board.py":true
   },
   "launch": {
     "configurations": [],
