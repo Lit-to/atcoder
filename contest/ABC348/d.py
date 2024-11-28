@@ -38,17 +38,20 @@ class Board:
     # board.weightでWの値を返す
 
     def __init__(
-        self, h: int, w: int, default: int | str | bool, can_loop: bool = True
+        self,
+        h: int,
+        w: int,
+        default: int | str | bool,
+        can_loop: bool = True,
     ) -> None:  # 初期化 ※defaultはイミュータブルなものである必要がある
-        for i in range(H):#データ
-            data=[]
-            for j in range(W):
-                data.append(default(i))
-            self.__board.append(data)
-        self.__height = h #高さ
-        self.__weight = w #幅
-        self.can_loop=can_loop #ループを許容するか(デフォルトはTrue)
-
+        self.__board = []  # データ
+        for i in range(h):
+            data = default(i)
+            assert len(data) == w, "Illigal input length."
+            self.__board+=data
+        self.__height = h  # 高さ
+        self.__weight = w  # 幅
+        self.can_loop = can_loop  # ループを許容するか(デフォルトはTrue)
 
     def get_height(self) -> int:  # Hの値を取得
         return self.__height
@@ -74,10 +77,10 @@ class Board:
             ), "IndexError: list index out of range"
         return i * self.get_width() + j  # i*W+jが一次元における指定マスの場所
 
-    def get_pos(self,index:int):
-        i=index//self.get_width()
-        j=index%self.get_width()
-        return i,j
+    def get_pos(self, index: int):
+        i = index // self.get_width()
+        j = index % self.get_width()
+        return i, j
 
     def get_value(self, i: int, j: int) -> int | str | bool:
         pos = self.get_index(i, j)
@@ -98,4 +101,4 @@ for i in range(N):
 
 
 # 処理スペース ================================================================================================Lit_to
-print(BOARD.__board)
+print(BOARD)
