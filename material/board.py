@@ -9,14 +9,6 @@ class Board:
     Board(H+1,W+1,lambda x:list(input()),can_loop=False)
 
     """
-
-    # 中身のボードは一次元配列で定義し、W個ごとに並べる
-    # 範囲外の場合はエラーとして落とす
-    # 範囲外の場合はエラーとして落とす
-    # board.heightでHの値を返す
-    # board.weightでWの値を返す
-    # board=Board(H+1,W+1,lambda x:list(input())+["+"] if x<H else ["+"]*(W+1),can_loop=True)
-
     def __init__(
         self,
         h: int, 
