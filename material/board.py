@@ -4,6 +4,10 @@ class Board:
     一次元配列で仮想的に二次元配列を定義する
     初期化時にコンストラクタでサイズHWと初期値を指定し、読み書きが可能
 
+    初期化例 
+    Board(H+1,W+1,lambda x:list(input())+["#"] if x<H else ["#"]*(W+1),can_loop=True)
+    Board(H+1,W+1,lambda x:list(input()),can_loop=False)
+
     """
 
     # 中身のボードは一次元配列で定義し、W個ごとに並べる
