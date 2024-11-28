@@ -41,7 +41,7 @@ class Board:
         Returns:
             str: データを文字列にしたもの
         """
-        return str(*self.__board)
+        return str(self.__board)
 
     def __get_board(self):
         """
