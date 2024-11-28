@@ -2,7 +2,10 @@
   "files.readonlyInclude": {
     "contest/template/*.md": true,
     "contest/template/*.py": true,
-    "material/*.py": true
+    "material/*.py": true,
+  },
+  "files.readonlyExclude": {
+    "material/board.py":true
   },
   "launch": {
     "configurations": [],
