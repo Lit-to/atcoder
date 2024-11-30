@@ -1,5 +1,5 @@
 class Board:
-    """_summary_
+    """
     ボードを使いやすくするクラス
     一次元配列で仮想的に二次元配列を定義する
     初期化時にコンストラクタでサイズHWと初期値を指定し、読み書きが可能
@@ -16,7 +16,8 @@ class Board:
         default: int | str | bool,
         can_loop: bool = True,
     ) -> None:
-        """初期化関数 インスタンス生成時に呼び出される
+        """
+        初期化関数 インスタンス生成時に呼び出される
 
         Args:
             h (int): 縦の長さ
@@ -54,7 +55,7 @@ class Board:
         grid = []
         w = self.get_width()
         h = self.get_height()
-        for i in range(0, h - 1):
+        for i in range(0, h):
             grid.append(self.__board[i * w : w * (i + 1)])
         return grid
 
