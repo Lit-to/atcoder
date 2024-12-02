@@ -31,8 +31,10 @@ def enumeration(stack:list,n:int,value:int):
     if n==N-1:
         result.append(stack.copy())
         stack.pop()
-        return
-    for i in range(N+(10*n)):
+        return stack
+    for i in range(N+(10*n)+1):
+        if M<i+value+10:
+            break
         enumeration(stack,n+1,i+value+10)
     stack.pop()
 
@@ -44,7 +46,8 @@ N, M = map(int,input().split())
 # S = input()
 # 処理スペース ================================================================================================Lit_to
 result=[]
-enumeration([],0,1)
+for i in range(1,M+1):
+    enumeration([],0,i)
 
 print(len(result))
 for i in result:
