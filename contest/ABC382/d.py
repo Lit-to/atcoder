@@ -27,14 +27,15 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 def enumeration(stack:list,n:int,value:int):
+    if M<value:
+        return
     stack.append(value)
     if n==N-1:
-        result.append(stack.copy())
+        # debug(*stack)
+        result.append("".join(str(stack)[1:-1].split(",")))
         stack.pop()
-        return stack
+        return
     for i in range(N+(10*n)+1):
-        if M<i+value+10:
-            break
         enumeration(stack,n+1,i+value+10)
     stack.pop()
 
@@ -49,6 +50,9 @@ result=[]
 for i in range(1,M+1):
     enumeration([],0,i)
 
+# result.sort()
 print(len(result))
 for i in result:
-    print(*i)
+    print(i)
+
+
