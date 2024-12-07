@@ -12,7 +12,6 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
-LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
@@ -21,6 +20,7 @@ def no(f=None): print("No") if (f==None or f) else None;exit() if f!=None else N
 def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
 def listr(l:list): return "".join(l)
 def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
+def look(pos:tuple,board:list): return board[pos[0]][pos[1]] #HWボードの(i,j)の値を参照して返す関数
 def printYN(f:bool): yes() if f else no()
 
 
@@ -28,9 +28,21 @@ def printYN(f:bool): yes() if f else no()
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+task=[]
+for i in range(N):
+    T, V = map(int,input().split())
+    task.append((T,V))
 # 処理スペース ================================================================================================Lit_to
+task.sort(reverse=True)
+
+water=0
+i=0
+while task:
+    if i==task[-1][0]:
+        water+=task[-1][1]
+        task.pop()
+    water-=1
+    water=max(0,water)
+    i+=1
+print(water+1)
 
