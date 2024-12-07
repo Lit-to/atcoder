@@ -27,15 +27,15 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-# N = int(input())
-N, D = map(int,input().split())
-# A = list(map(int,input().split()))
-S = list(input())
+N = int(input())
+H, W = map(int,input().split())
+A = list(map(int,input().split()))
+S = input()
 # S = list(input())
+# S = list(input().split())
+# BOARD = [list(input()) for i in range(H)]#文字列のリスト
+# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
+# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
+# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
+# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
-for i in range(N):
-    if S[N-i-1]=="@" and 0<D:
-        S[N-i-1]="."
-        D-=1
-printe(*S,sep="")
-

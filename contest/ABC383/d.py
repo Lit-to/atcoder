@@ -26,33 +26,16 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
-def enumeration(stack:list,n:int,value:int):
-    if M<value:
-        return
-    stack.append(value)
-    if n==N-1:
-        # debug(*stack)
-        result.append("".join(str(stack)[1:-1].split(",")))
-        stack.pop()
-        return
-    for i in range(N+(10*n)+1):
-        enumeration(stack,n+1,i+value+10)
-    stack.pop()
-
-
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-# N = int(input())
-N, M = map(int,input().split())
-# A = list(map(int,input().split()))
-# S = input()
+N = int(input())
+H, W = map(int,input().split())
+A = list(map(int,input().split()))
+S = input()
+# S = list(input())
+# S = list(input().split())
+# BOARD = [list(input()) for i in range(H)]#文字列のリスト
+# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
+# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
+# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
+# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
-result=[]
-for i in range(1,M+1):
-    enumeration([],0,i)
-
-# result.sort()
-print(len(result))
-for i in result:
-    print(i)
-
-

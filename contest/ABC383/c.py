@@ -25,43 +25,17 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-def search(ok:int,ng:int,f:bool)->int:
-    # okは条件を満たす領域の外側
-    # ngは条件を満たさない領域の外側
-    # fは条件を満たすかどうかの評価関数
-        # lambda i:a[i]<x xを含まない最大のiを返す
-        # lambda i:a[i]<=x xを含む最大のiを返す
-    while 1<abs(ok-ng):
-        mid=(ng+ok)//2
-        if f(mid):
-            ok=mid
-        else:
-            ng=mid
-    return ok
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N, M = map(int,input().split())
+N = int(input())
+H, W = map(int,input().split())
 A = list(map(int,input().split()))
-B = list(map(int,input().split()))
+S = input()
+# S = list(input())
+# S = list(input().split())
+# BOARD = [list(input()) for i in range(H)]#文字列のリスト
+# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
+# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
+# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
+# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
-mn=MAX
-
-A_who_can_eats=[]
-
-for i in range(N):
-    if A[i]<=mn:
-        A_who_can_eats.append((A[i],i+1))
-        mn=A[i]
-    else:
-        continue
-
-A_who_can_eats.append((0,-1))
-N=len(A_who_can_eats)
-# A_who_can_eats.reverse()
-# debug(A_who_can_eats)
-
-for i in range(M):
-    result=search(N,-1,lambda x:A_who_can_eats[x][0]<=B[i])
-    print(A_who_can_eats[result][1])
-
-
