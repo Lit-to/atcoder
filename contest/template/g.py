@@ -12,6 +12,7 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
+LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
@@ -32,10 +33,4 @@ H, W = map(int,input().split())
 A = list(map(int,input().split()))
 S = input()
 # S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to

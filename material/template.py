@@ -12,6 +12,7 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
+LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
