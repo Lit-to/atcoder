@@ -52,6 +52,6 @@ for i in range(H):
             for l in range(W):
                 if BOARD[i][j] == BOARD[k][l] and BOARD[i][j]==".":
                     humdifier=[(i,j),(k,l)]
-                    result=max(result,count_wet(humdifier))
+                    result=max(result,count_wet(humdifier,0))
 
 print(result)

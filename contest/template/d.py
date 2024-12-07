@@ -21,7 +21,6 @@ def no(f=None): print("No") if (f==None or f) else None;exit() if f!=None else N
 def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
 def listr(l:list): return "".join(l)
 def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
-def look(pos:tuple,board:list): return board[pos[0]][pos[1]] #HWボードの(i,j)の値を参照して返す関数
 def printYN(f:bool): yes() if f else no()
 
 

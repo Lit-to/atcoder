@@ -127,7 +127,7 @@ class Board:
         j = index % self.get_width()
         return i, j
 
-    def get_value(self, i: int, j: int) -> int | str | bool:
+    def get_value(self, *args) -> int | str | bool:
         """二次元配列における縦i番目横j番目の値を返す
 
         Args:
@@ -137,6 +137,12 @@ class Board:
         Returns:
             int | str | bool: 二次元配列の値
         """
+        if len(args)==1 and type(args[0])==tuple:
+            i,j=args[0]
+        elif len(args)==2:
+            i,j=args
+        assert 1<=len(args) and len(args)<=2, "get_value() takes 1 or 2 positional argument but "+str(len(args))+" were given"
+        assert type(i)==int and type(j)==int, "TypeError: list indices must be integers or slices, not"+str(type(i))+","+str(type(j))
         pos = self.get_index(i, j)
         return self.__board[pos]
 
