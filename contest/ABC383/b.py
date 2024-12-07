@@ -25,17 +25,33 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
+def count_wet(humdifier):
+    result=set()
+    for i in humdifier:
+        h,w=i
+        for j in range(H):
+            for k in range(W):
+                if abs(j-h)+abs(k-w)<=D:
+                    if BOARD[j][k]==".":
+                        result.add(j*W+k)
+    return len(result)
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
+# N = int(input())
+H, W ,D= map(int,input().split())
+BOARD=[]
+for i in range(H):
+    BOARD.append(tuple(input()))
+
 # 処理スペース ================================================================================================Lit_to
+
+result=2
+for i in range(H):
+    for j in range(W):
+        for k in range(H):
+            for l in range(W):
+                if BOARD[i][j] == BOARD[k][l] and BOARD[i][j]==".":
+                    humdifier=[(i,j),(k,l)]
+                    result=max(result,count_wet(humdifier))
+
+print(result)

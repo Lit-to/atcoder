@@ -28,14 +28,21 @@ def printYN(f:bool): yes() if f else no()
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
+task=[]
+for i in range(N):
+    T, V = map(int,input().split())
+    task.append((T,V))
 # 処理スペース ================================================================================================Lit_to
+task.sort(reverse=True)
+
+water=0
+i=0
+while task:
+    if i==task[-1][0]:
+        water+=task[-1][1]
+        task.pop()
+    water-=1
+    water=max(0,water)
+    i+=1
+print(water+1)
+

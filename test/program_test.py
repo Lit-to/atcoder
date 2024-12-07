@@ -5,7 +5,7 @@ import os
 from collections import defaultdict
 LOG_PATH=os.path.join("test","log.txt")#ログファイルのパスを書く
 INPUT_PATH=os.path.join("test")#入力ファイルが入ったディレクトリのパス
-TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC381","d.py")]#チェックするプログラムの実行コマンド
+TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC383","c.py")]#チェックするプログラムの実行コマンド
 CORRECT_PROGRAM=["pypy3",os.path.join("test","correct.py")]#正しいと思われるプログラムの実行コマンド
 
 with open(os.path.join(LOG_PATH), 'w',encoding="utf-8") as f:
@@ -38,7 +38,7 @@ for i in input_data:
         continue
     elif i=="# md\n" or i=="# py\n":
         continue
-    elif i[0]=="#":
+    elif 3<=len(i) and i[0:3]=="## ":
         assert mode==[],"cannot parse inputdata"
         inp=defaultdict(lambda:[])
         mode=["output","output","input","input"]
