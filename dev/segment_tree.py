@@ -129,7 +129,7 @@ class segmentTree:
             num>>=1
         return msb
 
-    def get(self,left:int,right:int):
+    def get_value(self,left:int,right:int):
         """
         (left:right)のうち、self.ruleの優先順位が一番高い値を返す
 
@@ -138,6 +138,35 @@ class segmentTree:
             right (int): 区間のインデックスの右端
         """
         assert left<right , "left value needs lower than right"
+        self.__get(left,right,self.half_size,self.half_size+self.value_length,1)
+
+    def __get(self,a:int,b:int,l:int,r:int,k:int):
+        """
+        [a,b)の区間のうち、[l,r)と被っている部分のルール結果を返す。
+        複数区間にまたがっている場合は区間を狭めて再起呼び出しする。
+        というつもりで作っているものの、うまく作れていない
+        Args:
+            a (int): 調査区間の左端
+            b (int): 調査区間の右端
+            l (int): 対象区間の左端
+            r (int): 対象区間の右端
+            k (int): [l,r)の結果が格納されているインデックス
+
+        Returns:
+            _type_: 結果
+        """
+        if r<=a or b<=l:
+            return self.default
+        elif a<=l and r<=b:
+            return self.values[k]
+        
+        
+        l_dash=self.__get(a,b,r,l,(l+r)//2)
+        r_dash=self.__get(a,b,2*k,(l+r)//2,r)
+
+        return self.rule(l_dash,r_dash)
+
+    
     
     def update(self,index:int,value:int):
         """
