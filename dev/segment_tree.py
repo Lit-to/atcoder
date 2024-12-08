@@ -82,9 +82,7 @@ class segmentTree:
         """
         value=self.default
         if self.size<(index<<1):
-            right_value=self.values[index]
-            left_value=self.values[index-1]
-            value=self.rule(left_value,right_value)
+            return self.values[index-1]
         else:
             right_value=self.__struct(index*2)
             left_value=self.__struct(index*2-1)
@@ -131,7 +129,7 @@ class segmentTree:
             num>>=1
         return msb
 
-    def get_value(self,left:int,right:int):
+    def get(self,left:int,right:int):
         """
         (left:right)のうち、self.ruleの優先順位が一番高い値を返す
 
@@ -141,7 +139,7 @@ class segmentTree:
         """
         assert left<right , "left value needs lower than right"
     
-    def update_value(self,index:int,value:int):
+    def update(self,index:int,value:int):
         """
         配列のindex番目にvalueを代入し木の更新を行う。
 
@@ -149,10 +147,10 @@ class segmentTree:
             index (int): 代入したい位置を示すインデックス
             value (int): 代入したい値
         """
-        index+=self.values
+        index+=self.half_size-1
         self.values[index]=value
         NEIGHBOR=[-1,1]
-        while index!=0:
+        while 2<=index:
             next=index>>1
             diff=NEIGHBOR[index%2==0]
             new_value=self.rule(self.values[index],self.values[index+diff])
@@ -164,17 +162,9 @@ class segmentTree:
 
 if __name__=="__main__":
     tree=segmentTree([3,5,7,3,5,7,98,4,3,5,7,45,23,34,22,76])
-    segment=[]
-    for i in range(tree.size):
-        if i==0:
-            print(tree.values[1])
-            continue
-        elif 1==len(set(list(bin(i)[2:]))):
-            print(*segment) if segment else segment
-            segment=[]
-            segment.append(tree.values[i])
-        else:
-            segment.append(tree.values[i])
+    tree.update(14,500)
+    tree.update(13,520)
+    tree.update(12,530)
 
     print(tree.values)
 
