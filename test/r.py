@@ -16,18 +16,19 @@ N=2000
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    H=random.randint(2,20)
-    W=random.randint(2,20)
-    D=random.randint(0,3)
-    A=[]
-    coma=["H",".","#",".","#",".","#"]
-
-    printf(H,W,D)
-    for i in range(H):
-        wei=""
-        for j in range(W):
-            wei+=coma[random.randint(0,len(coma)-1)]
-        printf(*wei,sep="")
+    N=random.randint(2,10)
+    Q=random.randint(1,20)
+    printf(N,Q)
+    for i in range(Q):
+        q=random.randint(1,2)
+        if q==1:
+            pos=random.randint(1,N)
+            x=random.randint(1,20)
+            printf(q,pos,x)
+        else:
+            r=random.randint(2,N)
+            l=random.randint(1,r-1)
+            printf(q,l,r)
     printf("```")
     printf("```")
     printf("")
