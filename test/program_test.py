@@ -5,7 +5,8 @@ import os
 from collections import defaultdict
 LOG_PATH=os.path.join("test","log.txt")#ログファイルのパスを書く
 INPUT_PATH=os.path.join("test")#入力ファイルが入ったディレクトリのパス
-TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC383","c.py")]#チェックするプログラムの実行コマンド
+# TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC383","c.py")]#チェックするプログラムの実行コマンド
+TARGET_PROGRAM=["pypy3",os.path.join("dev","seg2.py")]#チェックするプログラムの実行コマンド
 CORRECT_PROGRAM=["pypy3",os.path.join("test","correct.py")]#正しいと思われるプログラムの実行コマンド
 
 with open(os.path.join(LOG_PATH), 'w',encoding="utf-8") as f:
@@ -55,34 +56,40 @@ c=0
 # チェック開始
 for i in iodata:
     start=time.perf_counter()
-    note_output_1 = subprocess.check_output(TARGET_PROGRAM, input="".join(i["input"]), universal_newlines=True)
-    finish=time.perf_counter()-start
-
     is_tle=False
     is_wa=False
-    finish*=1000
-    if 2000.00<finish:
-        is_tle=True
-    note_output_1=note_output_1.split("\n")
-    note_output_2=[]
-    if input_type=="py":
-        note_output_2 = subprocess.check_output(CORRECT_PROGRAM, input="".join(i["input"]), universal_newlines=True)
-        note_output_2=note_output_2.split("\n")
-    else:
-        note_output_2=i["output"].copy()
+    status=-1
+    try:
+        note_output_1 = subprocess.check_output(TARGET_PROGRAM, input="".join(i["input"]), universal_newlines=True)
+        finish=time.perf_counter()-start
 
-    for j in range(len(note_output_2)):
-        if note_output_2[j].endswith("\n"):
-            note_output_2[j]=note_output_2[j].rstrip()
-        if note_output_1[j].endswith("\n"):
-            note_output_1[j]=note_output_1[j].rstrip()
-        if note_output_1[j]==note_output_2[j]:
-            printf("[o]",note_output_1[j])
-            pass
+        finish*=1000
+        if 2000.00<finish:
+            is_tle=True
+        note_output_1=note_output_1.split("\n")
+        note_output_2=[]
+        if input_type=="py":
+            note_output_2 = subprocess.check_output(CORRECT_PROGRAM, input="".join(i["input"]), universal_newlines=True)
+            note_output_2=note_output_2.split("\n")
         else:
-            printf("[x]","No.",j+1, "incorrect:",note_output_1[j],"correct:",note_output_2[j])
-            is_wa=True
-    status=is_tle*2+is_wa*3
+            note_output_2=i["output"].copy()
+
+        for j in range(len(note_output_2)):
+            if note_output_2[j].endswith("\n"):
+                note_output_2[j]=note_output_2[j].rstrip()
+            if note_output_1[j].endswith("\n"):
+                note_output_1[j]=note_output_1[j].rstrip()
+            if note_output_1[j]==note_output_2[j]:
+                printf("[o]",note_output_1[j])
+                pass
+            else:
+                printf("[x]","No.",j+1, "incorrect:",note_output_1[j],"correct:",note_output_2[j])
+                is_wa=True
+        status=is_tle*2+is_wa*3
+    except:
+        status=-1
+    if status==-1:
+        printf("[R E] No.",i["name"][:-1])
     if status==0:
         printf("[A C] No.",i["name"][:-1],">>>",finish,"ms")
     elif status==2:

@@ -37,7 +37,7 @@ class segmentTree(list):
         Exception:
             ValueError:valuesに空配列が指定された場合
         """
-        super().__init__(values)
+        # super().__init__(values)
         self.value_length=len(values)
         self.half_size=self.__calc_size()      
         self.size=self.half_size*2
@@ -159,7 +159,7 @@ class segmentTree(list):
         assert left<right , "left value needs lower than right"
         assert 0<=left , "left value needs more than 0"
         assert right<=self.value_length , "right value needs lower than max length"
-        return self.__check_rule(left,right,1,self.value_length,1)
+        return self.__check_rule(left,right,1,self.half_size,1)
 
 # # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N, Q = map(int,input().split())
@@ -172,6 +172,7 @@ A=[0]*N
 seg_tree=segmentTree(A,rule=lambda x,y:max(x,y))
 
 for i in query:
+    # debug(seg_tree.data[seg_tree.half_size:seg_tree.half_size+seg_tree.value_length])
     if i[0]==1:
         t,pos,x=i
         seg_tree.update(pos,x)
@@ -181,5 +182,3 @@ for i in query:
             print(seg_tree.data[seg_tree.half_size-1+l])
             continue
         print(seg_tree.get_query(l,r-1))
-
-
