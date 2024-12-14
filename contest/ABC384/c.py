@@ -27,10 +27,33 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+# N = int(input())
+A, B, C, D, E = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+N=32
+score={"A":A,"B":B,"C":C,"D":D,"E":E}
+result=[]
+for i in range(N):
+    c=0
+    person=0
+    name=[]
+    while c<5:
+        if i%2==1:
+            person+=score[ALPHABET[c]]
+            name.append(ALPHABET[c])
+        c+=1
+        i>>=1
+    result.append((person,listr(name)))
+
+result.sort(key=lambda x: x[1])
+result.sort(reverse=True,key=lambda x: x[0])
+for i,name in result:
+    if i!=0:
+        print(name)
+
+
+
 

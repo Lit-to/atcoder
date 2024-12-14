@@ -25,12 +25,26 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-
+def is_rated(rate,div:int):
+    if div==1:
+        return 1600<=rate and rate<=2799
+    elif div==2:
+        return 1200<=rate and rate<=2399
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+# N = int(input())
+N, R = map(int,input().split())
+QUERY=[]
+for i in range(N):
+    QUERY.append(tuple(map(int,input().split())))
+
 # 処理スペース ================================================================================================Lit_to
 
+rate=R
+
+
+
+for d,a in QUERY:
+    if is_rated(rate,d):
+        rate+=a
+
+print(rate)
