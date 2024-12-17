@@ -18,15 +18,3 @@ class prefix_sum(tuple):
             int: 総和の結果
         """
         return self[right] - self[left]
-
-
-if __name__ == "__main__":
-    N, Q = map(int, input().split())
-    A = list(map(int, input().split()))
-    QUERY = []
-    for i in range(Q):
-        QUERY.append(tuple(map(lambda x:int(x)-1, input().split())))
-    A_ = prefix_sum(A)
-    for l, r in QUERY:
-        print(A_.get_sum(l,r+1))
-
