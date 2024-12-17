@@ -1,20 +1,21 @@
-class prefix_sum(list):
+class prefix_sum(tuple):
     def __init__(self, value: list, reverse: bool = False):
-        super().__init__(self)
-        step = -1 if reverse else 1
-        for i in [0]+value[::step]:
-            self.append(self[-1] + i)
-        self = tuple(self)
+        super().__init__()
+        data=[0]
+        for i in value:
+            data.append(self[-1] + i)
+        data.reverse if reverse else None
+        self = tuple(data)
 
     def get_sum(self, left: int, right: int):
-        """開区間[l,r]の総和を取得する。
+        """半開区間[l,r)の総和を取得する。
 
         Args:
             left (int): 左端
             right (int): 右端
 
         Returns:
-            int: 値
+            int: 総和の結果
         """
         return self[right] - self[left]
 
@@ -24,7 +25,8 @@ if __name__ == "__main__":
     A = list(map(int, input().split()))
     QUERY = []
     for i in range(Q):
-        QUERY.append(tuple(map(int, input().split())))
+        QUERY.append(tuple(map(lambda x:int(x)-1, input().split())))
     A_ = prefix_sum(A)
     for l, r in QUERY:
-        print(A_[r] - A_[l])
+        print(A_.get_sum(l,r+1))
+
