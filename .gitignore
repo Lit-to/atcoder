@@ -5,4 +5,5 @@
 /ignore
 /test/
 !test/program_test.py
+!test/async_template.py
 !test/r.py

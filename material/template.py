@@ -16,11 +16,11 @@ LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def yes(f=None): print("Yes") if (f==None or f) else None; exit() if f!=None else None
-def no(f=None): print("No") if (f==None or f) else None;exit() if f!=None else None
-def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
-def listr(l:list): return "".join(l)
-def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
+def yes(f=True): printe("Yes") if (f) else None
+def no(f=True): printe("No") if (f) else None
+def listr(l:list,f=str): return "".join(list(map(f,l)))
+def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
 def printYN(f:bool): yes() if f else no()
 
 
