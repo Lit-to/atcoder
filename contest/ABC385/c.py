@@ -26,11 +26,36 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+def count_bills(bills):
+    # 等間隔で最大いくつ並ぶかを返したい
+    n=len(bills)
+    if n==1:
+        return 1
+    elif n==2:
+        return 2
+    elif n==3:
+        return 3 if bills[2]-bills[1]==bills[1]-bills[0] else 2
+    return 1
+
+
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+# H, W = map(int,input().split())
+H = list(map(int,input().split()))
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+
+result=1
+d=dict(lambda:set())
+for i in range(N):
+    d[H[i]].add(i)
+
+for i in d:
+    bills=d[i]
+    result=max(result,count_bills(bills))
+
+print(result)
+
+
 
