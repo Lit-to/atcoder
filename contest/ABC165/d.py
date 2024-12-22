@@ -26,11 +26,20 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+def func(a,b,x):
+    return (a*x)//b-a*(x//b)
+
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+# N = int(input())
+A, B,N = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
-
+result=0
+for i in range(1,B):
+    a=func(A,B,i)
+    if result<=a:
+        result=a
+    else:
+        printe(i)
