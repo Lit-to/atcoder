@@ -1,4 +1,4 @@
-パフォーマンスxxx レートxxx(+x) ペナなし、おいしいね！
+パフォーマンス381 レート590(-21) いたい
 
 0:00 前口上
 0:31 A問題
@@ -9,17 +9,17 @@
 
 簡単振り返り問題:
 
-- A 
-- B 
-- C 
-- D 
-- E 
+- A 数ABCが与えられる。2つ以上のグループに分けてグループの数の和を等しくできるか判定しろ。
+- B 二次元平面状に家か壁か何もない場所がある。指示通り進んだ時にいくつの家を通るか数えろ。
+- C 等間隔にビルが並んでいる。高さが等しくて等間隔に並んでいるビルは最大でいくつか
 
-詳細はこっちを見てね→https://atcoder.jp/contests/abc[contest]/tasks
+詳細はこっちを見てね→https://atcoder.jp/contests/abc385/tasks
 
 反省点:
-
-
+-   A 条件分岐すればいいだけだね
+-   B HW座標で書かれてるのにUDLRの書かれ方がxy座標系だからめちゃくちゃ混乱した、何も気にしなくても良かった..
+-   C 同じ高さのビルのインデックスが 1 2 3 5 7 9だった時にどうするべきなのか分からず撃沈
+    -   結局全てのビルを開始地点として全部確かめればよかっただけだった、時間足りないと思ったけど制約強くなかったもんな..という悔しさ
 
 
 【動画冒頭の台本】
@@ -27,7 +27,7 @@ AtCoderを実況プレイ
 この動画はレート茶色のりっとーがコンテスト記録用に作っている10倍速動画です。
 タイムラプスのようなイメージでプログラムコードが徐々に伸びていくと面白いのではと思って作っています。
 まだまだよちよち歩きですが見守ってくれると嬉しいです！
-今回はABC[contest]、皆さまお疲れ様でした！
+今回はABC385、皆さまお疲れ様でした！
 
 【この動画について】
 この動画は伸ばそうとか言う気概はありません。基本的にはりっとー自身の記録用です。
@@ -45,12 +45,12 @@ AtCoderでは特定の入力データに対して正しい結果を出すこと�
 
 【参考文献】
 
-- りっとーの提出結果:https://atcoder.jp/contests/abc[contest]/submissions?f.User=Lit_to
+- りっとーの提出結果:https://atcoder.jp/contests/abc385/submissions?f.User=Lit_to
 - BGM Kyatto:https://www.youtube.com/@KyattoWorks
 - 右上の進捗バーの作者:自分(https://twitter.com/Lit_to_ )
 - 進捗バーのミニキャラを描いた人:みっこ(https://twitter.com/_m1kkom_ )
 - 背景画像を描いた人:くぬぎりつ(https://twitter.com/Kunugi_0415)
 - 再生リストAtCoderを実況プレイ:https://youtube.com/playlist?list=PLtmp0F15kediYqyLEvXMm3COnnfnhLLjg&si=zDNUAE6rG6wnSHxj
-- AtCoderの記録:[https://outstanding-crab-f24.notion.site/dda89a577c74447fb294ac1799bb9f38?v=8730bce437144bdbbe787afa34041fd0](https://www.notion.so/dda89a577c74447fb294ac1799bb9f38?pvs=21)
+
 
 ではまた。柴又。
