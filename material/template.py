@@ -12,15 +12,15 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
+LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def yes(): print("Yes"); exit()
-def no(): print("No"); exit()
-def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
-def listr(l:list): return "".join(l)
-def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
-def look(pos:tuple,board:list): return board[pos[0]][pos[1]] #HWボードの(i,j)の値を参照して返す関数
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
+def yes(f=True): printe("Yes") if (f) else None
+def no(f=True): printe("No") if (f) else None
+def listr(l:list,f=str): return "".join(list(map(f,l)))
+def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
 def printYN(f:bool): yes() if f else no()
 
 
@@ -32,11 +32,5 @@ H, W = map(int,input().split())
 A = list(map(int,input().split()))
 S = input()
 # S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
 # 処理スペース ================================================================================================Lit_to
 
