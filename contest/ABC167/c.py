@@ -27,35 +27,45 @@ def printYN(f:bool): yes() if f else no()
 # 累積和必要か？？？
 
 # 書籍がi番目まで存在していて、全アルゴの理解度のうちの最小がj以上になるための最低金額を求めるdp評価関数 無理な場合はMAX円≒∞円必要となる。
-def calc_min_skill(i,j):
-    #ここかけば出来るな！
-    pass
 
+def buy(index,array):
+    for i in range(M):
+        array[i]+=A[index][i]
+    return C[index]
+
+def check(array):
+    for i in range(M):
+        if array[i]<X:
+            return False
+    return True
 
 
 # 入力スペース 
 N, M, X = map(int,input().split())
-A=[None]
-C=[0]
-for i in range(M):
-    temp = map(int,input().split())
+A=[]
+C=[]
+for i in range(N):
+    temp = tuple(map(int,input().split()))
     C.append(temp[0])
     A.append(temp[1:])
 del temp
 # S = list(input())
 # 処理スペース 
+result=MAX
+for i in range(2**N):
+    bit=[]
+    for j in range(N):
+        bit.append(i%2==0)
+        i>>=1
+    algo=[0]*M
+    bought=0
+    for j in range(N):
+        if bit[j]:
+            bought+=buy(j,algo)
+    if check(algo):
+        result=min(bought,result)
 
-# 書籍がi番目まで存在していて、全アルゴの理解度のうちの最小がj以上になるための最低金額を求めるdp 無理な場合はMAX円≒∞円必要となる。
-dp=[]
-for i in range(N+1):
-    temp=[]
-    for j in range(X+1):
-        temp.append(MAX)
-    dp.append(temp)
-
-for i in range(1,N+1):
-    for j in range(1,X+1):
-        dp[i][j]=min(calc_min_skill(i,j),dp[i][j])
-
-print(dp[-1][-1])
+if MAX<=result:
+    printe(-1)
+print(result)
 
