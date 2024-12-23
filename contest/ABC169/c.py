@@ -28,9 +28,20 @@ def printYN(f:bool): yes() if f else no()
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 # N = int(input())
-A, B = map(float,input().split())
+A, B = input().split()
+A=int(A)
+B=B.split(".")
+B_INT=int(B[0])
+B_FLOAT=int(B[1])
 # A = list(map(int,input().split()))
 # S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
-print(int(A*B))
+result=B_INT*A
+a=list(str(B_FLOAT*A))
+for i in range(2):
+    if len(a)==0:
+        printe(0)
+    a.pop()
+result+=int("".join(a))
+print(result)
