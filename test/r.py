@@ -16,13 +16,13 @@ N=2000
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    N=random.randint(2,20)
-    S=random.randint(1,500)
-    printf(N,S)
-    A=[]
-    for i in range(N):
-        A.append(random.randint(1,100))
-    printf(*A)
+    N=random.randint(2,2*(10**5))
+    # S=random.randint(1,500)
+    printf(N)
+    # A=[]
+    # for i in range(N):
+        # A.append(random.randint(1,100))
+    # printf(*A)
     printf("```")
     printf("```")
     printf("")
