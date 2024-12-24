@@ -46,6 +46,10 @@ def runLengthDecode(data:list): #ランレングス圧縮(デコード)
     return result
 
 def check(content):
+    if len(content)==1:
+        return int(content[0])%8==0
+    elif len(content)==2:
+        return int(content[0]+content[1])%8==0 or int(content[1]+content[0])%8==0
     d=dict(lambda:0)
     for i in content:
         d[i]+=1

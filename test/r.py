@@ -12,11 +12,14 @@ def printf(*args,sep=" "):
     with open(TEST_PATH, 'a',encoding="utf-8") as f:
         print(*args,sep=sep,file=f)
 
-N=2000
+N=500
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    N=random.randint(2,2*(10**5))
+    # N=random.randint(2,2*(10**5))
+    N=""
+    for i in range(5):
+        N+=random.choice(["","1","2","3","4","5","6","7","8","9"])
     # S=random.randint(1,500)
     printf(N)
     # A=[]
