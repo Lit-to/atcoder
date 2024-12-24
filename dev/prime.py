@@ -1,3 +1,4 @@
+import math
 def prime(num:int) -> list:
     """素因数分解の結果を返す
     ※利用するためには import mathが必須
