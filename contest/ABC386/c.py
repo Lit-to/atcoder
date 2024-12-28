@@ -27,10 +27,39 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+K = int(input())
+S = list(input())
+T = list(input())
 # 処理スペース ================================================================================================Lit_to
+yes(S==T)
+s=len(S)
+t=len(T)
+if s<t:
+    s,t=t,s
+    S,T=T,S
+if s==t:
+    count=0
+    for i in range(s):
+        if S[i]!=T[i]:
+            count+=1
+    printYN(count<=1)
+if s-t==1:
+    skip=False
+    i=0
+    while i<t:
+        if i==t-1:
+            if skip:
+                yes()
+        if S[i+skip]==T[i]:
+            i+=1
+            continue
+        else:
+            if skip:
+                no()
+            else:
+                skip=True
+    yes()
+else:
+    no()
+
 

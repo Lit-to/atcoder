@@ -27,10 +27,19 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+# N = int(input())
+# H, W = map(int,input().split())
+A = set(map(int,input().split()))
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+# d=dict(lambda:0)
+# for i in A:
+#     d[i]+=1
+# for i in d:
+#     if d[i]!=2:
+#         no()
+
+printYN(len(A)==2)
+
 

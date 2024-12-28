@@ -27,10 +27,49 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+# N = int(input())
+# H, W = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
+s = list(input())
+s.reverse()
 # 処理スペース ================================================================================================Lit_to
+count=0
+while s:
+    if 2<=len(s) and s[-2:]==["0","0"]:
+        s.pop()
+        s.pop()
+        count+=1
+    elif s[-1]=="0":
+        s.pop()
+        count+=1
+    elif s[-1]=="1":
+        s.pop()
+        count+=1
+    elif s[-1]=="2":
+        s.pop()
+        count+=1
+    elif s[-1]=="3":
+        s.pop()
+        count+=1
+    elif s[-1]=="4":
+        s.pop()
+        count+=1
+    elif s[-1]=="5":
+        s.pop()
+        count+=1
+    elif s[-1]=="6":
+        s.pop()
+        count+=1
+    elif s[-1]=="7":
+        s.pop()
+        count+=1
+    elif s[-1]=="8":
+        s.pop()
+        count+=1
+    elif s[-1]=="9":
+        s.pop()
+        count+=1
+
+print(count)
 
