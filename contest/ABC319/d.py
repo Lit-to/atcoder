@@ -1,6 +1,10 @@
 # インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq
+import sys,itertools,math,heapq,pypyjit
 from collections import defaultdict,deque
+from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
+pypyjit.set_param('max_unroll_recursion=-1')
+sys.setrecursionlimit(10**8)
+sys.set_int_max_str_digits(0)
 dict=defaultdict
 
 # 便利定数定義
@@ -21,36 +25,38 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-class priorityQueue():#heapqラッパー
-    def __init__(self,l=list()):#インスタンス化
-        self.queue=l.copy()
-        heapq.heapify(self.queue)
-    def __getitem__(self,i):
-        return self.queue[i]
-    def __len__(self):#かぞえる
-        return len(self.queue)
-    def __str__(self):#出力用
-        return str(self.queue)
-    def enq(self,value):#入れる
-        heapq.heappush(self.queue,value)
-    def add(self,value):#入れる
-        heapq.heappush(self.queue,value)
-    def deq(self):#出す
-        return heapq.heappop(self.queue)
+def check(w:int,m:int):
+    lines=1
+    column=L[0]
+    for i in range(1,N):
+        if column+L[i]+1<w:
+            column=column+L[i]+1
+        else:
+            lines+=1
+            column=L[i]
+    return m<lines
+
+def search(ok:int,ng:int,f:bool)->int: #二分探索原型
+    # okは条件を満たす領域の外側
+    # ngは条件を満たさない領域の外側
+    # fは条件を満たすかどうかの評価関数
+        # lambda i:a[i]<x xを含まない最大のiを返す
+        # lambda i:a[i]<=x xを含む最大のiを返す
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N, X, F, S = map(int,input().split())
+N, M = map(int,input().split())
+L = list(map(int,input().split()))
 # 処理スペース ================================================================================================Lit_to
-queue=priorityQueue()
-queue.enq((0,N,X))
-while queue.queue:
-    hour,lines,ability=queue.deq()
-    if lines<=0:
-        printe(hour)
-    queue.queue.append((hour+1,lines-ability,max(ability-F,0)))
-    queue.enq((hour+3,lines,min(ability+S,X)))
 
-
-
-
+print(
+    search(min(L),sum(L)+len(L)+1,lambda x:check(x,M))
+    )
 
