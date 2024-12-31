@@ -8,3 +8,4 @@
 !test/async_template.py
 !test/r.py
 /__pycache__
+pypyjit.cpython-311.pyc
