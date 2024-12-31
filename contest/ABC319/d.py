@@ -25,7 +25,7 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-def check(w:int,m:int):
+def check(w:int):
     lines=1
     column=L[0]
     for i in range(1,N):
@@ -34,7 +34,7 @@ def check(w:int,m:int):
         else:
             lines+=1
             column=L[i]
-    return m<lines
+    return M<lines
 
 def search(ok:int,ng:int,f:bool)->int: #二分探索原型
     # okは条件を満たす領域の外側
@@ -56,7 +56,10 @@ N, M = map(int,input().split())
 L = list(map(int,input().split()))
 # 処理スペース ================================================================================================Lit_to
 
+maxL=max(L)
+sumL=sum(L)
+
 print(
-    search(min(L),sum(L)+len(L)+1,lambda x:check(x,M))
+    search(maxL,sumL+N+1,lambda x:check(x))
     )
 
