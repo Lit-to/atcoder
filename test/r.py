@@ -16,16 +16,13 @@ N=500
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    # N=random.randint(2,2*(10**5))
-    N=""
-    for i in range(5):
-        N+=random.choice(["","1","2","3","4","5","6","7","8","9"])
-    # S=random.randint(1,500)
-    printf(N)
-    # A=[]
-    # for i in range(N):
-        # A.append(random.randint(1,100))
-    # printf(*A)
+    n=random.randint(2,20)
+    M=random.randint(2,n)
+    L=[]
+    for i in range(n):
+        L.append(random.randint(1,20))
+    printf(n,M)
+    printf(*L)
     printf("```")
     printf("```")
     printf("")
