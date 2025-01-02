@@ -1,6 +1,7 @@
 # フェネック木を作ろう
 # 参考↓超分かりやすい
 # https://qiita.com/AkariLuminous/items/f2f7930e7f67963f0493
+# https://atcoder.jp/contests/practice2/submissions/61313128
 # 要件
 # 数列Aを持っている
 # クエリとして以下が与えられる
