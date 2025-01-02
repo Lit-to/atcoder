@@ -58,6 +58,6 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.readonlyInclude": {
     "contest/template/**": true,
-    "material/**": true
+    "material/**.py": true
   }
 }
