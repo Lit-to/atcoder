@@ -1,5 +1,6 @@
 # フェネック木を作ろう
-
+# 参考↓超分かりやすい
+# https://qiita.com/AkariLuminous/items/f2f7930e7f67963f0493
 # 要件
 # 数列Aを持っている
 # クエリとして以下が与えられる
@@ -10,106 +11,72 @@
 
 
 class FenewicTree:
-    def __init__(self,n:int):
-        self.data=[0]*n
-        self.length=n
+    def __init__(self,arg:int|list|tuple):
+        if type(arg)==int:
+            self.__data=[0]*(arg+1)
+            self.__length=arg+1
+        elif type(arg)==list or type(arg)==tuple:
+            self.__length=len(arg)+1
+            self.__data=[0]*self.__length
+            for i in range(self.__length-1):
+                self.add(i+1,arg[i])
+
+    def __len__(self):
+        return self.__length
 
     def add(self,index,x):
-        if index==0:
-            self[index]+=x
-        else:
-            while 0<index:
-                self.data[index]+=x
-                binary=list(bin(index))[2:]
-                num=1
-                while True:
-                    if binary.pop()=="1":
-                        break
-                    else:
-                        num*=2
-                index-=num
-        
-
-    def sum(self):
-        result=0
-        size=self.length-1
-        while 0<size:
-            result+=self.data[size]
-            binary=list(bin(size)[2:])
+        while index<len(self.__data):
+            self.__data[index]+=x
+            binary=index
             num=1
             while True:
-                num*=2
-                if binary.pop()=="1":
+                if binary%2==1:
                     break
                 else:
+                    binary>>=1
+                    num*=2
+            index+=num
+        
+
+    def sum(self,index:int):
+        if index==0:
+            return 0
+        result=0
+        while 0<index:
+            result+=self.__data[index]
+            binary=index
+            num=1
+            while True:
+                if binary%2==1:
+                    break
+                else:
+                    binary>>=1
+                    num*=2
                     continue
-            size-=num
+            index-=num
         return result
 
 
 
 if __name__=="__main__":
-    ft=FenewicTree(8)
-    print(ft.data)
-    ft.add(2,9)
-    print(ft.sum())
-    # print(ft.sum(0))
-    ft.add(3,7)
-    ft.add(6,3)
-    ft.add(7,4)
-    ft.add(2,5)
-    print(ft.sum())
-    print(ft.data)
-    # print(ft.sum(4))
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    N, Q = map(int,input().split())
+    A = list(map(int,input().split()))
+    QUERY=[]
+    for i in range(Q):
+        QUERY.append(tuple(map(int,input().split())))
+    
 
-#0,0,0,0,0,0,0,0 =>0 初期
-#0,0,9,0,0,0,0,0 =>9 7
-#0,0,9,0,0,0,0,0 =>0 0
-#0,0,14,7,0,0,3,4 =>28 7
-#0,0,14,7,0,0,3,4=>21 4
-
-#0 01 2 0123 4 45 6 4567 01234567
-#0  0 0    0 0  0 0    0        0
-#0  0 9    9 0  0 0    0        9
-#0  0 0    7 0  0 0    0        16
-#0  0 0    0 0  0 3    3        19
-#0  0 0    0 0  0 0    4        23
-#0  0 5    5 0  0 0    0        28
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-# N = int(input())
-# H, W = map(int,input().split())
-# A = list(map(int,input().split()))
-# S = input()
-# S = list(input())
-# S = list(input().split())
-# BOARD = [list(input()) for i in range(H)]#文字列のリスト
-# BOARD = [list(map(int,input().split())) for i in range(H)]#数値のリスト
-# A = list(map(lambda x:int(x)-1,input().split())) # 0-indexedで値を取得
-# A = map(lambda x:x,sorted(list(map(int,(input().split())))))#数の組み合わせを並び替えて渡す
-# debug("======output is start======")
-# 処理スペース ================================================================================================Lit_to
-
-
-
-
-
-
-
+    # 処理スペース ================================================================================================Lit_to
+    ft=FenewicTree(A)
+    for i in QUERY:
+        if i[0]==0:
+            q,p,x=i[0],i[1],i[2]
+            A[p]+=x
+            ft.add(p+1,x)
+        else:
+            q,l,r=i[0],i[1],i[2]
+            print(ft.sum(r)-ft.sum(l))
 
 
 
