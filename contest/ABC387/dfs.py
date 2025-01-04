@@ -28,22 +28,22 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-# class priorityQueue():#heapqラッパー
-#     def __init__(self,l=list()):#インスタンス化
-#         self.queue=l.copy()
-#         heapq.heapify(self.queue)
-#     def __getitem__(self,i):
-#         return self.queue[i]
-#     def __len__(self):#かぞえる
-#         return len(self.queue)
-#     def __str__(self):#出力用
-#         return str(self.queue)
-#     def enq(self,value):#入れる
-#         return heapq.heappush(self.queue,value)
-#     def add(self,value):#入れる
-#         return heapq.heappush(self.queue,value)
-#     def deq(self):#出す
-#         return heapq.heappop(self.queue)
+class priorityQueue():#heapqラッパー
+    def __init__(self,l=list()):#インスタンス化
+        self.queue=l.copy()
+        heapq.heapify(self.queue)
+    def __getitem__(self,i):
+        return self.queue[i]
+    def __len__(self):#かぞえる
+        return len(self.queue)
+    def __str__(self):#出力用
+        return str(self.queue)
+    def enq(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def add(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def deq(self):#出す
+        return heapq.heappop(self.queue)
 
 def check(i,j,move):
     # global result
@@ -71,7 +71,7 @@ for i in range(H+1):
 
 result=MAX
 
-queue=deque()
+queue=priorityQueue()
 for h,w,next in LR+UD:
     if check(start[0]+h,start[1]+w,1):
         queue.add((1,start[0]+h,start[1]+w,next))
