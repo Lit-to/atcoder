@@ -71,41 +71,7 @@ for i in range(H+1):
 
 result=MAX
 
-queue=priorityQueue()
-for h,w,next in LR+UD:
-    if check(start[0]+h,start[1]+w,1):
-        queue.add((1,start[0]+h,start[1]+w,next))
-        done=set()
-        done.add((start[0]+h,start[1]+w))
-        done.add((start[0],start[1]))
-        
-        while queue:
-            amount,i,j,next=queue.deq()
-            # next=1の場合は次が縦移動であることを表す
-            amount+=1
-            if next:
-                for k in UD:
-                    diffY,diffX,next=k
-                    SUB_BOARD[i+diffY][j+diffX]=True
-                    if (i+diffY,j+diffX) in done:
-                        continue
-                    if check(i+diffY,j+diffX,amount):
-                        done.add((i+diffY,j+diffX))
-                        queue.add((amount,i+diffY,j+diffX,1-next))
-            else:
-                for k in LR:
-                    diffY,diffX,next=k
-                    SUB_BOARD[i+diffY][j+diffX]=True
-                    if (i+diffY,j+diffX) in done:
-                        continue
-                    if check(i+diffY,j+diffX,amount):
-                        done.add((i+diffY,j+diffX))
-                        queue.add((amount,i+diffY,j+diffX,1-next))
-    pass
-    SUB_BOARD=[]
-    for i in range(H+1):
-        SUB_BOARD.append([False]*(W+1))
+queue=deque()
 
 
-print(-1)
 
