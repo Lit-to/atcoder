@@ -1,23 +1,18 @@
-パフォーマンスxxx レートxxx(+x) ペナなし、おいしいね！
-
-0:00 前口上
-0:31 A問題
-0:40 B問題
-2:24 C問題
-4:58 D問題
-10:31 終了後雑談
+パフォーマンス771 レート639(+16) ペナなし、おいしいね！
 
 簡単振り返り問題:
 
-- A 
-- B 
-- C 
-- D 
-- E 
+- A A+Bの二乗を出力
+- B 九九のうちXでないものの総和を出せ
+- C ヘビ数の数を数えろ
+- D 縦横を交互に選択して移動するとき最短距離を出せ
 
-詳細はこっちを見てね→https://atcoder.jp/contests/abc[contest]/tasks
+詳細はこっちを見てね→https://atcoder.jp/contests/abc387/tasks
 
 反省点:
+-   ABは問題なし
+-   Cは順位表と点数、問題の感じを見てスキップ
+-   D、BFSまではわかったものの訪問済み管理が分からず断念
 
 
 
@@ -27,7 +22,7 @@ AtCoderを実況プレイ
 この動画はレート茶色のりっとーがコンテスト記録用に作っている10倍速動画です。
 タイムラプスのようなイメージでプログラムコードが徐々に伸びていくと面白いのではと思って作っています。
 まだまだよちよち歩きですが見守ってくれると嬉しいです！
-今回はABC[contest]、皆さまお疲れ様でした！
+今回はABC387、皆さまお疲れ様でした！
 
 【この動画について】
 この動画は伸ばそうとか言う気概はありません。基本的にはりっとー自身の記録用です。
@@ -45,7 +40,7 @@ AtCoderでは特定の入力データに対して正しい結果を出すこと�
 
 【参考文献】
 
-- りっとーの提出結果:https://atcoder.jp/contests/abc[contest]/submissions?f.User=Lit_to
+- りっとーの提出結果:https://atcoder.jp/contests/abc387/submissions?f.User=Lit_to
 - BGM Kyatto:https://www.youtube.com/@KyattoWorks
 - 右上の進捗バーの作者:自分(https://twitter.com/Lit_to_ )
 - 進捗バーのミニキャラを描いた人:みっこ(https://twitter.com/_m1kkom_ )
