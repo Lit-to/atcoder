@@ -11,3 +11,7 @@ __pycache__
 /__pycache__
 pypyjit.cpython-311.pyc
 output/*
+*.in
+*.out
+*.acc.json
+lib/*
