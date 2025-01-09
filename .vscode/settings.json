@@ -61,7 +61,7 @@
     "material/**.py": true
   },
   "java.project.sourcePaths": [
-    "contest"
+    "contest/java"
   ],
   "java.project.outputPath": "output",
   "java.project.referencedLibraries": [
