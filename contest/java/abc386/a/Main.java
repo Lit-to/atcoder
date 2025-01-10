@@ -1,6 +1,4 @@
 
-package abc386.a;
-
 import java.io.*;
 import java.util.*;
 
