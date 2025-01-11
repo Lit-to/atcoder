@@ -27,22 +27,87 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
-class priorityQueue():#heapqラッパー
-    def __init__(self,l=list()):#インスタンス化
-        self.queue=l.copy()
-        heapq.heapify(self.queue)
-    def __getitem__(self,i):
-        return self.queue[i]
-    def __len__(self):#かぞえる
-        return len(self.queue)
+class priorityQueue():
+    """
+    ヒープキュー
+    インスタンス化して使えるようにしたもの。
+    """
+    def __init__(self,l:list=list(),reverse=False):
+        """初期化
+        インスタンスを生成した際は順番の変更は行われない。
+                
+        Args:
+            l (list, optional): 初期値配列(ない場合は空の配列が生成される)
+            reverse (bool, optional): 最大更新とするかどうか。(デフォルトは最小更新)
+        """
+        self.__operation = -1 if reverse else 1
+        self.data=[]
+        for i in l:
+            self.data.append(i*self.__operation)
+
+        if self.data:
+            heapq.heapify(self.data)
+
+    def __len__(self):
+        """
+        要素数を返すメソッド
+
+        Returns:
+            int: 要素数
+        """
+        return len(self.data)
+
     def __str__(self):#出力用
-        return str(self.queue)
-    def enq(self,value):#入れる
-        return heapq.heappush(self.queue,value)
-    def add(self,value):#入れる
-        return heapq.heappush(self.queue,value)
+        """print関数の出力に使うための文字列化
+
+        Returns:
+            str: self.dataを文字列としたもの
+
+        """
+        return str(list(map(lambda x: x*self.__operation,self.data)))
+
+    def enq(self,value:int):#入れる
+        """データを挿入し、ヒープ化する。
+
+        Args:
+            value (int): 挿入する値
+        """
+        heapq.heappush(self.data,value*self.__operation)
+
+    def add(self,value:int):#入れる
+        """データを挿入し、ヒープ化する。
+
+        Args:
+            value (int): 挿入する値
+        """
+        self.enq(value)
+
+
     def deq(self):#出す
-        return heapq.heappop(self.queue)
+        """要素のうち最小値を取り出す。
+
+        Returns:
+            int: 取り出した値
+        """
+        return heapq.heappop(self.data)*self.__operation
+
+    def top(self):
+        """要素のうち最小値の値を返す。
+
+        Returns:
+            int: 最小値
+        """
+        return self.data[0]*self.__operation
+
+
+    def empty(self):
+        """要素が空かどうかを返す。
+
+        Returns:
+            bool: 空だった場合True,そうじゃない場合False
+        """
+        return not bool(self.data)
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
@@ -58,11 +123,11 @@ give_count=N
 for i in range(N):
     give_count-=1
 
-    mine=A[i]+len(queue.queue)
+    mine=A[i]+len(queue)
     stone=max(0,mine-give_count)
 
-    queue.add(i+mine)
-    while queue.queue and queue.queue[0]<=i:
+    queue.enq(i+mine)
+    while not queue.empty() and queue.top()<=i:
         queue.deq()
     result.append(stone)
 
