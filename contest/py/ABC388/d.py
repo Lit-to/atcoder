@@ -61,10 +61,9 @@ for i in range(N):
     mine=A[i]+len(queue.queue)
     stone=max(0,mine-give_count)
 
+    queue.add(i+mine)
     while queue.queue and queue.queue[0]<=i:
         queue.deq()
-    if 0<i+mine:
-        queue.add(i+mine)
     result.append(stone)
 
 print(*result)
