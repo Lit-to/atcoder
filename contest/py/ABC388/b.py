@@ -28,10 +28,14 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+N,D = map(int,input().split())
+TL=[]
+for i in range(N):
+    TL.append(tuple(map(int,input().split())))
 # 処理スペース ================================================================================================Lit_to
+for i in range(1,D+1):
+    mx=-1
+    for j in range(N):
+        mx=max(mx,TL[j][0]*(TL[j][1]+i))
+    print(mx)
 

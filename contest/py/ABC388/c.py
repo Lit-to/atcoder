@@ -26,12 +26,36 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-
+def search(ok:int,ng:int,f:bool)->int:
+    # okは条件を満たす領域の外側
+    # ngは条件を満たさない領域の外側
+    # fは条件を満たすかどうかの評価関数
+        # lambda i:a[i]<x xを含まない最大のiを返す
+        # lambda i:a[i]<=x xを含む最大のiを返す
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
 A = list(map(int,input().split()))
-S = input()
-# S = list(input())
 # 処理スペース ================================================================================================Lit_to
+
+after_count=[]
+for i in A:
+    binary_s=search(0,N,lambda x:A[x]<2*i)
+    if binary_s==N-1: 
+        if 2*i<=A[N-1]:
+            after_count.append(1)
+        else:
+            after_count.append(0)
+    else:
+        after_count.append((N-1)-binary_s)
+
+debug(after_count)
+
+print(sum(after_count))
 

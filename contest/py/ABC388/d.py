@@ -27,11 +27,45 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+class priorityQueue():#heapqラッパー
+    def __init__(self,l=list()):#インスタンス化
+        self.queue=l.copy()
+        heapq.heapify(self.queue)
+    def __getitem__(self,i):
+        return self.queue[i]
+    def __len__(self):#かぞえる
+        return len(self.queue)
+    def __str__(self):#出力用
+        return str(self.queue)
+    def enq(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def add(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def deq(self):#出す
+        return heapq.heappop(self.queue)
+
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
-H, W = map(int,input().split())
+# H, W = map(int,input().split())
 A = list(map(int,input().split()))
-S = input()
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+
+result=[]
+queue=priorityQueue()
+give_count=N
+for i in range(N):
+    give_count-=1
+
+    mine=A[i]+len(queue.queue)
+    stone=max(0,mine-give_count)
+
+    while queue.queue and queue.queue[0]<=i:
+        queue.deq()
+    if 0<i+mine:
+        queue.add(i+mine)
+    result.append(stone)
+
+print(*result)
 
