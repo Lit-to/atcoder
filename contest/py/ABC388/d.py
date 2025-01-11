@@ -27,12 +27,12 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
-class priorityQueue():
+class priority_queue():
     """
     ヒープキュー
     インスタンス化して使えるようにしたもの。
     """
-    def __init__(self,l:list=list(),reverse=False):
+    def __init__(self,l:list=list()):
         """初期化
         インスタンスを生成した際は順番の変更は行われない。
                 
@@ -40,10 +40,7 @@ class priorityQueue():
             l (list, optional): 初期値配列(ない場合は空の配列が生成される)
             reverse (bool, optional): 最大更新とするかどうか。(デフォルトは最小更新)
         """
-        self.__operation = -1 if reverse else 1
-        self.data=[]
-        for i in l:
-            self.data.append(i*self.__operation)
+        self.data=l.copy()
 
         if self.data:
             heapq.heapify(self.data)
@@ -64,7 +61,7 @@ class priorityQueue():
             str: self.dataを文字列としたもの
 
         """
-        return str(list(map(lambda x: x*self.__operation,self.data)))
+        return str(self.data)
 
     def enq(self,value:int):#入れる
         """データを挿入し、ヒープ化する。
@@ -72,7 +69,7 @@ class priorityQueue():
         Args:
             value (int): 挿入する値
         """
-        heapq.heappush(self.data,value*self.__operation)
+        heapq.heappush(self.data,value)
 
     def add(self,value:int):#入れる
         """データを挿入し、ヒープ化する。
@@ -89,7 +86,7 @@ class priorityQueue():
         Returns:
             int: 取り出した値
         """
-        return heapq.heappop(self.data)*self.__operation
+        return heapq.heappop(self.data)
 
     def top(self):
         """要素のうち最小値の値を返す。
@@ -97,7 +94,7 @@ class priorityQueue():
         Returns:
             int: 最小値
         """
-        return self.data[0]*self.__operation
+        return self.data[0]
 
 
     def empty(self):
@@ -108,7 +105,6 @@ class priorityQueue():
         """
         return not bool(self.data)
 
-
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 N = int(input())
 # H, W = map(int,input().split())
@@ -118,7 +114,7 @@ A = list(map(int,input().split()))
 # 処理スペース ================================================================================================Lit_to
 
 result=[]
-queue=priorityQueue()
+queue=priority_queue()
 give_count=N
 for i in range(N):
     give_count-=1
