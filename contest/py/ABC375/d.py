@@ -29,15 +29,20 @@ S = list(input())
 N = len(S)
 # 処理スペース ================================================================================================Lit_to
 result=0
-for i in range(N):
-    k=i+2
+for j in range(1,N):
+    left=dict(lambda:0)
+    right=dict(lambda:0)
+    i=0
+    while i<j:
+        left[S[i]]+=1
+        i+=1
+    k=j+1
     while k<N:
-        if S[k]==S[i]:
-            result+=k-i-1
+        right[S[k]]+=1
         k+=1
+    for key in left:
+        result+=left[key]*right[key]
 
 print(result)
-
-
 
 
