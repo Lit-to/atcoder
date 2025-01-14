@@ -41,3 +41,6 @@ for i in range(1,N+1):
     result+=f(i)
 
 print(result%MOD)
+
+# 未来の自分へのメモ
+# 二分探索すれば自分と同じ桁の最小(1 10 100..)が見つかるはず！
