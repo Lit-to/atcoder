@@ -28,16 +28,10 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-X = int(input())
-# H, W = map(int,input().split())
-# A = list(map(int,input().split()))
-# S = input()
+N = int(input())
+H, W = map(int,input().split())
+A = list(map(int,input().split()))
+S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
-i=1
-c=1
-while i!=X:
-    i*=c
-    c+=1
-print(c-1)
 
