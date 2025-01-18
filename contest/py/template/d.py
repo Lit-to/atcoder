@@ -41,7 +41,7 @@ def search(ok:int,ng:int,f:bool)->int: #二分探索原型
     return ok
 
 def check(y,x,r):
-    return (2*x+1)**2+(2*y+1)**2<=r
+    return (x+0.5)**2+(y+0.5)**2<=r
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 R = int(input())
 # H, W = map(int,input().split())
@@ -49,7 +49,7 @@ R = int(input())
 # S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
-r=4*R**2
+r=R**2
 c=0
 for i in range(1,R+1):
     c+=search(0,R,lambda x:check(i,x,r))
