@@ -26,8 +26,22 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-def distance(x,y):
-    return x**2+y**2
+def search(ok:int,ng:int,f:bool)->int: #二分探索原型
+    # okは条件を満たす領域の外側
+    # ngは条件を満たさない領域の外側
+    # fは条件を満たすかどうかの評価関数
+        # lambda i:a[i]<x xを含まない最大のiを返す
+        # lambda i:a[i]<=x xを含む最大のiを返す
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
+
+def check(y,x,r):
+    return (2*x+1)**2+(2*y+1)**2<=r
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
 R = int(input())
 # H, W = map(int,input().split())
@@ -35,14 +49,12 @@ R = int(input())
 # S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
-r=R**2
+r=4*R**2
 c=0
-for i in range(-1*R-1,R+2):
-    for j in range(-1*R-1,R+1):
-        if distance(i+0.5,j+0.5)<=r and distance(i-0.5,j+0.5)<=r and distance(i+0.5,j-0.5)<=r and distance(i-0.5,j-0.5)<=r:
-        # if distance(i,j)<=r:
-            c+=1
-
+for i in range(1,R+1):
+    c+=search(0,R,lambda x:check(i,x,r))
+c*=4
+c+=(R-1)*4+1
 print(c)
 
 
