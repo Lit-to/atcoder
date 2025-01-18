@@ -27,11 +27,27 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+
+Q = int(input())
+QUERY=[]
+for i in range(Q):
+    QUERY.append(tuple(map(int,input().split())))
 # 処理スペース ================================================================================================Lit_to
+queue=deque()
+first=0
+for i in QUERY:
+    if i[0]==1:
+        if queue:
+            queue.append((sum(queue[-1]),i[1]))
+        else:
+            queue.append((first,i[1]))
+    elif i[0]==2:
+        head,body=queue.popleft()
+        first+=body
+    else:
+        print(queue[i[1]-1][0]-first)
+        
+
 
