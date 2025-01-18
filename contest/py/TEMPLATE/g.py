@@ -2,7 +2,7 @@
 import sys,itertools,math,heapq,pypyjit
 from collections import defaultdict,deque
 from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
-pypyjit.set_param('max_unroll_recursion=-1')
+# pypyjit.set_param('max_unroll_recursion=-1') # ワンチャンはやくなるかも
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
@@ -28,10 +28,10 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-# N = int(input())
-# H, W = map(int,input().split())
-# A = list(map(int,input().split()))
-# S = input()
-S = list(input())
+N = int(input())
+H, W = map(int,input().split())
+A = list(map(int,input().split()))
+S = input()
+# S = list(input())
 # 処理スペース ================================================================================================Lit_to
-print(int(S[0])*int(S[2]))
+
