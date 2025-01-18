@@ -26,12 +26,23 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-
+def distance(x,y):
+    return x**2+y**2
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
+R = int(input())
+# H, W = map(int,input().split())
+# A = list(map(int,input().split()))
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+r=R**2
+c=0
+for i in range(-1*R-1,R+2):
+    for j in range(-1*R-1,R+1):
+        if distance(i+0.5,j+0.5)<=r and distance(i-0.5,j+0.5)<=r and distance(i+0.5,j-0.5)<=r and distance(i-0.5,j-0.5)<=r:
+        # if distance(i,j)<=r:
+            c+=1
+
+print(c)
+
 
