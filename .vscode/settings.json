@@ -66,5 +66,8 @@
   "java.project.outputPath": "output",
   "java.project.referencedLibraries": [
     "lib/**/*.jar"
-  ]
+  ],
+  "files.readonlyExclude": {
+    "material/test.py": true
+  }
 }
