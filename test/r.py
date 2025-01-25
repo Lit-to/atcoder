@@ -16,13 +16,15 @@ N=500
 for i in range(N):
     printf("## "+str(i))
     printf("```")
-    n=random.randint(2,20)
-    M=random.randint(2,n)
-    L=[]
-    for i in range(n):
-        L.append(random.randint(1,20))
-    printf(n,M)
-    printf(*L)
+    H=random.randint(1,15)
+    W=random.randint(1,15)
+    printf(H,W)
+    C=[".","#","?"]
+    for i in range(H):
+        line=[]
+        for j in range(W):
+            line.append(C[random.randint(0,1)])
+        printf("".join(line))
     printf("```")
     printf("```")
     printf("")
