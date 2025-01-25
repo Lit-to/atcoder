@@ -26,12 +26,84 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
+class RotateArray: #二次元配列の回転
+    ## 時計回りに90度
+    def rotate90(grid):
+        return [list(g) for g in zip(*grid[::-1])]
+    ## 反時計回りに90度
+    def rotate_reverse90(grid):
+        return [list(g) for g in zip(*grid)][::-1]
+    ## 180度
+    def rotate180(grid):
+        return [list(g)[::-1] for g in grid[::-1]]
+    ## 横軸に線対称
+    def flip_by_holizontal(grid):
+        return [list(g) for g in grid[::-1]]
+    ## 縦軸に線対称
+    def flip_by_vertical(grid):
+        return [list(g)[::-1] for g in grid]
+
+
+def runLengthEncode(s=str or list) -> list:#ランレングス圧縮(エンコード)
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
+def runLengthDecode(data:list): #ランレングス圧縮(デコード)
+    result=""
+    for i in data:
+        result+=i[0]*i[1]
+    return result
+
+def count_row(row):
+    rl=runLengthEncode(row)
+    sep=0
+    result_min=0
+    result_max=0
+    for j in rl:
+        if j[0]==".":
+            sep+=1
+        elif j[0]=="?" and sep:
+            result_max+=j[1]
+        else:
+            if sep==0:
+                sep+=1
+            if sep==1:
+                result_min+=j[1]
+                result_max+=j[1]
+            # if 2<=sep
+
+    return (result_min,result_max)
+
+def is_accepted(board,h):
+    left=-1
+    right=MAX
+    for i in range(h):
+        l,r=count_row(board[i])
+        left=max(l,left)
+        right=min(r,right)
+    return left<=right
+
+
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
 H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+BOARD=[]
+for i in range(H):
+    BOARD.append(list(input()))
 # 処理スペース ================================================================================================Lit_to
 
+
+no(is_accepted(BOARD,H)==False)
+RotateArray.rotate90(BOARD)
+no(is_accepted(BOARD,W)==False)
+yes()

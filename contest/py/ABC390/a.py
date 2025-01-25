@@ -28,10 +28,19 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
+# N = int(input())
+# H, W = map(int,input().split())
 A = list(map(int,input().split()))
-S = input()
+# S = input()
 # S = list(input())
 # 処理スペース ================================================================================================Lit_to
+B=A.copy()
+B.sort()
+
+for i in range(0,4):
+    A_=A.copy()
+    A_[i],A_[i+1]=A_[i+1],A_[i]
+    yes(A_==B)
+
+no()
 
