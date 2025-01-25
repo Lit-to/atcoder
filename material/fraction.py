@@ -1,6 +1,3 @@
-import math
-
-
 class fraction:  # 分数
     def __init__(self, numerator: int = 1, denominator: int = 1):
         """
