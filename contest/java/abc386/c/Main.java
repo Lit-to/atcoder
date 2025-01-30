@@ -1,61 +1,66 @@
 import java.util.*;
-import java.io.*;
 
 public class Main {
-    //ABC386C
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
+        // int K = 1;
         String S = sc.nextLine();
         String T = sc.nextLine();
-        int s_length = S.length();
-        int t_length = T.length();
         boolean is_ok;
-        if (s_length == t_length) {
+        if (1 < Math.abs(S.length() - T.length())) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        if (S.length() == T.length()) {
             is_ok = check(S, T);
-        } else if (s_length < t_length) {
-            is_ok = check(S, T, s_length);
+        } else if (S.length() < T.length()) {
+            is_ok = check(T, S, S.length());
         } else {
-            is_ok = check(T, S, t_length);
+            is_ok = check(S, T, T.length());
+        }
+        if (is_ok){
+            System.out.println("Yes");
+            sc.close();
+            return;
+        }
+        else{
+            System.out.println("No");
+            sc.close();
+            return;
         }
 
-        if (is_ok) {
-            System.out.println("Yes");
-        } else {
-            System.out.println("No");
-        }
-        sc.close();
     }
 
     public static boolean check(String S, String T, int length) {
-        boolean skip = false;
+        // Tが長いという前提,lengthは短いほうの長さ
         int i = 0;
         int j = 0;
-        while (i < length && j < length) {
+        while (i < length && j < length + 1) {
+            if (1 < (j - i)) {
+                return false;
+            }
             if (S.charAt(i) == T.charAt(j)) {
                 ++i;
                 ++j;
                 continue;
             } else {
-                if (skip) {
-                    return false;
-                } else {
-                    ++j;
-                    skip = true;
-                }
+                ++i;
             }
         }
         return true;
     }
 
     public static boolean check(String S, String T) {
-        int diff = 0;
+        int count = 0;
         for (int i = 0; i < S.length(); ++i) {
-            if (S.charAt(i) != T.charAt(i)) {
-                ++diff;
+            if (S.charAt(i) == T.charAt(i)) {
+                continue;
+            } else {
+                ++count;
             }
         }
-        return diff <= 1;
-
+        return count < 2;
     }
 }
