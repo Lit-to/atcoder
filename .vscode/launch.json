@@ -25,13 +25,6 @@
       "preLaunchTask": "java_push"
     },
     {
-      "name": "Python デバッガー: 現在のファイル",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal"
-    },
-    {
       "name": "C/C++: g++ アクティブなファイルのビルド",
       "type": "cppdbg",
       "request": "launch",
