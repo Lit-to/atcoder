@@ -28,10 +28,35 @@ def printYN(f:bool): yes() if f else no()
 # 関数定義スペース
 
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+N, Q = map(int,input().split())
+QUERY=[]
+for i in range(Q):
+    QUERY.append(input().split())
+
+
 # 処理スペース ================================================================================================Lit_to
+
+result=0
+pigeon=dict(lambda:0)
+nest=dict(lambda:1)
+
+for i in range(N):
+    nest[i+1]=1
+for i in range(N):
+    pigeon[i+1]=i+1
+
+for i in QUERY:
+    if len(i)!=1:#クエリ1
+        _,p,h=map(int,i)
+        previous=pigeon[p]
+        pigeon[p]=h
+        nest[h]+=1
+        nest[previous]-=1
+        if nest[previous]==1:
+            result-=1
+        if nest[h]==2:
+            result+=1
+    else:
+        print(result)
+
 

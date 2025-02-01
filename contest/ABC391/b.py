@@ -27,11 +27,40 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+def look_s(pos):
+    return BOARD_S[pos[0]][pos[1]]
+def look_t(pos):
+    return BOARD_T[pos[0]][pos[1]]
+
+def check(pos):
+    for k in range(M):
+        for l in range(M):
+            if look_s((pos[0]+k,pos[1]+l))==look_t((k,l)):
+                continue
+            else:
+                return False
+    return True
+
+
+
 # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
+N, M = map(int,input().split())
+BOARD_S=[]
+for i in range(N):
+    BOARD_S.append(list(input()))
+BOARD_T=[]
+for i in range(M):
+    BOARD_T.append(list(input()))
 # 処理スペース ================================================================================================Lit_to
+
+for i in range(N):
+    if N<i+M:
+        break
+    for j in range(N):
+        if N<j+M:
+            break
+        if check((i,j)):
+            printe(i+1,j+1)
+
+
 
