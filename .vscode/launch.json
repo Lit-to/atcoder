@@ -3,16 +3,10 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Main",
-      "request": "launch",
-      "mainClass": "abc386.a.Main",
-      "projectName": "atcoder_cf790fd5"
-    },
-    {
-      "type": "java",
       "name": "Launch Java Program",
       "request": "launch",
-      "mainClass": ""
+      "mainClass": "",
+      "preLaunchTask": "java_push"
     },
     {
       "name": "Python デバッガー: 現在のファイル",

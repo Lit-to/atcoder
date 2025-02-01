@@ -61,12 +61,10 @@
     "material/**.py": true
   },
   "java.project.sourcePaths": [
-    "contest/java"
+    "java"
   ],
   "java.project.outputPath": "output",
-  "java.project.referencedLibraries": [
-    "lib/**/*.jar"
-  ],
+  "java.project.referencedLibraries": [],
   "files.readonlyExclude": {
     "material/test.py": true
   }
