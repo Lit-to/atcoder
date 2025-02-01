@@ -15,4 +15,7 @@ output/*
 *.out
 *.acc.json
 lib/*
-*.Identifier
+*.Identifier0
+/target/
+**/*.rs.bk
+**/*~
