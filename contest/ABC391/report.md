@@ -8,7 +8,7 @@
 - D テトリスしろ
 - E 
 
-詳細はこっちを見てね→https://atcoder.jp/contests/abc393/tasks
+詳細はこっちを見てね→https://atcoder.jp/contests/abc391/tasks
 
 反省点:
 -   A:AC
@@ -36,7 +36,7 @@ AtCoderを実況プレイ
 この動画はレート茶色のりっとーがコンテスト記録用に作っている10倍速動画です。
 タイムラプスのようなイメージでプログラムコードが徐々に伸びていくと面白いのではと思って作っています。
 まだまだよちよち歩きですが見守ってくれると嬉しいです！
-今回はABC393、皆さまお疲れ様でした！
+今回はABC391、皆さまお疲れ様でした！
 
 【この動画について】
 この動画は伸ばそうとか言う気概はありません。基本的にはりっとー自身の記録用です。
@@ -54,7 +54,8 @@ AtCoderでは特定の入力データに対して正しい結果を出すこと�
 
 【参考文献】
 
-- りっとーの提出結果:https://atcoder.jp/contests/abc393/submissions?f.User=Lit_to
+- りっとーの提出結果:https://atcoder.jp/contests/abc391/submissions?f.User=Lit_to
+- 提出管理レポジトリ:https://github.com/lit-to/atcoder
 - BGM Kyatto:https://www.youtube.com/@KyattoWorks
 - 右上の進捗バーの作者:自分(https://twitter.com/Lit_to_ )
 - 進捗バーのミニキャラを描いた人:みっこ(https://twitter.com/_m1kkom_ )
