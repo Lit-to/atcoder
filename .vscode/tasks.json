@@ -39,6 +39,10 @@
             "label":"java_push",
             "type":"shell",
             "command":"source .vscode/push_java.sh java/Main.java"
+        },{
+            "label":"rust_push",
+            "type":"shell",
+            "command":"source .vscode/push_rust.sh src/${fileBasename}"
         }
     ]
 }

@@ -16,6 +16,7 @@ output/*
 *.acc.json
 lib/*
 *.Identifier0
-/target/
 **/*.rs.bk
 **/*~
+rust/target/debug
+rust/target
