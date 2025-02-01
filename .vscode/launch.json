@@ -3,6 +3,22 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "atcoder_cf790fd5"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch",
+      "program": "${workspaceFolder}/rust/target/debug/${fileBasenameNoExtension}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "rust_push"
+    },
+    {
+      "type": "java",
       "name": "Launch Java Program",
       "request": "launch",
       "mainClass": "",
@@ -62,8 +78,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/lit-to/atcoder/contest/ABC383",
-      "program": "/home/lit-to/atcoder/contest/ABC383/build/Debug/outDebug",
+      "cwd": "/home/lit-to/atcoder/contest/ABC381",
+      "program": "/home/lit-to/atcoder/contest/ABC381/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # コピー元のファイルパス
+cd rust
 SOURCE_FILE="$1"
 
 # コピー先のディレクトリパス
@@ -19,7 +20,8 @@ CLASS_NAME=$(head -n 1 "$SOURCE_FILE" | awk '{print $3}')
 # else
 #     CLASS_NAME=$(echo "$CLASS_NAME" | tr '[:upper:]' '[:lower:]')
 # fi
-DEST_FILE="${CLASS_NAME}.java"
+
+DEST_FILE="${CLASS_NAME}.rs"
 
 # コピー先ディレクトリが存在しない場合は作成
 mkdir -p "$DEST_DIR"
@@ -28,3 +30,5 @@ mkdir -p "$DEST_DIR"
 cp "$SOURCE_FILE" "$DEST_DIR/$DEST_FILE"
 
 echo "ファイルをコピーしてリネームしました: $DEST_DIR/$DEST_FILE"
+cargo build
+cd ..
