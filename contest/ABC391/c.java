@@ -11,7 +11,7 @@ public class Main {
         int[] nest = new int[N];
         int[] pigeon = new int[N];
         for (int i = 0; i < N; ++i) {
-            nest[i] = 1;
+            nest[i] = 0;
             pigeon[i] = i;
         }
         int result=0;
