@@ -7,6 +7,7 @@
 !test/program_test.py
 !test/async_template.py
 !test/r.py
+!test/pro.sh
 __pycache__
 /__pycache__
 pypyjit.cpython-311.pyc
