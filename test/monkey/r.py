@@ -12,22 +12,20 @@ def printf(*args,sep=" "):
     with open(TEST_PATH, 'a',encoding="utf-8") as f:
         print(*args,sep=sep,file=f)
 
-n=500
+n=1
 for i in range(n):
     printf("## "+str(i))
     printf("```")
-    N=random.randint(1,20)
-    W=random.randint(1,N)
-    position=set()
+    N=5000
+    printf(N)
+    position=[]
     while len(position)!=N:
-        position.add((random.randint(1,W),random.randint(1,20)))
-    printf(len(position),W)
-    for i in position:
-        printf(*i)
-    Q=random.randint(1,10)
-    printf(Q)
-    for i in range(Q):
-        printf(*(random.randint(1,30),random.randint(1,N)))
+        position.append(random.randint(1,1000000000))
+    printf(*position)
+    position=[]
+    while len(position)!=N:
+        position.append(random.randint(1,1000000000))
+    printf(*position)
     print("\n")
     printf("```")
     printf("```")
