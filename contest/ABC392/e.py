@@ -27,17 +27,41 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
+class unionFind: #UnionFind
+    def __init__(self,n):
+        self.par=[-1]*n
+    def root(self,i):
+        if self.par[i]==-1:
+            return i
+        else:
+            self.par[i]=self.root(self.par[i])
+            return self.par[i]
+    def unite(self,a,b):
+        b,a=self.root(b),self.root(a)
+        if a==b:
+            return
+        self.par[b]=a
+
 
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    # N = int(input())
-    # H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    printYN(A[0]*A[1]==A[2] or A[1]*A[2]==A[0] or A[0]*A[2]==A[1])
-    # S = input()
+    N, M = map(int, input().split())
+    SERVERS=[]
+    for i in range(M):
+        SERVERS.append(tuple(map(int, input().split())))
     # 処理スペース ================================================================================================Lit_to
+    d=dict(lambda:set())
+    uf=unionFind(N)
+    for i in SERVERS:
+        uf.unite(i[0],i[1])
+        d[i[0]].add(i[1])
+        d[i[1]].add(i[0])
+
+    # ufをして、rootを1個にすることと問題文は恐らく同値
+    # 自重ループや、同じグループ内で必要のないケーブルを付け替えればよさそう
+    # →強連結成分分解とか木の回転をすれば解けそう？
 
 
 

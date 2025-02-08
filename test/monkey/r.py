@@ -16,14 +16,15 @@ n=1
 for i in range(n):
     printf("## "+str(i))
     printf("```")
-    N=10
+    N=200
+    M=300
     position=[]
-    while len(position)!=N:
-        position.append(random.randint(1,1000000000))
-    LR=tuple([random.randint(1,1000000000),random.randint(1,1000000000)])
-    printf(N,min(LR),max(LR))
-    printf(*position)
-    print("\n")
+    printf(N,M)
+    while len(position)!=M:
+        position.append((random.randint(1,N),(random.randint(1,N))))
+    for j in position:
+        printf(*j)
+    printf("\n")
     printf("```")
     printf("```")
     printf("")

@@ -33,11 +33,18 @@ def printYN(f:bool): yes() if f else no()
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    P = list(map(int,input().split()))
+    Q = list(map(int,input().split()))
     # 処理スペース ================================================================================================Lit_to
-
+    result=[]
+    zekken=[]
+    for i in range(N):
+        zekken.append((Q[i],P[i],i))
+    zekken.sort()
+    for i in range(N):
+        result.append(Q[zekken[i][1]-1])
+    print(*result)
+        
 
 if __name__=="__main__":
     main()

@@ -32,11 +32,18 @@ def printYN(f:bool): yes() if f else no()
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    # N = int(input())
+    N, M = map(int,input().split())
+    A = set(map(int,input().split()))
     # 処理スペース ================================================================================================Lit_to
+    result=[]
+    for i in range(1,N+1):
+        if i not in A:
+            result.append(i)
+    print(len(result))
+    print(*result)
+
+
 
 
 if __name__=="__main__":
