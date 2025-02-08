@@ -41,6 +41,10 @@ class unionFind: #UnionFind
         if a==b:
             return
         self.par[b]=a
+    def is_same(self,a,b):
+        return self.root(a)==self.root(b)
+
+
 
 
 
@@ -50,12 +54,15 @@ def main():
     N, M = map(int, input().split())
     SERVERS=[]
     for i in range(M):
-        SERVERS.append(tuple(map(int, input().split())))
+        SERVERS.append(tuple(list(map(int, input().split()))))
     # 処理スペース ================================================================================================Lit_to
     d=dict(lambda:set())
     uf=unionFind(N)
+    cables=[]
     for i in SERVERS:
         uf.unite(i[0],i[1])
+        if uf.is_same(i[0],i[1]):
+            cables.append(i[2])
         d[i[0]].add(i[1])
         d[i[1]].add(i[0])
 

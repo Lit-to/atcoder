@@ -17,11 +17,11 @@ for i in range(n):
     printf("## "+str(i))
     printf("```")
     N=200
-    M=300
+    M=500
     position=[]
     printf(N,M)
     while len(position)!=M:
-        position.append((random.randint(1,N),(random.randint(1,N))))
+        position.append((1,1))
     for j in position:
         printf(*j)
     printf("\n")
