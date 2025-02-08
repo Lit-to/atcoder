@@ -1,8 +1,8 @@
 # インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq,pypyjit
+import sys,itertools,math,heapq
 from collections import defaultdict,deque
-from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
-# pypyjit.set_param('max_unroll_recursion=-1') # ワンチャンはやくなるかも
+from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
+# pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
@@ -21,18 +21,23 @@ def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def listr(l:list,f=str): return "".join(list(map(f,l)))
-def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
+def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
 def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
 
-# 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-H, W = map(int,input().split())
-A = list(map(int,input().split()))
-S = input()
-# S = list(input())
-# 処理スペース ================================================================================================Lit_to
 
+
+def main():
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    N = int(input())
+    H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    S = input()
+    # 処理スペース ================================================================================================Lit_to
+
+
+if __name__=="__main__":
+    main()

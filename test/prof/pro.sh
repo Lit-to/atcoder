@@ -1,4 +1,4 @@
-
+# test/prof/pro.sh target.py test.txt
 # スクリプトのディレクトリに移動
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 pushd "$SCRIPT_DIR" > /dev/null
