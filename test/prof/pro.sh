@@ -16,7 +16,8 @@ TMP_SCRIPT="${SCRIPT%.py}_profiled"
 cp "$SCRIPT" "$TMP_SCRIPT"
 
 # @profile を追加
-sed -i '/^def /i @profile' "$TMP_SCRIPT"
+sed -i -E 's/^([[:space:]]*)def /\1@profile\n\1def /' "$TMP_SCRIPT"
+
 
 # プロファイリングを実行（入力ファイルがある場合とない場合で処理を分ける）
 if [[ -n "$INPUT_FILE" ]]; then
