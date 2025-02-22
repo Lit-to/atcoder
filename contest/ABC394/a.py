@@ -32,10 +32,11 @@ def printYN(f:bool): yes() if f else no()
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # N = int(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
     S = input()
+    print("2"*S.count("2"))
     # 処理スペース ================================================================================================Lit_to
 
 

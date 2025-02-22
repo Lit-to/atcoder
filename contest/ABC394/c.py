@@ -28,16 +28,56 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+def runLengthEncode(s=str or list) -> list:#ランレングス圧縮(エンコード)
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
+def runLengthDecode(data:list): #ランレングス圧縮(デコード)
+    result=""
+    for i in data:
+        result+=i[0]*i[1]
+    return result
+
+
+
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # N = int(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
     S = input()
+    N = len(S)
     # 処理スペース ================================================================================================Lit_to
+    rl=runLengthEncode(S)
+    n=len(rl)
+    result=[]
+    for i in range(n-1):
+        if rl[i][0]=="W" and rl[i+1][0]=="A":
+            result.append(("A",1))
+            result.append(("C",rl[i][1]))
+            rl[i+1]=(rl[i+1][0],rl[i+1][1]-1)
+        else:
+            result.append(rl[i])
+    # if rl[n-1][0]=="A":
+    #     result.append((rl[n-1][0],rl[n-1][1]-1))
+    # else:
+    result.append(rl[n-1])
 
+    for i in result:
+        print(i[0]*i[1],end="")
+    printe()
 
 if __name__=="__main__":
     main()

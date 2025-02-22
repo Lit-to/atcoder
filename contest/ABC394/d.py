@@ -32,11 +32,28 @@ def printYN(f:bool): yes() if f else no()
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # N = int(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
     S = input()
+    N = len(S)
     # 処理スペース ================================================================================================Lit_to
+    ph=dict()
+    ph[")"]="("
+    ph["]"]="["
+    ph[">"]="<"
+    stack=[]
+    for i in range(N):
+        if S[i] =="(" or S[i] == "[" or S[i] =="<":
+            stack.append(S[i])
+        else:
+            if 0<len(stack) and stack[-1]==ph[S[i]]:
+                stack.pop()
+            else:
+                no()
+    printYN(len(stack)==0)
+
+
 
 
 if __name__=="__main__":

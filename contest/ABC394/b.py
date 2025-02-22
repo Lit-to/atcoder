@@ -33,10 +33,17 @@ def printYN(f:bool): yes() if f else no()
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    # 処理スペース ================================================================================================Lit_to
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    S=[]
+    for i in range(N):
+        s=input()
+        S.append((len(s),s))
+    # 処理スペース ================================================================================================Lit_tos
+    S.sort()
+    for i in S:
+        print(i[1],end="")
+    printe()
 
 
 if __name__=="__main__":
