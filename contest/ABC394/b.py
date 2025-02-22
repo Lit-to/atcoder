@@ -36,13 +36,14 @@ def main():
     # H, W = map(int,input().split())
     # A = list(map(int,input().split()))
     S=[]
+    d=dict(lambda:False)
     for i in range(N):
         s=input()
-        S.append((len(s),s))
+        d[len(s)]=s
     # 処理スペース ================================================================================================Lit_tos
-    S.sort()
-    for i in S:
-        print(i[1],end="")
+    for i in range(51):
+        if d[i]:
+            print(d[i],end="")
     printe()
 
 
