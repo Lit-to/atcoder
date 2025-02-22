@@ -70,9 +70,6 @@ def main():
             rl[i+1]=(rl[i+1][0],rl[i+1][1]-1)
         else:
             result.append(rl[i])
-    # if rl[n-1][0]=="A":
-    #     result.append((rl[n-1][0],rl[n-1][1]-1))
-    # else:
     result.append(rl[n-1])
 
     for i in result:
