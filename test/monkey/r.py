@@ -12,18 +12,17 @@ def printf(*args,sep=" "):
     with open(TEST_PATH, 'a',encoding="utf-8") as f:
         print(*args,sep=sep,file=f)
 
-n=100
+n=1000
 for i in range(n):
     printf("## "+str(i))
     printf("```")
-    N=random.randint(1,20)
-    A=[]
-    printf(N)
-    for i in range(N-1):
-        A.append(random.randint(0,1))
-    A.append(1)
-    random.shuffle(A)
-    printf(*A,sep="")
+    a=[]
+    
+    for i in range(random.randint(2,20)):
+        a.append(random.choice(["[","]","(",")","<",">"]))
+    random.shuffle(a)
+    printf(*a,sep="")
+    
     printf("\n")
     printf("```")
     printf("```")

@@ -28,17 +28,6 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
-def parentheses(index,ph,s):
-    if ph[s[index+1]]==False:
-        res=parentheses(index+1,ph,s)
-        no(len(s)<=res)
-        no(s[index]!=ph[s[res+1]])
-        return res+1
-    else:
-        no(s[index]!=ph[s[index+1]])
-        return index+1
-
-
 
 
 def main():
@@ -53,19 +42,16 @@ def main():
     ph[")"]="("
     ph["]"]="["
     ph[">"]="<"
-    ph["("]=False
-    ph["["]=False
-    ph["<"]=False
-    index=0
-    op_={"(","[","<"}
-    while index<N:
-        if S[index] in op_:
-            index=parentheses(index,ph,S)+1
+    stack=[]
+    for i in range(N):
+        if S[i] =="(" or S[i] == "[" or S[i] =="<":
+            stack.append(S[i])
         else:
-            no()
-    yes()
-
-
+            if 0<len(stack) and stack[-1]==ph[S[i]]:
+                stack.pop()
+            else:
+                no()
+    printYN(len(stack)==0)
 
 
 
