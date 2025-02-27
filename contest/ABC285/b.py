@@ -27,19 +27,19 @@ def printYN(f:bool): yes() if f else no()
 
 
 # 関数定義スペース
-def search(ok:int,ng:int,f:bool)->int: #二分探索原型
-    # okは条件を満たす領域の外側
-    # ngは条件を満たさない領域の外側
-    # fは条件を満たすかどうかの評価関数
-        # lambda i:a[i]<x xを含まない最大のiを返す
-        # lambda i:a[i]<=x xを含む最大のiを返す
-    while 1<abs(ok-ng):
-        mid=(ng+ok)//2
-        if f(mid):
-            ok=mid
-        else:
-            ng=mid
-    return ok
+# def search(ok:int,ng:int,f:bool)->int: #二分探索原型
+#     # okは条件を満たす領域の外側
+#     # ngは条件を満たさない領域の外側
+#     # fは条件を満たすかどうかの評価関数
+#         # lambda i:a[i]<x xを含まない最大のiを返す
+#         # lambda i:a[i]<=x xを含む最大のiを返す
+#     while 1<abs(ok-ng):
+#         mid=(ng+ok)//2
+#         if f(mid):
+#             ok=mid
+#         else:
+#             ng=mid
+#     return ok
 
 def check(x,S,i):
     for j in range(x):
@@ -54,11 +54,15 @@ def main():
     N = int(input())
     S = list(input())
     # 処理スペース ================================================================================================Lit_to
-    result=[]
     for i in range(1,N):
-        result.append(search(0,N-i+1,lambda x:check(x,S,i)))
+        m=MAX
+        for j in range(N-i,-1,-1):
+            if check(j,S,i):
+                m=min(j,m)
+                break
+        print(m)
 
-    print(*result)
+
 
 
 
