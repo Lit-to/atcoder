@@ -32,12 +32,27 @@ def printYN(f:bool): yes() if f else no()
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    N, Q = map(int,input().split())
+    QUERY=[]
+    for i in range(Q):
+        QUERY.append(tuple(map(lambda x:int(x)-1,input().split())))
     # 処理スペース ================================================================================================Lit_to
 
+    nest_pigeon=[]
+    nest_label=[]
+    pigeon_nest=[]
+    pigeon_label=[]
+    for i in range(N):
+        nest_pigeon.append(i)
+        nest_label.append(i)
+        pigeon_nest.append(i)
+        pigeon_label.append(i)
+
+    for i in QUERY:
+        if i[0]==0:
+            nest_pigeon[i[1]]=nest_label[i[2]]
+        elif i[0]==1:
+            [i[1]]
 
 if __name__=="__main__":
     main()

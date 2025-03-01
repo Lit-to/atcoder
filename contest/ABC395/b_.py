@@ -32,34 +32,29 @@ def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
     # H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # A = list(map(int,input().split()))
     # S = input()
     # 処理スペース ================================================================================================Lit_to
-    visited=set()
-    result=MAX
-    visited.add(A[0])
-    right=0
-    for left in range(N):
-        if right<=left:
-            right=left+1
-        while right < N:
-            if A[right] not in visited:
-                visited.add(A[right])
-            else:
-                visited.add(A[right])
-                result=min(result,right+1-left)
-                break
-            right+=1
-        if right==N:
-            break
-        visited.discard(A[left])
-
-    if result==MAX:
-        printe(-1)
-    else:
-        printe(result)
+    board=[]
+    for i in range(N):
+        line=[]
+        for j in range(N):
+            line.append("-")
+        board.append(line)
+    N+=1
+    
+    block=[".","#"]
+    for i in range(1,N+1):
+        for j in range(i,N-i+1):
+            for k in range(i,N-i+1):
+                board[j-1][k-1]=block[i%2]
+    
+    for i in board:
+        print(*i,sep="")
 
 
-        
+
+
+
 if __name__=="__main__":
     main()

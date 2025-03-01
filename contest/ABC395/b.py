@@ -28,15 +28,36 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+def create(board,i,j,n,color,block):
+    if i<n//2:
+        create(board,i+1,j+1,1-color)
+    if i%2==0:
+        board[i][j]=block[color]
+        board[i][j+1]=block[color]
+        board[i+1][j]=block[color]
+        board[i+1][j+1]=block[color]
+    else:
+        board[i][j]=block[color]
+
+    
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
     # 処理スペース ================================================================================================Lit_to
+    board=[]
+    for i in range(N):
+        line=[]
+        for j in range(N):
+            line.append("-")
+        board.append(line)
+
+
+
 
 
 if __name__=="__main__":

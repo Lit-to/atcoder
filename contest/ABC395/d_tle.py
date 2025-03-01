@@ -28,38 +28,32 @@ def printYN(f:bool): yes() if f else no()
 
 # 関数定義スペース
 
+
+
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    # H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    # S = input()
+    N, Q = map(int,input().split())
+    QUERY=[]
+    for i in range(Q):
+        QUERY.append(tuple(map(lambda x:int(x)-1,input().split())))
     # 処理スペース ================================================================================================Lit_to
-    visited=set()
-    result=MAX
-    visited.add(A[0])
-    right=0
-    for left in range(N):
-        if right<=left:
-            right=left+1
-        while right < N:
-            if A[right] not in visited:
-                visited.add(A[right])
-            else:
-                visited.add(A[right])
-                result=min(result,right+1-left)
-                break
-            right+=1
-        if right==N:
-            break
-        visited.discard(A[left])
 
-    if result==MAX:
-        printe(-1)
-    else:
-        printe(result)
+    pigeon=[]
+    for i in range(N):
+        pigeon.append(i)
+    
+    for i in QUERY:
+        if i[0]==0:
+            pigeon[i[1]]=i[2]
+        elif i[0]==1:
+            for j in range(N):
+                if pigeon[j]==i[1]:
+                    pigeon[j]=i[2]
+                elif pigeon[j]==i[2]:
+                    pigeon[j]=i[1]
+        else:
+            print(pigeon[i[1]]+1)
 
 
-        
 if __name__=="__main__":
     main()

@@ -16,14 +16,12 @@ n=1000
 for i in range(n):
     printf("## "+str(i))
     printf("```")
+    N=random.randint(1,20)
+    printf(N)
     a=[]
-    
-    for i in range(random.randint(2,20)):
-        a.append(random.choice(["[","]","(",")","<",">"]))
-    random.shuffle(a)
-    printf(*a,sep="")
-    
-    printf("\n")
+    for i in range(N):
+        a.append(random.randint(1,100))
+    printf(*a)
     printf("```")
     printf("```")
     printf("")
