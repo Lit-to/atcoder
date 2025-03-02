@@ -86,8 +86,3 @@ class factrial:
             int: n!の値        """
         return self.factrial(n)
 
-
-if __name__ == "__main__":
-    fact = factrial()
-    print(fact.f(40))
-    print(fact.f(11))

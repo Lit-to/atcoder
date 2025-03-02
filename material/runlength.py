@@ -17,15 +17,3 @@ def runLengthDecode(data:list): #ランレングス圧縮(デコード)
     for i in data:
         result+=i[0]*i[1]
     return result
-
-
-
-
-
-
-
-if __name__=="__main__":# テスト用
-    momo="smmmmmmmmnuchi"
-    d=runLengthEncode(momo)
-    print(runLengthDecode(d)==momo)
-
