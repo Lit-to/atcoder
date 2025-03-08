@@ -32,11 +32,26 @@ def printYN(f:bool): yes() if f else no()
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
+    # N = int(input())
     H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    B = list(map(int,input().split()))
+    W = list(map(int,input().split()))
     # 処理スペース ================================================================================================Lit_to
+    b=B.copy()
+    b.sort()
+    w=W.copy()
+    w.sort()
+    value=0
+    while w or b:
+        v=value
+        b_v=b.pop() if b else -10**9-1
+        w_v=w.pop() if w else -10**9-1
+        v=max(b_v+value,value)
+        v=max(b_v+w_v+value,value,v)
+        value=v
+    print(value)
+
+
 
 
 if __name__=="__main__":

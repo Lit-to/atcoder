@@ -1,3 +1,18 @@
+def main():
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    N = int(input())
+    # H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    # S = input()
+    # 処理スペース ================================================================================================Lit_to
+    for i in range(N-2):
+        if A[i]==A[i+1] and A[i+1]==A[i+2]:
+            yes()
+    no()
+
+# 関数定義スペース
+
+
 # インポート(本編はだいたい30行目あたり)
 import sys,itertools,math,heapq
 from collections import defaultdict,deque
@@ -25,18 +40,6 @@ def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stde
 def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
 def printYN(f:bool): yes() if f else no()
 
-
-# 関数定義スペース
-
-
-
-def main():
-    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    # 処理スペース ================================================================================================Lit_to
 
 
 if __name__=="__main__":
