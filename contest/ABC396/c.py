@@ -1,41 +1,3 @@
-# 関数定義スペース
-
-
-
-def main():
-    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
-    # 処理スペース ================================================================================================Lit_to
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 以下コピペ部分=============================================================
 # インポート(本編はだいたい30行目あたり)
 import sys,itertools,math,heapq
 from collections import defaultdict,deque
@@ -44,6 +6,7 @@ from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
+
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
@@ -51,6 +14,7 @@ MOD=998244353
 MAX=10**18
 LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
+
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
@@ -60,5 +24,35 @@ def listr(l:list,f=str): return "".join(list(map(f,l)))
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
 def printYN(f:bool): yes() if f else no()
+
+
+# 関数定義スペース
+
+
+
+def main():
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    # N = int(input())
+    H, W = map(int,input().split())
+    B = list(map(int,input().split()))
+    W = list(map(int,input().split()))
+    # 処理スペース ================================================================================================Lit_to
+    b=B.copy()
+    b.sort()
+    w=W.copy()
+    w.sort()
+    value=0
+    while w or b:
+        v=value
+        b_v=b.pop() if b else -10**9-1
+        w_v=w.pop() if w else -10**9-1
+        v=max(b_v+value,value)
+        v=max(b_v+w_v+value,value,v)
+        value=v
+    print(value)
+
+
+
+
 if __name__=="__main__":
     main()
