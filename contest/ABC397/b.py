@@ -4,12 +4,23 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    # N = int(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
     S = list(input())
+    N=len(S)
     # 処理スペース ================================================================================================Lit_to
+    result=0
+    if S[0]=="o":
+        result+=1
+    
+    for i in range(1,N):
+        if S[i-1]==S[i]:
+            result+=1
+    result+=(N+result)%2
+    printe(result)
+
 
 
 

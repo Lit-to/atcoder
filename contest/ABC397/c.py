@@ -5,11 +5,31 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
+    # H, W = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # S = input()
+    # S = list(input())
     # 処理スペース ================================================================================================Lit_to
+    
+    left_to_right=[]
+    count_set=set()
+    for i in range(N):
+        count_set.add(A[i])
+        left_to_right.append(len(count_set))
+
+    count_set=set()
+    right_to_left=[]
+    for i in range(N-1,-1,-1):
+        count_set.add(A[i])
+        right_to_left.append(len(count_set))
+    right_to_left.reverse()
+
+    result=0
+    for i in range(N-1):
+        result=max(right_to_left[i+1]+left_to_right[i],result)
+
+    print(result)
+
 
 
 
