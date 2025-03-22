@@ -6,8 +6,8 @@ from collections import defaultdict
 LOG_PATH=os.path.join("test","monkey","log.txt")#ログファイルのパスを書く
 INPUT_PATH=os.path.join("test","monkey")#入力ファイルが入ったディレクトリのパス
 # TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC383","c.py")]#チェックするプログラムの実行コマンド
-TARGET_PROGRAM=["python",os.path.join("test","monkey","correct.py"),"-Xfrozen_modules=off"]#チェックするプログラムの実行コマンド
-CORRECT_PROGRAM=["python",os.path.join("contest","ABC395","c.py"),"-Xfrozen_modules=off"]#正しいと思われるプログラムの実行コマンド
+TARGET_PROGRAM=["python",os.path.join("contest","ABC398","f.py"),"-Xfrozen_modules=off"]#チェックするプログラムの実行コマンド
+CORRECT_PROGRAM=["python",os.path.join("test","monkey","correct.py"),"-Xfrozen_modules=off"]#正しいと思われるプログラムの実行コマンド
 
 with open(os.path.join(LOG_PATH), 'w',encoding="utf-8") as f:
     print("",file=f)
