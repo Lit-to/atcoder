@@ -5,22 +5,12 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
+    H, W = map(int,input().split())
     A = list(map(int,input().split()))
-    # H, W = map(int,input().split())
-    # S = input()
-    # S = list(input())
+    S = input()
+    S = list(input())
     # 処理スペース ================================================================================================Lit_to
-    b=[]
-    count=dict(lambda:0)
-    for i in range(N):
-        count[A[i]]+=1
-        b.append((A[i],i))
-    
-    b.sort(reverse=True)
-    for i in range(N):
-        if count[b[i][0]]==1:
-            printe(b[i][1]+1)
-    print(-1)
+
 
 
 

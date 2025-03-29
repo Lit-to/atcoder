@@ -1,34 +1,15 @@
 # 関数定義スペース
 
-def check(b):
-    d=dict(lambda:0)
-    for i in b:
-        d[i]+=1
-    if len(d)!=2:
-        return False
-    count=[0,0]
-    for i in d:
-        if d[i]==3:
-            count[0]=1
-        elif d[i]==2:
-            count[1]=1
-    return count[0]==1 and count[1]==1
-
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = 7
+    N = int(input())
+    H, W = map(int,input().split())
     A = list(map(int,input().split()))
+    S = input()
+    S = list(input())
     # 処理スペース ================================================================================================Lit_to
-    for i in range(N):
-        for j in range(i+1,N):
-            pick=[]
-            for k in range(N):
-                if k!=i and k!=j:
-                    pick.append(A[k])
-            yes(check(pick))
-    no()
 
 
 

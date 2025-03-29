@@ -1,40 +1,24 @@
 # 関数定義スペース
-def search(ok:int,ng:int,f:bool)->int: #二分探索原型
-    # okは条件を満たす領域の外側
-    # ngは条件を満たさない領域の外側
-    # fは条件を満たすかどうかの評価関数
-        # lambda i:a[i]<x xを含まない最大のiを返す
-        # lambda i:a[i]<=x xを含む最大のiを返す
-    while 1<abs(ok-ng):
-        mid=(ng+ok)//2
-        if f(mid):
-            ok=mid
-        else:
-            ng=mid
-    return ok
 
 
-def check(S,i):
-    t=[]
-    t+=S
-    t+=S[0:i][::-1]
-    return t==t[::-1]
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    # N = int(input())
-    # H, W = map(int,input().split())
-    # A = list(map(int,input().split()))
-    # S = input()
+    N = int(input())
+    H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    S = input()
     S = list(input())
-    N = len(S)
     # 処理スペース ================================================================================================Lit_to
-    if N==1:
-        printe(*S)
-    result=search(N,-1,lambda x:check(S,x))
-    ans=S+S[:result][::-1]
-    assert ans==ans[::-1]
-    print(*S+S[:result][::-1],sep="")
+
+
+
+
+
+
+
+
+
 
 
 

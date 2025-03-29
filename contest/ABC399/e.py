@@ -5,11 +5,10 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    GRAPH=dict(lambda:[])
-    for i in range(N):
-        u,v= map(int,input().split())
-        GRAPH[u].append(v)
-        GRAPH[v].append(u)
+    H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    S = input()
+    S = list(input())
     # 処理スペース ================================================================================================Lit_to
 
 
