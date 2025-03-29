@@ -1,31 +1,55 @@
 # 関数定義スペース
+def check(a:list):
+    for i in range(len(a)):
+        if (i<len(a) and a[i] == a[i+1]) or (0<i and a[i] == a[i-1]):
+            continue
+        else:
+            return False
+    return True
 
-
+def next(a,d,j,i,done):
+    for k in d[a[j]]:
+        if k!=j:
+            who = k
+    done.add(a[who])
+    if a[who]==a[i]:
+        return 1
+    else:
+        return next(a,d,who,j,done)+1
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    # H, W = map(int,input().split())
-    P = list(map(int,input().split()))
-    # S = input()
-    # S = list(input())
+    T = int(input())
+    CASES=[]
+    for i in range(T):
+        n = int(input())
+        a = tuple(map(int,input().split()))
+        CASES.append((n,a))
+    del n,a
     # 処理スペース ================================================================================================Lit_to
-    r=1
-    p_=P.copy()
-    p_.sort()
-    result=[0]*N
-    while (p_):
+    count = 0
+    for i in CASES:
+        N = i[0]*2
+        A = i[1]
+        d=dict(lambda:[])
+        for j in range(N):
+            d[A[j]].append(j)
+            if len(d[A[j]])==2:
+                d[A[j]].sort()
         count=0
-        for i in range(N):
-            if p_[-1]==P[i]:
-                result[i]=r
-                count+=1
-        r+=count
-        t=p_[-1]
-        while(p_ and p_[-1]==t):
-            p_.pop()
-    for i in result:
-        print(i)
+        done=set()
+        for j in range(0,N,2):
+            if j in done:
+                continue
+            if A[j]==A[j+1]:
+                continue
+            else:
+                count+=next(A,d,j+1,j,done)
+        print(count)
+        debug("^^^^^^^^^^")
+
+
+
 
 
 

@@ -5,13 +5,16 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    
     S = input()
-    S = list(input())
+    T = input()
     # 処理スペース ================================================================================================Lit_to
-
-
+    count=0
+    for i in range(N):
+        count+=S[i]!=T[i]
+    print(count)
 
 
 

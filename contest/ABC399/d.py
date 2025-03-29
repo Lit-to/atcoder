@@ -1,15 +1,47 @@
 # 関数定義スペース
+def check(a:list):
+    for i in range(len(a)):
+        if (i<len(a) and a[i] == a[i+1]) or (0<i and a[i] == a[i-1]):
+            continue
+        else:
+            return False
+    return True
 
+def count_pair(a:list):
+    count=0
+    for i in range(1,len(a)-1,2):
+        count+=a[i]==a[i+1]
+    return count
+
+def count_incorrect(a:list):
+    count=set()
+    for i in range(len(a)):
+        if i%2==1:
+            continue
+        else:
+            if a[i]!=a[i+1]:
+                count.add((min(a[i],a[i+1]),max(a[i],a[i+1])))
+    return len(count)
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    T = int(input())
+    CASES=[]
+    for i in range(T):
+        n = int(input())
+        a = tuple(map(int,input().split()))
+        CASES.append((n,a))
+    del n,a
     # 処理スペース ================================================================================================Lit_to
+
+    for i in CASES:
+        A= i[1]
+        num_a=count_pair(A)
+        num_b=count_incorrect(A)
+        print(num_b-num_a)
+        debug("^^^^^^^^^^^")
+
 
 
 

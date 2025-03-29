@@ -4,12 +4,39 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    N, M = map(int,input().split())
+    GRAPH=dict(lambda:[])
+    for i in range(M):
+        u,v=map(int,input().split())
+        GRAPH[u].append(v)
+        GRAPH[v].append(u)
+
     # 処理スペース ================================================================================================Lit_to
+    result=set()
+    checked=[True]*(N+1)
+    for i in range(1,N+1):
+        stack=[]
+        if checked[i]:
+            stack.append((-1,i))
+        else:
+            continue
+        done=set()
+        done.add(i)
+        while stack:
+            pare,pos=stack.pop()
+            checked[pos]=False
+            for j in GRAPH[pos]:
+                if j==pare:
+                    continue
+                elif j in done:
+                    result.add((min(pos,j),max(pos,j)))
+                else:
+                    done.add(j)
+                    stack.append((pos,j))
+
+    printe(len(result))
+
 
 
 
