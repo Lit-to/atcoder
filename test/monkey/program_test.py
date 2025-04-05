@@ -6,7 +6,7 @@ from collections import defaultdict
 LOG_PATH=os.path.join("test","monkey","log.txt")#ログファイルのパスを書く
 INPUT_PATH=os.path.join("test","monkey")#入力ファイルが入ったディレクトリのパス
 # TARGET_PROGRAM=["pypy3",os.path.join("contest","ABC383","c.py")]#チェックするプログラムの実行コマンド
-TARGET_PROGRAM=["python",os.path.join("contest","ABC398","f.py"),"-Xfrozen_modules=off"]#チェックするプログラムの実行コマンド
+TARGET_PROGRAM=["python",os.path.join("contest","ABC400","c.py"),"-Xfrozen_modules=off"]#チェックするプログラムの実行コマンド
 CORRECT_PROGRAM=["python",os.path.join("test","monkey","correct.py"),"-Xfrozen_modules=off"]#正しいと思われるプログラムの実行コマンド
 
 with open(os.path.join(LOG_PATH), 'w',encoding="utf-8") as f:
@@ -80,7 +80,7 @@ for i in iodata:
             if note_output_1[j].endswith("\n"):
                 note_output_1[j]=note_output_1[j].rstrip()
             if note_output_1[j]==note_output_2[j]:
-                printf("[o]",note_output_1[j])
+                # printf("[o]",note_output_1[j])
                 pass
             else:
                 printf("[x]","No.",j+1, "incorrect:",note_output_1[j],"correct:",note_output_2[j])
@@ -91,7 +91,8 @@ for i in iodata:
     if status==-1:
         printf("[R E] No.",i["name"][:-1])
     if status==0:
-        printf("[A C] No.",i["name"][:-1],">>>",finish,"ms")
+        # printf("[A C] No.",i["name"][:-1],">>>",finish,"ms")
+        pass
     elif status==2:
         printf("[TLE] No.",i["name"][:-1],">>>",finish,"ms")
     elif status==3: 

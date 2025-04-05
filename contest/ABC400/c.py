@@ -1,15 +1,41 @@
-# 関数定義スペース
+def search(ok:int,ng:int,f:bool)->int: #二分探索原型
+    # okは条件を満たす領域の外側
+    # ngは条件を満たさない領域の外側
+    # fは条件を満たすかどうかの評価関数
+        # lambda i:a[i]<x xを含まない最大のiを返す
+        # lambda i:a[i]<=x xを含む最大のiを返す
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
 
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
     # 処理スペース ================================================================================================Lit_to
+    if N==0:
+        printe(0)
+    if N==2:
+        printe(1)
+    elif N==3:
+        printe(1)
+
+    n=N//2
+    result=[]
+
+    result.append(search(1,N,lambda x: (x*x)<=n)) # 実質加算してるのと同じ
+
+    n=N//4
+    result.append(search(1,N,lambda x: (x*x)<=n)) # 実質加算してるのと同じ
+
+    print(sum(result))
+
+
 
 
 
