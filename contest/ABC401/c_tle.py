@@ -1,17 +1,5 @@
 # 関数定義スペース
 
-def fibonacci(n,d,k):
-    if d[n]!=-1:
-        return d[n]
-    else:
-        if n<k:
-            return 1
-        else:
-            sum_a=0
-            for i in range(1,k+1):
-                sum_a+=fibonacci(n-i,d,k)
-            return sum_a
-
 
 
 def main():
@@ -22,7 +10,20 @@ def main():
     # S = input()
     # S = list(input())
     # 処理スペース ================================================================================================Lit_to
-    print(fibonacci(N,dict(lambda:-1),K)%10**9)
+
+    a=[]
+    sum_a=0
+    for i in range(N+1):
+        if i<K:
+            a.append(1)
+            sum_a+=1
+        else:
+            if 0<=i-K-1:
+                sum_a-=a[i-K-1]
+            a.append(sum_a)
+            sum_a+=sum_a%10**9
+    # debug(*a)
+    print(a[-1]%10**9)
 
 
 

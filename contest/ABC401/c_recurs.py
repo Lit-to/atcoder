@@ -9,7 +9,7 @@ def fibonacci(n,d,k):
         else:
             sum_a=0
             for i in range(1,k+1):
-                sum_a+=fibonacci(n-i,d,k)
+                sum_a+=fibonacci(n-i,d,k)%10**9
             return sum_a
 
 

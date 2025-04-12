@@ -1,38 +1,26 @@
 # 関数定義スペース
 
 
-
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
+    S=[]
+    for i in range(N):
+        S.append(input())
     # 処理スペース ================================================================================================Lit_to
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    login = False
+    count = 0
+    for i in S:
+        if i == "login":
+            login = True
+        elif i == "logout":
+            login = False
+        elif login == False and i == "private":
+            count += 1
+    print(count)
 
 
 # 以下コピペ部分=============================================================

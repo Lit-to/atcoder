@@ -5,11 +5,12 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
+    # S = list(input())
     # 処理スペース ================================================================================================Lit_to
+    printYN(200<=N and N<=299)
 
 
 
@@ -54,8 +55,8 @@ LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
-def yes(f=True): printe("Yes") if (f) else None
-def no(f=True): printe("No") if (f) else None
+def yes(f=True): printe("Success") if (f) else None
+def no(f=True): printe("Failure") if (f) else None
 def listr(l:list,f=str): return "".join(list(map(f,l)))
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def look(pos:tuple,board:list): return board[pos[0]][pos[1]]

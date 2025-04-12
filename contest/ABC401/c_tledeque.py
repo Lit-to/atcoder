@@ -2,29 +2,28 @@
 
 
 
-
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     # N = int(input())
     N, K = map(int,input().split())
     # A = list(map(int,input().split()))
     # S = input()
-    S = list(input())
+    # S = list(input())
     # 処理スペース ================================================================================================Lit_to
-    result=["?"]*N
-    for i in range(N):
-        if S[i]!="?":
-            result[i]=S[i]
+
+    a=deque()
+    sum_a=0
+    for i in range(N+1):
+        if i<K:
+            a.append(1)
+            sum_a+=1
         else:
-            if (0<i and S[i-1] =="o") or (i<N-1 and S[i+1] == "o"):
-                result[i]="."
-    k=K-result.count("o")
-    if result.count("?")==k:
-        for i in range(N):
-            if result[i]=="?":
-                result[i]="o"
-        printe(*result,sep="")
-    printe(*result,sep="")
+            if 0<=i-K-1:
+                sum_a-=a.popleft()
+            a.append(sum_a)
+            sum_a+=sum_a%10**9
+
+    print(a[-1]%10**9)
 
 
 
