@@ -4,13 +4,16 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    # N = int(input())
+    # H, W = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
     S = list(input())
     # 処理スペース ================================================================================================Lit_to
-
+    for i in S:
+        if i in ALPHABET:
+            print(i,end="")
+    printe()
 
 
 
@@ -45,7 +48,7 @@ sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
 # 便利定数定義
-ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+ALPHABET=set(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18

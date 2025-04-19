@@ -1,18 +1,33 @@
 # 関数定義スペース
 
-
-
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    N, M = map(int,input().split())
+    K=[]
+    A=[]
+    for i in range(M):
+        KA = list(map(int,input().split()))
+        A.append(KA[1:])
+        K.append(KA[0])
+    B = list(map(int,input().split()))
+    del KA
     # 処理スペース ================================================================================================Lit_to
 
-
-
+    b_index=[]
+    for i in range(N):
+        b_index.append((B[i],i))
+    b_index.sort()
+    result=[0]*N
+    for i in range(M):
+        mx=0
+        for j in range(K[i]):
+            mx=max(mx,b_index[A[i][j]-1][1])
+        result[mx]+=1
+    pr_s=0
+    for i in result:
+        pr_s+=i
+        print(pr_s)
 
 
 

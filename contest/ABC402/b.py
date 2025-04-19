@@ -4,12 +4,23 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    Q = int(input())
+    QUERY=[]
+    for i in range(Q):
+        S = input()
+        if len(S)==1:
+            QUERY.append((2,998244353))
+        else:
+            q = tuple(map(int,S.split()))
+            QUERY.append(q)
     # 処理スペース ================================================================================================Lit_to
+
+    queue=deque()
+    for i in QUERY:
+        if i[0]==1:
+            queue.append(i[1])
+        else:
+            print(queue.popleft())
 
 
 

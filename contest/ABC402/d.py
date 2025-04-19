@@ -4,12 +4,28 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    N, M = map(int,input().split())
+    EDGE=[]
+    for i in range(M):
+        EDGE.append(tuple(map(int,input().split())))
     # 処理スペース ================================================================================================Lit_to
+    half=N//2
+    group=dict(lambda:0)
+    for i in EDGE:
+        av=(i[0]+i[1])//2
+        if half<av:
+            av-=half
+        group[av]+=1
+    
+    all_sum=0
+    for i in group:
+        all_sum+=group[i]
+    result=0
+    for i in group:
+        all_sum-=group[i]
+        result+=all_sum*group[i]
+    print(result)
 
 
 
