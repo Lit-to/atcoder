@@ -4,13 +4,28 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    # H, W = map(int,input().split())
+    N, D = map(int,input().split())
     A = list(map(int,input().split()))
-    # S = input()
-    # S = list(input())
+    A.sort()
     # 処理スペース ================================================================================================Lit_to
-    print(sum(A[0::2]))
+    is_deleted=[False]*N
+    right=1
+    for left in range(N-1):
+        if right<=left:
+            right=left+1
+        section=abs(A[right]-A[left])
+        while section<=D:
+            if section == D:
+                is_deleted[left]=True
+                break
+            else:
+                if N<=right+1:
+                    break
+                right+=1
+                section=abs(A[right]-A[left])
+
+
+    print(sum(is_deleted))
 
 
 

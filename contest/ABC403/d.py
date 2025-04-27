@@ -1,20 +1,65 @@
 # 関数定義スペース
 
+def runLengthEncode(s=str or list) -> list:#ランレングス圧縮(エンコード)
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
+def runLengthDecode(data:list): #ランレングス圧縮(デコード)
+    result=""
+    for i in data:
+        result+=i[0]*i[1]
+    return result
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
+    N, D = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    A.sort()
     # 処理スペース ================================================================================================Lit_to
+    mx=max(A)
+    mn=min(A)
+    B=runLengthEncode(A)
+    n=len(B)
+    probably_delete=dict(lambda:MAX)
+    right=1
+    for left in range(n-1):
+        if right<=left:
+            right=left+1
+        section=abs(B[right][0]-B[left][0])
+        while section<=D:
+            if section == D:
+                probably_delete[B[left][0]]=B[left][1]
+                probably_delete[B[right][0]]=B[right][1]
+                break
+            else:
+                if n<=right+1:
+                    break
+                right+=1
+                section=abs(B[right][0]-B[left][0])
+
+    dp = [MAX]*N
+    n =len(probably_delete)
+    # for i in range(n):
+    #     dp.append([10**7]*n)
+    
+    pro_key=probably_delete.keys()
+    for i in range(n):
+        dp[i]=min(probably_delete[pro_key[i]],probably_delete[pro_key[i]-D])
 
 
 
-
-
+    # print(min(result))
 
 
 

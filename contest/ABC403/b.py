@@ -4,12 +4,22 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    T = list(input())
+    U = list(input())
+    N=len(T)
+    M=len(U)
     # 処理スペース ================================================================================================Lit_to
+
+    for i in range(N):
+        for j in range(M):
+            if N<=i+j:
+                no()
+            if not(T[i+j]==U[j] or T[i+j]=="?"):
+                break
+            elif j==M-1:
+                yes()
+    no()
+
 
 
 

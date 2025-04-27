@@ -4,12 +4,28 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    N,M,Q = map(int,input().split())
+    QUERY=[]
+    for i in range(Q):
+        QUERY.append(tuple(map(int,input().split())))
     # 処理スペース ================================================================================================Lit_to
+
+    rights=dict(lambda:set())
+    for i in QUERY:
+        if len(i)==3:
+            q,x,y=i
+        elif len(i)==2:
+            q,x=i
+        if q==1:
+            if type(rights[x])==set:
+                rights[x].add(y)
+        elif q==2:
+            rights[x]=True
+        else:
+            printYN(type(rights[x])==bool or y in rights[x])
+
+
 
 
 
@@ -54,8 +70,8 @@ LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
-def yes(f=True): printe("Yes") if (f) else None
-def no(f=True): printe("No") if (f) else None
+def yes(f=True): print("Yes") if (f) else None
+def no(f=True): print("No") if (f) else None
 def listr(l:list,f=str): return "".join(list(map(f,l)))
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
