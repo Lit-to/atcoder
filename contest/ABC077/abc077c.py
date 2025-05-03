@@ -1,3 +1,5 @@
+# abc077c
+
 # 関数定義スペース
 def search(ok:int,ng:int,f:bool)->int: #二分探索原型
     # okは条件を満たす領域の外側
