@@ -4,31 +4,20 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N, M = map(int,input().split())
+    N = int(input())
     A = list(map(int,input().split()))
     # 処理スペース ================================================================================================Lit_to
-    # if len(A)<M:
-        # printe(0)
-    # A.reverse()
-    # d=dict(lambda:-1)
-    # for i in range(N):
-    #     if A[i]<=M:
-    #         d[A[i]]=max(i+1,d[A[i]])
-    # dkey=set(d.keys())
-    # for i in range(1,M+1):
-    #     if i not in dkey:
-    #         printe(0)
-    # printe(max(d.values()))
-    i=0
-    while A:
-        for j in range(1,M+1):
-            if j in A:
-                continue
-            else:
-                printe(i)
-        A.pop()
-        i+=1
-    print(N)
+    result=0
+    for i in range(N):
+        for j in range(i+1,N):
+            result+=A[i]*A[j]
+    printe(result)
+
+
+
+
+
+
 
 
 

@@ -4,14 +4,34 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
     H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    BOARD=[]
+    for i in range(H):
+        BOARD.append(list(input()+"#"))
+    BOARD.append(["#"]*(W+1))
     # 処理スペース ================================================================================================Lit_to
+    board=[]
+    for i in BOARD:
+        board.append(i.copy())
+    goals=[]
+    
+    queue=deque()
+    for i in range(H):
+        for j in range(W):
+            if look((i,j),BOARD)=="E":
+                queue.append((i,j))
 
+    while queue:
+        pos=queue.popleft()
+        for j in LRUD:
+            new_pos=(pos[0]+j[0],pos[1]+j[1])
+            new_data=look(new_pos,board)
+            if new_data == ".":
+                queue.append(new_pos)
+                board[new_pos[0]][new_pos[1]] = j[2]
 
+    for i in range(H):
+        print(*board[i][:-1],sep="")
 
 
 
@@ -49,7 +69,7 @@ ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
-LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
+LRUD=[(0,-1,">"),(0,1,"<"),(-1,0,"v"),(1,0,"^")]
 LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()

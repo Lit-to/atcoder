@@ -4,15 +4,18 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    R, X = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
+    # S = list(input())
     # 処理スペース ================================================================================================Lit_to
 
 
-
+    if X==1:
+        printYN(1600<=R and R<3000)
+    elif X==2:
+        printYN(1200<=R and R<2400)
 
 
 
