@@ -1,21 +1,20 @@
-# PANASON
+# ABC064C
+#
 # 関数定義スペース
 
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    # N = int(input())
-    H, W = map(int,input().split())
-    # A = list(map(int,input().split()))
-    # S = input()
-    # S = list(input())
+    N = inp()
+    A = inp(f=list)
     # 処理スペース ================================================================================================Lit_to
-
-    if H==1 or W==1:
-        printe(0)
-    printe((H*W)//2+(H*W)%2)
-
+    d=dict(lambda:0)
+    for i in A:
+        d[i//400]+=1
+    mn=len(set(dict.keys())-set([7]))
+    mx=max(mn+d[7],8)
+    print(mn,mx)
 
 
 
@@ -46,7 +45,7 @@ from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
 # pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict=defaultdict
+dict = defaultdict #ビルトイン上書きのため他ライブラリで変な挙動になる可能性あり
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
@@ -56,7 +55,8 @@ LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def inputs(): return map(int,input().split())
+def inputs(N=0,f=input): return input.split() if N==0 else [f() for _ in range(N)] #N行input()>listにして返却
+def inp(f=tuple): return int(s) if (s:=input()).isdigit() else f(map(int, s.split())) #1つならint,複数個ならtuple(int)として返却
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
@@ -66,3 +66,4 @@ def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
 def printYN(f:bool): yes() if f else no()
 if __name__=="__main__":
     main()
+
