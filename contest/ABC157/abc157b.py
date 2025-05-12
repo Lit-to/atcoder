@@ -1,19 +1,40 @@
-# ABC139B
 # 関数定義スペース
+def check(is_broken):
+    for i in range(H):
+        if is_broken[i][0] and is_broken[i][1] and is_broken[i][2]:
+            yes()
+    for i in range(W):
+        if is_broken[0][i] and is_broken[1][i] and is_broken[2][i]:
+            yes()
+    if is_broken[0][0] and is_broken[1][1] and is_broken[2][2]:
+        yes()
+    if is_broken[0][2] and is_broken[1][1] and is_broken[2][0]:
+        yes()
+    return False
 
 
 
 def main():
+    dict=defaultdict
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    A, B = map(int,input().split())
+    global H,W
+    H, W = 3,3
+    
+    CARD=inputs(H,inp)
+    N = inp()
+    QUERY=inputs(N,inp)
     # 処理スペース ================================================================================================Lit_to
-    i=0
-    while True:
-        if B<=A*i-i+1:
-            printe(i)
-        i+=1
-
-
+    is_broken=[]
+    for i in range(H):
+        is_broken.append([False]*W)
+    for i in QUERY:
+        for j in range(H):
+            for k in range(W):
+                if CARD[j][k]==i:
+                    is_broken[j][k]=True
+    check(is_broken)
+    no()
+    
 
 
 
@@ -45,7 +66,6 @@ from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
 # pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict=defaultdict
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
@@ -55,7 +75,8 @@ LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def inputs(): return map(int,input().split())
+def inputs(N:int=0,f=input): return [f() for _ in range(N)] #N行input()>listにして返却
+def inp(f=tuple): return int(s) if (s:=input()).isdigit() else f(map(int, s.split())) #1つならint,複数個ならtuple(int)として返却
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None

@@ -1,17 +1,21 @@
-# ABC139B
+# ABC086B
 # 関数定義スペース
 
 
 
 def main():
-    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    A, B = map(int,input().split())
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_tos
+    S = input().split()
+    N = int(S[0]+S[1])
     # 処理スペース ================================================================================================Lit_to
+    n=0
     i=0
-    while True:
-        if B<=A*i-i+1:
-            printe(i)
+    while n<N:
+        n=i**2
+        if n==N:
+            yes()
         i+=1
+    no()
 
 
 
@@ -45,7 +49,7 @@ from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
 # pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict=defaultdict
+dict = defaultdict #ビルトイン上書きのため他ライブラリで変な挙動になる可能性あり
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
@@ -55,7 +59,8 @@ LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
 LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def inputs(): return map(int,input().split())
+def inputs(N,f=input): return [f() for _ in range(N)] #N行input()>listにして返却
+def inp(f=tuple): return int(s) if (s:=input()).isdigit() else f(map(int, s.split())) #1つならint,複数個ならtuple(int)として返却
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
