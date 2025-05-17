@@ -34,22 +34,22 @@ class Board():
         レコードの値を取り出す
 
         引数:
-            (y,x)の形式のタプル
+            (y,x)形式の座標を表すタプル
         戻り値:
             any:テーブルのy行目j列目の値
         """
-        return self.look(pos)
+        return self.__data[pos[0]][pos[1]]
     
     def look(self,pos:tuple):
         """
         レコードの値を取り出す関数
 
         引数:
-            pos(tuple):(y,x)の形式のタプル
+            pos(tuple):(y,x)形式の座標を表すタプル
         戻り値:
             any:テーブルのy行目j列目の値        
         """        
-        return self.__data[pos[0]][pos[1]]
+        return self[pos]
 
     def __str__(self):
         """
