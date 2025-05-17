@@ -17,6 +17,23 @@ class Board():
             self.__data.append(board_data[i])
         self.__cells=self.__height*self.__weight
 
+    def get_height(self):
+        """
+        heightの値を返す関数
+
+        戻り値:
+            int:heightの値
+        """
+        
+    def get_weight(self):
+        """
+        weightの値を返す関数
+
+        戻り値:
+            int:weightの値
+        """
+
+
     def __len__(self):
         """
         len()を使うための関数
