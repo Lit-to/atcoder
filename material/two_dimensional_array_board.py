@@ -77,7 +77,7 @@ class Board():
 
     def get_height(self):
         """
-        heightの値を返す関数
+        ボードの高さの値を返す関数
 
         戻り値:
             int:heightの値
@@ -86,7 +86,7 @@ class Board():
 
     def get_width(self):
         """
-        widthの値を返す関数
+        ボードの幅の値を返す関数
 
         戻り値:
             int:widthの値
