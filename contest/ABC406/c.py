@@ -1,15 +1,40 @@
 # 関数定義スペース
 
-
+def is_yama(i):
+    return P[i-1]<P[i] and P[i]>P[i+1]
+def is_tani(i):
+    return P[i-1]>P[i] and P[i]<P[i+1]
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    global P
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    P = list(map(int,input().split()))
     # 処理スペース ================================================================================================Lit_to
+
+
+    i=1
+    result=0
+    trash=0
+    while i<N-1:
+        j=i+1
+        while j<N-1 and is_yama(i):
+            if is_yama(j):
+                i=j
+                trash=0
+                j+=1
+                continue
+            if is_tani(j):
+                i=j+1
+                result+=1
+                result+=trash
+                trash=0
+            j+=1
+        i+=1
+        trash+=1
+
+    print(result)
+
 
 
 

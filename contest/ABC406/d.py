@@ -1,15 +1,35 @@
-# 関数定義スペース
-
-
+#
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    H, W, N = map(int,input().split())
+    trash_map_1=dict(lambda:set())
+    trash_map_2=dict(lambda:set())
+    for i in range(N):
+        x,y=map(int,input().split())
+        trash_map_1[x-1].add(y-1)
+        trash_map_2[y-1].add(x-1)
+
+    Q = int(input())
+    QUERY=[]
+    for i in range(Q):
+        q,i=map(int,input().split())
+        QUERY.append((q,i))
     # 処理スペース ================================================================================================Lit_to
+    debug("<")
+    for i in QUERY:
+        q,j=i
+        if q==1:
+            print(len(trash_map_1[j-1]))
+            for k in trash_map_1[j-1]:
+                trash_map_2[k].discard(j-1)
+            del trash_map_1[j-1]
+        elif q==2:
+            print(len(trash_map_2[j-1]))
+            for k in trash_map_2[j-1]:
+                trash_map_1[k].discard(j-1)
+            del trash_map_2[j-1]
+        
 
 
 

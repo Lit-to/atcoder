@@ -4,13 +4,17 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
+    # N = int(input())
+    N, K = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    MOD = 10**(K+1-1)
     # 処理スペース ================================================================================================Lit_to
-
+    num=1
+    for i in range(N):
+        num*=A[i]
+        if MOD<=num:
+            num=1
+    print(num)
 
 
 
