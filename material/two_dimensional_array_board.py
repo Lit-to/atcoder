@@ -24,7 +24,7 @@ class Board():
         戻り値:
             int:heightの値
         """
-        
+
     def get_weight(self):
         """
         weightの値を返す関数
@@ -86,23 +86,24 @@ class Board():
                 sep="\n"+"-"*sep_count+"-\n"
         return sep.join(datas)
 
-    def place(self,pos,value):
+    def set(self,pos,value):
         """
         値を代入する関数
         引数:
-            pos(tuple):(y,x)の形式のタプル
+            pos(tuple):(y,x)形式の座標を表すタプル
             value(any):代入する値
         """
-        self.__data[pos[0]][pos[1]]=value
+        self[pos]=value
 
     def __setitem__(self,pos,value):
         """
         board[pos]=valueを使えるようにするための関数
         値を代入する
         引数:
-            pos(tuple):(y,x)の形式のタプル
+            pos(tuple):(y,x)形式の座標を表すタプル
             value(any):代入する値
         """
+        self.__data[pos[0]][pos[1]]=value
 
     def is_inside_positive(self,pos):
         """
