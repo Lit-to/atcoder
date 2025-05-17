@@ -1,4 +1,9 @@
 class Board():
+
+    ROTATE_0_DEGREE = 0
+    ROTATE_90_DEGREE = 1
+    ROTATE_180_DEGREE = 2
+    ROTATE_270_DEGREE = 3
     """
     二次元ボードを便利に使いやすくするためのクラス
     """ 
@@ -143,14 +148,12 @@ class Board():
         引数:
             degree(int):90の倍数
         """
-        assert degree%90==0
-        rotate_count=degree//90
-        if rotate_count%4==1 or rotate_count%4==-3:
+        if degree%4==1 or degree%4==-3:
             self.__data = [list(g) for g in zip(*self.__data[::-1])]
             self.__height,self.__weight=self.__weight,self.__height
-        elif rotate_count%4==2 or rotate_count%4==-2:
+        elif degree%4==2 or degree%4==-2:
             self.__data = [list(g)[::-1] for g in self.__data[::-1]]
-        elif rotate_count%4==3 or rotate_count%4==-1:
+        elif degree%4==3 or degree%4==-1:
             self.__data = [list(g) for g in zip(*self.__data)][::-1]
             self.__height,self.__weight=self.__weight,self.__height
 
@@ -159,6 +162,7 @@ class Board():
         ボードを縦方向の線対称に回す
         """
         self.__data = [list(g)[::-1] for g in self.__data]
+    
     def flip_by_holizontal(self):
         """
         ボードを横方向の線対称に回す

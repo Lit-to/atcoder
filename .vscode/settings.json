@@ -58,7 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.readonlyInclude": {
     "contest/TEMPLATE/*": true,
-    "material/**.py": true
+    // "material/**.py": true
   },
   "java.project.sourcePaths": [
     "java"
