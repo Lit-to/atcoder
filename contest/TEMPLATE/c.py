@@ -58,7 +58,6 @@ def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def listr(l:list,f=str): return "".join(list(map(f,l)))
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
-def look(pos:tuple,board:list): return board[pos[0]][pos[1]]
 def printYN(f:bool): yes() if f else no()
 if __name__=="__main__":
     main()
