@@ -157,13 +157,13 @@ class Board():
             self.__data = [list(g) for g in zip(*self.__data)][::-1]
             self.__height,self.__weight=self.__weight,self.__height
 
-    def flip_by_vertical(self):
+    def __flip_by_vertical(self):
         """
         ボードを縦方向の線対称に回す
         """
         self.__data = [list(g)[::-1] for g in self.__data]
     
-    def flip_by_holizontal(self):
+    def __flip_by_holizontal(self):
         """
         ボードを横方向の線対称に回す
         """
@@ -177,9 +177,9 @@ class Board():
             horizontal(bool):初期値はFalseで、Trueにすると横方向に回す
         """
         if vertical:
-            self.flip_by_vertical()
+            self.__flip_by_vertical()
         if horizontal:
-            self.flip_by_holizontal()
+            self.__flip_by_holizontal()
 
     def copy(self):
         """
