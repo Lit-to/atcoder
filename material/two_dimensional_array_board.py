@@ -159,22 +159,22 @@ class Board():
 
     def __flip_by_vertical(self):
         """
-        ボードを縦方向の線対称に回す
+        ボードを縦方向の線対称に反転する
         """
         self.__data = [list(g)[::-1] for g in self.__data]
     
     def __flip_by_holizontal(self):
         """
-        ボードを横方向の線対称に回す
+        ボードを横方向の線対称に反転する
         """
         self.__data = [list(g) for g in self.__data[::-1]]
     
     def flip(self,vertical=False,horizontal=False):
         """
-        ボードを縦か横か指定した方向の線対称に回す
+        ボードを縦か横か指定した方向の線対称に反転する
         引数:
-            vertical(bool):初期値はFalseで、Trueにすると縦方向に回す
-            horizontal(bool):初期値はFalseで、Trueにすると横方向に回す
+            vertical(bool):初期値はFalseで、Trueにすると縦方向に反転する
+            horizontal(bool):初期値はFalseで、Trueにすると横方向に反転する
         """
         if vertical:
             self.__flip_by_vertical()
