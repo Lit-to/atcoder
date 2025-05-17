@@ -1,12 +1,65 @@
 class Board():
 
+    """
+    二次元ボードを便利に使いやすくするためのクラス
+    """ 
     ROTATE_0_DEGREE = 0
     ROTATE_90_DEGREE = 1
     ROTATE_180_DEGREE = 2
     ROTATE_270_DEGREE = 3
-    """
-    二次元ボードを便利に使いやすくするためのクラス
-    """ 
+
+    # 自作ボードクラスのショートカット関数  
+    def input_board(height:int,f=lambda:input(list())):
+        """
+        標準入力からボード作成
+        引数:
+            height(int):高さ
+            f(function):入力の形式 指定しなかった場合は自動で
+                スペースのない文字列を想定した入力になる
+        戻り値
+            Board:作成されたボードクラス
+        """
+        board=[]
+        for i in range(height):
+            board.append(f())
+        return Board(board)
+
+    def input_board_with_wall(height:int,weight:int,wall:any,f:lambda x:input(list())):
+        """
+        標準入力からボード作成(ATフィールド付)
+        引数:
+            height(int):高さ
+            weight(int):幅
+            wall:壁に割り当てる値
+            f(function):入力の形式 指定しなかった場合は自動で
+                スペースのない文字列を想定した入力になる
+        戻り値
+            Board:作成されたボードクラス
+        """
+        board=[]
+        for i in range(height):
+            board.append(f()+[wall])
+        board.append([wall]*(weight+1))
+        return Board(board)
+
+    def create_board(height:int,weight:int,initial_value):
+        """
+        指定した高さと幅でボードを作成し、全て初期値を代入する。
+
+        引数:
+            height (int): 高さ
+            weight (int): 幅
+            initial_value: 初期値 
+
+        戻り値:
+            Board: 作成されたボード
+        """
+        raw_board = []
+        for i in range(height):
+            raw_board.append([initial_value]*weight)
+        return Board(raw_board)
+
+
     def __init__(self,board_data:list):
         """
         インスタンス生成関数
@@ -218,36 +271,3 @@ class Board():
     
 
 
-# 自作ボードクラスのショートカット関数  
-def input_board(height:int,f=lambda:input(list())):
-    """
-    標準入力からボード作成
-    引数:
-        height(int):高さ
-        f(function):入力の形式 指定しなかった場合は自動で
-            スペースのない文字列を想定した入力になる
-    戻り値
-        Board:作成されたボードクラス
-    """
-    board=[]
-    for i in range(height):
-        board.append(f())
-    return Board(board)
-
-def input_board_with_wall(height:int,weight:int,wall:any,f:lambda x:input(list())):
-    """
-    標準入力からボード作成(ATフィールド付)
-    引数:
-        height(int):高さ
-        weight(int):幅
-        wall:壁に割り当てる値
-        f(function):入力の形式 指定しなかった場合は自動で
-            スペースのない文字列を想定した入力になる
-    戻り値
-        Board:作成されたボードクラス
-    """
-    board=[]
-    for i in range(height):
-        board.append(f()+[wall])
-    board.append([wall]*(weight+1))
-    return Board(board)
