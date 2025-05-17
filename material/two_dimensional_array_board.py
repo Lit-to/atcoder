@@ -103,19 +103,38 @@ class Board():
             pos(tuple):(y,x)の形式のタプル
             value(any):代入する値
         """
-        self.place(pos,value)
+
+    def is_inside_positive(self,pos):
+        """
+        正の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
+        
+        Args:
+            pos (tuple): (y,x)形式の座標を表すタプル
+        """
+        y,x=pos
+        return y<self.__height and x<self.__weight
+
+    def is_inside_negative(self,pos):
+        """
+        負の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
+        
+        Args:
+            pos (tuple): (y,x)形式の座標を表すタプル
+        """
+        y,x=pos
+        return -1*self.__weight<=x and -1*self.__height<=y
+    
 
     def is_inside(self,pos):
         """
         指定のposがボードの内側に含まれているかどうかを返す関数
         ただし、マイナスを許容する
         引数:
-            pos(tuple):(y,x)の形式のタプル
+            pos(tuple):(y,x)形式の座標を表すタプル
         戻り値:
             bool:含まれているか否か
         """
-        y,x=pos
-        return (-1*self.__height<=y and y<self.__height) and (-1*self.__weight<=x and x<self.__weight)
+        return self.is_inside_positive(pos) or self.is_inside_negative(pos)
 
     def rotate(self,degree:int):
         """
