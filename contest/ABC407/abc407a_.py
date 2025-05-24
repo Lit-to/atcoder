@@ -9,16 +9,12 @@ def main():
 
     # 処理スペース ================================================================================================Lit_to
     numf=A/B
-    m=str(numf).split(".")
-    if 5<int(m[1][0]):
-        print(int(m[0])+1)
+    a=(abs(numf-int(numf+1)))
+    b=(abs(numf-int(numf)))
+    if (a<b):
+        print(max(int(numf+1),0))
     else:
-        print(int(m[0]))
-
-
-
-
-
+        print(max(int(numf),0))
 
 
 

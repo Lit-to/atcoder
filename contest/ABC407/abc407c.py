@@ -4,12 +4,20 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    S = list(map(int,list(input())))
     # 処理スペース ================================================================================================Lit_to
+    result=len(S)
+    s=S.copy()
+    i=0
+    while s:
+        k=s.pop()
+        if k<i:
+            result+=(10+k)-i
+        else:
+            result+=(k-i)
+        i=k
+    print(result)
+
 
 
 
