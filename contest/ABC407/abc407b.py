@@ -4,12 +4,21 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # N = int(input())
+    X, Y = map(int,input().split())
+    # A = list(map(int,input().split()))
+    # S = input()
+    # S = list(input())
     # 処理スペース ================================================================================================Lit_to
+
+    count=0
+    for n in range(1,37):
+        j=i//36
+        i%=6
+        if X<=i+j or Y<=abs(i-j):
+            count+=1
+
+    print(count/36)
 
 
 
