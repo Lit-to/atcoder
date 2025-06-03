@@ -32,13 +32,14 @@ def main():
         for i in Board.LRUD:
             dist = Board.add_pos(pos,i)
             yes(dist==goal)
+            new_energy = energy
             if BOARD[dist].isdigit():
                 new_energy = int(BOARD[dist])
-                energy = max(new_energy,energy)
+                new_energy = max(new_energy,energy)
             if BOARD[dist]!="#":
-                if point[dist]<energy:
-                    point[dist] = energy
-                    queue.append((dist,energy))
+                if point[dist]<new_energy:
+                    point[dist] = new_energy
+                    queue.append((dist,new_energy))
 
 
     no()
