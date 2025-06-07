@@ -15,6 +15,9 @@ fi
 # ./dev ディレクトリがなければ作る
 mkdir -p ./dev
 
+# 現在の日時（秒付き）
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
 # TEMPLATE 配下のファイルを処理
 for FILE in ./TEMPLATE/*; do
   BASENAME=$(basename "$FILE")                              # 例: main.py
@@ -22,12 +25,16 @@ for FILE in ./TEMPLATE/*; do
   NEWNAME="${CONTEST_UPPER}${BASENAME}"                     # 例: ABC123main.py
   DEST="./dev/${NEWNAME}"
 
-  COMMENT_LINE="# ${CONTEST_UPPER}${BASENAME_NO_EXT}"       # 1行目コメント
+  COMMENT_LINE_1="# ${CONTEST_UPPER}${BASENAME_NO_EXT}"     # 1行目コメント
+  COMMENT_LINE_2="# ${TIMESTAMP}"                           # 2行目に日付
 
-  # 先頭にコメントを追加して保存
-  echo "$COMMENT_LINE" > "$DEST"
-  cat "$FILE" >> "$DEST"
+  # コメント2行 + 本文の順で出力
+  {
+    echo "$COMMENT_LINE_1"
+    echo "$COMMENT_LINE_2"
+    cat "$FILE"
+  } > "$DEST"
 done
 
 # 完了メッセージ
-echo "✅ ${CONTEST_UPPER} のテンプレートコピーとリネーム（大文字＆コメント付き）が完了しました。"
+echo "✅ ${CONTEST_UPPER} のテンプレート生成が完了しました。"
