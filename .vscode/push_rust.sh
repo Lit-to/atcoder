@@ -10,7 +10,7 @@ if ! [[ "$FOLDER_NAME" =~ ^A[B|R|G]C[0-9]{3}$ ]]; then
     echo "Error: The folder name must be in the format 'abc' followed by three digits."
     exit 1
 fi
-DEST_DIR="../contest/$FOLDER_NAME"
+DEST_DIR="../dev/$FOLDER_NAME"
 
 # コピー先のファイル名
 CLASS_NAME=$(head -n 1 "$SOURCE_FILE" | awk '{print $3}')
