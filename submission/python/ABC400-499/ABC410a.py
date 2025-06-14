@@ -1,45 +1,19 @@
-# ABC409d
-# 2025-06-07 20:26:42
+# ABC410a
+# 2025-06-14 20:47:47
 # 関数定義スペース
 
 
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    T = int(input())
-    TESTCASES=[]
-    for i in range(T):
-        input()
-        s = list(input())
-        TESTCASES.append(s)
+    N = int(input())
+    A = list(map(int,input().split()))
+    K = int(input())
     # 処理スペース ================================================================================================Lit_to
-    for i in TESTCASES:
-        s=i
-        r=-1
-        l=-1
-        
-        for j in range(len(s)):
-            if l<0:
-                if not(s[j]<s[j+1]):
-                    l=j
-            else:
-                if not(s[j]<s[l]):
-                    r=j
-                    break
-        if l==-1: #もうすでに辞書順最強なので無視
-            print(*s,sep="")
-            continue
-        else:# 一番後ろの文字がよりもs[l]が弱いので、しゃーなし一番最後に連結する
-            if r==-1:
-                r=len(s)
-        s.insert(r,s[l])
-        del s[l]
-        print(*s,sep="")
-
-
-
-
-
+    count=0
+    for i in range(N):
+        count+=K<=A[i]
+    print(count)
 
 
 
