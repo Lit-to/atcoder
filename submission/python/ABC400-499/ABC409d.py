@@ -18,7 +18,7 @@ def main():
         r=-1
         l=-1
         
-        for j in range(len(s)-1):
+        for j in range(len(s)):
             if l<0:
                 if not(s[j]<s[j+1]):
                     l=j
@@ -26,13 +26,15 @@ def main():
                 if not(s[j]<s[l]):
                     r=j
                     break
-        if l==-1: #もうすでに辞書順最強なので、しゃーなし一番後ろの文字ふたつを入れ替える
-            print(*s)
+        if l==-1: #もうすでに辞書順最強なので無視
+            print(*s,sep="")
             continue
         else:# 一番後ろの文字がよりもs[l]が弱いので、しゃーなし一番最後に連結する
             if r==-1:
                 r=len(s)
-        print(*s[:l]+s[l+1:r]+s[l:l+1]+s[r:],sep="") #入れ替え作業後出力
+        s.insert(r,s[l])
+        del s[l]
+        print(*s,sep="")
 
 
 
