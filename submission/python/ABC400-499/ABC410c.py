@@ -24,7 +24,7 @@ def main():
         else:
             q,k = i
             head+=k
-            head%N
+            head%=N
 
 
 
