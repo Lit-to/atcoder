@@ -1,0 +1,66 @@
+# ABC412d
+# 2025-06-28 20:40:38
+# 関数定義スペース
+
+
+
+def main():
+    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+    # N = int(input())
+    N, M = map(int,input().split())
+    GRAPH = dict(lambda:[])
+    for i in range(M):    
+        A, B = map(int,input().split())
+        GRAPH[A].append(B)
+        GRAPH[B].append(A)
+    # 処理スペース ================================================================================================Lit_to
+
+    stack = []
+    for i in range(1,N+1):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 以下コピペ部分=============================================================
+# インポート(本編はだいたい30行目あたり)
+import sys,itertools,math,heapq
+from collections import defaultdict,deque
+from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
+# pypyjit.set_param('max_unroll_recursion=-1')
+sys.setrecursionlimit(10**8)
+sys.set_int_max_str_digits(0)
+dict=defaultdict
+# 便利定数定義
+ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# ALPHABET="abcdefghijklmnopqrstuvwxyz"
+MOD=998244353
+MAX=10**18
+# 便利関数定義
+def input(): return (sys.stdin.readline()).rstrip()
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
+def yes(f=True): printe("Yes") if (f) else None
+def no(f=True): printe("No") if (f) else None
+def listr(l:list,f=str): return "".join(list(map(f,l)))
+def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
+def printYN(f:bool): yes() if f else no()
+if __name__=="__main__":
+    main()
