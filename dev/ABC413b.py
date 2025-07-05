@@ -7,11 +7,19 @@
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    S = []
+    for i in range(N):
+        S.append(input())
     # 処理スペース ================================================================================================Lit_to
+
+    results = set()
+    for i in range(N):
+        for j in range(N):
+            if i==j:
+                continue
+            results.add(S[i]+S[j])
+    # debug(*results)
+    print(len(results))
 
 
 

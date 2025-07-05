@@ -6,12 +6,35 @@
 
 def main():
     # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    Q = int(input())
+    QUERIES = []
+    for i in range(Q):
+        QUERIES.append(tuple(map(int,input().split())))
     # 処理スペース ================================================================================================Lit_to
+
+    stack = deque()
+    for i in QUERIES:
+        if i[0] == 1:
+            q,c,x = i
+            stack.append((x,c))
+        elif i[0] == 2:
+            q,k = i
+            result = 0
+            count = 0 
+            while count < k:
+                x,c=stack.popleft()
+                if count+c<=k:
+                    count+=c
+                    result+=x*c
+                else:
+                    new_c = count+c-k
+                    stack.appendleft((x,new_c))
+                    count+=c-new_c
+                    result+=x*(c-new_c)
+            print(result)
+            
+
+
 
 
 
