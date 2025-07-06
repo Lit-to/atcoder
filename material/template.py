@@ -49,7 +49,7 @@ LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 TESTCASE = 1
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);solved()
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);raise solved
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
