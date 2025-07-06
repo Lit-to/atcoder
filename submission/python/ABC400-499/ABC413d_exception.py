@@ -1,13 +1,31 @@
 # 関数定義スペース
 
-
-# 処理
 def main():
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    A = tuple(map(int,input().split()))
+
+    b = []
+    for j in range(N):
+        if A[j] < 0:
+            b.append((A[j]*-1,-1))
+        else:
+            b.append((A[j],1))
+    b = sorted(b,key=lambda x:x[0])
+
+    values = set()
+    signs = dict(lambda:0)
+    for j in range(N):
+        values.add(b[j][0])
+        signs[b[j][1]]+=1
+
+    if len(values) == 1:
+        # 条件1 マイナスが連続で来るか、マイナスプラスが交互にくるか、プラスだけが来るかのいずれかに該当するかチェック
+            printYN(abs(signs[1]-signs[-1])<=1 or signs[1] == 0 or signs[-1] == 0)
+
+    # 条件2 比が一定になっているか
+    for j in range(1,N-1):
+        no(not (b[j-1][0]*b[j-1][1]*b[j+1][0]*b[j+1][1])==(b[j][0]**2))
+    yes()
 
 
 
@@ -21,16 +39,20 @@ def main():
 
 
 
-# 以下コピペ部分=============================================================
+
+
+
+
 # テストケース中枢処理
 def case():
-    # TESTCASE = int(input()) # テストケース数の指定
+    TESTCASE = int(input()) # テストケース数の指定
     for _ in range(TESTCASE):
         try:
             main()
         except solved:
             pass
 
+# 以下コピペ部分=============================================================
 # インポート(本編はだいたい30行目あたり)
 import sys,itertools,math,heapq
 from collections import defaultdict,deque
@@ -49,7 +71,7 @@ LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
 TESTCASE = 1
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);solved()
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);raise solved
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
