@@ -1,22 +1,29 @@
-# 標準入力受け取り
-INPUT = dict()
-
-def get_input():
-    INPUT["N"] = int(input())
-    INPUT["H"], INPUT["W"] = map(int, input().split())
-    INPUT["A"] = list(map(int, input().split()))
-    INPUT["S"] = input()
-    INPUT["S"] = list(input())
-
-
-# 関数定義スペース
-def temp():
-    ...
-
-
-# メイン処理フロー
 def main():
+    # 関数定義スペース
+
+    def func():
+        ...
+
+    ...    
+    # 入力スペース
+
+    N = int(input())
+    H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    S = input()
+    S = list(input())
+
     ...
+
+    # 処理スペース
+
+
+
+
+
+
+    ...
+
 
 
 # テストケース中枢処理
@@ -25,7 +32,6 @@ def case():
     # TESTCASE = int(input()) # テストケース数の指定
     for _ in range(TESTCASE):
         try:
-            get_input()
             main()
         except solvedException:
             pass
