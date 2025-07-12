@@ -34,8 +34,8 @@ def case():
         try:
             main()
         except solvedException:
-            pass
-        raise unSolvedExeption
+            continue
+        # raise unSolvedExeption
 
 
 # インポート
@@ -47,9 +47,8 @@ from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict = defaultdict
-# pypyjit.set_param('max_unroll_recursion=-1')
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# ALPHABET="abcdefghijklmnopqrstuvwxyz"
+UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD = 998244353
 MAX = 10**18
 LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -57,11 +56,12 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 # 便利関数定義(超圧縮)
 def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);raise solvedException
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
+def fin(f=True): raise solvedException if f else None
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
