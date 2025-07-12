@@ -27,8 +27,9 @@ def case():
         try:
             get_input()
             main()
-        except solved:
+        except solvedException:
             pass
+        raise unSolvedExeption
 
 
 # インポート(本編はだいたい30行目あたり)
@@ -50,14 +51,16 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 # 便利関数定義(超圧縮)
 def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);raise solved
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);raise solvedException
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 
-# 処理打ち切り例外
-class solved(Exception): pass
+# 例外クラス
+class solvedException(Exception): pass # 処理打ち切り例外
+class unSolvedExeption(Exception): # 回答未出力例外
+    def __init__(description = "解答が出力されていません。"): super().__init__(description)
 
 # 実行
 if __name__ == "__main__":
