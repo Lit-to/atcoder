@@ -38,7 +38,7 @@ def case():
         raise unSolvedExeption
 
 
-# インポート(本編はだいたい30行目あたり)
+# インポート
 import sys, itertools, math, heapq
 from collections import defaultdict, deque
 from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
