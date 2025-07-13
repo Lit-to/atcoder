@@ -1,34 +1,20 @@
-# ABC414c
+# ABC414C
 # 2025-07-12 20:53:23
+import numpy
 def main():
     # 関数定義スペース
-    def fill_one_digit(arr,i,j):
-        arr[i]=str(j)
-        return arr
 
-    def fill_two_digits(arr,pos_i,pos_j,j):
-        arr[pos_i]=str(j)
-        arr[pos_j]=str(j)
-        return arr
-
-
-    def fill_digit_odd(arr,n,i):
-        if i==n//2:
-            for j in range(0,A):
-                candidate.append(fill_one_digit(arr,i,j).copy())
+    def fill_digits(arr,n,i,odd):
+        if i==n:
+            r = "".join(arr)
+            r+=r[::-1][odd:]
+            candidate.append(r)
             return
         else:
-            for j in range(0+(i==0),A):
-                fill_digit_odd(fill_two_digits(arr,i,n-i-1,j),n,i+1)
+            for j in range(0+(i==0),10):
+                arr[i] = str(j)
+                fill_digits(arr,n,i+1,odd)
 
-
-    def fill_digit_even(arr,n,i):
-        if i == n//2-1:
-            for j in range(0,A):
-                candidate.append(fill_two_digits(arr,i,n-i-1,j).copy())
-            return
-        for j in range(0+(i==0),A):
-            fill_digit_even(fill_two_digits(arr,i,n-i-1,j),n,i+1)
 
     # 入力スペース
 
@@ -39,18 +25,18 @@ def main():
 
     # 処理スペース
     candidate = []
-    for i in range(1,len(str(N))+2):
-        if i % 2 == 0:
-            fill_digit_even([0]*i,i,0)
-        else:
-            fill_digit_odd([0]*i,i,0)
+    for i in range(1,7):
+        fill_digits([0]*(i),i,0,True)
+        fill_digits([0]*(i),i,0,False)
     result =0
     # candidate_2 = []
     for i in candidate:
-        num=int("".join(i),A)
-        num_s=str(num)
+        # num=int("".join(i),A)
+        num = int(i)
+        num_s = str(numpy.base_repr(num,A))
+        # num_s=str(num)
+        # debug(num)
         if num<=N and num_s==num_s[::-1]:
-            # candidate_2.append("".join(i))
             # debug(num)
             result+=num
             pass
@@ -79,7 +65,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
