@@ -7,17 +7,20 @@ for FILE in ./dev/*; do
   BASENAME=$(basename "$FILE")
 
   if [[ "$BASENAME" =~ ^ABC([0-9]{3}) ]]; then
-    NUM=${BASH_REMATCH[1]}
-    LOW=$(( (10#$NUM / 100) * 100 ))
-    HIGH=$((LOW + 99))
-    DIRNAME="ABC${LOW}-${HIGH}"
-    TARGET_DIR="./submission/python/${DIRNAME}"
+    # NUM=${BASH_REMATCH[1]}
+    # LOW=$(( (10#$NUM / 100) * 100 ))
+    # HIGH=$((LOW + 99))
+    # DIRNAME="ABC${LOW}-${HIGH}"
+    TARGET_DIR="./submission/python/ABC"
 
   elif [[ "$BASENAME" =~ ^ARC([0-9]{3}) ]]; then
     TARGET_DIR="./submission/python/ARC"
 
   elif [[ "$BASENAME" =~ ^AGC([0-9]{3}) ]]; then
     TARGET_DIR="./submission/python/AGC"
+
+  elif [[ "$BASENAME" =~ ^CCD([0-9]{3}) ]]; then
+    TARGET_DIR="./submission/python/CCD"
 
   else
     echo "⚠️ 無視: $BASENAME は対応するコンテスト名で始まっていません"
