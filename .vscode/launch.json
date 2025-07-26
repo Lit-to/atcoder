@@ -3,29 +3,26 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Main",
+      "name": "Launch(Java)",
       "request": "launch",
       "mainClass": "Main",
-      "projectName": "atcoder_cf790fd5"
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/lang/output"
+      ],
+      "preLaunchTask": "java_push"
     },
     {
       "type": "lldb",
+      "name": "Launch(Rust)",
       "request": "launch",
-      "name": "Launch",
-      "program": "${workspaceFolder}/rust/target/debug/${fileBasenameNoExtension}",
+      "program": "${workspaceFolder}/lang/rust/target/debug/${fileBasenameNoExtension}",
       "args": [],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "rust_push"
     },
     {
-      "type": "java",
-      "name": "Launch Java Program",
-      "request": "launch",
-      "mainClass": "",
-      "preLaunchTask": "java_push"
-    },
-    {
-      "name": "C/C++: g++ アクティブなファイルのビルド",
+      "name": "Launch(Cpp)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/a",
@@ -50,7 +47,7 @@
       "preLaunchTask": "C/C++: g++ アクティブなファイルのビルド"
     },
     {
-      "name": "Python デバッガー: -Xfrozen_modules=off",
+      "name": "Launch(Pypy)",
       "type": "debugpy",
       "request": "launch",
       "program": "${file}",
@@ -65,7 +62,7 @@
       "preLaunchTask": "export pypy_path"
     },
     {
-      "name": "C/C++ Runner: Debug Session",
+      "name": "CppAuto",
       "type": "cppdbg",
       "request": "launch",
       "args": [],

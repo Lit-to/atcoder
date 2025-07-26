@@ -15,7 +15,7 @@ test/**
 __pycache__
 /__pycache__
 pypyjit.cpython-311.pyc
-output/*
+lang/output/*
 *.ini
 *.in
 *.out

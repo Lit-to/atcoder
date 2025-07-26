@@ -61,9 +61,9 @@
     "material/**.py": true
   },
   "java.project.sourcePaths": [
-    "java"
+    "/lang/java"
   ],
-  "java.project.outputPath": "output",
+  "java.project.outputPath": "/lang/output",
   "java.project.referencedLibraries": [],
   "files.readonlyExclude": {
     "material/test.py": true
