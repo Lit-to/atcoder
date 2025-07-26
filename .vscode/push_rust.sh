@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # コピー元のファイルパス
-cd rust
+cd lang/rust
 SOURCE_FILE="$1"
 
 # コピー先のディレクトリパス
 FOLDER_NAME=$(head -n 1 "$SOURCE_FILE" | awk '{print $2}' | tr '[:lower:]' '[:upper:]')
-if ! [[ "$FOLDER_NAME" =~ ^A[B|R|G]C[0-9]{3}$ ]]; then
+if ! [[ "$FOLDER_NAME" =~ ^[A-Za-z]{3}[0-9]{3}[A-H]$ ]]; then
     echo "Error: The folder name must be in the format 'abc' followed by three digits."
     exit 1
 fi
-DEST_DIR="../dev/$FOLDER_NAME"
+DEST_DIR="../../dev/"
 
 # コピー先のファイル名
 CLASS_NAME=$(head -n 1 "$SOURCE_FILE" | awk '{print $3}')
@@ -27,7 +27,7 @@ DEST_FILE="${CLASS_NAME}.rs"
 mkdir -p "$DEST_DIR"
 
 # ファイルをコピーしてリネーム
-cp "$SOURCE_FILE" "$DEST_DIR/$DEST_FILE"
+cp "$SOURCE_FILE" "$DEST_DIR/$FOLDER_NAME$DEST_FILE"
 
 echo "ファイルをコピーしてリネームしました: $DEST_DIR/$DEST_FILE"
 cargo build

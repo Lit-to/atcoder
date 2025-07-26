@@ -7,8 +7,8 @@ read -p "コンテスト名を入力してください: " CONTEST
 CONTEST_UPPER=$(echo "$CONTEST" | tr '[:lower:]' '[:upper:]')
 
 # ディレクトリが存在するか確認
-if [ ! -d "./TEMPLATE" ]; then
-  echo "エラー: ./TEMPLATE ディレクトリが存在しません。"
+if [ ! -d "./lang/python/contest" ]; then
+  echo "エラー: テンプレートディレクトリが存在しません。"
   exit 1
 fi
 
@@ -19,7 +19,7 @@ mkdir -p ./dev
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
 # TEMPLATE 配下のファイルを処理
-for FILE in ./TEMPLATE/*; do
+for FILE in ./lang/python/contest/*; do
   BASENAME=$(basename "$FILE")                              # 例: main.py
   BASENAME_NO_EXT="${BASENAME%.*}"                          # 例: main
   NEWNAME="${CONTEST_UPPER}${BASENAME}"                     # 例: ABC123main.py
