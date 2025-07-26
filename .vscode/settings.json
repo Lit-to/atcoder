@@ -58,7 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.readonlyInclude": {
     "submission/python/TEMPLATE/*": true,
-    "material/**.py": true
+    "lang/python/material/**.py": true
   },
   "java.project.sourcePaths": [
     "/lang/java"
@@ -66,6 +66,6 @@
   "java.project.outputPath": "/lang/output",
   "java.project.referencedLibraries": [],
   "files.readonlyExclude": {
-    "material/test.py": true
+    "lang/python/material/test.py": true
   }
 }
