@@ -1,27 +1,38 @@
 # CCD003a
+# ABC226C
 # 2025-07-30 22:17:53
 def main():
     # 関数定義スペース
 
-    def func():
-        ...
+    def dfs(pos,cost):
+        cost+=T[pos]
+        done.add(pos)
+        for i in A[pos]:
+            if i not in done:
+                cost=dfs(i,cost)
+        return cost
 
     ...    
     # 入力スペース
 
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
-
+    A = []
+    T = []
+    K = []
+    for i in range(N):
+        temp = list(map(lambda x:int(x)-1,input().split()))
+        T.append(temp[0]+1)
+        K.append(temp[1]+1)
+        if temp[1]+1 == 0:
+            A.append([])
+            continue
+        A.append((temp[2:]))
+        
     ...
-
+    
     # 処理スペース
-
-
-
-
+    done = set()
+    print(dfs(N-1,0))
 
 
     ...
