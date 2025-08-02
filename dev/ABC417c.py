@@ -2,25 +2,65 @@
 # 2025-08-02 20:52:06
 def main():
     # 関数定義スペース
+    def index(a:list,i:int,mode="left",exactry=True)->int:
+        #二分探索で配列の中のiが何番目にあるかを返す
+        #mode="left"で左から見て一番最初に見つかるもの(デフォルト)
+        #mode="right"で右から見て一番最初に見つかるもの
+        #exactry=Trueで値がない場合は-1
+        #exactry=Falseで値がない場合に一番近いものを返す
+        #ない場合は-1
+        if mode=="left":
+            f=lambda x: a[x]<=i
+            ok=-1
+            ng=len(a)
+        elif mode=="right":
+            f=lambda x: i<=a[x]
+            ok=len(a)
+            ng=-1
+        else:
+            return -1
+        while 1<abs(ok-ng):
+            mid=(ng+ok)//2
+            if f(mid):
+                ok=mid
+            else:
+                ng=mid
+        if exactry and a[ok]!=i:
+            return -1
+        elif not exactry and len(a)<=ok:
+            return -1
+        else:
+            return ok
 
-    def func():
-        ...
 
     ...    
     # 入力スペース
 
     N = int(input())
-    H, W = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
-
     ...
 
     # 処理スペース
+    count = 0
+    b = []
+    c = []
+    for i in range(N):
+        b.append(i+A[i])
+    for j in range(N):
+        c.append(j-A[j])
 
+    b.sort()
+    c.sort()
 
+    for i in range(N):
+        left = index(c,b[i],exactry=True)
+        if left == -1:
+            continue
+        right =index(c,b[i],mode="right",exactry=True)
+        count+=(left+1-right)
+    print(count)
 
+#A_i+i=j-Aj
 
 
 

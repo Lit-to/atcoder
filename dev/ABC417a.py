@@ -9,16 +9,16 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
+    # N = int(input())
+    N,A, B = map(int,input().split())
+    # A = list(map(int,input().split()))
     S = input()
-    S = list(input())
+    # S = list(input())
 
     ...
 
     # 処理スペース
-
+    printe(S[A:N-(B)])
 
 
 

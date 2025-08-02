@@ -1,35 +1,45 @@
-# ABC417e
+# ABC417c
 # 2025-08-02 20:52:06
 def main():
     # 関数定義スペース
 
-    def dfs(pos,goal,done,stack):
-        if pos == goal:
-            printe(*stack)
-        for i in GRAPH[pos]:
-            if i in done:
-                continue
-            done.add(i)
-            stack.append(i)
-            dfs(i,goal,done,stack)
-            stack.remove(i)
+    def search(ok:int,ng:int,f:bool)->int: #二分探索原型
+        # okは条件を満たす領域の外側
+        # ngは条件を満たさない領域の外側
+        # fは条件を満たすかどうかの評価関数
+            # lambda i:a[i]<x xを含まない最大のiを返す
+            # lambda i:a[i]<=x xを含む最大のiを返す
+        while 1<abs(ok-ng):
+            mid=(ng+ok)//2
+            if f(mid):
+                ok=mid
+            else:
+                ng=mid
+        return ok
 
-        ...
 
     ...    
     # 入力スペース
 
-    N,M,X,Y = map(int,input().split())
-    GRAPH = dict(SortedList)
-    for i in range(M):
-        u,v=map(int,input().split())
-        GRAPH[u].add(v)
-        GRAPH[v].add(u)
-
+    N = int(input())
+    A = list(map(int,input().split()))
     ...
 
     # 処理スペース
-    dfs(X,Y,set([X]),[X])
+    count = 0
+    for i in range(N):
+        left=i+A[i]
+        for j in range(N):
+            right = j-A[j]
+            count+=(left==right)
+            # debug(left==right)
+            debug(left,right)
+        debug("<")
+
+    print(count)
+
+#A_i+i=j-Aj
+
 
 
     ...
@@ -39,7 +49,7 @@ def main():
 # テストケース中枢処理
 def case():
     TESTCASE = 1
-    TESTCASE = int(input()) # テストケース数の指定
+    # TESTCASE = int(input()) # テストケース数の指定
     for _ in range(TESTCASE):
         try:
             main()
