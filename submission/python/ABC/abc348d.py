@@ -1,376 +1,267 @@
-# ABC348D Medicines on Grid
-
-def main():
-    # 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-    H, W = map(int,input().split())
-    BOARD = Board.input_board_with_wall(H,W,"#",lambda:list(input()))
-    N = int(input())
-    RCE = []
-    for i in range(N):
-        pos_en=tuple(map(int,input().split()))
-        RCE.append([(pos_en[0]-1,pos_en[1]-1),pos_en[2]])
-    # 処理スペース ================================================================================================Lit_to
-    for i in range(H):
-        for j in range(W):
-            pos=(i,j)
-            if BOARD[pos] == "S":
-                start=pos
-            elif BOARD[pos] == "T":
-                goal=pos
-
-    for i in RCE:
-        pos,energy=i
-        BOARD[pos]=str(energy)
-
-    no(BOARD[start].isdigit()==False)
-    point = dict(lambda:0)
-    queue=deque()
-    queue.append((start,int(BOARD[start])))
-    while queue:
-        pos,energy=queue.popleft()
-        energy-=1
-        for i in Board.LRUD:
-            dist = Board.add_pos(pos,i)
-            yes(dist==goal)
-            new_energy = energy
-            if BOARD[dist].isdigit():
-                new_energy = int(BOARD[dist])
-                new_energy = max(new_energy,energy)
-            if BOARD[dist]!="#":
-                if point[dist]<new_energy:
-                    point[dist] = new_energy
-                    queue.append((dist,new_energy))
-
-
-    no()
-
-
-
-
-
-
-
-
-
-# 関数定義スペース
-class Board():
-
-    """
-    二次元ボードを便利に使いやすくするためのクラス
-    """ 
-    ROTATE_0_DEGREE = 0
-    ROTATE_90_DEGREE = 1
-    ROTATE_180_DEGREE = 2
-    ROTATE_270_DEGREE = 3
-    LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
-    LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
-    
-    # 自作ボードクラスのショートカット関数  
-    def add_pos(pos,dist):
-        return pos[0]+dist[0],pos[1]+dist[1]
-
-    def input_board(height:int,f=lambda:input(list())):
-        """
-        標準入力からボード作成
-        引数:
-            height(int):高さ
-            f(function):入力の形式 指定しなかった場合は自動で
-                スペースのない文字列を想定した入力になる
-        戻り値
-            Board:作成されたボードクラス
-        """
-        board=[]
-        for i in range(height):
-            board.append(f())
-        return Board(board)
-
-    def input_board_with_wall(height:int,width:int,wall:any,f:lambda x:input(list())):
-        """
-        標準入力からボード作成(ATフィールド付)
-        引数:
-            height(int):高さ
-            width(int):幅
-            wall:壁に割り当てる値
-            f(function):入力の形式 指定しなかった場合は自動で
-                スペースのない文字列を想定した入力になる
-        戻り値
-            Board:作成されたボードクラス
-        """
-        board=[]
-        for i in range(height):
-            board.append(f()+[wall])
-        board.append([wall]*(width+1))
-        return Board(board)
-
-    def create_board(height:int,width:int,initial_value):
-        """
-        指定した高さと幅でボードを作成し、全て初期値を代入する。
-
-        引数:
-            height (int): 高さ
-            width (int): 幅
-            initial_value: 初期値 
-
-        戻り値:
-            Board: 作成されたボード
-        """
-        raw_board = []
-        for i in range(height):
-            raw_board.append([initial_value]*width)
-        return Board(raw_board)
-
-
-    def __init__(self,board_data:list):
-        """
-        インスタンス生成関数
-        引数:
-            board_data(list):生成する元となる二次元配列データ
-        """
-        self.__data=[]
-        self.__height=len(board_data)
-        assert 0<self.__height #高さが0以下だった場合はボードの作りようがないためエラー
-        self.__width=len(board_data[0])
-        for i in range(self.__height):
-            assert len(board_data[i])==self.__width #幅がぶれているとこのクラスでは扱えないためエラー
-            self.__data.append(board_data[i])
-        self.__cells=self.__height*self.__width
-
-    def get_height(self):
-        """
-        ボードの高さの値を返す関数
-
-        戻り値:
-            int:heightの値
-        """
-        return self.__height
-
-    def get_width(self):
-        """
-        ボードの幅の値を返す関数
-
-        戻り値:
-            int:widthの値
-        """
-        return self.__width
-
-
-    def __len__(self):
-        """
-        len()を使うための関数
-        レコードの数を返す
-
-        戻り値:
-            int:二次元配列のレコードの数
-        """
-        return self.__cells
-    
-    
-    def __getitem__(self,pos:tuple):
-        """
-        board[]を利用するための関数
-        レコードの値を取り出す
-
-        引数:
-            (y,x)形式の座標を表すタプル
-        戻り値:
-            any:テーブルのy行目j列目の値
-        """
-        return self.__data[pos[0]][pos[1]]
-    
-    def get(self,pos:tuple):
-        """
-        レコードの値を取り出す関数
-
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
-            any:テーブルのy行目j列目の値        
-        """        
-        return self[pos]
-
-    def __str__(self):
-        """
-        str()で呼び出される関数
-        いい感じに整形して出力する
-        戻り値:
-            str:いい感じに整形された二次元配列の文字列
-        """
-        datas=[]
-        sep_count=0
-        for i in range(self.__height):
-            
-            item=" | ".join(str(j) for j in self.__data[i])
-            datas.append(item)
-            sep_count=max(sep_count,len(item))
-            if i==self.__height-1:
-                sep="\n"+"-"*sep_count+"-\n"
-        return sep.join(datas)
-
-    def set(self,pos,value):
-        """
-        値を代入する関数
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-            value(any):代入する値
-        """
-        self[pos]=value
-
-    def __setitem__(self,pos,value):
-        """
-        board[pos]=valueを使えるようにするための関数
-        値を代入する
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-            value(any):代入する値
-        """
-        self.__data[pos[0]][pos[1]]=value
-
-    def is_inside_positive(self,pos):
-        """
-        正の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
-        
-        Args:
-            pos (tuple): (y,x)形式の座標を表すタプル
-        """
-        y,x=pos
-        return y<self.__height and x<self.__width
-
-    def is_inside_negative(self,pos):
-        """
-        負の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
-        
-        Args:
-            pos (tuple): (y,x)形式の座標を表すタプル
-        """
-        y,x=pos
-        return -1*self.__width<=x and -1*self.__height<=y
-    
-
-    def is_inside(self,pos):
-        """
-        指定のposがボードの内側に含まれているかどうかを返す関数
-        ただし、マイナスを許容する
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
-            bool:含まれているか否か
-        """
-        return self.is_inside_positive(pos) or self.is_inside_negative(pos)
-
-    def rotate(self,degree:int):
-        """
-        ボードを回転させる関数
-        引数:
-            degree(int):ROTATE_**_DEGREE
-        """
-        if degree==self.ROTATE_90_DEGREE:
-            self.__data = [list(g) for g in zip(*self.__data[::-1])]
-            self.__height,self.__width=self.__width,self.__height
-        elif degree==self.ROTATE_180_DEGREE:
-            self.__data = [list(g)[::-1] for g in self.__data[::-1]]
-        elif degree==self.ROTATE_270_DEGREE:
-            self.__data = [list(g) for g in zip(*self.__data)][::-1]
-            self.__height,self.__width=self.__width,self.__height
-
-    def __flip_by_vertical(self):
-        """
-        ボードを縦方向の線対称に反転する
-        """
-        self.__data = [list(g)[::-1] for g in self.__data]
-    
-    def __flip_by_holizontal(self):
-        """
-        ボードを横方向の線対称に反転する
-        """
-        self.__data = [list(g) for g in self.__data[::-1]]
-    
-    def flip(self,vertical=False,horizontal=False):
-        """
-        ボードを縦か横か指定した方向の線対称に反転する
-        引数:
-            vertical(bool):初期値はFalseで、Trueにすると縦方向に反転する
-            horizontal(bool):初期値はFalseで、Trueにすると横方向に反転する
-        """
-        if vertical:
-            self.__flip_by_vertical()
-        if horizontal:
-            self.__flip_by_holizontal()
-
-    def copy(self):
-        """
-        コピー関数
-        戻り値:
-            別インスタンスで、中身が同じボードクラス
-        """
-        data=[]
-        for i in range(self.__height):
-            data.append(self.__data[i].copy())
-        return self.__class__(data)
-
-    def fill(self,value):
-        """
-        初期化関数
-        valueで指定した値でボードのすべてを埋める
-        引数:
-            value(any):埋めたい値
-        """
-        for i in range(self.__height):
-            for j in range(self.__width):
-                self.__data[i][j] = value
-
-    def add_wall(self,value):
-        """
-        ATフィールド関数
-        valueで指定した値でボードの右端と下端をひとつ増やす。
-        引数:
-            value(any):増やしたい値
-        """
-        for i in range(self.__height):
-            self.__data[i].append(value)
-        self.__width+=1
-        self.__height+=1
-        self.__data.append([value]*(self.__width))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 以下コピペ部分=============================================================
 # インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq
+import sys,itertools,math,heapq,pypyjit
 from collections import defaultdict,deque
-from sortedcontainers import SortedSet, SortedList, SortedDict # CPython?
-# pypyjit.set_param('max_unroll_recursion=-1')
+from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
+pypyjit.set_param('max_unroll_recursion=-1')
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
 dict=defaultdict
+
 # 便利定数定義
 ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD=998244353
 MAX=10**18
-LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
-LURULDRD=[(-1,-1),(-1,1),(1,-1),(1,1)]
+
 # 便利関数定義
 def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
-def yes(f=True): printe("Yes") if (f) else None
-def no(f=True): printe("No") if (f) else None
-def listr(l:list,f=str): return "".join(list(map(f,l)))
-def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
+def yes(f=None): print("Yes") if (f==None or f) else None; exit() if (f==None or f) else None
+def no(f=None): print("No") if (f==None or f) else None;exit() if (f==None or f) else None
+def printe(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end); exit() #Cpythonでは動かない
+def listr(l:list): return "".join(l)
+def debug(*values: object,sep: str | None = " ",end: str | None = "\n",): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
+def look(pos:tuple,board:list): return board[pos[0]][pos[1]] #HWボードの(i,j)の値を参照して返す関数
 def printYN(f:bool): yes() if f else no()
-if __name__=="__main__":
-    main()
+
+
+# 関数定義スペース
+class priorityQueue():#heapqラッパー
+    def __init__(self,l=list()):#インスタンス化
+        self.queue=l.copy()
+        heapq.heapify(self.queue)
+    def __getitem__(self,i):
+        return self.queue[i]
+    def __len__(self):#かぞえる
+        return len(self.queue)
+    def __str__(self):#出力用
+        return str(self.queue)
+    def enq(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def add(self,value):#入れる
+        return heapq.heappush(self.queue,value)
+    def deq(self):#出す
+        return heapq.heappop(self.queue)
+class Board:
+    """
+    ボードを使いやすくするクラス
+    一次元配列で仮想的に二次元配列を定義する
+    初期化時にコンストラクタでサイズHWと初期値を指定し、読み書きが可能
+
+    初期化例 
+    Board(H+1,W+1,lambda x:list(input())+["#"] if x<H else ["#"]*(W+1),can_loop=True)
+    Board(H+1,W+1,lambda x:list(input()),can_loop=False)
+
+    """
+    def __init__(
+        self,
+        h: int, 
+        w: int,
+        default: int | str | bool,
+        can_loop: bool = True,
+    ) -> None:
+        """
+        初期化関数 インスタンス生成時に呼び出される
+
+        Args:
+            h (int): 縦の長さ
+            w (int): 横の長さ
+            default (int | str | bool): 初期値設定※イミュータブルなものを指定しなければならない
+            can_loop (bool, optional): デフォルトでTrue。-1番目を指定したときに一番後ろを見るかどうか
+        """
+        self.__board = []  # データ
+        for i in range(h):
+            data = default(i)
+            assert len(data) == w, "Illigal input length."
+            self.__board += data
+        self.__height = h  # 高さ
+        self.__weight = w  # 幅
+        self.can_loop = can_loop  # ループを許容するか(デフォルトはTrue)
+
+    def __str__(self):
+        """
+        str()で呼び出されるメソッド
+        ただし、二次元配列として中身を確認する場合はself.print()を使うこと
+
+        Returns:
+            str: データを文字列にしたもの
+        """
+        return str(self.__board)
+
+    def __get_board(self):
+        """
+        一次元配列の中身を二次元配列に変換して返すメソッド
+        O(N^2)につき外から利用しない
+        self.print()で利用される
+        Returns:
+            list: 二次元配列に変換したボード
+        """
+        grid = []
+        w = self.get_width()
+        h = self.get_height()
+        for i in range(0, h):
+            grid.append(self.__board[i * w : w * (i + 1)])
+        return grid
+
+    def print(self, f=print):  # 出力用
+        """出力用メソッド
+
+        Args:
+            f (object, optional): 出力時に用いる関数※指定しない場合print関数が呼び出される
+
+        """
+        return f(*self.__get_board(), sep="\n")
+
+    def get_height(self) -> int:  # Hの値を取得
+        """縦の長さを取得する
+
+        Returns:
+            int: 縦の長さ
+        """
+        return self.__height
+
+    def get_width(self) -> int:  # Wの値を取得
+        """横の長さを取得する
+
+        Returns:
+            int: 横の長さ
+        """
+        return self.__weight
+
+    def get_index(self, i: int, j: int) -> int:  # i,jの情報から位置を計算する
+        """二次元配列における縦i番目横j番目が一次元配列のどこにあたるかを計算する
+
+        Args:
+            i (int): 縦の位置(0-indexed)
+            j (int): 横の位置(0-indexed)
+
+        Returns:
+            int: 計算結果
+        
+        例外:
+            IndexError: 二次元配列において存在しない場所を指定した場合に呼び出される
+        """
+        w = self.get_width()
+        h = self.get_height()
+        if self.can_loop:
+            assert -1 * h <= i and i < h, "IndexError: list index out of range"
+            assert -1 * w <= j and j < w, "IndexError: list index out of range"
+            if i < 0:
+                i += h
+            if j < 0:
+                j += w
+        else:
+            assert (
+                0 <= i and i < h and 0 <= j and j < w
+            ), "IndexError: list index out of range"
+        return i * w + j  # i*W+jが一次元における指定マスの場所
+
+    def get_pos(self, index: int):
+        """一次元配列の場所における二次元配列の位置を計算する。
+
+        Args:
+            index (int): 一次元配列の場所(0-indexed)
+
+        Returns:
+            i (int): 縦の位置(0-indexed)
+            j (int): 横の位置(0-indexed)
+        """
+        
+        i = index // self.get_width()
+        j = index % self.get_width()
+        return i, j
+
+    def get_value(self, i: int, j: int) -> int | str | bool:
+        """二次元配列における縦i番目横j番目の値を返す
+
+        Args:
+            i (int): 縦の位置(0-indexed)
+            j (int): 横の位置(0-indexed)
+
+        Returns:
+            int | str | bool: 二次元配列の値
+        """
+        pos = self.get_index(i, j)
+        return self.__board[pos]
+
+    def set_value(self, i: int, j: int, value: int | str | bool) -> None:
+        """二次元配列における縦i番目横j番目に値を代入する
+
+        Args:
+            i (int): 縦の位置(0-indexed)
+            j (int): 横の位置(0-indexed)
+            value (int | str | bool): 代入する値
+        """
+        pos = self.get_index(i, j)
+        self.__board[pos] = value
+
+# 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
+H, W = map(int,input().split())
+BOARD=Board(H+1,W+1,lambda x:list(input())+["#"] if x<H else ["#"]*(W+1),can_loop=True)
+N = int(input())
+MAP=dict(lambda:0)
+for i in range(N):
+    r,c,e=map(int,input().split())
+    pos=BOARD.get_index(r-1,c-1)
+    MAP[pos]=e
+# QUERY=[tuple(map(int,input().split())) for i in range(N)]
+
+health_board=Board(H+1,W+1,lambda x:[0]*(W+1),can_loop=True)
+
+# 処理スペース ================================================================================================Lit_to
+#デバッグ用
+# DEBUGBOARD=Board(H+1,W+1,lambda x:["#"]*(W+1),can_loop=True)
+# for i in range(H):
+#     for j in range(W):
+#         DEBUGBOARD.set_value(i,j,BOARD.get_value(i,j))
+# for i in MAP:
+#     y,x=DEBUGBOARD.get_pos(i)
+#     DEBUGBOARD.set_value(y,x,MAP[i])
+
+# DEBUGBOARD.print(debug)
+#ここまで
+
+
+start=(0,0)
+goal=(0,0)
+for i in range(H):
+    for j in range(W):
+        if BOARD.get_value(i,j)=="S":
+            start=(i,j)
+
+task=priorityQueue()
+task.add(
+    [
+        MAP[BOARD.get_index(start[0],start[1])],
+        start,
+        set([BOARD.get_index(start[0],start[1])])
+    ]
+    )
+RLUD=[[0,1],[0,-1],[-1,0],[1,0]]
+
+
+while task:
+    now=task.deq()
+    for i in RLUD:
+        health,pos,visited=now[0],now[1],now[2].copy()
+        new_pos=pos[0]+i[0],pos[1]+i[1]
+        index=BOARD.get_index(new_pos[0],new_pos[1])
+        if index in visited:
+            continue
+        value=BOARD.get_value(new_pos[0],new_pos[1])
+        yes(value=="T")
+        if value=="#":
+            continue
+        elif value==".":
+            if health<=0:
+                break
+            elif health<health_board.get_value(new_pos[0],new_pos[1]):
+                continue
+            else:
+                health-=1
+                health=max(MAP[index],health)
+                health_board.set_value(new_pos[0],new_pos[1],health)
+                visited.add(index)
+                task.add([health,new_pos,visited])
+no()
+
 
