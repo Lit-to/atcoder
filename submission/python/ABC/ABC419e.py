@@ -1,4 +1,4 @@
-# ABC419d
+# ABC419e
 # 2025-08-16 20:49:27
 def main():
     # 関数定義スペース
@@ -9,11 +9,11 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
+    # N = int(input())
+    H, W, L = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # S = input()
+    # S = list(input())
 
     ...
 

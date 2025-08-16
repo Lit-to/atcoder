@@ -1,4 +1,4 @@
-# ABC419e
+# ABC419d
 # 2025-08-16 20:49:27
 def main():
     # 関数定義スペース
@@ -9,17 +9,45 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    N, M = map(int,input().split())
     S = list(input())
-
+    T = list(input())
+    s = [0]
+    LR = []
+    Ls = []
+    Rs = []
+    for i in range(M):
+        L, R = map(lambda x:int(x)-1,input().split())
+        # LR.append((L,R))
+        Ls.append(L)
+        Rs.append(R)
     ...
 
     # 処理スペース
-
-
+    result = []
+    # LR.sort()
+    Ls.sort(reverse=True)
+    Rs.sort(reverse=True)
+    j = 0
+    count = 0
+    for i in range(N):
+        while Ls and Ls[-1] == i:
+            Ls.pop()
+            count+=1
+        result.append((S,T)[count%2][i])
+        while Rs and Rs[-1] == i:
+            Rs.pop()
+            count-=1
+        
+        # while j<M and L[j] == i:
+            # count+=1
+            # queue.append(LR[j][1])
+            # j+=1
+        # while j<M and R[j] == i:
+            # queue.popleft()
+            # count-=1
+        pass
+    print(*result,sep="")
 
 
 

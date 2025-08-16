@@ -1,4 +1,4 @@
-# ABC419a
+# ABC419b
 # 2025-08-16 20:49:27
 def main():
     # 関数定義スペース
@@ -9,15 +9,19 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
-
+    Q = int(input())
+    QUERIES = []
+    for i in range(Q):
+        QUERIES.append(input().split())
     ...
-
+    box = []
     # 処理スペース
+    for i in QUERIES:
+        if len(i) == 2:
+            box.append(int(i[1]))
+        else:
+            box.sort(reverse=True)
+            print(box.pop())
 
 
 

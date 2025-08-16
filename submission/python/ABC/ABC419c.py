@@ -1,31 +1,39 @@
 # ABC419c
 # 2025-08-16 20:49:27
+
 def main():
     # 関数定義スペース
 
-    def func():
+    def isOK(pos,dist):
+        y=pos[0]+dist[0]
+        x=pos[1]+dist[1]
+        return 0<=y and 0<=x
         ...
 
     ...    
     # 入力スペース
-
+    R = []
+    C = []
+    RC = []
     N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
-
+    for i in range(N):
+        r,c = map(lambda x:int(x)-1,input().split())
+        R.append(r)
+        C.append(c)
+        RC.append((r,c))
     ...
 
     # 処理スペース
-
-
-
-
-
+    R.sort()
+    C.sort()
+    y = math.ceil((R[-1]-R[0])/2)+R[0]
+    x = math.ceil((C[-1]-C[0])/2)+C[0]
+    result = 0
+    for i,j in RC:
+        result = max(result,max(y-i,x-j))
+    print(result)
 
     ...
-
 
 
 # テストケース中枢処理
@@ -53,8 +61,7 @@ UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD = 998244353
 MAX = 10**18
-LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
+LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)] + [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 # 便利関数定義(超圧縮)
 def input(): return (sys.stdin.readline()).rstrip()
