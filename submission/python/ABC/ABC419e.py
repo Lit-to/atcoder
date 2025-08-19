@@ -1,3 +1,5 @@
+# ABC419e
+# 2025-08-16 20:49:27
 def main():
     # 関数定義スペース
 
@@ -7,11 +9,11 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
+    # N = int(input())
+    H, W, L = map(int,input().split())
     A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    # S = input()
+    # S = list(input())
 
     ...
 
@@ -57,36 +59,11 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 # 便利関数定義(超圧縮)
 def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
-def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-
-# intキャスト用
-def split(value:str|list,sep:str=" ",func:function=str) -> list:
-    result = []
-    if type(value) == list:
-        for i in range(len(value)):
-            result.append(split(value[i],sep))
-        return result
-    else:
-        if sep in value:
-            for i in value.split(sep):
-                result.append(func(i))
-        else:
-            result.append(func(value))
-        return result
-
-def inputS(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep)[0]
-
-def inputN(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep,int)[0]
-
-def inputA(value:str|list,sep:str=" ") -> list:
-    return tuple(split(input(),sep,int))
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外

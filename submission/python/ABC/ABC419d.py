@@ -1,3 +1,5 @@
+# ABC419d
+# 2025-08-16 20:49:27
 def main():
     # 関数定義スペース
 
@@ -7,17 +9,45 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+    N, M = map(int,input().split())
     S = list(input())
-
+    T = list(input())
+    s = [0]
+    LR = []
+    Ls = []
+    Rs = []
+    for i in range(M):
+        L, R = map(lambda x:int(x)-1,input().split())
+        # LR.append((L,R))
+        Ls.append(L)
+        Rs.append(R)
     ...
 
     # 処理スペース
-
-
+    result = []
+    # LR.sort()
+    Ls.sort(reverse=True)
+    Rs.sort(reverse=True)
+    j = 0
+    count = 0
+    for i in range(N):
+        while Ls and Ls[-1] == i:
+            Ls.pop()
+            count+=1
+        result.append((S,T)[count%2][i])
+        while Rs and Rs[-1] == i:
+            Rs.pop()
+            count-=1
+        
+        # while j<M and L[j] == i:
+            # count+=1
+            # queue.append(LR[j][1])
+            # j+=1
+        # while j<M and R[j] == i:
+            # queue.popleft()
+            # count-=1
+        pass
+    print(*result,sep="")
 
 
 
@@ -57,36 +87,11 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 # 便利関数定義(超圧縮)
 def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
-def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-
-# intキャスト用
-def split(value:str|list,sep:str=" ",func:function=str) -> list:
-    result = []
-    if type(value) == list:
-        for i in range(len(value)):
-            result.append(split(value[i],sep))
-        return result
-    else:
-        if sep in value:
-            for i in value.split(sep):
-                result.append(func(i))
-        else:
-            result.append(func(value))
-        return result
-
-def inputS(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep)[0]
-
-def inputN(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep,int)[0]
-
-def inputA(value:str|list,sep:str=" ") -> list:
-    return tuple(split(input(),sep,int))
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
