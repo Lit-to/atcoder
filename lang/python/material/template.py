@@ -7,11 +7,11 @@ def main():
     ...    
     # 入力スペース
 
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
-    S = list(input())
+    N = splitN(input())
+    H, W = splitA(input())
+    A = splitA(input())
+    S = splitS(input())
+    S = splitB(input())
 
     ...
 
@@ -54,8 +54,8 @@ MAX = 10**18
 LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
-# 便利関数定義(超圧縮)
-def input(): return (sys.stdin.readline()).rstrip()
+# 各種関数定義(超圧縮)
+## 便利関数
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
 def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
@@ -63,8 +63,7 @@ def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-
-# intキャスト用
+## 分割関数
 def split(value:str|list,sep:str=" ",func:function=str) -> list:
     result = []
     if type(value) == list:
@@ -78,15 +77,12 @@ def split(value:str|list,sep:str=" ",func:function=str) -> list:
         else:
             result.append(func(value))
         return result
-
-def inputS(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep)[0]
-
-def inputN(value:str|list,sep:str=" ") -> list:
-    return split(input(),sep,int)[0]
-
-def inputA(value:str|list,sep:str=" ") -> list:
-    return tuple(split(input(),sep,int))
+## 入力受け取り用
+def input():return(sys.stdin.readline()).rstrip() #入力定数倍
+def splitS(value:str|list,sep:str=" ")->list:return split(value,sep)[0] #文字列・分割して最初
+def splitN(value:str|list,sep:str=" ")->list:return split(value,sep,int)[0] # 整数・分割して最初
+def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
+def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
