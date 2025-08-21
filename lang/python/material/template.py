@@ -79,8 +79,8 @@ def split(value:str|list,sep:str=" ",func:function=str) -> list:
         return result
 ## 入力受け取り用
 def input():return(sys.stdin.readline()).rstrip() #入力定数倍
-def splitS(value:str|list,sep:str=" ")->list:return split(value,sep)[0] #文字列・分割して最初
-def splitN(value:str|list,sep:str=" ")->list:return split(value,sep,int)[0] # 整数・分割して最初
+def splitS(value:str|list,sep:str=" ")->str:return split(value,sep)[0] #文字列・分割して最初
+def splitN(value:str|list,sep:str=" ")->int:return split(value,sep,int)[0] # 整数・分割して最初
 def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
 def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
 
