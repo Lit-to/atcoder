@@ -1,3 +1,23 @@
+# ABC420b
+# 2025-08-24 20:58:51
+class RotateArray: #二次元配列の回転
+    ## 時計回りに90度
+    def rotate90(grid):
+        return [list(g) for g in zip(*grid[::-1])]
+    ## 反時計回りに90度
+    def rotate_reverse90(grid):
+        return [list(g) for g in zip(*grid)][::-1]
+    ## 180度
+    def rotate180(grid):
+        return [list(g)[::-1] for g in grid[::-1]]
+    ## 横軸に線対称
+    def flip_by_holizontal(grid):
+        return [list(g) for g in grid[::-1]]
+    ## 縦軸に線対称
+    def flip_by_vertical(grid):
+        return [list(g)[::-1] for g in grid]
+
+
 def main():
     # 関数定義スペース
 
@@ -7,15 +27,33 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    # N = int(input())
+    N, M = map(int,input().split())
+    BOARD = []
+    for i in range(N):
+        BOARD.append(list(map(int,list(input()))))
+    # 処理スペース
+    BOARD=RotateArray.rotate_reverse90(BOARD)
+
+
+    participants=[0]*N
+    half = N//2
+    for i in BOARD:
+        if len(set(i))==1:
+            continue
+        winner = sum(i)<=half
+        for j in range(N):
+            if i[j] == winner:
+                participants[j]+=1
+    winner = max(participants)
+    winners=[]
+    for i in range(N):
+        if participants[i] == winner:
+            winners.append(i+1)
+    printe(*winners)
 
     ...
 
-    # 処理スペース
 
 
 
@@ -54,35 +92,14 @@ MAX = 10**18
 LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
-# 各種関数定義(超圧縮)
-## 便利関数
+# 便利関数定義(超圧縮)
+def input(): return (sys.stdin.readline()).rstrip()
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
-def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-## 分割関数
-def split(value:str|list,sep:str=" ",func:function=str) -> list:
-    result = []
-    if type(value) == list:
-        for i in range(len(value)):
-            result.append(split(value[i],sep))
-        return result
-    else:
-        if sep in value:
-            for i in value.split(sep):
-                result.append(func(i))
-        else:
-            result.append(func(value))
-        return result
-## 入力受け取り用
-def input():return(sys.stdin.readline()).rstrip() #入力定数倍
-def splitS(value:str|list,sep:str=" ")->str:return split(value,sep)[0] #文字列・分割して最初
-def splitN(value:str|list,sep:str=" ")->int:return split(value,sep,int)[0] # 整数・分割して最初
-def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
-def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
