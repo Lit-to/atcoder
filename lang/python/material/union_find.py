@@ -9,7 +9,7 @@ class unionFind:
         コンストラクタ
 
         Args:
-            n (int):すべて独立したn個ノードとして初期化する
+            -  n (int):すべて独立したn個ノードとして初期化する
         """
         self.__par=[-1]*n
 
@@ -17,10 +17,10 @@ class unionFind:
         """親ノードを再帰的に探索する
         途中で見つけた親ノードで各子ノード更新する
         Args:
-            i (int):探したいノード 
+            -  i (int):探したいノード 
 
         Returns:
-            int:親ノード
+            -  int:親ノード
         """
         if self.__par[i]==-1:
             return i
@@ -32,8 +32,8 @@ class unionFind:
         """ノードaとノードbを結合する
 
         Args:
-            a (int): 結合したいノード
-            b (int): 結合したいノード
+            -  a (int): 結合したいノード
+            -  b (int): 結合したいノード
         """
         b,a=self.root(b),self.root(a)
         if a==b:

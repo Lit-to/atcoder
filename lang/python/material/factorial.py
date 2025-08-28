@@ -7,8 +7,8 @@ class factorial:
         """
         コンストラクタ
 
-        key:int 最後に計算した階乗の添え字
-        table:dict key番目までの階乗情報
+        -  key:int 最後に計算した階乗の添え字
+        -  table:dict key番目までの階乗情報
         """
         self.key = 1
         self.table = dict()
@@ -18,10 +18,10 @@ class factorial:
         """n*(n-1)!の値を返す
 
         Args:
-            n (int): n
+            -  n (int): n
 
         Returns:
-            int: n!の値
+            -  int: n!の値
         """
         result = self.table[self.key]
         while self.key < n:
@@ -34,17 +34,17 @@ class factorial:
         """n!の値を計算済みかどうかを返す
 
         Args:
-            n (int): n
+            -  n (int): n
 
         Returns:
-            bool: 存在するかどうか
+            -  bool: 存在するかどうか
         """
         return n < self.key
 
     def __len__(self) -> int:
         """テーブルの長さを返す
         Returns:
-            int: テーブルの長さ
+            -  int: テーブルの長さ
         """
         return len(self.table)
 
@@ -52,13 +52,13 @@ class factorial:
         """n!の値を求める
 
         Args:
-            n (int): n
+            -  n (int): n
 
-        エラー:
-            ValueError: 0以下の値を与えた場合に発出するエラー
+        Raises:
+            -  ValueError: 0以下の値を与えた場合に発出するエラー
 
         Returns:
-            int: n!の値
+            -  int: n!の値
         """
         if n < 0:
             raise ValueError

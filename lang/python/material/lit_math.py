@@ -7,10 +7,10 @@ class lit_math:
         より具体的には整数nの階乗の値を返す。
 
         Args:
-            n(int):nの値
+            -  n(int):nの値
 
         Returns:
-            int: 計算結果
+            -  int: 計算結果
         """
         return lit_math.permutation(n, n)
 
@@ -20,11 +20,11 @@ class lit_math:
         より具体的にはn個の整数からk個を順番に並べられる通り数を返す。
 
         Args:
-            n(int):nの値
-            k(int):kの値
+            -  n(int):nの値
+            -  k(int):kの値
 
         Returns:
-            int: 計算結果
+            -  int: 計算結果
         """
         result = 1
         for i in range(n, n - k, -1):
@@ -37,11 +37,11 @@ class lit_math:
         より具体的にはn個の整数からk個を選ぶ組み合わせ数を返す。
 
         Args:
-            n(int):nの値
-            k(int):kの値
+            -  n(int):nの値
+            -  k(int):kの値
 
         Returns:
-            int: 計算結果
+            -  int: 計算結果
         """
         return lit_math.permutation(n, k) // lit_math.factorial(k)
 
@@ -49,11 +49,11 @@ class lit_math:
         """互除法で最大公約数を求める関数
 
         Args:
-            value_a (int): 求めたい値A
-            value_b (int): 求めたい値B
+            -  value_a (int): 求めたい値A
+            -  value_b (int): 求めたい値B
 
         Returns:
-            int: AとBの最大公約数
+            -  int: AとBの最大公約数
         """
         if value_a < value_b:
             value_a, value_b, value_b, value_a
@@ -68,10 +68,10 @@ class lit_math:
         ※利用するためには import mathが必須
 
         Args:
-            num (int): 合成数または素数
+            -  num (int): 合成数または素数
 
         Returns:
-            list: 分解した素数を返す
+            -  list: 分解した素数を返す
         """
         result=[]
         while num%2==0:

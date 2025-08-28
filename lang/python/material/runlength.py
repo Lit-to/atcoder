@@ -5,10 +5,10 @@ def runLengthEncode(s:str|list) -> list:
     同一の要素がある場合後ろを削除し、手前側の個数に+1する。
 
     Args:
-        s (str | list):エンコードしたい文字列 
+        -  s (str | list):エンコードしたい文字列 
 
     Returns:
-        list: 圧縮後の配列
+        -  list: 圧縮後の配列
     """
     l=len(s)
     result=[]
@@ -29,10 +29,10 @@ def runLengthDecode(data:list)->list:
     要素と個数のタプルが入ったリストをすべての要素で個数個展開する
 
     Args:
-        data (list): 要素と個数のタプルが入ったリスト
+        -  data (list): 要素と個数のタプルが入ったリスト
 
     Returns:
-        list: 復号後のリスト
+        -  list: 復号後のリスト
     """
     result=""
     for i in data:

@@ -11,8 +11,8 @@ class frequency_count:
         コンストラクタ
         defaultdictをdictで上書きしていない場合はここで定義した名前のみ利用可能。
         Args:
-            *args(str):キーとなる名前
-            file:出力先
+            -  *args(str):キーとなる名前
+            -  file:出力先
         """
         self.existMAX=False
         self.file=file
@@ -30,7 +30,7 @@ class frequency_count:
         カウンタ
         self[key]と呼ぶだけで自動的に1回と数える。
         Args:
-            key(int) キー
+            -  key(int) キー
         """
         self.data[key]+=1
 

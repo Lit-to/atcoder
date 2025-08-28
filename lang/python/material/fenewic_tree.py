@@ -13,8 +13,8 @@ class FenewicTree:
         intを渡した場合は0で全て初期化する。
 
         Args:
-            arg (list | tuple): フェニック木を構成する配列
-            arg (int): すべてを0で初期化する場合の0の個数
+            -  arg (list | tuple): フェニック木を構成する配列
+            -  arg (int): すべてを0で初期化する場合の0の個数
 
         """
         if type(arg) == int:
@@ -31,7 +31,7 @@ class FenewicTree:
         木の長さを返す
 
         Returns:
-            int: 木の長さ
+            -  int: 木の長さ
         """
         return self.__length
 
@@ -39,8 +39,8 @@ class FenewicTree:
         """木のindex番目にxを足す。
 
         Args:
-            index (int):足したいindex
-            x (int): 足す値x
+            -  index (int):足したいindex
+            -  x (int): 足す値x
         """
         while index < len(self.__data):
             self.__data[index] += x
@@ -58,10 +58,10 @@ class FenewicTree:
         """index番目までの総和を返す。
 
         Args:
-            index (int): 求めたい添え字
+            -  index (int): 求めたい添え字
 
         Returns:
-            int: 計算結果
+            -  int: 計算結果
         """
         if index == 0:
             return 0

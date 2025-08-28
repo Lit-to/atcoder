@@ -5,8 +5,8 @@ class Board:
     初期化時にコンストラクタでサイズHWと初期値を指定し、読み書きが可能
 
     初期化例 
-    Board(H+1,W+1,lambda x:list(input())+["#"] if x<H else ["#"]*(W+1),can_loop=True)
-    Board(H+1,W+1,lambda x:list(input()),can_loop=False)
+    -  Board(H+1,W+1,lambda x:list(input())+["#"] if x<H else ["#"]*(W+1),can_loop=True)
+    -  Board(H+1,W+1,lambda x:list(input()),can_loop=False)
 
     """
     def __init__(
@@ -20,10 +20,10 @@ class Board:
         初期化関数 インスタンス生成時に呼び出される
 
         Args:
-            h (int): 縦の長さ
-            w (int): 横の長さ
-            default (int | str | bool): 初期値設定※イミュータブルなものを指定しなければならない
-            can_loop (bool, optional): デフォルトでTrue。-1番目を指定したときに一番後ろを見るかどうか
+            -  h (int): 縦の長さ
+            -  w (int): 横の長さ
+            -  default (int | str | bool): 初期値設定※イミュータブルなものを指定しなければならない
+            -  can_loop (bool, optional): デフォルトでTrue。-1番目を指定したときに一番後ろを見るかどうか
         """
         self.__board = []  # データ
         for i in range(h):
@@ -40,7 +40,7 @@ class Board:
         ただし、二次元配列として中身を確認する場合はself.print()を使うこと
 
         Returns:
-            str: データを文字列にしたもの
+            -  str: データを文字列にしたもの
         """
         return str(self.__board)
 
@@ -50,7 +50,7 @@ class Board:
         O(N^2)につき外から利用しない
         self.print()で利用される
         Returns:
-            list: 二次元配列に変換したボード
+            -  list: 二次元配列に変換したボード
         """
         grid = []
         w = self.get_width()
@@ -63,7 +63,7 @@ class Board:
         """出力用メソッド
 
         Args:
-            f (object, optional): 出力時に用いる関数※指定しない場合print関数が呼び出される
+            -  f (object, optional): 出力時に用いる関数※指定しない場合print関数が呼び出される
 
         """
         return f(*self.__get_board(), sep="\n")
@@ -72,7 +72,7 @@ class Board:
         """縦の長さを取得する
 
         Returns:
-            int: 縦の長さ
+            -  int: 縦の長さ
         """
         return self.__height
 
@@ -80,7 +80,7 @@ class Board:
         """横の長さを取得する
 
         Returns:
-            int: 横の長さ
+            -  int: 横の長さ
         """
         return self.__weight
 
@@ -88,14 +88,14 @@ class Board:
         """二次元配列における縦i番目横j番目が一次元配列のどこにあたるかを計算する
 
         Args:
-            i (int): 縦の位置(0-indexed)
-            j (int): 横の位置(0-indexed)
+            -  i (int): 縦の位置(0-indexed)
+            -  j (int): 横の位置(0-indexed)
 
         Returns:
-            int: 計算結果
+            -  int: 計算結果
         
-        例外:
-            IndexError: 二次元配列において存在しない場所を指定した場合に呼び出される
+        Raises:
+            -  IndexError: 二次元配列において存在しない場所を指定した場合に呼び出される
         """
         w = self.get_width()
         h = self.get_height()
@@ -116,11 +116,11 @@ class Board:
         """一次元配列の場所における二次元配列の位置を計算する。
 
         Args:
-            index (int): 一次元配列の場所(0-indexed)
+            -  index (int): 一次元配列の場所(0-indexed)
 
         Returns:
-            i (int): 縦の位置(0-indexed)
-            j (int): 横の位置(0-indexed)
+            -  i (int): 縦の位置(0-indexed)
+            -  j (int): 横の位置(0-indexed)
         """
         
         i = index // self.get_width()
@@ -131,11 +131,11 @@ class Board:
         """二次元配列における縦i番目横j番目の値を返す
 
         Args:
-            i (int): 縦の位置(0-indexed)
-            j (int): 横の位置(0-indexed)
+            -  i (int): 縦の位置(0-indexed)
+            -  j (int): 横の位置(0-indexed)
 
         Returns:
-            int | str | bool: 二次元配列の値
+            -  int | str | bool: 二次元配列の値
         """
         if len(args)==1 and type(args[0])==tuple:
             i,j=args[0]
@@ -150,9 +150,9 @@ class Board:
         """二次元配列における縦i番目横j番目に値を代入する
 
         Args:
-            i (int): 縦の位置(0-indexed)
-            j (int): 横の位置(0-indexed)
-            value (int | str | bool): 代入する値
+            -  i (int): 縦の位置(0-indexed)
+            -  j (int): 横の位置(0-indexed)
+            -  value (int | str | bool): 代入する値
         """
         pos = self.get_index(i, j)
         self.__board[pos] = value

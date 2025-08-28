@@ -4,10 +4,10 @@ def compression(A: list) -> list:
     Aをコピー、重複を消し、ソートする。
 
     Args:
-        A (list): 圧縮する配列が入ったリスト
+        -  A (list): 圧縮する配列が入ったリスト
 
     Returns:
-        list: 圧縮結果
+        -  list: 圧縮結果
     """
     B = sorted(list(set(A.copy())))
     result = []  # 結果となるべき配列
@@ -18,6 +18,7 @@ def compression(A: list) -> list:
 
 def index(a: list, i: int) -> int:  # 簡易二分探索
     # 二分探索で配列の中のiが何番目にあるかを返す
+    # →二分探索モジュールと同様のためドキュメント不在
     f = lambda x: a[x] <= i
     ok = -1
     ng = len(a)
