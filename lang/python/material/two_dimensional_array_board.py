@@ -271,5 +271,19 @@ class Board():
         self.__height+=1
         self.__data.append([value]*(self.__width))
     
+    def input(f=int)->tuple:
+        """二次元ボードの入力
+
+        Args:
+            f (_type_, optional): _description_. Defaults to int.
+
+        Returns:
+            tuple: _description_
+        """
+        H,W=map(int,input().split())
+        board = []
+        for i in range(H):
+            board.append(list(map(f,input().split())))
+        return Board(board),H,W
 
 
