@@ -4,12 +4,12 @@ def search(ok:int,ng:int,f:bool)->int:
     lambda i:a[i]<x xを含まない最大のiを返す
     lambda i:a[i]<=x xを含む最大のiを返す
 
-    引数:
+    Args:
         ok (int): 評価関数fに渡したときに必ずTrueを返すことが保証されている値
         ng (int): 評価関数fに渡したときに必ずFalseを返すことが保証されている値
         f (bool): 評価関数(引数1/戻り値bool)
 
-    戻り値:
+    Returns:
         int: 結果
     """
     while 1<abs(ok-ng):

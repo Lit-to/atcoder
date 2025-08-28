@@ -28,4 +28,4 @@ lib/*
 rust/target/debug
 rust/target
 docs
-!docs/boot/*
+!docs/boot/

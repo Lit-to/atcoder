@@ -12,7 +12,7 @@ class Board():
     def input_board(height:int,f=lambda:input(list())):
         """
         標準入力からボード作成
-        引数:
+        Args:
             height(int):高さ
             f(function):入力の形式 指定しなかった場合は自動で
                 スペースのない文字列を想定した入力になる
@@ -27,7 +27,7 @@ class Board():
     def input_board_with_wall(height:int,width:int,wall:any,f:lambda x:input(list())):
         """
         標準入力からボード作成(ATフィールド付)
-        引数:
+        Args:
             height(int):高さ
             width(int):幅
             wall:壁に割り当てる値
@@ -46,12 +46,12 @@ class Board():
         """
         指定した高さと幅でボードを作成し、全て初期値を代入する。
 
-        引数:
+        Args:
             height (int): 高さ
             width (int): 幅
             initial_value: 初期値 
 
-        戻り値:
+        Returns:
             Board: 作成されたボード
         """
         raw_board = []
@@ -63,7 +63,7 @@ class Board():
     def __init__(self,board_data:list):
         """
         インスタンス生成関数
-        引数:
+        Args:
             board_data(list):生成する元となる二次元配列データ
         """
         self.__data=[]
@@ -79,7 +79,7 @@ class Board():
         """
         ボードの高さの値を返す関数
 
-        戻り値:
+        Returns:
             int:heightの値
         """
         return self.__height
@@ -88,7 +88,7 @@ class Board():
         """
         ボードの幅の値を返す関数
 
-        戻り値:
+        Returns:
             int:widthの値
         """
         return self.__width
@@ -99,7 +99,7 @@ class Board():
         len()を使うための関数
         レコードの数を返す
 
-        戻り値:
+        Returns:
             int:二次元配列のレコードの数
         """
         return self.__cells
@@ -110,9 +110,9 @@ class Board():
         board[]を利用するための関数
         レコードの値を取り出す
 
-        引数:
+        Args:
             (y,x)形式の座標を表すタプル
-        戻り値:
+        Returns:
             any:テーブルのy行目j列目の値
         """
         return self.__data[pos[0]][pos[1]]
@@ -121,9 +121,9 @@ class Board():
         """
         レコードの値を取り出す関数
 
-        引数:
+        Args:
             pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
+        Returns:
             any:テーブルのy行目j列目の値        
         """        
         return self[pos]
@@ -132,7 +132,7 @@ class Board():
         """
         str()で呼び出される関数
         いい感じに整形して出力する
-        戻り値:
+        Returns:
             str:いい感じに整形された二次元配列の文字列
         """
         datas=[]
@@ -149,7 +149,7 @@ class Board():
     def set(self,pos,value):
         """
         値を代入する関数
-        引数:
+        Args:
             pos(tuple):(y,x)形式の座標を表すタプル
             value(any):代入する値
         """
@@ -159,7 +159,7 @@ class Board():
         """
         board[pos]=valueを使えるようにするための関数
         値を代入する
-        引数:
+        Args:
             pos(tuple):(y,x)形式の座標を表すタプル
             value(any):代入する値
         """
@@ -190,9 +190,9 @@ class Board():
         """
         指定のposがボードの内側に含まれているかどうかを返す関数
         ただし、マイナスを許容する
-        引数:
+        Args:
             pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
+        Returns:
             bool:含まれているか否か
         """
         return self.is_inside_positive(pos) or self.is_inside_negative(pos)
@@ -200,7 +200,7 @@ class Board():
     def rotate(self,degree:int):
         """
         ボードを回転させる関数
-        引数:
+        Args:
             degree(int):ROTATE_**_DEGREE
         """
         if degree==self.ROTATE_90_DEGREE:
@@ -227,7 +227,7 @@ class Board():
     def flip(self,vertical=False,horizontal=False):
         """
         ボードを縦か横か指定した方向の線対称に反転する
-        引数:
+        Args:
             vertical(bool):初期値はFalseで、Trueにすると縦方向に反転する
             horizontal(bool):初期値はFalseで、Trueにすると横方向に反転する
         """
@@ -239,7 +239,7 @@ class Board():
     def copy(self):
         """
         コピー関数
-        戻り値:
+        Returns:
             別インスタンスで、中身が同じボードクラス
         """
         data=[]
@@ -251,7 +251,7 @@ class Board():
         """
         初期化関数
         valueで指定した値でボードのすべてを埋める
-        引数:
+        Args:
             value(any):埋めたい値
         """
         for i in range(self.__height):
@@ -262,7 +262,7 @@ class Board():
         """
         ATフィールド関数
         valueで指定した値でボードの右端と下端をひとつ増やす。
-        引数:
+        Args:
             value(any):増やしたい値
         """
         for i in range(self.__height):

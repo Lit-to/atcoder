@@ -12,13 +12,13 @@ def index(a: list, x: int, mode="left", exactry=True) -> int:
     exactry=Falseで値がない場合に一番近いものを返す
     ない場合は-1
 
-    引数:
+    Args:
         a (list): 配列
         x (int): 探したい値x
         mode (str, optional): 左から見るか右から見るかを指定する。デフォルトは"left"。
         exactry (bool, optional): Trueにするとピンポイントでその値を探す。Falseにすると値が見つからなかった場合に手前にある一番近い値を返す。デフォルトはTrue
 
-    戻り値:
+    Returns:
         int: 結果
     """
     if mode == "left":

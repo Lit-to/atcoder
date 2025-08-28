@@ -10,7 +10,7 @@ class prefix_sum(tuple):
         コンストラクタ
         累積和の事前計算を行う
 
-        引数:
+        Args:
             value (list): 求めたい値配列
             reverse (bool, optional): 反転するかどうか
         """
@@ -24,11 +24,11 @@ class prefix_sum(tuple):
     def get_sum(self, left: int, right: int):
         """半開区間[l,r)の総和を取得する。
 
-        引数:
+        Args:
             left (int): 左端
             right (int): 右端
 
-        戻り値:
+        Returns:
             int: 総和の結果
         """
         return self[right] - self[left]

@@ -17,10 +17,10 @@ class factorial:
     def calc(self, n: int) -> int:
         """n*(n-1)!の値を返す
 
-        引数:
+        Args:
             n (int): n
 
-        戻り値:
+        Returns:
             int: n!の値
         """
         result = self.table[self.key]
@@ -33,10 +33,10 @@ class factorial:
     def isExist(self, n: int) -> bool:
         """n!の値を計算済みかどうかを返す
 
-        引数:
+        Args:
             n (int): n
 
-        戻り値:
+        Returns:
             bool: 存在するかどうか
         """
         return n < self.key
@@ -51,13 +51,13 @@ class factorial:
     def factorial(self, n: int) -> int:
         """n!の値を求める
 
-        引数:
+        Args:
             n (int): n
 
         エラー:
             ValueError: 0以下の値を与えた場合に発出するエラー
 
-        戻り値:
+        Returns:
             int: n!の値
         """
         if n < 0:

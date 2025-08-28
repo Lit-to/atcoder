@@ -3,10 +3,10 @@ def compression(A: list) -> list:
     座標を左上に詰める。
     Aをコピー、重複を消し、ソートする。
 
-    引数:
+    Args:
         A (list): 圧縮する配列が入ったリスト
 
-    戻り値:
+    Returns:
         list: 圧縮結果
     """
     B = sorted(list(set(A.copy())))

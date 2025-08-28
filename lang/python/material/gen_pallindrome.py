@@ -2,11 +2,11 @@ def gen_pallindrome(n: int, element: list) -> list:
     """
     elementの中からn個を選び作れる回文を列挙する。
 
-    引数:
+    Args:
         n (int): 選ぶ個数
         element (list): 配列
 
-    戻り値:
+    Returns:
         list: 作った回文
     """
     pallindromes = set()
@@ -20,7 +20,7 @@ def fill_digits(
 ) -> list:
     """値を埋める
 
-    引数:
+    Args:
         pallindromes (set): 使った文字集合
         elements (list): 作り途中の配列
         arr (list): ? 
@@ -28,7 +28,7 @@ def fill_digits(
         i (int): ?
         is_odd (bool): ?
 
-    戻り値:
+    Returns:
         list: _description_
     """
     if i == n:
