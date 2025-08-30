@@ -10,7 +10,7 @@ class priority_queue():
         インスタンスを生成した際は順番の変更は行われない。
                 
         Args:
-            l (list, optional): 初期値配列(ない場合は空の配列が生成される)
+            -  l (list, optional): 初期値配列(ない場合は空の配列が生成される)
         """
         self.data=l.copy()
 
@@ -22,7 +22,7 @@ class priority_queue():
         要素数を返すメソッド
 
         Returns:
-            int: 要素数
+            -  int: 要素数
         """
         return len(self.data)
 
@@ -30,7 +30,7 @@ class priority_queue():
         """print関数の出力に使うための文字列化
 
         Returns:
-            str: self.dataを文字列としたもの
+            -  str: self.dataを文字列としたもの
 
         """
         return str(self.data)
@@ -39,7 +39,7 @@ class priority_queue():
         """データを挿入し、ヒープ化する。
 
         Args:
-            value (int): 挿入する値
+            -  value (int): 挿入する値
         """
         heapq.heappush(self.data,value)
 
@@ -47,7 +47,7 @@ class priority_queue():
         """データを挿入し、ヒープ化する。
 
         Args:
-            value (int): 挿入する値
+            -  value (int): 挿入する値
         """
         self.enq(value)
 
@@ -56,7 +56,7 @@ class priority_queue():
         """要素のうち最小値を取り出す。
 
         Returns:
-            int: 取り出した値
+            -  int: 取り出した値
         """
         return heapq.heappop(self.data)
 
@@ -64,7 +64,7 @@ class priority_queue():
         """要素のうち最小値の値を返す。
 
         Returns:
-            int: 最小値
+            -  int: 最小値
         """
         return self.data[0]
 
@@ -73,7 +73,7 @@ class priority_queue():
         """要素が空かどうかを返す。
 
         Returns:
-            bool: 空だった場合True,そうじゃない場合False
+            -  bool: 空だった場合True,そうじゃない場合False
         """
         return not bool(self.data)
 class reversed_priority_queue():
@@ -87,7 +87,7 @@ class reversed_priority_queue():
         インスタンスを生成した際は順番の変更は行われない。
                 
         Args:
-            l (list, optional): 初期値配列(ない場合は空の配列が生成される)
+            -  l (list, optional): 初期値配列(ない場合は空の配列が生成される)
         """
         self.data=priority_queue([i*-1 for i in l])
 
@@ -96,7 +96,7 @@ class reversed_priority_queue():
         要素数を返すメソッド
 
         Returns:
-            int: 要素数
+            -  int: 要素数
         """
         return len(self.data)
 
@@ -104,7 +104,7 @@ class reversed_priority_queue():
         """print関数の出力に使うための文字列化
 
         Returns:
-            str: self.dataを文字列としたもの
+            -  str: self.dataを文字列としたもの
 
         """
         return str(list(map(lambda x:int(x)*-1,str(self.data)[1:-1].split(","))))
@@ -114,7 +114,7 @@ class reversed_priority_queue():
         """データを挿入し、ヒープ化する。
 
         Args:
-            value (int): 挿入する値
+            -  value (int): 挿入する値
         """
         self.data.enq(value*-1)
 
@@ -122,7 +122,7 @@ class reversed_priority_queue():
         """データを挿入し、ヒープ化する。
 
         Args:
-            value (int): 挿入する値
+            -  value (int): 挿入する値
         """
         self.enq(value*-1)
 
@@ -131,7 +131,7 @@ class reversed_priority_queue():
         """要素のうち最大値を取り出す。
 
         Returns:
-            int: 取り出した値
+            -  int: 取り出した値
         """
         return self.data.deq()*-1
 
@@ -139,7 +139,7 @@ class reversed_priority_queue():
         """要素のうち最大値の値を返す。
 
         Returns:
-            int: 最大値
+            -  int: 最大値
         """
         return self.data.top()*-1
 
@@ -148,7 +148,7 @@ class reversed_priority_queue():
         """要素が空かどうかを返す。
 
         Returns:
-            bool: 空だった場合True,そうじゃない場合False
+            -  bool: 空だった場合True,そうじゃない場合False
         """
         return self.data.empty()
 

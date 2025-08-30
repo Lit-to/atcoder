@@ -4,11 +4,11 @@ class segmentTree(list):
         初期化関数 これらのデータをもとにセグメント木を構築する。
         self.__rule(x,y)は、x,tのうち優先度が大きいほうの値が返却される関数としてユーザが定義する
         Args:
-            values (list) :初期化対象の配列
-            default (int) :初期化設定がなかったときの初期値(更新時に一番更新の優先度が低くなる値) デフォルトは-1
-            rule (function) :値の更新基準 デフォルトは最大更新 
+            -  values (list) :初期化対象の配列
+            -  default (int) :初期化設定がなかったときの初期値(更新時に一番更新の優先度が低くなる値) デフォルトは-1
+            -  rule (function) :値の更新基準 デフォルトは最大更新 
         Exception:
-            ValueError:valuesに空配列が指定された場合
+            -  ValueError:valuesに空配列が指定された場合
         """
         # super().__init__(values)
         self.__value_length=len(values) # 実際の値の長さ
@@ -23,16 +23,16 @@ class segmentTree(list):
         
         self.__struct(2)
 
-    def __struct(self,index:int):
+    def __struct(self,index:int)->list:
         """
         セグメント木を再帰的に構築する関数
         self.__ruleをここで利用する
 
         Args:
-            index (int): 値を代入するインデックス
+            -  index (int): 値を代入するインデックス
 
         Returns:
-            _type_: 代入された値を返す
+            -  list: 代入された値を返す
         """
         value=self.__default
         if self.__size<(index<<1):
@@ -50,9 +50,11 @@ class segmentTree(list):
         完全二分木である必要があるため、2,4,8,16...で一番近いものを選んでサイズを決定する。
         厳密には、(1<=i)を満たす整数のうち、2^iの結果がself.sizeを超える一番小さい値になるように設定する。
 
-        求め方:
-            lengthのMSb(1になっているビットのうち、一番左のもの)を求める。
-            1をMSb左にビットシフトする。
+        求め方
+            -  lengthのMSb(1になっているビットのうち、一番左のもの)を求める。
+            -  1をMSb左にビットシフトする。
+        Return:
+            -  int:サイズ
         """
         length=self.__value_length
         if length <=1:
@@ -77,11 +79,11 @@ class segmentTree(list):
         (a,b)の区間のうち、(l,r)と被っている部分のルール結果を返す。
         複数区間にまたがっている場合は区間を狭めて再起呼び出しする。
         Args:
-            a (int): 調査区間の左端
-            b (int): 調査区間の右端
-            l (int): 対象区間の左端
-            r (int): 対象区間の右端
-            k (int): (l,r)の結果が格納されているインデックス
+            -  a (int): 調査区間の左端
+            -  b (int): 調査区間の右端
+            -  l (int): 対象区間の左端
+            -  r (int): 対象区間の右端
+            -  k (int): (l,r)の結果が格納されているインデックス
 
         Returns:
             _type_: 結果
@@ -109,7 +111,7 @@ class segmentTree(list):
         len()が呼び出されたときの関数
         __value_length、つまり初期化時の配列長を返す
         Returns:
-            int: 配列長
+            -  int: 配列長
         """
         return self.__value_length
     
@@ -119,7 +121,7 @@ class segmentTree(list):
         配列をstr()したものを返す
 
         Returns:
-            str: 配列をstr()したもの
+            -  str: 配列をstr()したもの
         """
         return str(self.__data[self.__value_length+1:self.__center+self.__value_length])
 
@@ -130,7 +132,7 @@ class segmentTree(list):
         初期化時の配列(list型)と同様の挙動をする
 
         Args:
-            item (slice | int): list[x]のxにあたるインデックス(1-indexed)
+            -  item (slice | int): list[x]のxにあたるインデックス(1-indexed)
 
         Returns:
             int: 読みだしたデータの内容
@@ -155,8 +157,8 @@ class segmentTree(list):
         値の更新を行う
 
         Args:
-            key (int): インデックス(1-indexed)
-            value (int):更新する値 
+            -  key (int): インデックス(1-indexed)
+            -  value (int):更新する値 
         """
         self.update(key,value)
 
@@ -168,8 +170,8 @@ class segmentTree(list):
         配列のindex番目にvalueを代入し木の更新を行う。
 
         Args:
-            index (int): 代入したい位置を示すインデックス
-            value (int): 代入したい値
+            -  index (int): 代入したい位置を示すインデックス
+            -  value (int): 代入したい値
         """
         assert 0<=index<=self.__value_length,"illigal index("+str(index)+")"
         index+=self.__center-1
@@ -187,8 +189,8 @@ class segmentTree(list):
         (left:right)のうち、self.__ruleの優先順位が一番高い値を返す
 
         Args:
-            left (int): 区間のインデックスの左端
-            right (int): 区間のインデックスの右端
+            -  left (int): 区間のインデックスの左端
+            -  right (int): 区間のインデックスの右端
         """
         assert left<right , "left value needs lower than right"
         assert 0<=left , "left value needs more than 0"

@@ -12,11 +12,11 @@ class Board():
     def input_board(height:int,f=lambda:input(list())):
         """
         標準入力からボード作成
-        引数:
-            height(int):高さ
-            f(function):入力の形式 指定しなかった場合は自動で
+        Args:
+            -  height(int):高さ
+            -  f(function):入力の形式 指定しなかった場合は自動で
                 スペースのない文字列を想定した入力になる
-        戻り値
+        Returns:
             Board:作成されたボードクラス
         """
         board=[]
@@ -27,13 +27,13 @@ class Board():
     def input_board_with_wall(height:int,width:int,wall:any,f:lambda x:input(list())):
         """
         標準入力からボード作成(ATフィールド付)
-        引数:
-            height(int):高さ
-            width(int):幅
-            wall:壁に割り当てる値
-            f(function):入力の形式 指定しなかった場合は自動で
+        Args:
+            -  height(int):高さ
+            -  width(int):幅
+            -  wall:壁に割り当てる値
+            -  f(function):入力の形式 指定しなかった場合は自動で
                 スペースのない文字列を想定した入力になる
-        戻り値
+        Returns:
             Board:作成されたボードクラス
         """
         board=[]
@@ -46,13 +46,13 @@ class Board():
         """
         指定した高さと幅でボードを作成し、全て初期値を代入する。
 
-        引数:
-            height (int): 高さ
-            width (int): 幅
-            initial_value: 初期値 
+        Args:
+            -  height (int): 高さ
+            -  width (int): 幅
+            -  initial_value: 初期値 
 
-        戻り値:
-            Board: 作成されたボード
+        Returns:
+            -  Board: 作成されたボード
         """
         raw_board = []
         for i in range(height):
@@ -63,8 +63,8 @@ class Board():
     def __init__(self,board_data:list):
         """
         インスタンス生成関数
-        引数:
-            board_data(list):生成する元となる二次元配列データ
+        Args:
+            -  board_data(list):生成する元となる二次元配列データ
         """
         self.__data=[]
         self.__height=len(board_data)
@@ -79,8 +79,8 @@ class Board():
         """
         ボードの高さの値を返す関数
 
-        戻り値:
-            int:heightの値
+        Returns:
+            -  int:heightの値
         """
         return self.__height
 
@@ -88,8 +88,8 @@ class Board():
         """
         ボードの幅の値を返す関数
 
-        戻り値:
-            int:widthの値
+        Returns:
+            -  int:widthの値
         """
         return self.__width
 
@@ -99,8 +99,8 @@ class Board():
         len()を使うための関数
         レコードの数を返す
 
-        戻り値:
-            int:二次元配列のレコードの数
+        Returns:
+            -  int:二次元配列のレコードの数
         """
         return self.__cells
     
@@ -110,10 +110,10 @@ class Board():
         board[]を利用するための関数
         レコードの値を取り出す
 
-        引数:
-            (y,x)形式の座標を表すタプル
-        戻り値:
-            any:テーブルのy行目j列目の値
+        Args:
+            -  (y,x)形式の座標を表すタプル
+        Returns:
+            -  any:テーブルのy行目j列目の値
         """
         return self.__data[pos[0]][pos[1]]
     
@@ -121,10 +121,10 @@ class Board():
         """
         レコードの値を取り出す関数
 
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
-            any:テーブルのy行目j列目の値        
+        Args:
+            -  pos(tuple):(y,x)形式の座標を表すタプル
+        Returns:
+            -  any:テーブルのy行目j列目の値        
         """        
         return self[pos]
 
@@ -132,8 +132,8 @@ class Board():
         """
         str()で呼び出される関数
         いい感じに整形して出力する
-        戻り値:
-            str:いい感じに整形された二次元配列の文字列
+        Returns:
+            -  str:いい感じに整形された二次元配列の文字列
         """
         datas=[]
         sep_count=0
@@ -149,9 +149,9 @@ class Board():
     def set(self,pos,value):
         """
         値を代入する関数
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-            value(any):代入する値
+        Args:
+            -  pos(tuple):(y,x)形式の座標を表すタプル
+            -  value(any):代入する値
         """
         self[pos]=value
 
@@ -159,9 +159,9 @@ class Board():
         """
         board[pos]=valueを使えるようにするための関数
         値を代入する
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-            value(any):代入する値
+        Args:
+            -  pos(tuple):(y,x)形式の座標を表すタプル
+            -  value(any):代入する値
         """
         self.__data[pos[0]][pos[1]]=value
 
@@ -170,7 +170,7 @@ class Board():
         正の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
         
         Args:
-            pos (tuple): (y,x)形式の座標を表すタプル
+            -  pos (tuple): (y,x)形式の座標を表すタプル
         """
         y,x=pos
         return y<self.__height and x<self.__width
@@ -180,7 +180,7 @@ class Board():
         負の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
         
         Args:
-            pos (tuple): (y,x)形式の座標を表すタプル
+            -  pos (tuple): (y,x)形式の座標を表すタプル
         """
         y,x=pos
         return -1*self.__width<=x and -1*self.__height<=y
@@ -190,18 +190,18 @@ class Board():
         """
         指定のposがボードの内側に含まれているかどうかを返す関数
         ただし、マイナスを許容する
-        引数:
-            pos(tuple):(y,x)形式の座標を表すタプル
-        戻り値:
-            bool:含まれているか否か
+        Args:
+            -  pos(tuple):(y,x)形式の座標を表すタプル
+        Returns:
+            -  bool:含まれているか否か
         """
         return self.is_inside_positive(pos) or self.is_inside_negative(pos)
 
     def rotate(self,degree:int):
         """
         ボードを回転させる関数
-        引数:
-            degree(int):ROTATE_**_DEGREE
+        Args:
+            -  degree(int):ROTATE_**_DEGREE
         """
         if degree==self.ROTATE_90_DEGREE:
             self.__data = [list(g) for g in zip(*self.__data[::-1])]
@@ -227,9 +227,9 @@ class Board():
     def flip(self,vertical=False,horizontal=False):
         """
         ボードを縦か横か指定した方向の線対称に反転する
-        引数:
-            vertical(bool):初期値はFalseで、Trueにすると縦方向に反転する
-            horizontal(bool):初期値はFalseで、Trueにすると横方向に反転する
+        Args:
+            -  vertical(bool):初期値はFalseで、Trueにすると縦方向に反転する
+            -  horizontal(bool):初期値はFalseで、Trueにすると横方向に反転する
         """
         if vertical:
             self.__flip_by_vertical()
@@ -239,8 +239,8 @@ class Board():
     def copy(self):
         """
         コピー関数
-        戻り値:
-            別インスタンスで、中身が同じボードクラス
+        Returns:
+            -  Board:別インスタンスで、中身が同じボードクラス
         """
         data=[]
         for i in range(self.__height):
@@ -251,8 +251,8 @@ class Board():
         """
         初期化関数
         valueで指定した値でボードのすべてを埋める
-        引数:
-            value(any):埋めたい値
+        Args:
+            -  value(any):埋めたい値
         """
         for i in range(self.__height):
             for j in range(self.__width):
@@ -262,8 +262,8 @@ class Board():
         """
         ATフィールド関数
         valueで指定した値でボードの右端と下端をひとつ増やす。
-        引数:
-            value(any):増やしたい値
+        Args:
+            -  value(any):増やしたい値
         """
         for i in range(self.__height):
             self.__data[i].append(value)
@@ -271,5 +271,19 @@ class Board():
         self.__height+=1
         self.__data.append([value]*(self.__width))
     
+    def input(f:callable=int)->tuple:
+        """二次元ボードの入力
+
+        Args:
+            -  f (callable, optional): 各要素にかける関数
+
+        Returns:
+            -  tuple: 二次元ボードとHとWの組
+        """
+        H,W=map(int,input().split())
+        board = []
+        for i in range(H):
+            board.append(list(map(f,input().split())))
+        return Board(board),H,W
 
 

@@ -5,11 +5,11 @@ class fraction:  # 分数
         初期化時に、既約分数にする。
 
         Args:
-            numerator (int, optional): 分子. Defaults to 1.
-            denominator (int, optional): 分母. Defaults to 1.
+            -  numerator (int, optional): 分子. Defaults to 1.
+            -  denominator (int, optional): 分母. Defaults to 1.
 
         Raises:
-            ValueError: 分母が0の時に発生するエラー。
+            -  ValueError: 分母が0の時に発生するエラー。
         """
         if denominator == 0:
             raise ValueError("分母が0です。")
@@ -24,8 +24,8 @@ class fraction:  # 分数
         """互除法で最大公約数を求める関数
     
         Args:
-            value_a (int): 求めたい値A
-            value_b (int): 求めたい値B
+            -  value_a (int): 求めたい値A
+            -  value_b (int): 求めたい値B
     
         Returns:
             int: AとBの最大公約数
@@ -41,7 +41,9 @@ class fraction:  # 分数
 
 
     def __approx(self):
-        """既約分数を求めるメソッド"""
+        """
+        既約分数を求めるメソッド
+        """
         gcd = self.__gcd(self.__numerator, self.__denominator)
         self.__numerator //= gcd
         self.__denominator //= gcd
@@ -50,7 +52,7 @@ class fraction:  # 分数
         """分子のgetter
 
         Returns:
-            int: 分子
+            -  int: 分子
         """
         return self.__numerator
 
@@ -58,7 +60,7 @@ class fraction:  # 分数
         """分母のgetter
 
         Returns:
-            int: 分母
+            -  int: 分母
         """
         return self.__denominator
 
@@ -66,7 +68,7 @@ class fraction:  # 分数
         """分数の小数値を返す
 
         Returns:
-            float: 小数値
+            -  float: 小数値
         """
         value = self.__numerator / self.__denominator
 
@@ -80,7 +82,7 @@ class fraction:  # 分数
         分子/分母の形で文字列として返す。
 
         Returns:
-            str: 分数表記の文字列
+            -  str: 分数表記の文字列
         """
         return str(self.__numerator) + "/" + str(self.__denominator)
 
@@ -89,10 +91,10 @@ class fraction:  # 分数
         足し算し、既約分数にした結果を返す。
 
         Args:
-            target (fraction): 足す値となる分数
+            -  target (fraction): 足す値となる分数
 
         Returns:
-            fraction: 結果
+            -  fraction: 結果
         """
         return fraction(
             self.__numerator * value.__denominator
@@ -105,10 +107,10 @@ class fraction:  # 分数
         引き算し、既約分数にした結果を返す。
 
         Args:
-            target (fraction): 引く値となる分数
+            -  target (fraction): 引く値となる分数
 
         Returns:
-            fraction: 結果
+            -  fraction: 結果
         """
         return fraction(
             self.__numerator * value.__denominator
@@ -121,10 +123,10 @@ class fraction:  # 分数
         掛け算し、既約分数にした結果を返す。
 
         Args:
-            target (fraction): 掛け値となる分数
+            -  target (fraction): 掛け値となる分数
 
         Returns:
-            fraction: 結果
+            -  fraction: 結果
         """
         return fraction(
             self.__numerator * value.__numerator,
@@ -136,10 +138,10 @@ class fraction:  # 分数
         割り算し、既約分数にした結果を返す。
 
         Args:
-            target (fraction): 割り値となる分数
+            -  target (fraction): 割り値となる分数
 
         Returns:
-            fraction: 結果
+            -  fraction: 結果
         """
 
         return fraction(
@@ -152,10 +154,10 @@ class fraction:  # 分数
         __truediv__と同様
 
         Args:
-            value (fraction): 割り値となる分数
+            -  value (fraction): 割り値となる分数
 
         Returns:
-            fraction: 結果
+            -  fraction: 結果
         """
         return self.__truediv__(value)
 
@@ -164,10 +166,10 @@ class fraction:  # 分数
         分母同士、分子同士が等しいときに真となる。
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 演算結果
+            -  bool: 演算結果
         """
 
         return (
@@ -180,10 +182,10 @@ class fraction:  # 分数
         分母同士、分子同士が等しくないときに真となる。
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 演算結果
+            -  bool: 演算結果
         """
 
         return not self == value
@@ -192,10 +194,10 @@ class fraction:  # 分数
         """小なり演算子
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 比較結果
+            -  bool: 比較結果
         """
         return (
             self.__numerator * value.__denominator
@@ -206,10 +208,10 @@ class fraction:  # 分数
         """大なり演算子
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 比較結果
+            -  bool: 比較結果
         """
         return (
             value.__numerator * self.__denominator
@@ -220,10 +222,10 @@ class fraction:  # 分数
         """小なりイコール演算子
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 比較結果
+            -  bool: 比較結果
         """
         return not self > value
 
@@ -231,10 +233,10 @@ class fraction:  # 分数
         """大なりイコール演算子
 
         Args:
-            value (fraction): 比較対象
+            -  value (fraction): 比較対象
 
         Returns:
-            bool: 比較結果
+            -  bool: 比較結果
         """
         return not self < value
 
@@ -242,7 +244,7 @@ class fraction:  # 分数
         """加算代入演算子メソッド
 
         Args:
-            value (fraction): 足したい値
+            -  value (fraction): 足したい値
         """
 
         self = self + value
@@ -252,7 +254,7 @@ class fraction:  # 分数
         """減算代入演算子メソッド
 
         Args:
-            value (fraction): 引きたい値
+            -  value (fraction): 引きたい値
         """
 
         self = self - value
@@ -262,7 +264,7 @@ class fraction:  # 分数
         """乗算代入演算子メソッド
 
         Args:
-            value (fraction): 掛けたい値
+            -  value (fraction): 掛けたい値
         """
 
         self = self * value
@@ -272,7 +274,7 @@ class fraction:  # 分数
         """除算代入演算子メソッド
 
         Args:
-            value (fraction): 割りたい値
+            -  alue (fraction): 割りたい値
         """
 
         self = self // value
@@ -282,7 +284,7 @@ class fraction:  # 分数
         """除算代入演算子メソッド
 
         Args:
-            value (fraction): 割りたい値
+            -  value (fraction): 割りたい値
         """
 
         self = self // value
