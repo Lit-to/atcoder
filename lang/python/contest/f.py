@@ -1,3 +1,4 @@
+
 def main():
     # 関数定義スペース
 
@@ -64,7 +65,7 @@ def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stde
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
 ## 分割関数
-def split(value:str|list,sep:str=" ",func:function=str) -> list:
+def split(value:str|list,sep:str=" ",func:callable=str) -> list:
     result = []
     if type(value) == list:
         for i in range(len(value)):

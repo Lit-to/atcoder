@@ -1,3 +1,5 @@
+# ABC421a
+# 2025-08-30 20:58:28
 
 def main():
     # 関数定義スペース
@@ -9,11 +11,12 @@ def main():
     # 入力スペース
 
     N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
-
+    d=dict(lambda:"")
+    for i in range(N):
+        S = splitS(input())
+        d[i+1]=S
+    X, Y = input().split()
+    printYN(d[int(X)]==Y)
     ...
 
     # 処理スペース

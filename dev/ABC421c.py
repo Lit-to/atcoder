@@ -1,6 +1,30 @@
+# ABC421c
+# 2025-08-30 20:58:28
 
 def main():
     # 関数定義スペース
+    def search(ok:int,ng:int,f:bool)->int:
+        """二分探索を行う関数
+        単調増加の範囲においてokのうちいちばんngに近いものの値を返す
+        利用例:
+        -  lambda i:a[i]<x xを含まない最大のiを返す
+        -  lambda i:a[i]<=x xを含む最大のiを返す
+    
+        Args:
+            -  ok (int): 評価関数fに渡したときに必ずTrueを返すことが保証されている値
+            -  ng (int): 評価関数fに渡したときに必ずFalseを返すことが保証されている値
+            -  f (bool): 評価関数(引数1/戻り値bool)
+    
+        Returns:
+            -  int: 結果
+        """
+        while 1<abs(ok-ng):
+            mid=(ng+ok)//2
+            if f(mid):
+                ok=mid
+            else:
+                ng=mid
+        return ok
 
     def func():
         ...
@@ -9,11 +33,41 @@ def main():
     # 入力スペース
 
     N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    S = list(input())
+    A = []
+    B = []
+    BA = []
+    AB = []
+    for i in range(2*N):
+        if S[i]=="A":
+            A.append(i)
+        elif S[i]=="B":
+            B.append(i)
+    for i in range(N):
+        if A[i]<B[i]:
+            AB.append(abs(i-search(N-1,-1,lambda x:A[i]<B[x])))
+        elif B[i]<A[i]:
+            AB.append(abs(search(0,N,lambda x:B[x]<A[i])+1-i))
+        pass
 
+    A=[]
+    B=[]
+    for i in range(2*N):
+            if S[i]=="A":
+                B.append(i)
+            elif S[i]=="B":
+                A.append(i)
+    for i in range(N):
+        if A[i]<B[i]:
+            BA.append(abs(i-search(N-1,-1,lambda x:A[i]<B[x])))
+        elif B[i]<A[i]:
+            BA.append(abs(search(0,N,lambda x:B[x]<A[i])+1-i))
+        pass
+    
+
+    # debug(*AB)
+    # debug(*BA)
+    print(min(sum(AB),sum(BA)))
     ...
 
     # 処理スペース

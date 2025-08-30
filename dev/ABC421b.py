@@ -1,18 +1,26 @@
+# ABC421b
+# 2025-08-30 20:58:28
 
 def main():
     # 関数定義スペース
 
-    def func():
+    def func(n):
+        return int(str(n)[::-1])
+
+    def funcFibona(a_1,a_2):
+        return func(a_1+a_2)
         ...
 
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    X, Y = splitA(input())
+    A = [X,Y]
+    for i in range(10):
+        A.append(funcFibona(A[-2],A[-1]))
+    print(A[9])
+
+
 
     ...
 
