@@ -18,15 +18,14 @@ def main():
     mnside=min(A,C)
     if mnside<=B:
         printe(mnside)
-    b = B
-    c,a=min(A,C)-b,max(A,C)-b
-    while 2<c + a and c!=0 and a!=0:
-        a//=2
-        mn = min(c,a)
-        b+= mn
-        c=c-mn
-        c,a=min(a,c),max(a,c)
-    printe(b)
+
+    c,a=max(0,min(A,C)-B),max(0,max(A,C)-B)
+    
+    D = min(c,a//2)
+    mnc = max(c,a//2)-D
+    if 2<=mnc and a%2 == 1:
+        printe(B+D+1)
+    printe(B+D)
 
 
 

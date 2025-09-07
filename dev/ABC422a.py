@@ -10,12 +10,18 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
-
+    # N = splitN(input())
+    i, j = splitA(input())
+    # A = splitA(input())
+    # S = splitS(input())
+    # S = splitB(input())
+    if i ==8 and j == 8:
+        # print("8-8")
+        pass
+    elif i<8 and j==8:
+        print(i+1,"-",1,sep="")
+    elif j<8:
+        print(i,"-",j+1,sep="")
     ...
 
     # 処理スペース
@@ -85,7 +91,7 @@ def input():return(sys.stdin.readline()).rstrip() #入力定数倍
 def splitS(value:str|list,sep:str=" ")->str:return split(value,sep)[0] #文字列・分割して最初
 def splitN(value:str|list,sep:str=" ")->int:return split(value,sep,int)[0] # 整数・分割して最初
 def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
-def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
+def splitA(value:str|list,sep:str=" ")->list:return list(split(value,"-",int)) # 整数・分割してすべて
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
