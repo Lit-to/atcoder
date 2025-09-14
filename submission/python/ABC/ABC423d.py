@@ -1,82 +1,6 @@
 # ABC423d
 # 2025-09-14 20:46:35
-class priority_queue():
-    """
-    最小値更新ヒープキュー
-    ※import heapq必須
-    インスタンス化して使えるようにしたもの。
-    """
-    def __init__(self,l:list=list()):
-        """初期化
-        インスタンスを生成した際は順番の変更は行われない。
-                
-        Args:
-            -  l (list, optional): 初期値配列(ない場合は空の配列が生成される)
-        """
-        self.data=l.copy()
 
-        if self.data:
-            heapq.heapify(self.data)
-
-    def __len__(self):
-        """
-        要素数を返すメソッド
-
-        Returns:
-            -  int: 要素数
-        """
-        return len(self.data)
-
-    def __str__(self):#出力用
-        """print関数の出力に使うための文字列化
-
-        Returns:
-            -  str: self.dataを文字列としたもの
-
-        """
-        return str(self.data)
-
-    def enq(self,value:int):#入れる
-        """データを挿入し、ヒープ化する。
-
-        Args:
-            -  value (int): 挿入する値
-        """
-        heapq.heappush(self.data,value)
-
-    def add(self,value:int):#入れる
-        """データを挿入し、ヒープ化する。
-
-        Args:
-            -  value (int): 挿入する値
-        """
-        self.enq(value)
-
-
-    def deq(self):#出す
-        """要素のうち最小値を取り出す。
-
-        Returns:
-            -  int: 取り出した値
-        """
-        return heapq.heappop(self.data)
-
-    def top(self):
-        """要素のうち最小値の値を返す。
-
-        Returns:
-            -  int: 最小値
-        """
-        return self.data[0]
-
-
-    def empty(self):
-        """要素が空かどうかを返す。
-
-        Returns:
-            -  bool: 空だった場合True,そうじゃない場合False
-        """
-        return not bool(self.data)
 def main():
     # 関数定義スペース
 
@@ -86,34 +10,15 @@ def main():
     ...    
     # 入力スペース
 
-    N, K = splitA(input())
-    queue = []
-    for i in range(N):
-        A,B,C = splitA(input())
-        queue.append((A,B,C))
-    queue.reverse()
+    N = splitN(input())
+    H, W = splitA(input())
+    A = splitA(input())
+    S = splitS(input())
+    S = splitB(input())
+
     ...
 
     # 処理スペース
-    eating = 0
-    eatingQueue=priority_queue()
-    time = 0
-    while queue:
-        top = queue.pop()
-        a,b,c = top
-        time=max(time,a)
-        while eatingQueue and eatingQueue.top()[0]<=time:
-            t,count = eatingQueue.deq()
-            eating-=count
-        while eatingQueue and not(eating+c <= K):
-            t,count = eatingQueue.deq()
-            time=t
-            eating-=count
-        eating+=c
-        eatingQueue.enq((time+b,c))
-        print(time)
-        
-
 
 
 

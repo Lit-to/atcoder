@@ -1,47 +1,5 @@
 # ABC423b
 # 2025-09-14 20:46:35
-class unionFind:
-    """
-    Union-Find
-    頂点を結合した際に連結する要素の親ノードを1つに統一する
-    各頂点の親ノードを高速に返す
-    """
-    def __init__(self,n:int):
-        """
-        コンストラクタ
-
-        Args:
-            -  n (int):すべて独立したn個ノードとして初期化する
-        """
-        self.__par=[-1]*n
-
-    def root(self,i:int)->int:
-        """親ノードを再帰的に探索する
-        途中で見つけた親ノードで各子ノード更新する
-        Args:
-            -  i (int):探したいノード 
-
-        Returns:
-            -  int:親ノード
-        """
-        if self.__par[i]==-1:
-            return i
-        else:
-            self.__par[i]=self.root(self.__par[i])
-            return self.__par[i]
-
-    def unite(self,a:int,b:int)->None:
-        """ノードaとノードbを結合する
-
-        Args:
-            -  a (int): 結合したいノード
-            -  b (int): 結合したいノード
-        """
-        b,a=self.root(b),self.root(a)
-        if a==b:
-            return
-        self.__par[b]=a
-
 
 def main():
     # 関数定義スペース
@@ -53,25 +11,16 @@ def main():
     # 入力スペース
 
     N = splitN(input())
-    L = splitA(input())
+    H, W = splitA(input())
+    A = splitA(input())
+    S = splitS(input())
+    S = splitB(input())
 
     ...
 
     # 処理スペース
-    if len(set(L)) == 1 and L[0] == 0:
-        printe(0)
-    front = N
-    back = 0
-    for i in range(N):
-        if L[i] != 0:
-            front = i
-            break
-    for i in range(N-1,-1,-1):
-        if L[i] != 0:
-            back = i
-            break
 
-    print(back-front)
+
 
 
 

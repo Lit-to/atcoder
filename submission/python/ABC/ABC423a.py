@@ -10,23 +10,19 @@ def main():
     ...    
     # 入力スペース
 
-    # N = splitN(input())
-    X, C = splitA(input())
-    # A = splitA(input())
-    # S = splitS(input())
-    # S = splitB(input())
+    N = splitN(input())
+    H, W = splitA(input())
+    A = splitA(input())
+    S = splitS(input())
+    S = splitB(input())
 
     ...
 
     # 処理スペース
-    # c = 0
-    # while 0<X:
-        # X-=1000
-        # X-=C
-        # c+=1
-    # print((c-1)*1000)
 
-    print((X//(1000+C))*1000)
+
+
+
 
 
     ...

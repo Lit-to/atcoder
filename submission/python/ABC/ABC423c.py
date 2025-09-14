@@ -1,46 +1,5 @@
 # ABC423c
 # 2025-09-14 20:46:35
-def runLengthEncode(s:str|list) -> list:
-    """
-    ランレングスエンコードを行う
-    要素ごとに分解し、要素と個数のタプル組にする(そのため厳密には圧縮されてはいない)。
-    同一の要素がある場合後ろを削除し、手前側の個数に+1する。
-
-    Args:
-        -  s (str | list):エンコードしたい文字列 
-
-    Returns:
-        -  list: 圧縮後の配列
-    """
-    l=len(s)
-    result=[]
-    if l==0:
-        return result
-    now=[s[0],0]
-    for i in range(l):
-        if s[i]==now[0]:
-            now[1]+=1
-        elif s[i]!=now[0]:#更新
-            result.append(tuple(now))
-            now=[s[i],1]
-    result.append(tuple(now))
-    return result
-def runLengthDecode(data:list)->list:
-    """
-    ランレングス復号
-    要素と個数のタプルが入ったリストをすべての要素で個数個展開する
-
-    Args:
-        -  data (list): 要素と個数のタプルが入ったリスト
-
-    Returns:
-        -  list: 復号後のリスト
-    """
-    result=""
-    for i in data:
-        result+=i[0]*i[1]
-    return result
-
 
 def main():
     # 関数定義スペース
@@ -51,45 +10,17 @@ def main():
     ...    
     # 入力スペース
 
-    N, R = splitA(input())
-    L = splitA(input())
+    N = splitN(input())
+    H, W = splitA(input())
+    A = splitA(input())
+    S = splitS(input())
+    S = splitB(input())
 
     ...
 
     # 処理スペース
-    L.insert(R,-1)
-    l=runLengthEncode(L)
-    
-    # debug(*l)
-    count = 0
-    start = False
-    for i in l:
-        if i[0] ==-1:
-            break
-        if start:
-            if i[0] == 1:
-                count+=i[1]*2
-            elif i[0] == 0:
-                count+=i[1]
-        else:   
-            if i[0] == 0:
-                start = True
-                count+=i[1]
-    start = False
-    for i in l[::-1]:
-        if i[0] ==-1:
-            break
-        if start:
-            if i[0] == 1:
-                count+=i[1]*2
-            elif i[0] == 0:
-                count+=i[1]
-        else:   
-            if i[0] == 0:
-                start = True
-                count+=i[1]
 
-    printe(count)
+
 
 
 
