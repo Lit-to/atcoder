@@ -11,16 +11,25 @@ def main():
     # 入力スペース
 
     N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    L = splitA(input())
 
     ...
 
     # 処理スペース
+    if len(set(L)) == 1 and L[0] == 0:
+        printe(0)
+    front = N
+    back = 0
+    for i in range(N):
+        if L[i] != 0:
+            front = i
+            break
+    for i in range(N-1,-1,-1):
+        if L[i] != 0:
+            back = i
+            break
 
-
+    print(back-front)
 
 
 
