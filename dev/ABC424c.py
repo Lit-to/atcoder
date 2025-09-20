@@ -11,14 +11,34 @@ def main():
     # 入力スペース
 
     N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
-
+    SKILL = []
+    for i in range(N):
+        a, b = splitA(input())
+        SKILL.append((a,b))
     ...
 
     # 処理スペース
+    stack = []
+    done = set()
+
+    req_skills = dict(lambda:[])
+    for i in range(N):
+        a,b = SKILL[i]
+        if a==0 and b == 0:
+            stack.append(i)
+            done.add(i)
+            continue
+        req_skills[a-1].append(i)
+        req_skills[b-1].append(i)
+
+    while stack:
+        t = stack.pop()
+        for i in req_skills[t]:
+            if i not in done:
+                stack.append(i)
+                done.add(i)
+    print(len(done))
+
 
 
 

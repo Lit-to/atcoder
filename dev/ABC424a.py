@@ -10,12 +10,12 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
-
+    # N = splitN(input())
+    # H, W = splitA(input())
+    abc = len(set(splitA(input())))
+    # S = splitS(input())
+    # S = splitB(input())
+    printYN(abc<=2)
     ...
 
     # 処理スペース

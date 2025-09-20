@@ -10,11 +10,18 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    # people = dict(lambda:[False]*M)
+    winner = []
+    N,M,K = splitA(input())
+    people=[0]*N
+    for i in range(K):
+        a,b = splitA(input())
+        people[a-1]+=1
+        if people[a-1]==M:
+            winner.append(a)
+
+    print(*winner)
+
 
     ...
 
