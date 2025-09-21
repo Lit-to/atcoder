@@ -1,4 +1,6 @@
 #!/bin/bash
+# レコーディングファイル移動
+sudo mv ./vs-code-recorder/vs-code-recorder-player/* /recording/data
 
 declare -A MOVE_MAP
 
