@@ -29,3 +29,4 @@ rust/target/debug
 rust/target
 docs
 !docs/boot/
+!deploykit/dockerfile
