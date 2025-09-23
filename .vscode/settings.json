@@ -61,11 +61,12 @@
     "lang/python/material/**.py": true
   },
   "java.project.sourcePaths": [
-    "/lang/java"
+    "lang/java"
   ],
   "java.project.outputPath": "/lang/output",
   "java.project.referencedLibraries": [],
   "files.readonlyExclude": {
     "lang/python/material/test.py": true
-  }
+  },
+  "java.jdt.ls.home": "/usr/lib/jvm/java-17-openjdk-amd64"
 }
