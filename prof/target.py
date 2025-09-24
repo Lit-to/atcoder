@@ -1,90 +1,101 @@
-# ABC060B
-# インポート(本編はだいたい30行目あたり)
-import sys,itertools,math,heapq,pypyjit
-from collections import defaultdict,deque
-from sortedcontainers import SortedSet, SortedList, SortedDict #Cpythonでは動かない(importにも多少時間がかかる)
-pypyjit.set_param('max_unroll_recursion=-1')
+# ABC423a
+# 2025-09-14 20:46:35
+
+def main():
+    # 関数定義スペース
+
+    def func():
+        ...
+
+    ...    
+    # 入力スペース
+
+    # N = splitN(input())
+    X, C = splitA(input())
+    # A = splitA(input())
+    # S = splitS(input())
+    # S = splitB(input())
+
+    ...
+
+    # 処理スペース
+    # c = 0
+    # while 0<X:
+        # X-=1000
+        # X-=C
+        # c+=1
+    # print((c-1)*1000)
+
+    print((X//(1000+C))*1000)
+
+
+    ...
+
+
+
+# テストケース中枢処理
+def case():
+    TESTCASE = 1
+    # TESTCASE = int(input()) # テストケース数の指定
+    for _ in range(TESTCASE):
+        try:
+            main()
+        except solvedException:
+            continue
+        # raise unSolvedExeption
+
+
+# インポート
+import sys, itertools, math, heapq
+from collections import defaultdict, deque
+from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+
+# 定数・環境設定
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict=defaultdict
+dict = defaultdict
+UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
+MOD = 998244353
+MAX = 10**18
+LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
-# 便利定数定義
-ALPHABET="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# ALPHABET="abcdefghijklmnopqrstuvwxyz"
-MOD=998244353
-MAX=10**18
-LRUD=[(0,1),(0,-1),(1,0),(-1,0)]
-
-# 便利関数定義
-def input(): return (sys.stdin.readline()).rstrip()
-def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end);exit()
+# 各種関数定義(超圧縮)
+## 便利関数
+def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
+def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
-def listr(l:list,f=str): return "".join(list(map(f,l)))
-def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr) #デバッグ出力用
+def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
-
-
-# 関数定義スペース
-class lit_math:
-    def factorial(n: int) -> int:
-        """
-        n!の結果を返す。
-
-        より具体的には整数nの階乗の値を返す。
-
-        Args:
-            n(int):nの値
-        
-        Returns:
-            int: 計算結果
-        """
-        return lit_math.permutation(n, n)
-
-    def permutation(n: int, k: int) -> int:
-        """
-        nPkの値を返す。
-        より具体的にはn個の整数からk個を順番に並べられる通り数を返す。
-
-        Args:
-            n(int):nの値
-            k(int):kの値
-        
-        Returns:
-            int: 計算結果
-        """
-        result = 1
-        for i in range(n, n - k, -1):
-            result *= i
+def fin(f=True): raise solvedException if f else None
+## 分割関数
+def split(value:str|list,sep:str=" ",func:callable=str) -> list:
+    result = []
+    if type(value) == list:
+        for i in range(len(value)):
+            result.append(split(value[i],sep))
         return result
+    else:
+        if sep in value:
+            for i in value.split(sep):
+                result.append(func(i))
+        else:
+            result.append(func(value))
+        return result
+## 入力受け取り用
+def input():return(sys.stdin.readline()).rstrip() #入力定数倍
+def splitS(value:str|list,sep:str=" ")->str:return split(value,sep)[0] #文字列・分割して最初
+def splitN(value:str|list,sep:str=" ")->int:return split(value,sep,int)[0] # 整数・分割して最初
+def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
+def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
 
-    def combination(n: int, k: int) -> int:
-        """
-        nCkの値を返す。
-        より具体的にはn個の整数からk個を選ぶ組み合わせ数を返す。
+# 例外クラス
+class solvedException(Exception): pass # 処理打ち切り例外
+class unSolvedExeption(Exception): # 回答未出力例外
+    def __init__(description = "解答が出力されていません。"): super().__init__(description)
 
-        Args:
-            n(int):nの値
-            k(int):kの値
-
-        Returns:
-            int: 計算結果
-        """
-        return lit_math.permutation(n, k) // lit_math.factorial(k)
-
-
-# 入力スペース ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Lit_to
-N = int(input())
-S = list("".join(sorted(list(input()))) for i in range(N))
-# 処理スペース ================================================================================================Lit_to
-d=dict(lambda:0)
-for i in S:
-    d[i]+=1
-result=0
-for i in d:
-    if 1<d[i]:
-        result+=(lit_math.combination(d[i],2))
-print(result)
-
-
-
+# 実行
+if __name__ == "__main__":
+    case()

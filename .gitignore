@@ -30,3 +30,5 @@ rust/target
 docs
 !docs/boot/
 !deploykit/dockerfile
+!prof/prof.txt
+!prof/test.txt
