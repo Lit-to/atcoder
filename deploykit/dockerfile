@@ -24,7 +24,7 @@ RUN sudo apt install python3.12-venv -y
 # Python3 と pip は既にインストール済み
 RUN python3 -m venv /home/Lit-to/venv \
     && /home/Lit-to/venv/bin/pip install --upgrade pip \
-    && /home/Lit-to/venv/bin/pip install sortedcontainers
+    && /home/Lit-to/venv/bin/pip install sortedcontainers && /home/Lit-to/venv/bin/pip install line-profiler
 
 # 環境変数 PATH に venv を追加
 ENV PATH="/home/Lit-to/venv/bin:${PATH}"
