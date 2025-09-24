@@ -1,0 +1,3 @@
+python r.py input.txt TEST
+python sampleA.py
+python sampleB.py

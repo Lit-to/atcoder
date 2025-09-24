@@ -2,10 +2,6 @@
 !*/
 !*.*
 
-test/**
-!test/monkey/
-!test/monkey/program_test.py
-!test/monkey/r.py
 !test/prof/
 !test/prof/pro.sh
 !test/operation/
