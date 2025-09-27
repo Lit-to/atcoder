@@ -1,17 +1,7 @@
 #!/usr/bin/env python3
 import sys
-import random
-
-# ----------------------------
-# トークンごとの値生成マップ
-# ----------------------------
-TOKENS = {
-    "N": lambda: str(random.randint(1, 200000000)),
-    "M": lambda: str(random.randint(1, 200000000)),
-    "U": lambda: str(random.randint(1, 200000000)),
-    "V": lambda: str(random.randint(1, 200000000)),
-    "A": lambda: str(random.randint(1, 100000000)),
-}
+import tokens
+TOKENS = tokens.TOKENS
 
 SPACE = " "
 UNDER_BAR = "_"
