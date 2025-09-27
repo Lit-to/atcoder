@@ -9,6 +9,9 @@ SCRIPT="$1"
 # 第二引数: 入力データ (オプション)
 INPUT_FILE="$2"
 
+echo "profiling $SCRIPT with input $INPUT_FILE"
+read -p "Press [Enter] key to continue...\n"
+
 # 一時コピー用のファイル名
 TMP_SCRIPT="${SCRIPT%.py}_profiled"
 

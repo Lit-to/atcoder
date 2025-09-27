@@ -30,5 +30,5 @@ mkdir -p "$DEST_DIR"
 cp "$SOURCE_FILE" "$DEST_DIR/$FOLDER_NAME$DEST_FILE"
 echo "ファイルをコピーしてリネームしました: $DEST_DIR/$FOLDER_NAME$DEST_FILE"
 # コンパイル
-javac "./$SOURCE_FILE" -d "./lang/output" 
+javac -encoding UTF-8 "./$SOURCE_FILE" -d "./lang/output" 
 

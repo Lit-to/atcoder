@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: atcoder
+    ports:
+      - "2000:2000"
+    volumes:
+      - .:/atcoder
+    tty: true
+    stdin_open: true
+    command: ["/bin/bash"]

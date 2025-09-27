@@ -1,0 +1,50 @@
+FROM ubuntu:latest
+SHELL ["/bin/bash", "-l", "-c"]
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+
+# sudo と最低限のツール
+RUN apt-get update && apt-get install -y apt-utils
+RUN apt-get update && apt-get install -y \
+    sudo \
+    curl wget git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 固定ユーザーを作成
+RUN useradd -m -s /bin/bash Lit-to && echo "Lit-to ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER Lit-to
+WORKDIR /home/Lit-to
+
+RUN sudo apt-get update && sudo apt-get install -y nano
+
+RUN sudo apt-get update && sudo apt-get install -y pypy3
+RUN sudo apt-get update && sudo apt-get install -y python3 python3-pip
+RUN sudo apt install python3.12-venv -y
+# Python3 と pip は既にインストール済み
+RUN python3 -m venv /home/Lit-to/venv \
+    && /home/Lit-to/venv/bin/pip install --upgrade pip \
+    && /home/Lit-to/venv/bin/pip install sortedcontainers && /home/Lit-to/venv/bin/pip install line-profiler && /home/Lit-to/venv/bin/pip install sphinx && /home/Lit-to/venv/bin/pip install sphinx-book-theme
+
+
+
+# 環境変数 PATH に venv を追加
+ENV PATH="/home/Lit-to/venv/bin:${PATH}"
+
+RUN sudo apt-get update && sudo apt-get install -y build-essential
+RUN sudo apt-get update && sudo apt-get install -y gdb
+
+RUN sudo apt-get update && sudo apt-get install -y openjdk-17-jdk
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+ENV PATH="/home/Lit-to/.cargo/bin:${PATH}"
+ENV PATH="/usr/bin:${PATH}"
+
+RUN git config --global user.name "Lit-to"
+RUN git config --global user.email "litto0315@gmail.com"
+
+RUN git clone https://github.com/Lit-to/atcoder.git /home/Lit-to/atcoder
+COPY .profile /home/Lit-to/.profile
+# docker build -t atcoder .
+# docker start -ai atcoder

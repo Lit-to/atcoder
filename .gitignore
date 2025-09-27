@@ -2,10 +2,6 @@
 !*/
 !*.*
 
-test/**
-!test/monkey/
-!test/monkey/program_test.py
-!test/monkey/r.py
 !test/prof/
 !test/prof/pro.sh
 !test/operation/
@@ -29,3 +25,8 @@ rust/target/debug
 rust/target
 docs
 !docs/boot/
+!deploykit/dockerfile
+!prof/prof.txt
+!prof/test.txt
+OUTPUT
+TEST
