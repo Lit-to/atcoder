@@ -45,6 +45,6 @@ RUN git config --global user.name "Lit-to"
 RUN git config --global user.email "litto0315@gmail.com"
 
 RUN git clone https://github.com/Lit-to/atcoder.git /home/Lit-to/atcoder
-COPY .profile /home/Lit-to/.profile
+COPY deploykit/.profile /home/Lit-to/.profile
 # docker build -t atcoder .
 # docker start -ai atcoder
