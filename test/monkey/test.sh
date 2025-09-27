@@ -6,6 +6,7 @@ pushd "$(dirname "$0")" > /dev/null || exit 1
 
 TEST_CASE="TEST"
 OUTPUT_DIR="OUTPUT"
+TLE_BOARDER=2000
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "config file not found: $CONFIG_FILE" >&2
@@ -27,6 +28,8 @@ SCRIPT_B=$(sed -n '3p' "$CONFIG_FILE")
 echo "=== Run 1st command: $INPUT_FILE ==="
 eval "$INPUT_FILE" 
 
+ng_cases=()
+
 # 2行目: スクリプトA
 OUTFILE="$OUTPUT_DIR/result_$(date +%Y%m%d_%H%M%S).log"
 echo "=== Test started at $(date) ===" > "$OUTFILE"
@@ -37,7 +40,7 @@ over_a=0
 over_b=0
 diff_ng=0
 
-for tc in "$TEST_CASE"/*.txt; do
+for tc in $(ls "$TEST_CASE"/test_*.txt | sort -V); do
     echo "--- Testcase: $tc ---" >> "$OUTFILE"
 
     OUT1=$(mktemp)
@@ -62,8 +65,8 @@ for tc in "$TEST_CASE"/*.txt; do
     total_a=$(( total_a + elapsed_a ))
     total_b=$(( total_b + elapsed_b ))
     count=$(( count + 1 ))
-    [ $elapsed_a -gt 2000 ] && over_a=$(( over_a + 1 ))
-    [ $elapsed_b -gt 2000 ] && over_b=$(( over_b + 1 ))
+    [ $elapsed_a -gt $TLE_BOARDER ] && over_a=$(( over_a + 1 ))
+    [ $elapsed_b -gt $TLE_BOARDER ] && over_b=$(( over_b + 1 ))
 
     # 差分
     if diff -u "$OUT1" "$OUT2" >> "$OUTFILE"; then
@@ -71,6 +74,7 @@ for tc in "$TEST_CASE"/*.txt; do
     else
         echo "NG: difference found" >> "$OUTFILE"
         diff_ng=$(( diff_ng + 1 ))
+        ng_cases+=("$tc") 
 
     fi
     echo >> "$OUTFILE"  # 区切り
@@ -88,8 +92,8 @@ else
 fi
 echo "=== Test finished at $(date) ===" >> "$OUTFILE"
 
-# NG一覧を文字列化
-ng_list="NG Cases:\n"
+# --- NG一覧を文字列化（ファイル用） ---
+ng_list=""
 for case in "${ng_cases[@]}"; do
     ng_list+="  $case\n"
 done
@@ -99,32 +103,54 @@ Total testcases: $count
 NG (difference) : $diff_ng
 Avg Time (A)    : ${avg_a} ms
 Avg Time (B)    : ${avg_b} ms
-Over2000 (A)    : $over_a
-Over2000 (B)    : $over_b
+TLE:$TLE_BOARDER+ms (A)  : $over_a
+TLE:$TLE_BOARDER+ms (B)  : $over_b
 
 $ng_list
 "
 
-# ファイル冒頭に挿入
+# --- ファイル冒頭に挿入（色なし） ---
 {
-    "$summary"
-    "$OUTFILE"
+    echo -e "$summary"
+    cat "$OUTFILE"
 } > "${OUTFILE}.tmp" && mv "${OUTFILE}.tmp" "$OUTFILE"
 
-# ターミナル出力
-echo -e "\033[36m======== Summary ========\033[0m"
-echo "Total testcases: $count"
-echo -e "NG (difference) : \033[31m$diff_ng\033[0m"
-echo "Avg Time (A): ${avg_a} ms"
-echo "Avg Time (B): ${avg_b} ms"
-echo "Over2000 (A): $over_a"
-echo "Over2000 (B): $over_b"
+# --- ターミナル出力（色付き） ---
+# 色決定
+if [ $diff_ng -gt 0 ] || [ $over_a -gt 0 ] || [ $over_b -gt 0 ]; then
+    summary_color="\033[31m"  # 赤
+else
+    summary_color="\033[32m"  # 緑
+fi
 
+echo -e "${summary_color}======== Summary ========\033[0m"
+
+# NG部分に赤✖、TLE:2000ms部分も赤✖にする
+ng_text="NG (difference) : "
+[ $diff_ng -gt 0 ] && ng_text+="\033[31m✖ $diff_ng\033[0m" || ng_text+="0"
+
+over_text_a="TLE:$TLE_BOARDER+ms (A) : "
+[ $over_a -gt 0 ] && over_text_a+="\033[31m✖ $over_a\033[0m" || over_text_a+="$over_a"
+
+over_text_b="TLE:$TLE_BOARDER+ms (B) : "
+[ $over_b -gt 0 ] && over_text_b+="\033[31m✖ $over_b\033[0m" || over_text_b+="$over_b"
+
+# 出力
+echo "Total testcases: $count"
+echo -e "$ng_text"
+echo "Avg Time (A)    : ${avg_a} ms"
+echo "Avg Time (B)    : ${avg_b} ms"
+echo -e "$over_text_a"
+echo -e "$over_text_b"
+echo -e "${summary_color}======== Summary ========\033[0m"
+
+# NG一覧 5件だけ
 if [ ${#ng_cases[@]} -gt 0 ]; then
     echo -e "\n\033[31mNG Cases (first 5):\033[0m"
     for case in "${ng_cases[@]:0:5}"; do
         echo "  $case"
     done
 fi
-echo "結果は $OUTFILE に保存しました"
+echo "Saved $OUTFILE."
+./remove.sh
 popd > /dev/null

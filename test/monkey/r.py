@@ -6,11 +6,11 @@ import random
 # トークンごとの値生成マップ
 # ----------------------------
 TOKENS = {
-    "N": lambda: str(random.randint(1, 10)),
-    "M": lambda: str(random.randint(1, 10)),
-    "U": lambda: str(random.randint(1, 100)),
-    "V": lambda: str(random.randint(1, 100)),
-    "A": lambda: str(random.randint(1, 1000)),
+    "N": lambda: str(random.randint(1, 200000000)),
+    "M": lambda: str(random.randint(1, 200000000)),
+    "U": lambda: str(random.randint(1, 200000000)),
+    "V": lambda: str(random.randint(1, 200000000)),
+    "A": lambda: str(random.randint(1, 100000000)),
 }
 
 SPACE = " "
@@ -70,12 +70,17 @@ def printf(*args,path,mode="a",sep=" "):
 
 def dump(outputs, path):
     for output in outputs:
-        printf(*output, path=path)
-
+        if type(output) == list:
+            printf(*output, path=path)
+        else:
+            printf(output,path=path)
 
 input_file = sys.argv[1]
 directory = sys.argv[2]
 FILE_COUNT = int(sys.argv[3])
+# input_file = "test/monkey/input.txt"
+# directory = "test/monkey/TEST"
+# FILE_COUNT=1
 lines = []
 try:
     with open(input_file, 'r') as f:
