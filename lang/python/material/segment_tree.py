@@ -74,7 +74,7 @@ class segmentTree(list):
             num>>=1
         return msb
 
-    def __check_rule(self,a:int,b:int,l:int,r:int,k:int):
+    def __check_rule(self, ql:int, qr:int, tl:int, tr:int, k:int):
         """
         (a,b)の区間のうち、(l,r)と被っている部分のルール結果を返す。
         複数区間にまたがっている場合は区間を狭めて再起呼び出しする。
@@ -88,21 +88,26 @@ class segmentTree(list):
         Returns:
             _type_: 結果
         """
-        if b<l or r<a: # 対象外範囲の場合はルール最弱の値を返す
+
+        # 全く関係ない場合(ノード [l,r] とクエリ [a,b) が重ならない)
+        if tr < ql or qr <= tl:
             return self.__default
-        elif a<=l and r<=b:#この時点で答えが確定している場合は答えを返す
+
+        # ノード [l,r] がクエリ [a,b) に含まれる場合
+        if ql <= tl and tr < qr:
             return self.__data[k]
-        elif r==l: # lrがぶつかってしまった場合は区間内にいるかどうかをチェック
-            if a<=r and r<=b: #区間内の場合は今見える値を返す
+
+        # 単一要素ノードの処理
+        if tl == tr:
+            if ql <= tl < qr:
                 return self.__data[k]
-            else: #区間外の場合はルール最弱の値を返す
+            else:
                 return self.__default
-        
-        # 以下、範囲が調べたい範囲の境界線を踏んでいる場合
-        # 今の区間では判断できないので細分して再起呼び出しで判断する
-        left=self.__check_rule(a,b,l,l+(r-l)//2,2*k) 
-        right=self.__check_rule(a,b,l+1+(r-l)//2,r,2*k+1)
-        return self.__rule(left,right)
+
+        mid = (tl + tr) // 2
+        left = self.__check_rule(ql, qr, tl, mid, 2*k)
+        right = self.__check_rule(ql, qr, mid+1, tr, 2*k+1)
+        return self.__rule(left, right)
 
     ### 組み込み系対応関数
 
@@ -184,7 +189,7 @@ class segmentTree(list):
             self.__data[next]=new_value
             index=next
 
-    def get_query(self,left:int,right:int):
+    def get_query(self, left:int, right:int):
         """
         (left:right)のうち、self.__ruleの優先順位が一番高い値を返す
 
@@ -192,8 +197,8 @@ class segmentTree(list):
             -  left (int): 区間のインデックスの左端
             -  right (int): 区間のインデックスの右端
         """
-        assert left<right , "left value needs lower than right"
-        assert 0<=left , "left value needs more than 0"
-        assert right<=self.__value_length , "right value needs lower than max length"
-        return self.__check_rule(left,right,1,self.__center,1)
+        # 半開区間仕様に合わせてアサートを更新
+        assert 1 <= left < right, "left < right 且つ left >= 1 が必要です"
+        assert right <= self.__value_length + 1, "right は value_length+1 以下である必要があります"
+        return self.__check_rule(left, right, 1, self.__center, 1)
 
