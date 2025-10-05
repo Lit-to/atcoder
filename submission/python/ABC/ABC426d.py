@@ -1,7 +1,7 @@
 # ABC426d
 # 2025-10-04 11:52:49
 from collections import defaultdict, deque
-def runLengthEncode(s:str|list) -> deque:
+def runLengthEncode(s:str|list) -> list:
     """
     ランレングスエンコードを行う
     要素ごとに分解し、要素と個数のタプル組にする(そのため厳密には圧縮されてはいない)。
@@ -14,7 +14,7 @@ def runLengthEncode(s:str|list) -> deque:
         -  list: 圧縮後の配列
     """
     l=len(s)
-    result=deque()
+    result=list()
     if l==0:
         return result
     now=[s[0],0]
@@ -60,23 +60,24 @@ def main():
     zero = N-one
     # とりあえず0をすべて1に変更することについて考える
     # if zero<one:
-    # for i in range(N):
-    #     S[i]=1-S[i]
+        # for i in range(N):
+            # S[i]=1-S[i]
 
     # 処理スペース
     s = S.copy()
     rle = runLengthEncode(s)
-    count = 0
-    while 1<len(rle):
-        if rle[-1][1]<=rle[0][1]:
-            x,c = rle.pop()
-            rle[-1][1]+=c
-            count += c 
+    count_0 = 0
+    count_1 = 0
+    mx_0 = 0
+    mx_1 = 0
+    for i in range(len(rle)):
+        if rle[i][0] == 1:
+            mx_0 = max(mx_0,rle[i][1])
+            count_0+=rle[i][1]
         else:
-            x,c = rle.popleft()
-            rle[0][1]+=c
-            count += c 
-    print(count)
+            mx_1 = max(mx_1,rle[i][1])
+            count_1+=rle[i][1]
+    print(min(N+count_0-mx_0-mx_0,N+count_1-mx_1-mx_1))
 
     ...
 
