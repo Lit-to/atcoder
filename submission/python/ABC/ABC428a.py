@@ -1,4 +1,4 @@
-# ABC428g
+# ABC428a
 # 2025-10-18 11:30:29
 
 def main():
@@ -10,16 +10,22 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    S,A,B,X = splitA(input())
 
     ...
-
+    x = 0
+    result  = 0
     # 処理スペース
+    a = list()
+    for i in range(A):
+        a.append(S)
+    for i in range(B):
+        a.append(0)
+    
+    for i in range(X):
+        result+=a[i%len(a)]
 
+    print(result)
 
 
 

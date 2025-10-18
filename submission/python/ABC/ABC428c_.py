@@ -1,4 +1,4 @@
-# ABC428d
+# ABC428c
 # 2025-10-18 11:30:29
 
 def main():
@@ -10,16 +10,38 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
-
+    Q = splitN(input())
+    QUERIES = []
+    for i in range(Q):
+        q = input().split()
+        if len(q) == 1:
+            QUERIES.append((2,""))
+        else:
+            QUERIES.append((1,q[1]))
     ...
 
     # 処理スペース
+    stack = [""]
+    stackful= [""]
+    for i in QUERIES:
+        if i[0]==1:
+            stack.append(i[1])
+            if stack[-2]+stack[-1]=="()":
+                stack.pop()
+                stack.pop()
+                stackful.append("]")
+            else:
+                stackful.append(i[1])
+        else:
+            c = stackful.pop()
+            if c == "]":
+                stack.append("(")
+            else:
+                stack.pop()
 
+
+        printYN(len(stack)==1)
+                
 
 
 
@@ -61,8 +83,8 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 ## 便利関数
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
 def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
-def yes(f=True): printe("Yes") if (f) else None
-def no(f=True): printe("No") if (f) else None
+def yes(f=True): print("Yes") if (f) else None
+def no(f=True): print("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None

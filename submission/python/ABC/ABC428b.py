@@ -10,16 +10,30 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    # N = splitN(input())
+    N, K = splitA(input())
+    S = list(input())
 
     ...
 
     # 処理スペース
-
+    cand = []
+    mx = 0
+    
+    for i in range(0,N-K+1):
+        k = S[i:i+K]
+        x = 0
+        for j in range(0,N-K+1):
+            x += S[j:j+K] == k
+        cand.append((k,x))
+        mx = max(mx,x)
+    result = set()
+    for i in cand:
+        if i[1] == mx:
+            result.add("".join(i[0]))
+    result = sorted(list(result))
+    print(mx)
+    print(*result)
 
 
 
