@@ -8,10 +8,18 @@ class Board():
     ROTATE_180_DEGREE = 2
     ROTATE_270_DEGREE = 3
 
-    # 自作ボードクラスのショートカット関数  
-    def input_board(height:int,f=lambda:input(list())):
+    # 自作ボードクラスのショートカット関数
+    def input():
         """
         標準入力からボード作成
+        """
+        H,W = map(int,input().split())
+        return [H,W,Board.input_board_with_wall(H,W,"#")]
+
+
+    def input_board(height:int,f=lambda:list(input())):
+        """
+        文字列を吐き出す関数からボード作成
         Args:
             -  height(int):高さ
             -  f(function):入力の形式 指定しなかった場合は自動で
@@ -24,9 +32,9 @@ class Board():
             board.append(f())
         return Board(board)
 
-    def input_board_with_wall(height:int,width:int,wall:any,f:lambda x:input(list())):
+    def input_board_with_wall(height:int,width:int,wall:any,f:lambda:list(input())):
         """
-        標準入力からボード作成(ATフィールド付)
+        文字列を吐き出す関数からボード作成(ATフィールド付)
         Args:
             -  height(int):高さ
             -  width(int):幅
