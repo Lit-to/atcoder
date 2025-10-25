@@ -1,3 +1,5 @@
+# ABC429b
+# 2025-10-25 11:54:24
 
 def main():
     # 関数定義スペース
@@ -8,15 +10,16 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
+    N, M = split(input(),func=int)
     A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
 
     ...
 
     # 処理スペース
+    s = sum(A)
+    for i in A:
+        yes(s-i==M)
+    no()
 
 
 

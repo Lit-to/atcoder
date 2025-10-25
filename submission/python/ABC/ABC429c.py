@@ -1,3 +1,5 @@
+# ABC429c
+# 2025-10-25 11:54:24
 
 def main():
     # 関数定義スペース
@@ -8,17 +10,20 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
+    N = int(input())
     A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
 
     ...
 
     # 処理スペース
+    d = dict(lambda:0)
+    for i in A:
+        d[i]+=1
+    result = 0
+    for i in d:
+        result+=(N-d[i])*math.comb(d[i],2)
 
-
+    print(result)
 
 
 

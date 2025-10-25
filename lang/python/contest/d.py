@@ -8,11 +8,11 @@ def main():
     ...    
     # 入力スペース
 
-    N = splitN(input())
-    H, W = splitA(input())
-    A = splitA(input())
-    S = splitS(input())
-    S = splitB(input())
+    N = split(input(),func=int)[0]
+    H, W = split(input(),func=int)
+    A = split(input(),func=int)
+    S = split(input())
+    S = split(input(),sep="")
 
     ...
 
@@ -56,7 +56,7 @@ LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 # 各種関数定義(超圧縮)
-## 便利関数
+## 便利関数(1行関数)
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
 def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
@@ -64,26 +64,30 @@ def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-## 分割関数
-def split(value:str|list,sep:str=" ",func:callable=str) -> list:
+
+## ワンライン出来なかったもの
+def split(value:str,sep:str=" ",func:callable=str) -> list:
+    """
+    分割関数
+    文字列をスペース区切りで分割する。
+    """
     result = []
-    if type(value) == list:
-        for i in range(len(value)):
-            result.append(split(value[i],sep))
-        return result
+    if sep == "":
+        result = list(value)
     else:
-        if sep in value:
-            for i in value.split(sep):
-                result.append(func(i))
-        else:
-            result.append(func(value))
-        return result
+        section = 0
+        for i in range(len(value)):
+            if value[i] == sep:
+                result.append(value[section:i])
+                section = i
+        if section != i:
+            result.append(value[section:])
+    for i in range(len(result)):
+        result[i] = func(result[i])
+    return result
+
 ## 入力受け取り用
 def input():return(sys.stdin.readline()).rstrip() #入力定数倍
-def splitS(value:str|list,sep:str=" ")->str:return split(value,sep)[0] #文字列・分割して最初
-def splitN(value:str|list,sep:str=" ")->int:return split(value,sep,int)[0] # 整数・分割して最初
-def splitB(value:str|list,sep:str=" ")->list:return list(split(value,sep)) # 文字列・分割してすべて
-def splitA(value:str|list,sep:str=" ")->list:return list(split(value,sep,int)) # 整数・分割してすべて
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外

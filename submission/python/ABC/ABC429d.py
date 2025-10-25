@@ -1,3 +1,28 @@
+# ABC429d
+# 2025-10-25 11:54:24
+def search(ok:int,ng:int,f:bool)->int:
+    """二分探索を行う関数
+    単調増加の範囲においてokのうちいちばんngに近いものの値を返す
+    利用例:
+    -  lambda i:a[i]<x xを含まない最大のiを返す
+    -  lambda i:a[i]<=x xを含む最大のiを返す
+
+    Args:
+        -  ok (int): 評価関数fに渡したときに必ずTrueを返すことが保証されている値
+        -  ng (int): 評価関数fに渡したときに必ずFalseを返すことが保証されている値
+        -  f (bool): 評価関数(引数1/戻り値bool)
+
+    Returns:
+        -  int: 結果
+    """
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
+
 
 def main():
     # 関数定義スペース
@@ -8,15 +33,45 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    N, M, C = split(input(),func=int)
+    A =list(map(int,input().split()))
+    d = dict(lambda:0)
+    for i in A:
+        d[i] += 1
 
     ...
 
     # 処理スペース
+
+    ps = dict(lambda:0)
+    ps[0] = 0
+    keys = list(d.keys())
+    keys.sort()
+    if keys[-1]!=M-1:
+        keys.append(M-1)
+
+    mx = 0
+    for i in range(len(keys)):
+        ps[keys[i]+1]+=ps[mx]+d[keys[i]]
+        mx = keys[i]+1
+    # debug(ps)
+
+    for i in range(len(keys)):
+        ps[M+keys[i]+1]+=ps[mx]+d[keys[i]]
+        mx = M+keys[i]+1
+
+    def get_sum(left,right):
+        return ps[right]-ps[left]
+
+    count = 1
+    result = 0
+    prev = -1
+    for i in keys:
+        count=i-prev
+        x=search(i+N,i,lambda x:C<=get_sum(i,x))
+        result+=get_sum(i,x)*count
+        prev = i
+    print(result)
 
 
 
