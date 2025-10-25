@@ -1,3 +1,5 @@
+# ABC429a
+# 2025-10-25 11:54:24
 
 def main():
     # 関数定義スペース
@@ -8,15 +10,17 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    N, M = split(input(),func=int)
 
     ...
 
     # 処理スペース
+    for i in range(1,N+1):
+        if i<=M:
+            print("OK")
+        else:
+            print("Too Many Requests")
+
 
 
 
