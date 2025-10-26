@@ -80,7 +80,7 @@ def split(value:str,sep:str=" ",func:callable=str) -> list:
             if value[i] == sep:
                 result.append(value[section:i])
                 section = i
-        if section != i:
+        if i == 0 or section != i:
             result.append(value[section:])
     for i in range(len(result)):
         result[i] = func(result[i])
