@@ -1,30 +1,21 @@
-
 def main():
     # 関数定義スペース
 
-    def func():
-        ...
+    def func(): ...
 
-    ...    
+    ...
     # 入力スペース
-
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
+    N = split(input(), func=int)[0]
+    H, W = split(input(), func=int)
+    A = split(input(), func=int)
     S = split(input())
-    S = split(input(),sep="")
+    S = split(input(), sep="")
 
     ...
 
     # 処理スペース
 
-
-
-
-
-
     ...
-
 
 
 # テストケース中枢処理
@@ -39,6 +30,7 @@ def case():
         # raise unSolvedExeption
 
 
+# fmt:off
 # インポート
 import sys, itertools, math, heapq
 from collections import defaultdict, deque
@@ -80,7 +72,7 @@ def split(value:str,sep:str=" ",func:callable=str) -> list:
             if value[i] == sep:
                 result.append(value[section:i])
                 section = i
-        if section != i:
+        if i == 0 or section != i:
             result.append(value[section:])
     for i in range(len(result)):
         result[i] = func(result[i])
@@ -97,3 +89,4 @@ class unSolvedExeption(Exception): # 回答未出力例外
 # 実行
 if __name__ == "__main__":
     case()
+# fmt:on
