@@ -8,7 +8,6 @@ int main()
 
     /*入力エリア*/
     int A, B, C;
-    // std::cin >> A >> B >> C;
 
     std::vector<int> digits(3);
     for (int i = 0; i < 3; ++i)

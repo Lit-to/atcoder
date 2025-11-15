@@ -19,7 +19,7 @@ int main()
     std::sort(a.begin(), a.end());
     int usedIndex = 0;
     std::vector<int> b(0);
-    for (int i = 0; i < a.size(); ++i)
+    for (int i = 0; i < std::ssize(a); ++i)
     {
         if (a[i] == 0)
         {
@@ -29,7 +29,7 @@ int main()
         b.push_back(a[i]);
         break;
     }
-    for (int i = 0; i < a.size(); ++i)
+    for (int i = 0; i < std::ssize(a); ++i)
     {
         if (i == usedIndex)
         {
@@ -37,7 +37,7 @@ int main()
         }
         b.push_back(a[i]);
     }
-    for (int i = 0; i < a.size(); ++i)
+    for (int i = 0; i < std::ssize(a); ++i)
     {
         std::cout << b[i];
     }
