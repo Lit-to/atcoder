@@ -71,7 +71,8 @@
   "java.jdt.ls.home": "/usr/lib/jvm/java-17-openjdk-amd64",
   "files.associations": {
     "vector": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "algorithm": "cpp"
   },
   "editor.formatOnSave": true,
   "[cpp]": {
