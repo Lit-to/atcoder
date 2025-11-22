@@ -1,3 +1,0 @@
-python r.py input.txt TEST 100
-python sampleA.py
-python sampleB.py
