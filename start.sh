@@ -7,15 +7,16 @@ echo "コンテスト名を入力=>"
 read contestName
 contestName=$(echo "$contestName" | tr '[:lower:]' '[:upper:]')
 echo "この名前でコンテストを開始します=>\"$contestName\" y/n"
-read isOK 
-if [ "$contestName" != "y" ] && [ "$contestName" != "yes" ]
+read question
+if [ "$question" != "y" ] && [ "$question" != "yes" ];then
+    echo "中断しました"
     exit 0
 fi
 
 # gitの更新
 
 git fetch -p
-git checkout main
+git checkout mai
 git pull
 git checkout -b $contestName main
 
