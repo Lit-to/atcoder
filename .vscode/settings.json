@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.readonlyInclude": {
     "material/*": true,
+    "deploykit/*": true
   },
   "java.project.sourcePaths": [
     "lang/java"
