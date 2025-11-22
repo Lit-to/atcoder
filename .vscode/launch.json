@@ -2,26 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "java",
-      "name": "Launch(Java)",
-      "request": "launch",
-      "mainClass": "Main",
-      "cwd": "${workspaceFolder}",
-      "classPaths": [
-        "${workspaceFolder}/lang/output"
-      ],
-      "preLaunchTask": "java_push"
-    },
-    {
-      "type": "lldb",
-      "name": "Launch(Rust)",
-      "request": "launch",
-      "program": "${workspaceFolder}/lang/rust/target/debug/${fileBasenameNoExtension}",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "preLaunchTask": "rust_push"
-    },
-    {
       "name": "Launch(Cpp)",
       "type": "cppdbg",
       "request": "launch",

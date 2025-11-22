@@ -1,1 +1,0 @@
-rm -rfd ./docs/sphinx

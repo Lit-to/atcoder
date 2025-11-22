@@ -36,15 +36,5 @@
             "type": "shell",
             "command": "source ~/.profile"
         },
-        {
-            "label": "java_push",
-            "type": "shell",
-            "command": "bash .vscode/push_java.sh lang/java/Main.java"
-        },
-        {
-            "label": "rust_push",
-            "type": "shell",
-            "command": "source .vscode/push_rust.sh src/${fileBasename}"
-        }
     ]
 }
