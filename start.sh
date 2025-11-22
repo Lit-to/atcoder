@@ -16,7 +16,7 @@ fi
 # gitの更新
 
 git fetch -p
-git checkout mai
+git checkout main
 git pull
 git checkout -b $contestName main
 
