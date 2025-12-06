@@ -18,6 +18,7 @@ fi
 git checkout main
 git pull -p
 git checkout -b $contestName main
+git checkout $contestName
 
 # フォルダの作成･ファイルの移動
 mkdir submission/ABC/$contestName
