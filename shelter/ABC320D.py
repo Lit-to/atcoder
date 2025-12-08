@@ -1,4 +1,4 @@
-# template
+# ABC320D
 
 def main():
     # 関数定義スペース
@@ -9,17 +9,27 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    N, M = split(input(),func=int)
+    CORDINATES = []
+    for i in range(M):
+        a,b,x,y = split(input(),func=int)
+        CORDINATES.append(tuple([a,b,x,y]))
+        CORDINATES.append(tuple([b,a,-1*x,-1*y]))
 
     ...
 
     # 処理スペース
-
-
+    pos = dict()
+    pos[1] = [0,0]
+    for a,b,x,y in CORDINATES+CORDINATES:
+        if a not in pos:
+            continue
+        pos[b]=[pos[a][0]+x,pos[a][1]+y]
+    for i in range(N):
+        if i+1 not in pos:
+            print("undecidable")
+            continue
+        print(*pos[i+1])
 
 
 
@@ -48,7 +58,7 @@ from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict = defaultdict
+# dict = defaultdict
 UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD = 998244353

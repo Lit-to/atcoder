@@ -63,7 +63,7 @@ done
 
 # --- ここから commit メッセージ作成 ---
 commit_msg="${subject}"$'\n'
-commit_msg+="以下の問題をAC"$'\n'
+commit_msg+="↓ACした"$'\n'
 for f in "${matches[@]}"; do
     commit_msg+="-   $(basename "$f")"$'\n'
 done

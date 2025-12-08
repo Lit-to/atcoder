@@ -1,26 +1,51 @@
-# template
+# ABC320C
 
 def main():
     # 関数定義スペース
-
-    def func():
-        ...
-
-    ...    
+    REAL = 3
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    M = split(input(),func=int)[0]
+    S = []
+    for i in range(REAL):
+        S.append(split(input(),sep="",func=int))
 
     ...
 
     # 処理スペース
-
-
-
+    results = []
+    for i in itertools.permutations([0,1,2]):
+        for n in range(10):
+            t = 0
+            result = 0
+            while t<3*M:
+                if S[i[0]][t%M] == n:
+                    result = max(result,t)
+                    break
+                t+=1
+            else:
+                continue
+            t+=1
+            while t<3*M:
+                if S[i[1]][t%M] == n:
+                    result = max(result,t)
+                    break
+                t+=1
+            else:
+                continue
+            t+=1
+            while t<3*M:
+                if S[i[2]][t%M] == n:
+                    result = max(result,t)
+                    break
+                t+=1
+            else:
+                continue    
+            t+=1
+            results.append(result)
+    if len(results)==0:
+        printe(-1)
+    print(min(results))
 
 
 
