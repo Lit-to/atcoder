@@ -16,20 +16,39 @@ def main():
         CORDINATES.append(tuple([a,b,x,y]))
         CORDINATES.append(tuple([b,a,-1*x,-1*y]))
 
+    GRAPH = dict()
+    for i in range(len(CORDINATES)):
+        if CORDINATES[i][0] not in GRAPH:
+            GRAPH[CORDINATES[i][0]] = []
+        GRAPH[CORDINATES[i][0]].append((CORDINATES[i][1],(CORDINATES[i][2],CORDINATES[i][3])))
     ...
 
     # 処理スペース
-    pos = dict()
-    pos[1] = [0,0]
-    for a,b,x,y in CORDINATES+CORDINATES:
-        if a not in pos:
+    place = dict()
+    stack = []
+    for i in range(N,0,-1):
+        stack.append(i)
+    done = set()
+    place[1] = (0,0)
+    while stack:
+        pos = stack.pop()
+        if pos in done:
             continue
-        pos[b]=[pos[a][0]+x,pos[a][1]+y]
+        done.add(pos)
+        if pos not in GRAPH:
+            continue
+        for j,next in GRAPH[pos]:
+            if j in done:
+                continue
+            if pos not in place:
+                continue
+            place[j] = (place[pos][0]+next[0],place[pos][1]+next[1])
+            stack.append(j)
     for i in range(N):
-        if i+1 not in pos:
+        if i+1 not in place:
             print("undecidable")
             continue
-        print(*pos[i+1])
+        print(*place[i+1])
 
 
 
