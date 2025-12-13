@@ -1,20 +1,22 @@
-# template
+# ABC321C
 
 def main():
     # 関数定義スペース
 
-    def func():
+    def condition(num:int):
+        s = str(num)
+        n = len(s)
+        for i in range(n-1):
+            if not(int(s[i])>int(s[i+1])):
+                return False
+        return True
         ...
 
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
-
+    K = split(input(),func=int)[0]
+    printYN(condition(K))
     ...
 
     # 処理スペース

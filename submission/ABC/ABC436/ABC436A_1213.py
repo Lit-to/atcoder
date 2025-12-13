@@ -1,3 +1,4 @@
+# ABC436A
 # template
 
 def main():
@@ -10,11 +11,10 @@ def main():
     # 入力スペース
 
     N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
-
+    S = input()
+    while len(S)<N:
+        S="o"+S
+    print(S)
     ...
 
     # 処理スペース

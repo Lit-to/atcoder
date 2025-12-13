@@ -21,14 +21,13 @@ git checkout -b $contestName main
 git checkout $contestName
 
 # フォルダの作成･ファイルの移動
-mkdir submission/ABC/$contestName
 for letter in A B C D E F G; do
-    cp material/template.py submission/ABC/$contestName/$contestName$letter.py
-    sed -i "1i # $contestName$letter" submission/ABC/$contestName/$contestName$letter.py
+    cp material/template.py dev/$contestName$letter.py
+    sed -i "1i # $contestName$letter" dev/$contestName$letter.py
     done
-for letter in A B; do
-    cp material/template.cpp submission/ABC/$contestName/$contestName$letter.cpp
-    sed -i "1i // $contestName$letter" submission/ABC/$contestName/$contestName$letter.cpp
+for letter in A B C; do
+    cp material/template.cpp dev/$contestName$letter.cpp
+    sed -i "1i // $contestName$letter" dev/$contestName$letter.cpp
     done
 # 終わったら元のフォルダへ戻る
 cd "$OLD_DIR"

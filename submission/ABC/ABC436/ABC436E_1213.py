@@ -1,4 +1,47 @@
+# ABC436E
 # template
+class unionFind:
+    """
+    Union-Find
+    頂点を結合した際に連結する要素の親ノードを1つに統一する
+    各頂点の親ノードを高速に返す
+    """
+    def __init__(self,n:int):
+        """
+        コンストラクタ
+
+        Args:
+            -  n (int):すべて独立したn個ノードとして初期化する
+        """
+        self.par=[-1]*n
+
+    def root(self,i:int)->int:
+        """親ノードを再帰的に探索する
+        途中で見つけた親ノードで各子ノード更新する
+        Args:
+            -  i (int):探したいノード 
+
+        Returns:
+            -  int:親ノード
+        """
+        if self.par[i]==-1:
+            return i
+        else:
+            self.par[i]=self.root(self.par[i])
+            return self.par[i]
+
+    def unite(self,a:int,b:int)->None:
+        """ノードaとノードbを結合する
+
+        Args:
+            -  a (int): 結合したいノード
+            -  b (int): 結合したいノード
+        """
+        b,a=self.root(b),self.root(a)
+        if a==b:
+            return
+        self.par[b]=a
+
 
 def main():
     # 関数定義スペース
@@ -10,15 +53,25 @@ def main():
     # 入力スペース
 
     N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
     A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
 
     ...
 
     # 処理スペース
-
+    uf = unionFind(N)
+    for i in range(N):
+        uf.unite(i,A[i]-1)
+    count = [0]*N
+    parent = []
+    for i in range(N):
+        if uf.par[i] != -1:
+            count[uf.par[i]]+=1
+        else:
+            parent.append(i)
+    result = 0
+    for i in parent:
+        result+=math.comb(count[i]+1,2)
+    print(result)
 
 
 

@@ -1,3 +1,4 @@
+# ABC436C
 # template
 
 def main():
@@ -9,16 +10,26 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    QUERIES = []
+    N, M = split(input(),func=int)
+    for i in range(M):
+        R, C = split(input(),func=int)
+        QUERIES.append((R,C))
 
     ...
 
     # 処理スペース
 
+    isPlaced = set()
+    for r,c in QUERIES:
+        candidates = [(r,c),(r+1,c),(r,c+1),(r+1,c+1)]
+        for i in candidates:
+            if i in isPlaced:
+                break
+        else:
+            for i in candidates:
+                isPlaced.add(i)
+    print(len(isPlaced)//4)
 
 
 

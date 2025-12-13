@@ -1,4 +1,4 @@
-# template
+# ABC320D
 
 def main():
     # 関数定義スペース
@@ -9,17 +9,46 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    N, M = split(input(),func=int)
+    CORDINATES = []
+    for i in range(M):
+        a,b,x,y = split(input(),func=int)
+        CORDINATES.append(tuple([a,b,x,y]))
+        CORDINATES.append(tuple([b,a,-1*x,-1*y]))
 
+    GRAPH = dict()
+    for i in range(len(CORDINATES)):
+        if CORDINATES[i][0] not in GRAPH:
+            GRAPH[CORDINATES[i][0]] = []
+        GRAPH[CORDINATES[i][0]].append((CORDINATES[i][1],(CORDINATES[i][2],CORDINATES[i][3])))
     ...
 
     # 処理スペース
-
-
+    place = dict()
+    stack = []
+    for i in range(N,0,-1):
+        stack.append(i)
+    done = set()
+    place[1] = (0,0)
+    while stack:
+        pos = stack.pop()
+        if pos in done:
+            continue
+        done.add(pos)
+        if pos not in GRAPH:
+            continue
+        for j,next in GRAPH[pos]:
+            if j in done:
+                continue
+            if pos not in place:
+                continue
+            place[j] = (place[pos][0]+next[0],place[pos][1]+next[1])
+            stack.append(j)
+    for i in range(N):
+        if i+1 not in place:
+            print("undecidable")
+            continue
+        print(*place[i+1])
 
 
 
@@ -48,7 +77,7 @@ from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
 sys.set_int_max_str_digits(0)
-dict = defaultdict
+# dict = defaultdict
 UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
 MOD = 998244353

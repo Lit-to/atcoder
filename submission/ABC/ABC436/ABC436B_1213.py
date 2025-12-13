@@ -1,4 +1,7 @@
+# ABC436B
 # template
+
+
 
 def main():
     # 関数定義スペース
@@ -10,14 +13,32 @@ def main():
     # 入力スペース
 
     N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
 
     ...
 
     # 処理スペース
+    board = []
+    for i in range(N):
+        board.append([0]*N)
+
+    pos = (0,(N-1)//2)
+    k=1
+    board[pos[0]][pos[1]] = 1
+    for i in range(N**2-1):
+        candA = ((pos[0]-1)%N,(pos[1]+1)%N)
+        candB = ((pos[0]+1)%N,(pos[1]))
+        if board[candA[0]][candA[1]] == 0:
+            board[candA[0]][candA[1]] = k+1
+            pos = candA
+        else:
+            board[candB[0]][candB[1]] = k+1
+            pos = candB
+        k+=1
+
+    for i in range(N):
+        print(*board[i])
+    pass
+
 
 
 

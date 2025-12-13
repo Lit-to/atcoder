@@ -123,5 +123,12 @@
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
-  "editor.defaultFormatter": "xaver.clang-format"
+  "editor.defaultFormatter": "xaver.clang-format",
+  "files.exclude": {
+    "": true,
+    ".gitignore": true,
+    ".vscode": true,
+    "**/deploykit": true,
+    "**/submission": true
+  }
 }
