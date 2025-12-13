@@ -48,16 +48,25 @@ fi
 # 移動処理
 for f in "${matches[@]}"; do
     base=$(basename "$f")
-    # A?C を取り出す（先頭の3文字：A + 任意1文字 + C）
+    name_wo_ext="${base%.*}"
+    ext="${base##*.}"
     aqc="${base:0:3}"
-    # A?C + 3桁 を取り出してディレクトリ名に（先頭6文字：A?C + 3桁）
-    # 例: A?C123X.ext -> A?C123
     dirpart="${base:0:6}"
-
     dest_dir="$DEST_ROOT/$aqc/$dirpart"
     mkdir -p "$dest_dir"
-    mv -- "$f" "$dest_dir/"
-    echo "Moved: '$base' -> '$dest_dir/'"
+    # 日付 suffix — MMDD。YYYYMMDD にしたければ "+%Y%m%d" にする
+    suffix=$(date +%m%d)
+    base_prefix="${name_wo_ext}_${suffix}"
+    # ベース名 + 拡張子
+    new_base="${base_prefix}.${ext}"
+    i=1
+    # 同名ファイルがあれば _1, _2, ... を付けていく
+    while [ -e "$dest_dir/$new_base" ]; do
+        new_base="${base_prefix}_${i}.${ext}"
+        i=$((i+1))
+    done
+    mv -- "$f" "$dest_dir/$new_base"
+    echo "Moved: '$base' -> '$dest_dir/$new_base'"
 done
 
 
