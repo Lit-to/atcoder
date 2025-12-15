@@ -1,28 +1,81 @@
-# ABC321C
+# ABC321D
+class prefix_sum():
+    """
+    累積和クラス
+    """
+    def __init__(self, value: list, reverse: bool = False):
+        """
+        コンストラクタ
+        累積和の事前計算を行う
+
+        Args:
+            -  value (list): 求めたい値配列
+            -  reverse (bool, optional): 反転するかどうか
+        """
+        self.__data=[0]
+        for i in value:
+            self.__data.append(self.__data[-1] + i)
+        self.__data.reverse if reverse else None
+        self.__data = tuple(self.__data)
+    def get_sum(self, left: int, right: int):
+        """半開区間[l,r)の総和を取得する。
+
+        Args:
+            -  left (int): 左端
+            -  right (int): 右端
+
+        Returns:
+            -  int: 総和の結果
+        """
+        return self.__data[right] - self.__data[left]
+
+def search(ok:int,ng:int,f:bool)->int:
+    """二分探索を行う関数
+    単調増加の範囲においてokのうちいちばんngに近いものの値を返す
+    利用例:
+    -  lambda i:a[i]<x xを含まない最大のiを返す
+    -  lambda i:a[i]<=x xを含む最大のiを返す
+
+    Args:
+        -  ok (int): 評価関数fに渡したときに必ずTrueを返すことが保証されている値
+        -  ng (int): 評価関数fに渡したときに必ずFalseを返すことが保証されている値
+        -  f (bool): 評価関数(引数1/戻り値bool)
+
+    Returns:
+        -  int: 結果
+    """
+    while 1<abs(ok-ng):
+        mid=(ng+ok)//2
+        if f(mid):
+            ok=mid
+        else:
+            ng=mid
+    return ok
 
 def main():
     # 関数定義スペース
-
-    def condition(num:int):
-        s = str(num)
-        n = len(s)
-        for i in range(n-1):
-            if not(int(s[i])>int(s[i+1])):
-                return False
-        return True
-        ...
-
-    ...    
     # 入力スペース
 
-    K = split(input(),func=int)[0]
-    printYN(condition(K))
+    N, M, P = split(input(),func=int)
+    A = split(input(),func=int)
+    B = split(input(),func=int)
+    A.sort()
+    B.sort()
+
     ...
 
     # 処理スペース
 
-
-
+    ps_A = prefix_sum(A)
+    result = 0
+    for i in range(M):
+        index = search(-1,N,lambda x:A[x]+B[i]<=P)
+        if index == -1:
+            result += P*N
+        else:
+            result += ps_A.get_sum(0,index+1)+(B[i]*(index+1))
+            result += P*(N-(index+1))
+    print(result)
 
 
 
