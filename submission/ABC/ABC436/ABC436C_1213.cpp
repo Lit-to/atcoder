@@ -9,46 +9,36 @@
 
 int main()
 {
-    std::vector<std::vector<int>> LRUD(4);
-    std::vector<int> L(2);
-    std::vector<int> R(2);
-    std::vector<int> U(2);
-    std::vector<int> D(2);
-    L = {0, 0};
-    R = {0, 1};
-    U = {1, 0};
-    D = {1, 1};
-    LRUD[0] = L;
-    LRUD[1] = R;
-    LRUD[2] = U;
-    LRUD[3] = D;
+    const int64_t LRUD[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 
     /*入力エリア*/
-    int N, M;
+    int64_t N, M;
     std::cin >> N >> M;
-    std::vector<std::vector<int>> RC(M);
-    for (int i = 0; i < M; ++i)
+    std::vector<std::vector<int64_t>> RC(M);
+    for (int64_t i = 0; i < M; ++i)
     {
-        int R, C;
+        int64_t R, C;
         std::cin >> R >> C;
-        std::vector<int> temp(2);
+        std::vector<int64_t> temp(2);
         temp[0] = R;
         temp[1] = C;
         RC[i] = temp;
     }
 
     /*実装エリア */
-    std::set<std::vector<int>> isPlaced;
-
-    for (int i = 0; i < M; ++i)
+    // std::set<std::vector<int64_t>> isPlaced;
+    std::unordered_set<int64_t> isPlaced;
+    const int64_t H = 2e9;
+    const int64_t W = 2e9;
+    for (int64_t i = 0; i < M; ++i)
     {
         bool isNotCovered = true;
-        for (int j = 0; j < 4; ++j)
+        for (auto &d : LRUD)
         {
-            std::vector<int> pos(2);
-            pos[0] = RC[i][0] + LRUD[j][0];
-            pos[1] = RC[i][1] + LRUD[j][1];
-            if (isPlaced.contains(pos))
+            std::vector<int64_t> pos(2);
+            pos[0] = RC[i][0] + d[0];
+            pos[1] = RC[i][1] + d[1];
+            if (isPlaced.contains(pos[0] * W + pos[1]))
             {
                 isNotCovered = false;
                 break;
@@ -56,15 +46,14 @@ int main()
         }
         if (isNotCovered)
         {
-            for (int j = 0; j < 4; ++j)
+            for (auto &d : LRUD)
             {
-                std::vector<int> pos(2);
-                pos[0] = RC[i][0] + LRUD[j][0];
-                pos[1] = RC[i][1] + LRUD[j][1];
-                isPlaced.insert(pos);
+                std::vector<int64_t> pos(2);
+                pos[0] = RC[i][0] + d[0];
+                pos[1] = RC[i][1] + d[1];
+                isPlaced.insert(pos[0] * W + pos[1]);
             }
         }
-        // std::cerr << RC[i][0] << ":" << RC[i][1] << ":" << isPlaced.size() << std::endl;
     }
     std::cout << isPlaced.size() / 4 << std::endl;
 
