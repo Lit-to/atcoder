@@ -1,28 +1,37 @@
+# ABC323D
 
 def main():
     # 関数定義スペース
 
-    def func():
+    def calcType(num:int):
+        while num%2 == 0:
+            num //= 2
+        return num
         ...
+
 
     ...    
     # 入力スペース
 
     N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
-    S = split(input(),sep="")
+    SC = []
+    for i in range(N):
+        SC.append(split(input(),func=int))
 
     ...
 
+    d = dict(lambda:0)
     # 処理スペース
+    for i in range(N):
+        t=calcType(SC[i][0])
+        v=SC[i][0]//t
+        v*=SC[i][1]
+        d[t]+=v
 
-
-
-
-
-
+    result = 0
+    for i in d:
+        result+=listbin(d[i]).count(1)
+    print(result)
     ...
 
 
