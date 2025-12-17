@@ -1,4 +1,4 @@
-# template
+# ABC328D
 def main():
     # 関数定義スペース
 
@@ -8,16 +8,22 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
     S = split(input(),sep="")
 
     ...
 
     # 処理スペース
-
+    stack = []
+    ABC ="ABC"
+    for i in S:
+        stack.append(i)
+        if len(stack)<3:
+            continue
+        if ABC==stack[-3]+stack[-2]+stack[-1]:
+            stack.pop()
+            stack.pop()
+            stack.pop()
+    print(*stack,sep="")
 
 
 
