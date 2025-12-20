@@ -17,11 +17,13 @@ class prefix_sum():
         self.__data.reverse if reverse else None
         self.__data = tuple(self.__data)
     def get_sum(self, left: int, right: int):
-        """半開区間[l,r)の総和を取得する。
+        """
+        配列のlからrまでの総和を求める。
+        -  半開区間[0,r)の総和-[0,l)の総和の差を取得する。
 
         Args:
-            -  left (int): 左端
-            -  right (int): 右端
+            -  left (int): 左端 0-origin
+            -  right (int): 右端 0-origin
 
         Returns:
             -  int: 総和の結果
