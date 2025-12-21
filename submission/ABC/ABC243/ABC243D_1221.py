@@ -1,4 +1,4 @@
-# template
+# ABC243D
 def main():
     # 関数定義スペース
 
@@ -8,17 +8,28 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
+    N, X = split(input(),func=int)
     S = split(input(),sep="")
 
     ...
 
     # 処理スペース
+    pos = X
+    stack = []
+    for i in range(N):
+        if S[i] == "U" and 0<len(stack) and (stack[-1] == "L" or stack[-1] == "R"):
+            stack.pop()
+        else:
+            stack.append(S[i])
 
-
+    for i in range(len(stack)):
+        if stack[i]=="U":
+            pos//=2
+        elif stack[i] =="L":
+            pos*=2
+        elif stack[i] =="R":
+            pos=(pos*2)+1
+    printe(pos)
 
 
 
