@@ -1,4 +1,4 @@
-# template
+# ABC283D
 def main():
     # 関数定義スペース
 
@@ -8,16 +8,32 @@ def main():
     ...    
     # 入力スペース
 
-    N = split(input(),func=int)[0]
-    H, W = split(input(),func=int)
-    A = split(input(),func=int)
-    S = split(input())
     S = split(input(),sep="")
+    N = len(S)
 
     ...
 
     # 処理スペース
-
+    charStack = []
+    phStack = []
+    isUsed = set()
+    for i in range(N):
+        if S[i] == "(":
+            phStack.append(len(charStack))
+            charStack.append(S[i])
+        elif S[i] == ")":
+            no(len(phStack)==0)
+            while phStack[-1] < len(charStack):
+                no(len(charStack)==0)
+                s = charStack.pop()
+                isUsed.discard(s)
+            phStack.pop()
+        else:
+            no(S[i] in isUsed)
+            isUsed.add(S[i])
+            charStack.append(S[i])
+    yes()
+        
 
 
 
@@ -25,7 +41,8 @@ def main():
 
     ...
 
-# テンプレートコピペエリア
+
+
 
 
 # テストケース中枢処理
