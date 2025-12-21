@@ -14,7 +14,7 @@ if [ "$question" != "y" ] && [ "$question" != "yes" ];then
 fi
 
 # gitの更新
-
+git push
 git checkout main
 git pull -p
 git checkout -b $contestName main
