@@ -1,4 +1,4 @@
-# template
+# JOI2008A
 def main():
     # 関数定義スペース
 
@@ -13,11 +13,36 @@ def main():
     -  A = split(input(),func=int)
     -  S = split(input())[0]
     """
-
-
-    ...
-
+    N = split(input(),func=int)[0]
+    A= []
+    for i in range(N):
+        A.append(split(input(),func=int)[0])
+    
     # 処理スペース
+    stack = [[-1,0]]
+    for i in range(N):
+        if i%2 == 0:
+            if stack[-1][0] == A[i]:
+                stack[-1][1]+=1
+            else:
+                stack.append([A[i],1])
+        else:
+            if stack[-1][0] == A[i]:
+                stack[-1][1]+=1
+            else:
+                _,count = stack.pop()
+                if stack[-1][0] == -1:
+                    stack.append([A[i],0])
+                stack[-1][1]+=count
+                stack[-1][1]+=1
+                # stack.append([A[i],1])
+        # debug(*stack)
+    ...
+    count = 0
+    for i in range(len(stack)):
+        if stack[i][0] == 0:
+            count+=stack[i][1] 
+    print(count)
 
 
 
@@ -44,7 +69,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
