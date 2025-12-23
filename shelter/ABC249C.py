@@ -1,6 +1,15 @@
-# template
+# ABC249C
 def main():
     # 関数定義スペース
+    def count(s:list,K:int):
+        d = dict(lambda:0)
+        for i in list(LOWER_ALPHABET):
+            for j in s:
+                d[i] += (i in j)
+        c = 0
+        for i in list(LOWER_ALPHABET):
+            c+=d[i] == K
+        return c
 
     ...    
 
@@ -13,6 +22,23 @@ def main():
     # A = split(input(),func=int)
     # S = split(input())[0]
     """
+    N, K = split(input(),func=int)
+    S = []
+    result = 0
+    for i in range(N):
+        S.append(list(input()))
+    for i in range(2**N):
+        s = []
+        bit = listbin(i,N)
+        debug(*bit)
+        for j in range(N):
+            if bit[j]==0:
+                continue
+            else:
+                s.append(S[j])
+        result = max(result,count(s,K))
+    print(result)
+
 
 
     ...
@@ -66,7 +92,37 @@ def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-def listbin(num): return split(bin(num)[2:],"",int)
+def listbin(num,digits): return list(map(int,list(bin(num)[2:])))
+
+class bitSearch:
+    """
+    ビット全探索用クラス
+    bitSearch(n)で初期化
+    """
+    digits:int
+    nextValue:int
+    lastValue:int
+    def __init__(self,n:int):
+        """
+        """
+        self.digits = n
+        self.nextValue = 0
+        self.lastValue = 1<<n
+    def next(self) -> list:
+        if self.isFinished():
+            return [0]*self.digits
+        v = self.nextValue
+        digits = [0]*self.digits
+        for i in range(self.digits):
+            digits[i] = v&1
+            v >> 1
+        self.nextValue+=1
+        return digits
+    def isFinished(self)->None:
+        return self.lastValue<=self.nextValue
+    def reset(self)->None:
+        self.nextValue = 1
+
 
 ## 分割関数
 def split(value:str,sep:str=" ",func:callable=str) -> list:

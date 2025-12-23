@@ -15,7 +15,7 @@ if [[ "$fileName" == *.* ]]; then
     ext="${fileName##*.}"
     basename="${fileName%.*}"
 else
-    ext="py"
+    ext="cpp"
     basename="$fileName"
     fileName="${basename}.${ext}"
 fi
