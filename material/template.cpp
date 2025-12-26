@@ -8,15 +8,15 @@ int main()
 {
 
     /*入力エリア*/
-    int N;
+    int64_t N;
     std::cin >> N;
 
-    int H;
-    int W;
+    int64_t H;
+    int64_t W;
     std::cin >> H >> W;
 
-    std::vector<int> A(N);
-    for (int i = 0; i < N; ++i)
+    std::vector<int64_t> A(N);
+    for (int64_t i = 0; i < N; ++i)
     {
         std::cin >> A[i];
     }
