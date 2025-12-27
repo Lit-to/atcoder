@@ -51,7 +51,7 @@ void append(int64_t digits, int64_t value)
     {
         int i = 0;
         int nextValue = value + SEP + i;
-        while (nextValue <= M)
+        while (nextValue <= (M - (N - (digits + 2)) * 10))
         {
             append(digits + 1, nextValue);
             i += 1;
@@ -66,7 +66,7 @@ int main()
 
     /*入力エリア*/
     std::cin >> N >> M;
-    for (int64_t i = 1; i < M; ++i)
+    for (int64_t i = 1; i < (M - (N - (0 + 2)) * 10); ++i)
     {
         append(0, i);
     }
