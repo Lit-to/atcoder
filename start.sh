@@ -25,7 +25,7 @@ for letter in A B C D E F G; do
     cp material/template.py dev/$contestName$letter.py
     sed -i "1i # $contestName$letter" dev/$contestName$letter.py
     done
-for letter in A B C; do
+for letter in C D; do
     cp material/template.cpp dev/$contestName$letter.cpp
     sed -i "1i // $contestName$letter" dev/$contestName$letter.cpp
     done
