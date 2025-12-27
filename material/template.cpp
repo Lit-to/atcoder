@@ -27,26 +27,14 @@
 int main()
 {
 
-    /*入力エリア*/
-    int64_t N;
-    std::cin >> N;
+    /*入力エリア
+     * std::cin >> N;
+     */
 
-    int64_t H;
-    int64_t W;
-    std::cin >> H >> W;
+    /* 実装エリア
+    * std::cout << " " << std::endl;
 
-    std::vector<int64_t> A(N);
-    for (int64_t i = 0; i < N; ++i)
-    {
-        std::cin >> A[i];
-    }
-
-    std::string S;
-    std::cin >> S;
-
-    std::cout << S << std::endl;
-
-    /*実装エリア */
+    */
 
     return 0;
 }
