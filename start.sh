@@ -22,11 +22,11 @@ git checkout $contestName
 
 # フォルダの作成･ファイルの移動
 for letter in A B C D E F G; do
-    cp modules/template.py dev/$contestName$letter.py
+    cp modules/py/template.py dev/$contestName$letter.py
     sed -i "1i # $contestName$letter" dev/$contestName$letter.py
     done
 for letter in C D; do
-    cp modules/template.cpp dev/$contestName$letter.cpp
+    cp modules/cpp/template.cpp dev/$contestName$letter.cpp
     sed -i "1i // $contestName$letter" dev/$contestName$letter.cpp
     done
 # 終わったら元のフォルダへ戻る
