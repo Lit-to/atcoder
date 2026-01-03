@@ -57,18 +57,12 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.readonlyInclude": {
-    "material/*": true,
+    "modules/**": true,
     "deploykit/*": true
   },
-  "java.project.sourcePaths": [
-    "lang/java"
-  ],
-  "java.project.outputPath": "/lang/output",
-  "java.project.referencedLibraries": [],
   "files.readonlyExclude": {
     "lang/python/material/test.py": true
   },
-  "java.jdt.ls.home": "/usr/lib/jvm/java-17-openjdk-amd64",
   "files.associations": {
     "vector": "cpp",
     "iostream": "cpp",
