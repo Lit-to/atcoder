@@ -4,8 +4,6 @@
 
 !test/prof/
 !test/prof/pro.sh
-!test/operation/
-!test/operation/template.sh
 
 
 __pycache__
