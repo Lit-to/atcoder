@@ -26,15 +26,4 @@
 
 int main()
 {
-
-    /*入力エリア
-     * std::cin >> N;
-     */
-
-    /* 実装エリア
-    * std::cout << " " << std::endl;
-
-    */
-
-    return 0;
 }
