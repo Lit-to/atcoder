@@ -102,7 +102,7 @@ int main()
     {
         std::cin >> QUERIES[i];
     }
-    std::vector<int64_t> sleighs(N);
+    std::vector<int64_t> sleighs(R.begin(), R.end());
     std::copy(R.begin(), R.end(), sleighs.begin());
     std::sort(sleighs.begin(), sleighs.end());
 
