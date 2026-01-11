@@ -13,10 +13,10 @@ public:
      */
     PrefixSumManager(const std::vector<int64_t> &values)
     {
-        this->data.push_back(0);
+        m_data.push_back(0);
         for (int64_t i = 0; i < values.size(); ++i)
         {
-            this->data.push_back(this->data[i] + values[i]);
+            m_data.push_back(m_data[i] + values[i]);
         }
     };
 
@@ -24,11 +24,11 @@ public:
      * 与えられたデータの(l,r)までの総和を求める。
      * -  -  半開区間[0,r)の総和-[0,l)の総和の差を返す
      */
-    const int64_t GetSum(int64_t leftSection, int64_t rightSection)
+    int64_t GetSum(int64_t leftSection, int64_t rightSection) const
     {
-        return this->data.at(rightSection) - this->data.at(leftSection);
+        return m_data.at(rightSection) - m_data.at(leftSection);
     };
 
 private:
-    std::vector<int64_t> data; //!< 累積和として計算済みのデータ
+    std::vector<int64_t> m_data; //!< 累積和として計算済みのデータ
 };
