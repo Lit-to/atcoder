@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <map>
 #include <queue>
-#include <set>
+#include <unordered_set>
 
 /**
  *方針メモ欄
@@ -26,11 +26,7 @@
  *
  *
  */
-std::vector<int64_t> costs;
-bool eval(int64_t &lhs, int64_t &rhs)
-{
-    return costs[lhs] < costs[rhs];
-}
+
 int main()
 {
 
@@ -53,22 +49,25 @@ int main()
         GRAPH[i].push_back(EDGE{.m_to = i + 1, .m_cost = a});
         GRAPH[i].push_back(EDGE{.m_to = x - 1, .m_cost = b});
     }
-
-    std::priority_queue<int64_t> tasks;
-    tasks.push(0);
-
+    std::priority_queue<EDGE> tasks;
+    tasks.push(EDGE{.m_to = 0, .m_cost = 0});
+    std::unordered_set<int64_t> done;
     while (!tasks.empty())
     {
         EDGE pos = tasks.top();
+        done.insert(pos.m_to);
+        tasks.pop();
         if (pos.m_to == N - 1)
         {
             std::cout << pos.m_cost << std::endl;
             return 0;
         }
-        tasks.pop();
         for (EDGE i : GRAPH[pos.m_to])
         {
-            tasks.push(i.m_to);
+            if (!done.contains(i.m_to))
+            {
+                tasks.push(EDGE{.m_to = i.m_to, .m_cost = i.m_cost + pos.m_cost});
+            }
         }
     }
 
