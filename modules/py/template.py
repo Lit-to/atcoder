@@ -31,10 +31,10 @@ def main():
     """
     入力受け取り例
     
-    # N = split(input(),func=int)[0]
-    # H, W = split(input(),func=int)
-    # A = split(input(),func=int)
-    # S = split(input())[0]
+    N = int(input())
+    H, W = map(int,input().split())
+    A = list(map(int,input().split()))
+    S = input()
     """
 
 
