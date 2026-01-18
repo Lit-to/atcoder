@@ -13,12 +13,13 @@ public:
         m_parent.assign(length, -1);
         m_size.assign(length, 1);
     }
+
     /**
      * nodeAにnodeBを結合する
      * @param nodeA 結合されるノード番号
      * @param nodeB 結合するノード番号
      */
-    void uniteNodes(int64_t nodeA, int64_t nodeB)
+    void unite(int64_t nodeA, int64_t nodeB)
     {
         int64_t aRoot = updateRoot(nodeA);
         int64_t bRoot = updateRoot(nodeB);
@@ -26,8 +27,8 @@ public:
         {
             return;
         }
-        int64_t aSize = fetchSize(aRoot);
-        int64_t bSize = fetchSize(bRoot);
+        int64_t aSize = getSize(aRoot);
+        int64_t bSize = getSize(bRoot);
         if (aSize < bSize)
         {
             std::swap(aRoot, bRoot);
@@ -36,13 +37,24 @@ public:
         m_size[aRoot] += bSize;
         m_parent[bRoot] = aRoot;
     }
+
     /**
      * ノードの属するグループのサイズを求める
      * @param node ノード番号
      */
-    int64_t fetchSize(int64_t node)
+    int64_t getSize(int64_t node)
     {
         return m_size[updateRoot(node)];
+    }
+
+    /**
+     * ノードが親ノードかどうかを返す
+     * @param node ノード番号
+     * @return ノードが親かどうか
+     */
+    bool isRoot(int64_t node)
+    {
+        return m_parent[node] < 0;
     }
 
 private:
