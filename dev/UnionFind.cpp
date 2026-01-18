@@ -14,15 +14,14 @@ public:
         m_size.assign(length, 1);
     }
     /**
-     * unite関数
      * nodeAにnodeBを結合する
      * @param nodeA 結合されるノード番号
      * @param nodeB 結合するノード番号
      */
-    void unite(int64_t nodeA, int64_t nodeB)
+    void uniteNodes(int64_t nodeA, int64_t nodeB)
     {
-        int64_t aRoot = root(nodeA);
-        int64_t bRoot = root(nodeB);
+        int64_t aRoot = updateRoot(nodeA);
+        int64_t bRoot = updateRoot(nodeB);
         if (aRoot == bRoot)
         {
             return;
@@ -38,28 +37,27 @@ public:
         m_parent[bRoot] = aRoot;
     }
     /**
-     * fetchSize関数
-     * ノードの属するグループのサイズを突き止める
+     * ノードの属するグループのサイズを求める
+     * @param node ノード番号
      */
     int64_t fetchSize(int64_t node)
     {
-        return m_size[root(node)];
+        return m_size[updateRoot(node)];
     }
 
 private:
     /**
-     * root関数
      * nodeの根を突き止める
      * また、根に至るまでの経路をすべて根の子とする
      * @param node ノード番号
      */
-    int64_t root(int64_t node)
+    int64_t updateRoot(int64_t node)
     {
         if (m_parent[node] == -1)
         {
             return node;
         }
-        m_parent[node] = root(m_parent[node]);
+        m_parent[node] = updateRoot(m_parent[node]);
         return m_parent[node];
     }
 
