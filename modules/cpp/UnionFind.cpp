@@ -68,7 +68,7 @@ public:
      */
     bool IsSameRoot(int64_t nodeA, int64_t nodeB)
     {
-        return UpdateRoot(nodeA) == UpdateRoot(nodeB);
+        return GetRoot(nodeA) == GetRoot(nodeB);
     }
 
     /**
