@@ -7,69 +7,106 @@
 #include <cmath>
 #include <unordered_set>
 
+/**
+ * @class UnionFind
+ * @brief UnionFindの木を管理するクラス
+ */
 class UnionFind
 {
 public:
     /**
-     * unionFindのコンストラクタ
-     * 指定の長さでメンバー変数の初期化を行う
+     * @brief unionFindのコンストラクタ
+     * 初期化を行う
      * @param length 長さ
      */
-    UnionFind(int64_t length)
+    UnionFind(int64_t length) : m_parent(length, ROOT), m_size(length, 1)
     {
-        m_parent.assign(length, -1);
-        m_size.assign(length, 1);
     }
+
     /**
-     * nodeAにnodeBを結合する
-     * @param nodeA 結合するノード番号
-     * @param nodeB 結合するノード番号
+     * @brief nodeAにnodeBを結合する
+     * @param nodeA 結合対象のノード番号
+     * @param nodeB 結合対象のノード番号
      */
-    void unite(int64_t nodeA, int64_t nodeB)
+    void Unite(int64_t nodeA, int64_t nodeB)
     {
-        int64_t aRoot = root(nodeA);
-        int64_t bRoot = root(nodeB);
+        int64_t aRoot = UpdateRoot(nodeA);
+        int64_t bRoot = UpdateRoot(nodeB);
         if (aRoot == bRoot)
         {
             return;
         }
-        int64_t aSize = fetchSize(aRoot);
-        int64_t bSize = fetchSize(bRoot);
+        int64_t aSize = GetSize(aRoot);
+        int64_t bSize = GetSize(bRoot);
         if (aSize < bSize)
         {
             std::swap(aRoot, bRoot);
             std::swap(aSize, bSize);
         }
         m_size[aRoot] += bSize;
+        m_size[bRoot] = 0;
         m_parent[bRoot] = aRoot;
-    }
-    /**
-     * ノードの属するグループのサイズを突き止める
-     * @param ノード番号
-     */
-    int64_t fetchSize(int64_t node)
-    {
-        return m_size[root(node)];
     }
 
     /**
-     * nodeの根を突き止める
-     * また、根に至るまでの経路をすべて根の子とする
+     * @brief ノードの属するグループのサイズを求める
      * @param node ノード番号
      */
-    int64_t root(int64_t node)
+    int64_t GetSize(int64_t node)
     {
-        if (m_parent[node] == -1)
-        {
-            return node;
-        }
-        m_parent[node] = root(m_parent[node]);
-        return m_parent[node];
+        return m_size[UpdateRoot(node)];
+    }
+
+    /**
+     * @brief ノードが根かどうかを返す
+     * @param node ノード番号
+     * @return ノードが根かどうか
+     */
+    bool IsRoot(int64_t node)
+    {
+        return m_parent[node] < 0;
+    }
+
+    /**
+     * @brief ノード同士が同じグループかどうかを求める
+     * @param nodeA 調べる対象のノード
+     * @param nodeB 調べる対象のノード
+     * @return 同じグループかどうか
+     */
+    bool IsSameRoot(int64_t nodeA, int64_t nodeB)
+    {
+        return UpdateRoot(nodeA) == UpdateRoot(nodeB);
+    }
+
+    /**
+     * @brief nodeの根を更新し、根を取得する
+     * @param 調べたい対象のノード番号
+     */
+    int64_t GetRoot(int64_t node)
+    {
+        return UpdateRoot(node);
     }
 
 private:
-    std::vector<int64_t> m_size;   //! 子のサイズを持つvector
-    std::vector<int64_t> m_parent; //! 自分の親の情報を持つvector
+    /**
+     * @brief nodeの根を更新する
+     * また、根に至るまでの経路をすべて根の子とする
+     * @param node 更新対象のノード番号
+     * @return 根のノード番号
+     */
+    int64_t UpdateRoot(int64_t node)
+    {
+        if (m_parent[node] == ROOT)
+        {
+            return node;
+        }
+        m_parent[node] = UpdateRoot(m_parent[node]);
+        return m_parent[node];
+    }
+
+    std::vector<int64_t> m_size;    //! 子のサイズを持つvector
+    std::vector<int64_t> m_parent;  //! 自分の親の情報を持つvector
+    static constexpr int ROOT = -1; //! そのノードが親であることを示す値
 };
 
 /**
@@ -104,19 +141,19 @@ int main()
     UnionFind uf(N);
     for (int64_t i = 0; i < M; ++i)
     {
-        uf.unite(INPUT[i].A, INPUT[i].B);
+        uf.Unite(INPUT[i].A, INPUT[i].B);
     }
     std::unordered_set<int64_t> done;
     int64_t result = 0;
     for (int64_t i = 0; i < N; ++i)
     {
-        if (done.contains(uf.root(i)))
+        if (done.contains(uf.GetRoot(i)))
         {
             continue;
         }
-        int64_t size = uf.fetchSize(i);
+        int64_t size = uf.GetSize(i);
         result += size * (size - 1) / 2;
-        done.insert(uf.root(i));
+        done.insert(uf.GetRoot(i));
     }
     std::cout << result - M << std::endl;
 }

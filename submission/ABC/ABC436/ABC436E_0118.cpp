@@ -65,20 +65,41 @@ public:
     }
 
     /**
-     * @brief ノードが親ノードかどうかを返す
+     * @brief ノードが根かどうかを返す
      * @param node ノード番号
-     * @return ノードが親かどうか
+     * @return ノードが根かどうか
      */
     bool IsRoot(int64_t node)
     {
         return m_parent[node] < 0;
     }
 
+    /**
+     * @brief ノード同士が同じグループかどうかを求める
+     * @param nodeA 調べる対象のノード
+     * @param nodeB 調べる対象のノード
+     * @return 同じグループかどうか
+     */
+    bool IsSameRoot(int64_t nodeA, int64_t nodeB)
+    {
+        return UpdateRoot(nodeA) == UpdateRoot(nodeB);
+    }
+
+    /**
+     * @brief nodeの根を更新し、根を取得する
+     * @param 調べたい対象のノード番号
+     */
+    int64_t GetRoot(int64_t node)
+    {
+        return UpdateRoot(node);
+    }
+
 private:
     /**
-     * @brief nodeの根を突き止める
+     * @brief nodeの根を更新する
      * また、根に至るまでの経路をすべて根の子とする
-     * @param node ノード番号
+     * @param node 更新対象のノード番号
+     * @return 根のノード番号
      */
     int64_t UpdateRoot(int64_t node)
     {
