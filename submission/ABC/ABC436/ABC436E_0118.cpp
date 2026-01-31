@@ -12,8 +12,6 @@
  * # 具体的なロジック
  *
  */
-#include <vector>
-#include <cstdint>
 /**
  * @class UnionFind
  * @brief UnionFindの木を管理するクラス
@@ -82,7 +80,7 @@ public:
      */
     bool IsSameRoot(int64_t nodeA, int64_t nodeB)
     {
-        return UpdateRoot(nodeA) == UpdateRoot(nodeB);
+        return GetRoot(nodeA) == GetRoot(nodeB);
     }
 
     /**
@@ -103,7 +101,7 @@ private:
      */
     int64_t UpdateRoot(int64_t node)
     {
-        if (m_parent[node] == ROOT)
+        if (IsRoot(node))
         {
             return node;
         }

@@ -89,7 +89,7 @@ private:
      */
     int64_t UpdateRoot(int64_t node)
     {
-        if (IsRoot(m_parent[node]))
+        if (IsRoot(node))
         {
             return node;
         }
