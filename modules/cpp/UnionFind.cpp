@@ -57,7 +57,7 @@ public:
      */
     bool IsRoot(int64_t node)
     {
-        return m_parent[node] < 0;
+        return m_parent[node] == ROOT;
     }
 
     /**
