@@ -14,7 +14,6 @@
  */
 
 /*=========================*/
-
 /**
  * @brief ランレングス圧縮
  */
@@ -68,11 +67,13 @@ public:
         return output;
     }
 };
+using RLC = RunLengthCompression;
+
 int main()
 {
     std::string S;
     std::cin >> S;
-    std::vector<RunLengthCompression::token> rle = RunLengthCompression::Encode(S);
+    std::vector<RLC::token> rle = RLC::Encode(S);
     for (int64_t i = 0; i < rle.size(); ++i)
     {
         if (rle[i].code == '|')
@@ -81,7 +82,7 @@ int main()
         }
         std::cout << rle[i].count << " ";
     }
-    std::string s_ = RunLengthCompression::Decode(rle);
+    std::string s_ = RLC::Decode(rle);
     std::cerr << s_ << std::endl;
     if (S != s_)
     {
