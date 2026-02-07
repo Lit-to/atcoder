@@ -22,10 +22,10 @@ public:
      * 次のビット列を取得する
      * @return ビット列
      */
-    std::vector<int64_t> next()
+    std::vector<bool> next()
     {
         int64_t value = m_value;
-        std::vector<int64_t> result(m_digits);
+        std::vector<bool> result(m_digits);
         for (int64_t i = 0; i < m_digits; ++i)
         {
             result[m_digits - i - 1] = (value & 1);
