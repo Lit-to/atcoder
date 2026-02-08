@@ -26,35 +26,32 @@
  *
  */
 
-class BitManager
+#include <vector>
+#include <cstdint>
+#include <iostream>
+
+/**
+ * @brief りっとー便利ツール詰め合わせ
+ * @details 状態を持たない関数のうち、ひとまとめにするほど規模の大きくないこまごまとした関数を置く
+ */
+namespace litUtility
 {
-public:
-    BitManager(int64_t digits)
+    /**
+     * 値と桁数からビット列を生成する。
+     * e.g.,(5,3) -> {true,false,true}
+     */
+    std::vector<bool> GenerateBit(int64_t value, const int64_t digits)
     {
-        m_max = 1 << digits;
-        m_digits = digits;
-        m_value = 0;
-    }
-    std::vector<int> next()
-    {
-        int64_t value = m_value;
-        std::vector<int> result(m_digits);
-        for (int64_t i = 0; i < m_digits; ++i)
+        std::vector<bool> result(digits);
+        for (int64_t i = 0; i < digits; ++i)
         {
-            result[m_digits - i - 1] = (value & 1);
+            result[digits - i - 1] = (value & 1);
             value >>= 1;
         }
-        ++m_value;
+        ++value;
         return result;
     }
-    bool isFinished()
-    {
-        return m_max <= m_value;
-    }
-    int64_t m_max;
-    int64_t m_value;
-    int64_t m_digits;
-};
+}
 
 struct task
 {
@@ -64,7 +61,7 @@ struct task
 };
 std::vector<task> TASKS;
 int K;
-bool doTest(std::vector<int> &keys)
+bool doTest(std::vector<bool> &keys)
 {
     for (int64_t i = 0; i < TASKS.size(); ++i)
     {
@@ -87,16 +84,7 @@ bool doTest(std::vector<int> &keys)
 }
 int main()
 {
-    // BitManager bm = BitManager(3);
-    // for (int i = 0; i < 10; ++i)
-    // {
-    //     std::vector<int> contents = bm.next();
-    //     for (int j = 0; j < contents.size(); ++j)
-    //     {
-    //         std::cout << contents[j] << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
+
     int64_t N, M;
     std::cin >> N >> M >> K;
     for (int64_t i = 0; i < M; ++i)
@@ -113,16 +101,13 @@ int main()
         std::cin >> r;
         TASKS.push_back(task{.keyCount = c, .keys = keys, .isOpened = (r == 'o')});
     }
-    BitManager bm = BitManager(N);
     int64_t result = 0;
-    while (!bm.isFinished())
+    int64_t bit = 0;
+    while (bit < (1 << N))
     {
-        std::vector<int> keys = bm.next();
-        // for (int j = 0; j < keys.size(); ++j)
-        // {
-        //     std::cout << keys[j] << " ";
-        // }
-        // std::cout << std::endl;
+
+        ++bit;
+        std::vector<bool> keys = litUtility::GenerateBit(bit, N);
         result += doTest(keys);
     }
     std::cout << result << std::endl;
