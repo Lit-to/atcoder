@@ -1,3 +1,11 @@
+template <class T>
+class Board
+{
+public:
+    Board(int64_t height, int64_t width, T initValue = T())
+    {
+    }
+};
 #include <cstdint>
 
 bool IsInner(int64_t i, int64_t j, int64_t h, int64_t w)
