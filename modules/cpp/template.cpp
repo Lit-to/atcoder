@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <algorithm>
 
 /**
  *方針メモ欄
