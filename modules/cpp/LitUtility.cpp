@@ -7,7 +7,7 @@
  * @brief りっとー便利ツール詰め合わせ
  * @details 状態を持たない関数のうち、ひとまとめにするほど規模の大きくないこまごまとした関数を置く
  */
-namespace litUtility
+namespace LitUtility
 {
     /**
      * 二分探索関数
@@ -137,3 +137,4 @@ namespace litUtility
         return result;
     }
 }
+namespace Lit = LitUtility;
