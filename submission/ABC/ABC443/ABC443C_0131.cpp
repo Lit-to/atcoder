@@ -28,20 +28,20 @@ int main()
         std::cout << T << std::endl;
         return 0;
     }
-    A.push_back(T);
-    int64_t time = 0;
-    int i = 0;
-    int count = 0;
-    while (time < T)
+    int64_t open = 0;
+    int64_t result = 0;
+    for (int64_t i = 0; i < N; ++i)
     {
-        if (A[i] < time)
+        if (open < A[i])
         {
-            ++i;
-            continue;
+            result += A[i] - open;
+            open = A[i] + 100;
         }
-        time += A[i] + 100;
-        ++i;
-        ++count;
     }
-    std::cout << T - (count) * 100 << std::endl;
+    if (open < T)
+    {
+        result += T - open;
+    }
+
+    std::cout << result << std::endl;
 }
