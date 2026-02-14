@@ -30,22 +30,16 @@ def main():
     # 入力スペース
     """
     入力受け取り例
-    
-    N = int(input())
-    H, W = map(int,input().split())
-    A = list(map(int,input().split()))
-    S = input()
+
+    im.input()
+    im.intInput()
+    im.listInput()
     """
 
 
     ...
 
     # 処理スペース
-
-
-
-
-
 
     ...
 
@@ -65,7 +59,7 @@ def case():
 
 
 # インポート
-import sys, itertools, math, heapq
+import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
 from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
@@ -89,29 +83,55 @@ def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def printYN(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
-def listbin(num): return split(bin(num)[2:],"",int)
-
-## 分割関数
-def split(value:str,sep:str=" ",func:callable=str) -> list:
-    """
-    分割関数
-    文字列をスペース区切りで分割する。
-    """
-    result = []
-    section = 0
-    for i in range(len(value)):
-        if value[i] == sep:
-            result.append(func(value[section:i]))
-            section = i
-    if i == 0:
-        result.append(func(value[section:]))
-    elif section != i:
-        result.append(func(value[section+1:]))
-    return result
-
 
 ## 入力受け取り用
 def input():return(sys.stdin.readline()).rstrip() #入力定数倍
+
+"""
+入力取得マネージャー
+"""
+class inputManager:
+    __buffer = []
+    __index = 0
+
+    @staticmethod
+    def input():
+        """
+        入力取得関数
+        バッファから次の空白･改行文字までの1トークンを取り出す
+        バッファが空の場合次の改行文字まで読み出す
+        """
+        if len(inputManager.__buffer)==0:
+            inputManager.__buffer = builtins.input().split()
+            inputManager.__index = 0
+        result = inputManager.__buffer[inputManager.__index]
+        inputManager.__index += 1
+        if inputManager.__index==len(inputManager.__buffer):
+            inputManager.__buffer = []
+        return result
+    def intInput():
+        """
+        次の数値を取り出す
+        数値キャストに失敗すると死ぬ
+        """
+        return int(inputManager.input())
+    def listInput(n:int,f:callable=lambda x:x):
+        """
+        n個の入力を配列として返す
+        取り出したものを引数に関数fを実行した結果を格納する        
+
+        :param n: 個数
+        :type n: int
+        :param f: 実行したい関数
+        :type f: callable
+        """
+        result = []
+        for i in range(n):
+            result.append(f(inputManager.input()))
+        return result
+
+im = inputManager
+
 
 # 例外クラス
 class solvedException(Exception): pass # 処理打ち切り例外
