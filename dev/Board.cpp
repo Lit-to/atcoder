@@ -6,68 +6,53 @@ template <class T>
 class Board
 {
 public:
-    struct Pos
+    struct POS
     {
         int64_t x;
         int64_t y;
     };
-    enum DIRECTION : int
+    enum Direction : int
     {
         UP = 0,
-        UPPER_RIGHT = 1,
+        UP_RIGHT = 1,
         RIGHT = 2,
-        LOWER_RIGHT = 3,
-        LOW = 4,
-        LOWER_LEFT = 5,
+        DOWN_RIGHT = 3,
+        DOWN = 4,
+        DOWN_LEFT = 5,
         LEFT = 6,
-        UPPER_LEFT = 7,
+        UP_LEFT = 7,
     };
-    int64_t convertPosToIndex(const Board::Pos &pos) const
+    int64_t ConvertPosToIndex(const Board::POS &pos) const
     {
         return pos.y * m_width + pos.x;
     }
-    int64_t convertIndexToPos(const int64_t &index) const
+    Board::POS ConvertIndexToPos(const int64_t index) const
     {
-        return index / m_width + index % m_width;
+        return Board::POS{.x = index % m_width, .y = index / m_width};
     }
     Board(int64_t H, int64_t W)
+        : m_height(H), m_width(W), m_size(H * W), m_data(H * W)
     {
-        m_height = H;
-        m_width = W;
-        m_size = H * W;
-        m_data(m_size);
     }
-    T GetValue() const
+    T &operator[](const Board::POS &pos)
     {
-        return m_data[m_index];
+        return m_data[ConvertPosToIndex(pos)];
     }
-    T GetValue(Board::Pos &pos) const
+    const T &operator[](const Board::POS &pos) const
     {
-        return m_data[convertPosToIndex(pos)];
+        return m_data[ConvertPosToIndex(pos)];
     }
-    T operator[](Board::Pos &pos) const
+    bool IsInside(const int64_t index) const
     {
-        return GetValue(pos);
+        return IsInside(Board::ConvertIndexToPos(index));
     }
-    void SetValue(const T &value)
-    {
-        m_data[m_index] = value;
-    }
-    void SetValue(Board::Pos &pos, const T &value)
-    {
-        m_data[convertPosToIndex(pos)] = value;
-    }
-    bool IsInside(int64_t &index) const
-    {
-        return IsInside(Board::convertIndexToPos(index));
-    }
-    bool IsInside(Board::Pos &pos) const
+    bool IsInside(const Board::POS &pos) const
     {
         return (0 <= pos.y && pos.y < m_height) && (0 <= pos.x && pos.x < m_width);
     }
     bool IsInside() const
     {
-        return IsInside(Board::convertIndexToPos(m_index));
+        return IsInside(m_pos);
     }
     void Fill(const T &value)
     {
@@ -76,7 +61,7 @@ public:
             m_data[i] = value;
         }
     }
-    void Empty()
+    void Clear()
     {
         Fill(T());
     }
@@ -94,95 +79,102 @@ public:
     }
     int64_t GetIndex() const
     {
-        return m_index;
+        return ConvertPosToIndex(m_pos);
     }
-    Board::Pos GetPos() const
+    const Board::POS &GetPos() const
     {
-        return convertPosToIndex(m_index);
+        return m_pos;
     }
-    int64_t MoveLeft()
+    Board::POS MoveLeft()
     {
-        if (!IsInside(m_index - 1))
+        Board::POS newPos{.x = m_pos.x - 1, .y = m_pos.y};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        --m_index;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveRight()
+    Board::POS MoveRight()
     {
-        if (!IsInside(m_index + 1))
+        Board::POS newPos{.x = m_pos.x + 1, .y = m_pos.y};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        ++m_index;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveUp()
+    Board::POS MoveUp()
     {
-        if (!IsInside(m_index - m_width))
+        Board::POS newPos{.x = m_pos.x, .y = m_pos.y - 1};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index -= m_width;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveLow()
+    Board::POS MoveLow()
     {
-        if (!IsInside(m_index + m_width))
+        Board::POS newPos{.x = m_pos.x, .y = m_pos.y + 1};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index += m_width;
-        return convertIndexToPos(m_index);
+        return newPos;
     }
-    Board::Pos MoveNeighbor(int direction)
+    Board::POS MoveNeighbor(int direction)
     {
-        if (direction == Board::UP)
+        switch (direction)
+        {
+        case Board::UP:
         {
             return MoveUp();
         }
-        else if (direction == Board::UPPER_RIGHT)
+        case Board::UP_RIGHT:
         {
             MoveUp();
             return MoveRight();
         }
-        else if (direction == Board::RIGHT)
+        case Board::UP_RIGHT:
+        {
+            MoveUp();
+            return MoveRight();
+        }
+        case Board::RIGHT:
         {
             return MoveRight();
         }
-        else if (direction == Board::LOWER_RIGHT)
+        case Board::DOWN_RIGHT:
         {
             MoveLow();
             return MoveRight();
         }
-        else if (direction == Board::LOW)
+        case Board::DOWN:
         {
             return MoveLow();
         }
-        else if (direction == Board::LOWER_LEFT)
+        case Board::DOWN_LEFT:
         {
             MoveLow();
             return MoveLeft();
         }
-        else if (direction == Board::LEFT)
+        case Board::LEFT:
         {
             return MoveLeft();
         }
-        else if (direction == Board::UPPER_LEFT)
+        case Board::UP_LEFT:
         {
             MoveUp();
             return MoveLeft();
         }
+        }
     }
-    void MovePos(Board::Pos &pos)
+    void MovePos(const Board::POS pos)
     {
-        int64_t argPos = Board::convertPosToIndex(pos);
-        if (!IsInside(argPos))
+        if (!IsInside(pos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index = argPos;
+        m_pos = pos;
     }
     static Board<T> input()
     {
@@ -203,7 +195,7 @@ private:
     int64_t m_height;
     int64_t m_width;
     int64_t m_size;
-    int64_t m_index;
+    Board::POS m_pos;
 };
 int main()
 {
