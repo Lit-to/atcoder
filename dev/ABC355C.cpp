@@ -73,15 +73,25 @@ public:
     }
 };
 using RLC = RunLengthCompression;
+
+/**
+ * 二次元ボードを使いやすくするためのクラス
+ */
 template <class T>
 class Board
 {
 public:
+    /**
+     * @brief 座標情報を持つ構造体
+     */
     struct POS
     {
         int64_t x;
         int64_t y;
     };
+    /**
+     * @brief 方向を表す列挙型
+     */
     enum Direction : int
     {
         UP = 0,
@@ -93,53 +103,70 @@ public:
         LEFT = 6,
         UP_LEFT = 7,
     };
+    /**
+     * @brief 座標構造体からインデックス値に変換する関数
+     */
     int64_t ConvertPosToIndex(const Board::POS &pos) const
     {
         return pos.y * m_width + pos.x;
     }
-    int64_t ConvertIndexToPos(const int64_t &index) const
+    /**
+     * @brief インデックス値から座標構造体に変換する関数
+     */
+    Board::POS ConvertIndexToPos(const int64_t index) const
     {
-        return index / m_width + index % m_width;
+        return Board::POS{.x = index % m_width, .y = index / m_width};
     }
+    /**
+     * コンストラクタ
+     * @brief 縦横でボードを初期化し、各マスをデフォルトコンストラクタ初期化する
+     */
     Board(int64_t H, int64_t W)
+        : m_height(H), m_width(W), m_size(H * W), m_data(H * W)
     {
-        m_height = H;
-        m_width = W;
-        m_size = H * W;
-        m_data(m_size);
     }
-    T GetValue() const
-    {
-        return m_data[m_index];
-    }
-    T GetValue(Board::POS &pos) const
+    /**
+     * @brief 特定のマスの参照を返す
+     * []演算子オーバーロード
+     */
+    T &operator[](const Board::POS &pos)
     {
         return m_data[ConvertPosToIndex(pos)];
     }
-    T operator[](Board::POS &pos) const
+    /**
+     * @brief 特定のマスのコンスト参照を返す
+     * []演算子オーバーロード
+     */
+    const T &operator[](const Board::POS &pos) const
     {
-        return GetValue(pos);
+        return m_data[ConvertPosToIndex(pos)];
     }
-    void SetValue(const T &value)
-    {
-        m_data[m_index] = value;
-    }
-    void SetValue(Board::POS &pos, const T &value)
-    {
-        m_data[ConvertPosToIndex(pos)] = value;
-    }
-    bool IsInside(int64_t &index) const
+    /**
+     * @param index 座標を表すインデックス
+     * @brief 特定のマスがボード範囲内かどうかを返す
+     */
+    bool IsInside(const int64_t index) const
     {
         return IsInside(Board::ConvertIndexToPos(index));
     }
-    bool IsInside(Board::POS &pos) const
+    /**
+     * @param pos 座標
+     * @brief 特定のマスがボード範囲内かどうかを返す
+     */
+    bool IsInside(const Board::POS &pos) const
     {
         return (0 <= pos.y && pos.y < m_height) && (0 <= pos.x && pos.x < m_width);
     }
+    /**
+     * @brief インスタンスの座標値がボードの範囲内かどうかを返す
+     */
     bool IsInside() const
     {
-        return IsInside(Board::ConvertIndexToPos(m_index));
+        return IsInside(m_pos);
     }
+    /**
+     * @brief インスタンスを値で埋める
+     */
     void Fill(const T &value)
     {
         for (int64_t i = 0; i < m_size; ++i)
@@ -147,114 +174,168 @@ public:
             m_data[i] = value;
         }
     }
+    /**
+     * @brief インスタンスをデフォルトコンストラクタで埋める
+     */
     void Clear()
     {
         Fill(T());
     }
+    /**
+     * 縦を取得する
+     */
     int64_t GetHeight() const
     {
         return m_height;
     }
+    /**
+     * 横を取得する
+     */
     int64_t GetWidth() const
     {
         return m_width;
     }
+    /**
+     * 縦*横の値を取得する
+     */
     int64_t GetSize() const
     {
         return m_size;
     }
+    /**
+     * 現在のインデックス値を取得する
+     */
     int64_t GetIndex() const
     {
-        return m_index;
+        return ConvertPosToIndex(m_pos);
     }
-    Board::POS GetPos() const
+    /**
+     * 現在の座標を取得する
+     */
+    const Board::POS &GetPos() const
     {
-        return ConvertPosToIndex(m_index);
+        return m_pos;
     }
-    int64_t MoveLeft()
+    /**
+     * @brief 現在の座標を左に1つ動かす
+     * @details 厳密には、x座標を負の方向に1動かす
+     */
+    Board::POS MoveLeft()
     {
-        if (!IsInside(m_index - 1))
+        Board::POS newPos{.x = m_pos.x - 1, .y = m_pos.y};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        --m_index;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveRight()
+    /**
+     * @brief 現在の座標を右に1つ動かす
+     * @details 厳密には、x座標を正の方向に1動かす
+     */
+    Board::POS MoveRight()
     {
-        if (!IsInside(m_index + 1))
+        Board::POS newPos{.x = m_pos.x + 1, .y = m_pos.y};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        ++m_index;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveUp()
+    /**
+     * @brief 現在の座標を右に1つ動かす
+     * @details 厳密には、x座標を正の方向に1動かす
+     */
+    Board::POS MoveUp()
     {
-        if (!IsInside(m_index - m_width))
+        Board::POS newPos{.x = m_pos.x, .y = m_pos.y - 1};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index -= m_width;
-        return m_index;
+        return newPos;
     }
-    int64_t MoveLow()
+    /**
+     * @brief 現在の座標を下に1つ動かす
+     * @details 厳密には、y座標を正の方向に1動かす
+     */
+    Board::POS MoveLow()
     {
-        if (!IsInside(m_index + m_width))
+        Board::POS newPos{.x = m_pos.x, .y = m_pos.y + 1};
+        if (!IsInside(newPos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index += m_width;
-        return ConvertIndexToPos(m_index);
+        return newPos;
     }
+    /**
+     * @brief 現在の座標を上下左右のどこかに1つ動かす
+     * @param direction 方向
+     */
     Board::POS MoveNeighbor(int direction)
     {
-        if (direction == Board::UP)
+        switch (direction)
+        {
+        case Board::UP:
         {
             return MoveUp();
         }
-        else if (direction == Board::UP_RIGHT)
+        case Board::UP_RIGHT:
         {
             MoveUp();
             return MoveRight();
         }
-        else if (direction == Board::RIGHT)
+        case Board::UP_RIGHT:
+        {
+            MoveUp();
+            return MoveRight();
+        }
+        case Board::RIGHT:
         {
             return MoveRight();
         }
-        else if (direction == Board::DOWN_RIGHT)
+        case Board::DOWN_RIGHT:
         {
             MoveLow();
             return MoveRight();
         }
-        else if (direction == Board::DOWN)
+        case Board::DOWN:
         {
             return MoveLow();
         }
-        else if (direction == Board::DOWN_LEFT)
+        case Board::DOWN_LEFT:
         {
             MoveLow();
             return MoveLeft();
         }
-        else if (direction == Board::LEFT)
+        case Board::LEFT:
         {
             return MoveLeft();
         }
-        else if (direction == Board::UP_LEFT)
+        case Board::UP_LEFT:
         {
             MoveUp();
             return MoveLeft();
         }
+        }
     }
-    void MovePos(Board::POS &pos)
+    /**
+     * @brief 現在の座標を特定の座標に移動させる
+     * @param pos 移動先
+     * @exception 移動先が範囲外の場合例外
+     */
+    void MovePos(const Board::POS pos)
     {
-        int64_t argPos = Board::ConvertPosToIndex(pos);
-        if (!IsInside(argPos))
+        if (!IsInside(pos))
         {
             throw std::out_of_range("移動先が範囲外です");
         }
-        m_index = argPos;
+        m_pos = pos;
     }
+    /**
+     * @brief 標準入力からのファクトリ
+     * @details H W H*W回の内容が来る想定
+     */
     static Board<T> input()
     {
         int64_t height;
@@ -270,11 +351,11 @@ public:
     }
 
 private:
-    std::vector<T> m_data;
-    int64_t m_height;
-    int64_t m_width;
-    int64_t m_size;
-    int64_t m_index;
+    std::vector<T> m_data; //!< マス情報
+    int64_t m_height;      //!< 高さ
+    int64_t m_width;       //!< 幅
+    int64_t m_size;        //!< ボードの全体サイズ
+    Board::POS m_pos;      //!< 現在の座標
 };
 int main()
 {
