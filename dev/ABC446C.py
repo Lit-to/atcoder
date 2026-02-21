@@ -36,6 +36,23 @@ def main():
     im.intInput()
     im.listInput()
     """
+    N = im.intInput()
+    D = im.intInput()
+    A=[]
+    B=[]
+    for i in range(N):
+        A.append(im.intInput())
+    for i in range(N):
+        B.append(im.intInput())
+    queue = deque()
+    for i in range(N):
+        for _ in range(A[i]):
+            queue.append(i)
+        for _ in range(B[i]):
+            queue.popleft()
+        while 0<len(queue) and queue[0]<=i-D:
+            queue.popleft()
+    print(len(queue))    
 
 
     ...
@@ -50,7 +67,7 @@ def main():
 # テストケース中枢処理
 def case():
     TESTCASE = 1
-    # TESTCASE = int(input()) # テストケース数の指定
+    TESTCASE = int(input()) # テストケース数の指定
     for _ in range(TESTCASE):
         try:
             main()

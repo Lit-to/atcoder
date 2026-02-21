@@ -36,7 +36,7 @@ def main():
     im.intInput()
     im.listInput()
     """
-
+    print("Of"+input().lower())
 
     ...
 

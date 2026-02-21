@@ -36,7 +36,32 @@ def main():
     im.intInput()
     im.listInput()
     """
+    N = int(im.input())
+    M = int(im.input())
+    X = []
+    L = []
+    
+    for i in range(N):
+        l = int(im.input())
+        L.append(l)
+        x = []
+        for i in range(l):
+            x.append(int(im.input()))
+        X.append(x)
+    canGet = [True]*(M+1)
+    customer = []
+    for wants in X:
+        for i in wants:
+            if canGet[i]:
+                canGet[i] = False
+                customer.append(i)
+                break
+        else:
+            customer.append(0)
+    for i in customer:
+        print(i)
 
+        
 
     ...
 
