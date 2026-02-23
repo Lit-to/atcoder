@@ -15,7 +15,7 @@ class stack:
         return 0<len(self)
 
     def push(self,value):
-        if len(self.data) < self.end:
+        if len(self.data) <= self.end:
             self.data.append(-1)
         self.data[self.end] = value
         self.end += 1
