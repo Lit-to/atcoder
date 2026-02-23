@@ -39,7 +39,7 @@ class stack:
         return 0<len(self)
 
     def push(self,value):
-        if len(self.data) < self.end:
+        if len(self.data) <= self.end:
             self.data.append(-1)
         self.data[self.end] = value
         self.end += 1
@@ -73,7 +73,7 @@ def main():
     # 処理スペース
     s = stack()
     for i in range(N):
-        stack.push(S[i])
+        s.push(S[i])
         a=[]
         if 3<=len(s):
             a.append(s.top())
@@ -83,6 +83,7 @@ def main():
             a.append(s.top())
             s.pop()
             if a!=["x","o","f"]:
+                a.reverse()
                 for i in a:
                     s.push(i)
     print(len(s))
