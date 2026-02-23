@@ -15,7 +15,7 @@ class queue:
         return 0<len(self)
 
     def push(self,value):
-        self.data[self.end] = value
+        self.data.append(value)
         self.end += 1
 
     def pop(self):
