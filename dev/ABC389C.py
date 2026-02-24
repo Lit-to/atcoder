@@ -45,19 +45,17 @@ def main():
             QUERIES.append((q,im.intInput()))
     # 処理スペース ================================================================================================Lit_to
     queue = Queue()
-    first=0
-    index=0
     for i in QUERIES:
         if i[0]==1:
             if queue:
-                queue.Enqueue((sum(queue[-1]),i[1]))
+                queue.Enqueue((sum(queue[len(queue)]),i[1]))
             else:
-                queue.Enqueue((first,i[1]))
+                queue.Enqueue((sum(queue.GetFront()),i[1]))
         elif i[0]==2:
-            first=sum(sum(queue.GetFront()))
+            # first=sum(queue.GetFront())
             queue.Dequeue()
         else:
-            print(queue[i[1]-1+index][0]-first)
+            print(queue[i[1]][0]-sum(queue.GetFront()))
 
     ...
 
@@ -79,6 +77,11 @@ class Queue:
 
     def __str__(self):
         return str(self.data[self.begin:self.end])
+    
+    def __getitem__(self, key):
+        if not self.begin+key < self.end:
+            raise IndexError
+        return self.data[self.begin+key]
 
     def IsEmpty(self):
         return len(self)==0
@@ -95,6 +98,7 @@ class Queue:
 
     def Rebuild(self):
         return Queue(self.data[self.begin():self.end()])
+
 
 # テストケース中枢処理
 def case():
