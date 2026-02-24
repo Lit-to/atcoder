@@ -25,3 +25,7 @@ class stack:
     
     def top(self):
         return self.data[self.end - 1]
+
+    def rebuild(self):
+        return stack(self.data[self.begin(),self.end()])
+
