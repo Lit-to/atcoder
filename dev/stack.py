@@ -11,21 +11,21 @@ class stack:
     def __str__(self):
         return str(self.data[self.begin:self.end])
 
-    def isEmpty(self):
+    def IsEmpty(self):
         return len(self) == 0
 
-    def push(self,value):
+    def Push(self,value):
         if len(self.data) <= self.end:
             self.data.append(-1)
         self.data[self.end] = value
         self.end += 1
 
-    def pop(self):
+    def Pop(self):
         self.end -= 1
     
-    def top(self):
+    def GetBack(self):
         return self.data[self.end - 1]
 
-    def rebuild(self):
+    def Rebuild(self):
         return stack(self.data[self.begin(),self.end()])
 
