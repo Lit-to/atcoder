@@ -14,11 +14,11 @@ class queue:
     def isEmpty(self):
         return len(self)==0
 
-    def push(self,value):
+    def enqueue(self,value):
         self.data.append(value)
         self.end += 1
 
-    def pop(self):
+    def dequeue(self):
         self.begin += 1
     
     def top(self):
