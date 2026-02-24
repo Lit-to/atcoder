@@ -11,18 +11,18 @@ class queue:
     def __str__(self):
         return str(self.data[self.begin:self.end])
 
-    def isEmpty(self):
+    def IsEmpty(self):
         return len(self)==0
 
-    def enqueue(self,value):
+    def Enqueue(self,value):
         self.data.append(value)
         self.end += 1
 
-    def dequeue(self):
+    def Dequeue(self):
         self.begin += 1
     
-    def top(self):
+    def GetFront(self):
         return self.data[self.begin]
 
-    def rebuild(self):
+    def Rebuild(self):
         return queue(self.data[self.begin(),self.end()])
