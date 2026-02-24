@@ -27,5 +27,5 @@ class stack:
         return self.data[self.end - 1]
 
     def Rebuild(self):
-        return stack(self.data[self.begin(),self.end()])
+        return stack(self.data[self.begin():self.end()])
 
