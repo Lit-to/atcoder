@@ -25,4 +25,4 @@ class queue:
         return self.data[self.begin]
 
     def Rebuild(self):
-        return queue(self.data[self.begin(),self.end()])
+        return queue(self.data[self.begin():self.end()])
