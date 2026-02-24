@@ -11,6 +11,11 @@ class stack:
     def __str__(self):
         return str(self.data[self.begin:self.end])
 
+    def __getitem__(self, key):
+        if not self.begin < self.end-1-key:
+            raise IndexError
+        return self.data[self.end-1-key]
+
     def IsEmpty(self):
         return len(self) == 0
 
