@@ -23,3 +23,6 @@ class queue:
     
     def top(self):
         return self.data[self.begin]
+
+    def rebuild(self):
+        return queue(self.data[self.begin(),self.end()])
