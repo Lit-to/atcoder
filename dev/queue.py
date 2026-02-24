@@ -12,7 +12,7 @@ class queue:
         return str(self.data[self.begin:self.end])
 
     def isEmpty(self):
-        return 0<len(self)
+        return len(self)==0
 
     def push(self,value):
         self.data.append(value)
