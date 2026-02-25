@@ -42,9 +42,10 @@ import random
 
 litQ = Queue()
 stlQ = deque()
-testList = [0,0,0,0,0]
+testCount = 5
+testList = [0]*(testCount+1)
 for i in range(2*10**5):
-    query = random.randint(0,4)
+    query = random.randint(0,testCount)
     testList[query] += 1
     if query==0:
         r = random.randint(0,10**9)
@@ -62,6 +63,10 @@ for i in range(2*10**5):
             assert litQ[r]==stlQ[r]
     elif query==3:
         assert litQ.IsEmpty() == (len(stlQ) == 0)
+    elif query==4:
+        assert len(litQ)==len(stlQ)
+        if len(stlQ)!=0:
+            assert litQ.GetFront() == stlQ[0]
     else:
         litQ.Rebuild()
     assert str(litQ).strip() == str(stlQ).strip()[6:-1]
