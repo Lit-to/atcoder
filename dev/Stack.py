@@ -1,4 +1,4 @@
-class stack:
+class Stack:
 
     def __init__(self):
         self.data = []
@@ -32,5 +32,5 @@ class stack:
         return self.data[self.end - 1]
 
     def Rebuild(self):
-        return stack(self.data[self.begin():self.end()])
+        self.data = self.data[self.begin:self.end]
 
