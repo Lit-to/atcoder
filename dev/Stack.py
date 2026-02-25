@@ -26,6 +26,8 @@ class Stack:
         self.end += 1
 
     def Pop(self):
+        if (self.IsEmpty() == False):
+            raise IndexError("list index out of range")
         self.end -= 1
     
     def GetBack(self):
