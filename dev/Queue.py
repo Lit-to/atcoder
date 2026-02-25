@@ -1,3 +1,4 @@
+# 2026-02-25 16:15:43
 class Queue:
 
     def __init__(self):
@@ -34,3 +35,5 @@ class Queue:
 
     def Rebuild(self):
         self.__data = self.__data[self.__begin:self.__end]
+        self.__begin = 0
+        self.__end = len(self.__data)
