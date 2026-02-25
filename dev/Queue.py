@@ -29,7 +29,8 @@ class Queue:
         self.__begin += 1
     
     def GetFront(self):
-        return self.__data[self.__begin]
+        if self.IsEmpty() == False:
+            return self.__data[self.__begin]
 
     def Rebuild(self):
         self.__data = self.__data[self.__begin:self.__end]
