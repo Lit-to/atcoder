@@ -24,10 +24,12 @@ class Queue:
         self.end += 1
 
     def Dequeue(self):
+        if self.IsEmpty() == False:
+            raise IndexError("list index out of range") 
         self.begin += 1
     
     def GetFront(self):
         return self.data[self.begin]
 
     def Rebuild(self):
-        return Queue(self.data[self.begin():self.end()])
+        self.data = self.data[self.begin:self.end]
