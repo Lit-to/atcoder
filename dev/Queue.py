@@ -24,7 +24,7 @@ class Queue:
         self.__end += 1
 
     def Dequeue(self):
-        if self.IsEmpty() == False:
+        if self.IsEmpty():
             raise IndexError("list index out of range") 
         self.__begin += 1
     
