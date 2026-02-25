@@ -32,7 +32,8 @@ class Stack:
         self.__end -= 1
     
     def GetBack(self):
-        return self.__data[self.__end - 1]
+        if self.IsEmpty() == False:
+            return self.__data[self.__end - 1]
 
     def Rebuild(self):
         self.__data = self.__data[self.__begin:self.__end]
@@ -43,9 +44,10 @@ import random
 
 litStack = Stack()
 stlStack = []
-testList = [0,0,0,0,0]
+testCount = 5
+testList = [0]*(testCount+1)
 for i in range(2*10**5):
-    query = random.randint(0,4)
+    query = random.randint(0,testCount)
     testList[query] += 1
     if query==0:
         r = random.randint(0,10**9)
@@ -63,6 +65,10 @@ for i in range(2*10**5):
             assert litStack[r]==stlStack[r]
     elif query==3:
         assert litStack.IsEmpty() == (len(stlStack) == 0)
+    elif query==4:
+        assert len(litStack)==len(stlStack)
+        if len(stlStack)!=0:
+            assert litStack.GetBack() == stlStack[-1]
     else:
         litStack.Rebuild()
     assert str(litStack) == str(stlStack)

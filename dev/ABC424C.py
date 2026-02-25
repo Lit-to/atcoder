@@ -22,34 +22,45 @@
  */
 """
 
-class stack:
+class Stack:
 
     def __init__(self):
-        self.data = []
-        self.begin = 0
-        self.end = 0
+        self.__data = []
+        self.__begin = 0
+        self.__end = 0
 
     def __len__(self):
-        return self.end - self.begin
+        return self.__end - self.__begin
 
     def __str__(self):
-        return str(self.data[self.begin:self.end])
+        return str(self.__data[self.__begin:self.__end])
 
-    def isEmpty(self):
-        return 0<len(self)
+    def __getitem__(self, key):
+        if not self.__begin+key < self.__end:
+            raise IndexError
+        return self.__data[self.__begin+key]
 
-    def push(self,value):
-        if len(self.data) <= self.end:
-            self.data.append(-1)
-        self.data[self.end] = value
-        self.end += 1
+    def IsEmpty(self):
+        return len(self) == 0
 
-    def pop(self):
-        self.end -= 1
+    def Push(self,value):
+        if len(self.__data) <= self.__end:
+            self.__data.append(-1)
+        self.__data[self.__end] = value
+        self.__end += 1
+
+    def Pop(self):
+        if (self.IsEmpty()):
+            raise IndexError("list index out of range")
+        self.__end -= 1
     
-    def top(self):
-        return self.data[self.end - 1]
+    def GetBack(self):
+        return self.__data[self.__end - 1]
 
+    def Rebuild(self):
+        self.__data = self.__data[self.__begin:self.__end]
+        self.__begin = 0
+        self.__end = len(self.__data)
 
 def main():
     # 関数定義スペース
@@ -68,25 +79,25 @@ def main():
     ...
 
     # 処理スペース
-    stackBox = stack()
+    stackBox = Stack()
     done = set()
 
     req_skills = dict(lambda:[])
     for i in range(N):
         a,b = SKILL[i]
         if a==0 and b == 0:
-            stackBox.push(i)
+            stackBox.Push(i)
             done.add(i)
             continue
         req_skills[a-1].append(i)
         req_skills[b-1].append(i)
 
     while stackBox:
-        t = stackBox.top()
-        stackBox.pop()
+        t = stackBox.GetBack()
+        stackBox.Pop()
         for i in req_skills[t]:
             if i not in done:
-                stackBox.push(i)
+                stackBox.Push(i)
                 done.add(i)
     print(len(done))
 

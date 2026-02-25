@@ -1,3 +1,4 @@
+# 2026-02-25 16:15:43
 class Stack:
 
     def __init__(self):
@@ -31,7 +32,8 @@ class Stack:
         self.__end -= 1
     
     def GetBack(self):
-        return self.__data[self.__end - 1]
+        if self.IsEmpty() == False:
+            return self.__data[self.__end - 1]
 
     def Rebuild(self):
         self.__data = self.__data[self.__begin:self.__end]
