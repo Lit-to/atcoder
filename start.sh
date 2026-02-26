@@ -29,5 +29,7 @@ for letter in C D; do
     cp modules/cpp/template.cpp dev/$contestName$letter.cpp
     sed -i "1i // $contestName$letter" dev/$contestName$letter.cpp
     done
+git add *
+git commit -m "$contestNameコンテスト開始前コミット"
 # 終わったら元のフォルダへ戻る
 cd "$OLD_DIR"
