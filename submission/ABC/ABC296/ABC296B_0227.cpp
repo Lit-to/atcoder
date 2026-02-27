@@ -56,12 +56,28 @@ public:
         return m_data[ConvertPosToIndex(Board::POS{.x = x, .y = y})];
     }
     /**
+     * @brief 特定のマスの参照を返す
+     * []演算子オーバーロード
+     */
+    T &operator[](const int64_t index)
+    {
+        return m_data[index];
+    }
+    /**
+     * @brief 特定のマスのコンスト参照を返す
+     * []演算子オーバーロード
+     */
+    const T &operator[](const int64_t index) const
+    {
+        return m_data[index];
+    }
+    /**
      * @param index 座標を表すインデックス
      * @brief 特定のマスがボード範囲内かどうかを返す
      */
     bool IsInside(const int64_t index) const
     {
-        return IsInside(Board::ConvertIndexToPos(index));
+        return IsInside(ConvertIndexToPos(index));
     }
     /**
      * @param pos 座標
@@ -113,13 +129,26 @@ public:
      * @brief 標準入力からのファクトリ
      * @details H W H*W回の内容が来る想定
      */
-    static Board<T> input()
+    static Board<T> Input()
     {
         int64_t height;
         int64_t width;
         std::cin >> height;
         std::cin >> width;
         Board<T> data = Board(height, width);
+        for (int64_t i = 0; i < data.GetSize(); ++i)
+        {
+            std::cin >> data[i];
+        }
+        return data;
+    }
+    /**
+     * @brief 標準入力からのファクトリ
+     * @details H W H*W回の内容が来る想定
+     */
+    static Board<T> Input(int64_t H, int64_t W)
+    {
+        Board<T> data = Board(H, W);
         for (int64_t i = 0; i < data.GetSize(); ++i)
         {
             std::cin >> data[i];
@@ -135,5 +164,18 @@ private:
 };
 int main()
 {
+    int64_t H, W;
+    H = 8;
+    W = 8;
+    Board BOARD = Board<char>::Input(H, W);
+    for (int i = 0; i < BOARD.GetSize(); ++i)
+    {
+        if (BOARD[i] == '*')
+        {
+            Board<char>::POS pos = BOARD.ConvertIndexToPos(i);
+            std::cout << (char)('a' + pos.x) << 7 - pos.y + 1 << std::endl;
+        }
+    }
+
     return 0;
 }
