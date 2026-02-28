@@ -1,4 +1,4 @@
-# ABC447B
+# ABC447D
 # template
 
 """
@@ -36,6 +36,25 @@ def main():
     im.intInput()
     im.listInput()
     """
+    
+    S = im.input()
+    N = len(S)
+    d = dict(lambda:deque())
+    for i in range(N):
+        d[S[i]].append(i)
+    count = 0
+    while d["A"] and d["B"] and d["C"]:
+        while d["B"] and d["B"][0]<d["A"][0]:
+            d["B"].popleft()
+        while d["C"] and d["C"][0] < d["B"][0]:
+            d["C"].popleft()
+        while d["A"] and d["B"] and d["C"] and d["A"][0] < d["B"][0] < d["C"][0]:
+            d["A"].popleft()
+            d["B"].popleft()
+            d["C"].popleft()
+            count+=1
+    print(count)
+    
 
 
     ...
@@ -45,6 +64,47 @@ def main():
     ...
 
 # テンプレートコピペエリア
+
+def runLengthEncode(s:str|list) -> list:
+    """
+    ランレングスエンコードを行う
+    要素ごとに分解し、要素と個数のタプル組にする(そのため厳密には圧縮されてはいない)。
+    同一の要素がある場合後ろを削除し、手前側の個数に+1する。
+
+    Args:
+        -  s (str | list):エンコードしたい文字列 
+
+    Returns:
+        -  list: 圧縮後の配列
+    """
+    l=len(s)
+    result=[]
+    if l==0:
+        return result
+    now=[s[0],0]
+    for i in range(l):
+        if s[i]==now[0]:
+            now[1]+=1
+        elif s[i]!=now[0]:#更新
+            result.append(tuple(now))
+            now=[s[i],1]
+    result.append(tuple(now))
+    return result
+def runLengthDecode(data:list)->list:
+    """
+    ランレングス復号
+    要素と個数のタプルが入ったリストをすべての要素で個数個展開する
+
+    Args:
+        -  data (list): 要素と個数のタプルが入ったリスト
+
+    Returns:
+        -  list: 復号後のリスト
+    """
+    result=""
+    for i in data:
+        result+=i[0]*i[1]
+    return result
 
 
 # テストケース中枢処理

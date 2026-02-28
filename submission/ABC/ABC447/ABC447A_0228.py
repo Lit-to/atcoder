@@ -1,4 +1,4 @@
-# ABC447F
+# ABC447A
 # template
 
 """
@@ -36,7 +36,12 @@ def main():
     im.intInput()
     im.listInput()
     """
-
+    N,M= im.listInput(2,int)
+    for i in range(N):
+        if i%2==0:
+            M-=1
+        yes(M<=0)
+    no()
 
     ...
 

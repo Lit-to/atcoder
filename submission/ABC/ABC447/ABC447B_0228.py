@@ -1,4 +1,4 @@
-# ABC447A
+# ABC447B
 # template
 
 """
@@ -36,6 +36,18 @@ def main():
     im.intInput()
     im.listInput()
     """
+    S=im.input()
+    d = dict(lambda:0)
+    mx = 0
+    for i in list(S):
+        d[i]+=1
+        mx = max(d[i],mx)
+    result = []
+    for i in list(S):
+        if d[i] != mx:
+            result.append(i)
+    print(*result,sep="")
+
 
 
     ...
