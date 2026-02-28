@@ -36,8 +36,46 @@ def main():
     im.intInput()
     im.listInput()
     """
+    S:str = im.input()
+    T:str = im.input()
+    s = S.replace("A","")
+    t = T.replace("A","")
+    if s!=t:
+        printe(-1)
+    # if len(s)<len(t):
+    #     s+=["A"]*(len(t)-len(s))
+    # rleS = runLengthEncode(S)
+    # rleT = runLengthEncode(T)
+    s = list(S)
+    t = list(T)
+    si = 0
+    ti = 0
+    manupCount = 0
+    while ti < len(T) or si < len(S):
+        if ti>=len(T):
+            si+=1
+            manupCount+=1
+            continue
+        if si>=len(S):
+            ti+=1
+            manupCount+=1
+            continue
+        if s[si] == t[ti]:
+            si+=1
+            ti+=1
+            continue
+        while s[si] == "A":
+            si+=1
+            manupCount+=1
+        while t[ti] == "A":
+            ti+=1
+            manupCount+=1
+    printe(manupCount)
 
 
+
+
+    printe(manupCount)
     ...
 
     # 処理スペース
