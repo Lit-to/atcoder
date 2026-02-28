@@ -56,7 +56,11 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.readonlyInclude": {},
+  "files.readonlyInclude": {
+    "modules/cpp/*.cpp": true,
+    "modules/py/*.py": true,
+    "deploykit/*": true
+  },
   "files.readonlyExclude": {
     "lang/python/material/test.py": true
   },
@@ -115,5 +119,12 @@
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
   "editor.defaultFormatter": "xaver.clang-format",
-  "files.exclude": {}
+  "files.exclude": {
+    "": true,
+    ".gitignore": true,
+    ".vscode": true,
+    "**/deploykit": true,
+    "**/submission": true,
+    ".devcontainer": true
+  }
 }
