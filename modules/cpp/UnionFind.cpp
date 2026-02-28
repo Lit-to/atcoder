@@ -12,7 +12,7 @@ public:
      * 初期化を行う
      * @param length 長さ
      */
-    UnionFind(int64_t length) : m_parent(length, ROOT), m_size(length, 1)
+    UnionFind(int64_t length) : m_parent(length, ROOT), m_size(length, 1), m_count(length)
     {
     }
 
@@ -29,8 +29,8 @@ public:
         {
             return;
         }
-        int64_t aSize = GetSize(aRoot);
-        int64_t bSize = GetSize(bRoot);
+        int64_t aSize = GetGroupSize(aRoot);
+        int64_t bSize = GetGroupSize(bRoot);
         if (aSize < bSize)
         {
             std::swap(aRoot, bRoot);
@@ -39,15 +39,23 @@ public:
         m_size[aRoot] += bSize;
         m_size[bRoot] = 0;
         m_parent[bRoot] = aRoot;
+        --m_count;
     }
 
     /**
      * @brief ノードの属するグループのサイズを求める
      * @param node ノード番号
      */
-    int64_t GetSize(int64_t node)
+    int64_t GetGroupSize(int64_t node)
     {
         return m_size[UpdateRoot(node)];
+    }
+    /**
+     * 根の数を数える
+     */
+    int64_t GetRootCount()
+    {
+        return m_count;
     }
 
     /**
@@ -99,5 +107,6 @@ private:
 
     std::vector<int64_t> m_size;    //! 子のサイズを持つvector
     std::vector<int64_t> m_parent;  //! 自分の親の情報を持つvector
+    int64_t m_count;                //! 親の数を持つ値
     static constexpr int ROOT = -1; //! そのノードが親であることを示す値
 };
