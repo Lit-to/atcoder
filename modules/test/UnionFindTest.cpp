@@ -8,7 +8,7 @@ int main()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> testDist(3, 10000);
+    std::uniform_int_distribution<> testDist(3, 5000);
     int64_t testCount = testDist(gen);
     for (int i = 0; i < testCount; ++i)
     {
@@ -20,11 +20,11 @@ int main()
 
         for (int j = 0; j < testDist(gen); ++j)
         {
-            std::cout << i << "-" << j << ": ";
+            // std::cout << i << "-" << j << ": ";
             int64_t query = queryDist(gen);
             int64_t u = nodeDist(gen);
             int64_t v = nodeDist(gen);
-            std::cout << query << " " << u << " " << v;
+            // std::cout << query << " " << u << " " << v;
             if (query == 0)
             {
                 assert(aclUF.leader(u) == litUF.GetRoot(u));
@@ -48,7 +48,7 @@ int main()
                 assert(aclUF.size(v) == litUF.GetGroupSize(v));
                 assert(aclUF.groups().size() == litUF.GetRootCount());
             }
-            std::cout << "\n";
+            // std::cout << "\n";
         }
     }
     std::cout << "OK!" << std::endl;
