@@ -124,6 +124,7 @@
     ".gitignore": true,
     ".vscode": true,
     "**/deploykit": true,
-    "**/submission": true
+    "**/submission": true,
+    ".devcontainer": true
   }
 }
