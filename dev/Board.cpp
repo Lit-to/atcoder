@@ -53,7 +53,7 @@ public:
      */
     const T &operator[](const int64_t y, const int64_t x) const
     {
-        return m_data[ConvertPosToIndex(Board::POS{.x = x, .y = y})];
+        return operator[](y, x);
     }
     /**
      * @brief 特定のマスの参照を返す
@@ -135,7 +135,7 @@ public:
         int64_t width;
         std::cin >> height;
         std::cin >> width;
-        Board<T> data = Board.Input(height, width);
+        Board<T> data = Board::Input(height, width);
     }
     /**
      * @brief 標準入力からのファクトリ

@@ -1,3 +1,4 @@
+// ABC296B
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -53,7 +54,7 @@ public:
      */
     const T &operator[](const int64_t y, const int64_t x) const
     {
-        return m_data[ConvertPosToIndex(Board::POS{.x = x, .y = y})];
+        return operator[](y, x);
     }
     /**
      * @brief 特定のマスの参照を返す
@@ -105,21 +106,21 @@ public:
         Fill(T());
     }
     /**
-     * 縦を取得する
+     * @brief 縦を取得する
      */
     int64_t GetHeight() const
     {
         return m_height;
     }
     /**
-     * 横を取得する
+     * @brief 横を取得する
      */
     int64_t GetWidth() const
     {
         return m_width;
     }
     /**
-     * 縦*横の値を取得する
+     * @brief 縦*横の値を取得する
      */
     int64_t GetSize() const
     {
@@ -135,12 +136,7 @@ public:
         int64_t width;
         std::cin >> height;
         std::cin >> width;
-        Board<T> data = Board(height, width);
-        for (int64_t i = 0; i < data.GetSize(); ++i)
-        {
-            std::cin >> data[i];
-        }
-        return data;
+        Board<T> data = Board::Input(height, width);
     }
     /**
      * @brief 標準入力からのファクトリ
@@ -166,5 +162,18 @@ private:
 };
 int main()
 {
+    int64_t H, W;
+    H = 8;
+    W = 8;
+    Board BOARD = Board<char>::Input(H, W);
+    for (int i = 0; i < BOARD.GetSize(); ++i)
+    {
+        if (BOARD[i] == '*')
+        {
+            Board<char>::POS pos = BOARD.ConvertIndexToPos(i);
+            std::cout << (char)('a' + pos.x) << 7 - pos.y + 1 << std::endl;
+        }
+    }
+
     return 0;
 }
