@@ -30,20 +30,19 @@ ENV PATH="/home/Lit-to/venv/bin:${PATH}"
 
 RUN sudo apt-get update && sudo apt-get install -y build-essential
 RUN sudo apt-get update && sudo apt-get install -y gdb
-<<<<<<< HEAD
 RUN sudo apt install clang-format
 
 ENV PATH="/usr/bin:${PATH}"
-=======
 RUN sudo apt install -y clang-format
 RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
->>>>>>> de300adacacd0db9867c90274d77628ccc7e50fe
 
 RUN git config --global user.name "Lit-to"
 RUN git config --global user.email "litto0315@gmail.com"
 
 RUN git clone https://github.com/Lit-to/atcoder.git /home/Lit-to/atcoder
 COPY .profile /home/Lit-to/.profile
+COPY .profile ~/.profile
+COPY .bashrc ~/.bashrc
 
 RUN git clone https://github.com/atcoder/ac-library.git /home/Lit-to/acl
 
