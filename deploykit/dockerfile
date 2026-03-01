@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y \
     curl wget git 
 
 # 固定ユーザーを作成
-# RUN useradd -m -u 1000 -g 1000 -s /bin/bash lit-to && echo "Lit-to ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-# USER Lit-to
-# RUN mkdir /home/Lit-to
 WORKDIR /home/Lit-to
 RUN sudo apt-get update && sudo apt-get install -y nano
 
@@ -46,6 +43,8 @@ RUN git clone https://github.com/Lit-to/atcoder.git /home/Lit-to/atcoder
 COPY .profile /home/Lit-to/.profile
 COPY .profile ~/.profile
 COPY .bashrc ~/.bashrc
+RUN git clone https://github.com/atcoder/ac-library.git /home/Lit-to/acl
+
 RUN git clone https://github.com/atcoder/ac-library.git /home/Lit-to/acl
 
 # docker build -t atcoder .
