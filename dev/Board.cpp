@@ -105,21 +105,21 @@ public:
         Fill(T());
     }
     /**
-     * 縦を取得する
+     * @brief 縦を取得する
      */
     int64_t GetHeight() const
     {
         return m_height;
     }
     /**
-     * 横を取得する
+     * @brief 横を取得する
      */
     int64_t GetWidth() const
     {
         return m_width;
     }
     /**
-     * 縦*横の値を取得する
+     * @brief 縦*横の値を取得する
      */
     int64_t GetSize() const
     {
