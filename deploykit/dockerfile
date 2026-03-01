@@ -32,7 +32,7 @@ ENV PATH="/home/Lit-to/venv/bin:${PATH}"
 
 RUN sudo apt-get update && sudo apt-get install -y build-essential
 RUN sudo apt-get update && sudo apt-get install -y gdb
-RUN sudo apt install clang-format
+RUN sudo apt install -y clang-format
 
 ENV PATH="/usr/bin:${PATH}"
 RUN sudo apt install -y clang-format
