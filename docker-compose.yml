@@ -1,12 +1,14 @@
 version: "3.9"
 services:
   app:
-    build: .
+    build: 
+      context: ./deploykit
+      dockerfile: ./dockerfile
     container_name: atcoder
     ports:
       - "2000:2000"
     volumes:
-      - .:/atcoder
+      - .:/home/Lit-to/atcoder:rw
     tty: true
     stdin_open: true
     command: ["/bin/bash"]
