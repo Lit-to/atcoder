@@ -14,8 +14,8 @@ public:
      */
     struct POS
     {
-        int64_t X;
-        int64_t Y;
+        int64_t X; //!< 横位置
+        int64_t Y; //!< 縦位置
     };
     /**
      * @brief 座標構造体からインデックス値に変換する関数
