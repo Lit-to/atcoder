@@ -26,4 +26,4 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 export PATH=$PATH:/usr/bin
 export PATH=~/opt/pypy3.10-v7.3.17-linux64/bin:$PATH
-. "$HOME/.cargo/env"
+export CPLUS_INCLUDE_PATH="/home/Lit-to/acl/"

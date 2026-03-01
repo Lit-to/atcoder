@@ -9,6 +9,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "-I",
+                "/home/Lit-to/acl/",
                 "-o",
                 "${fileDirname}/a",
                 "-std=c++23",
