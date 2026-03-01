@@ -22,14 +22,14 @@ public:
      */
     int64_t ConvertPosToIndex(const Board::POS &pos) const
     {
-        return pos.y * m_width + pos.x;
+        return pos.Y * m_width + pos.X;
     }
     /**
      * @brief インデックス値から座標構造体に変換する関数
      */
     Board::POS ConvertIndexToPos(const int64_t index) const
     {
-        return Board::POS{.x = index % m_width, .y = index / m_width};
+        return Board::POS{.X = index % m_width, .Y = index / m_width};
     }
     /**
      * コンストラクタ
@@ -45,7 +45,7 @@ public:
      */
     T &operator[](const int64_t y, const int64_t x)
     {
-        return m_data[ConvertPosToIndex(Board::POS{.x = x, .y = y})];
+        return m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})];
     }
     /**
      * @brief 特定のマスのコンスト参照を返す
