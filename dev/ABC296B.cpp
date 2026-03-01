@@ -15,8 +15,8 @@ public:
      */
     struct POS
     {
-        int64_t x;
-        int64_t y;
+        int64_t X;
+        int64_t Y;
     };
     /**
      * @brief 座標構造体からインデックス値に変換する関数
@@ -171,7 +171,7 @@ int main()
         if (BOARD[i] == '*')
         {
             Board<char>::POS pos = BOARD.ConvertIndexToPos(i);
-            std::cout << (char)('a' + pos.x) << 7 - pos.y + 1 << std::endl;
+            std::cout << (char)('a' + pos.X) << 7 - pos.Y + 1 << std::endl;
         }
     }
 
