@@ -63,7 +63,7 @@ class LitMath:
             value_a = temp
         return value_a
 
-    def prime(num:int) -> list:
+    def Prime(num:int) -> list:
         """素因数分解の結果を返す
         ※利用するためには import mathが必須
 
