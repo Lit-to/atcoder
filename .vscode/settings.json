@@ -125,6 +125,7 @@
     ".vscode": true,
     "**/deploykit": true,
     "**/submission": true,
+    "**/old": true,
     ".devcontainer": true
   }
 }
