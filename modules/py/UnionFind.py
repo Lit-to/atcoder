@@ -1,4 +1,4 @@
-class unionFind:
+class UnionFind:
     """
     Union-Find
     頂点を結合した際に連結する要素の親ノードを1つに統一する
@@ -14,14 +14,14 @@ class unionFind:
         self.parent=[-1]*length
         self.size = length
 
-    def unite(self,node_A:int,node_B:int)->None:
+    def Unite(self,node_A:int,node_B:int)->None:
         """ノードaとノードbを結合する
 
         Args:
             -  a (int): 結合したいノード
             -  b (int): 結合したいノード
         """
-        node_B,node_A=self.__update_root(node_B),self.__update_root(node_A)
+        node_B,node_A=self.__UpdateRoot(node_B),self.__UpdateRoot(node_A)
         if node_A==node_B:
             return
         if node_B<node_A:
@@ -31,16 +31,16 @@ class unionFind:
             self.parent[node_B] += self.parent[node_A]
             self.parent[node_A] = node_B
     
-    def fetch_size(self,node:int)->int:
+    def FetchSize(self,node:int)->int:
         """
         ノードの属するグループのサイズを求める
         Args:
         -   ノード番号
         """
-        return self.size[self.__update_root(node)]
+        return self.size[self.__UpdateRoot(node)]
 
 
-    def __update_root(self,i:int)->int:
+    def __UpdateRoot(self,i:int)->int:
         """親ノードを再帰的に探索する
         途中で見つけた親ノードで各子ノード更新する
         Args:
@@ -51,7 +51,7 @@ class unionFind:
         if self.parent[i]<0:
             return i
         else:
-            self.parent[i]=self.__update_root(self.parent[i])
+            self.parent[i]=self.__UpdateRoot(self.parent[i])
             return self.parent[i]
 
 
