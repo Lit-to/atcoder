@@ -1,5 +1,5 @@
 class RunLengthCompression:
-    def RunLengthEncode(s:str|list) -> list:
+    def Encode(s:str|list) -> list:
         """
         ランレングスエンコードを行う
         要素ごとに分解し、要素と個数のタプル組にする(そのため厳密には圧縮されてはいない)。
@@ -24,7 +24,7 @@ class RunLengthCompression:
                 now=[s[i],1]
         result.append(tuple(now))
         return result
-    def RunLengthDecode(data:list)->list:
+    def Decode(data:list)->list:
         """
         ランレングス復号
         要素と個数のタプルが入ったリストをすべての要素で個数個展開する
