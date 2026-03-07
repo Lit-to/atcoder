@@ -27,8 +27,8 @@ int main()
             // std::cout << query << " " << u << " " << v;
             if (query == 0)
             {
-                assert(aclUF.leader(u) == litUF.GetRoot(u));
-                assert(aclUF.leader(v) == litUF.GetRoot(v));
+                assert(aclUF.leader(u) == litUF.FetchRoot(u));
+                assert(aclUF.leader(v) == litUF.FetchRoot(v));
             }
             else if (query == 1)
             {
@@ -39,8 +39,8 @@ int main()
                 int64_t parent = aclUF.merge(u, v);
                 litUF.Unite(u, v);
                 assert(aclUF.same(u, v) == litUF.IsSameRoot(u, v));
-                assert(parent == litUF.GetRoot(u));
-                assert(parent == litUF.GetRoot(v));
+                assert(parent == litUF.FetchRoot(u));
+                assert(parent == litUF.FetchRoot(v));
             }
             else if (query == 3)
             {

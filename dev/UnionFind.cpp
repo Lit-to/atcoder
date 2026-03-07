@@ -76,14 +76,14 @@ public:
      */
     bool IsSameRoot(const int64_t nodeA, const int64_t nodeB)
     {
-        return GetRoot(nodeA) == GetRoot(nodeB);
+        return FetchRoot(nodeA) == FetchRoot(nodeB);
     }
 
     /**
      * @brief nodeの根を更新し、根を取得する
      * @param 調べたい対象のノード番号
      */
-    int64_t GetRoot(const int64_t node)
+    int64_t FetchRoot(const int64_t node)
     {
         return UpdateRoot(node);
     }
