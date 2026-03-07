@@ -13,7 +13,7 @@ DEST_ROOT="./submission"
 # [0-9]{3}: 3桁の数字
 # [A-G]   : A〜G の1文字
 # \.[^.]+$: 拡張子（ドットに続く1文字以上、スラッシュは含まない）
-RE='^A.C[0-9]{3}[A-G]\.[^.]+$'
+RE='^A.C[0-9]{3,4}[A-G]\.[^.]+$'
 
 if [[ ! -d "$DEV_DIR" ]]; then
     echo "エラー: $DEV_DIR が見つかりません。" >&2
@@ -50,21 +50,29 @@ for f in "${matches[@]}"; do
     base=$(basename "$f")
     name_wo_ext="${base%.*}"
     ext="${base##*.}"
-    aqc="${base:0:3}"
-    dirpart="${base:0:6}"
+
+    if [[ "$base" =~ ^(A.C)([0-9]{3,4}) ]]; then
+        aqc="${BASH_REMATCH[1]}"
+        num="${BASH_REMATCH[2]}"
+        dirpart="${aqc}${num}"
+    else
+        echo "Skip (pattern mismatch): $base"
+        continue
+    fi
+
     dest_dir="$DEST_ROOT/$aqc/$dirpart"
     mkdir -p "$dest_dir"
-    # 日付 suffix — MMDD。YYYYMMDD にしたければ "+%Y%m%d" にする
+
     suffix=$(date +%m%d)
     base_prefix="${name_wo_ext}_${suffix}"
-    # ベース名 + 拡張子
     new_base="${base_prefix}.${ext}"
+
     i=1
-    # 同名ファイルがあれば _1, _2, ... を付けていく
     while [ -e "$dest_dir/$new_base" ]; do
         new_base="${base_prefix}_${i}.${ext}"
         i=$((i+1))
     done
+
     mv -- "$f" "$dest_dir/$new_base"
     echo "Moved: '$base' -> '$dest_dir/$new_base'"
 done
@@ -74,13 +82,12 @@ done
 commit_msg="${subject}"$'\n'
 commit_msg+="add:AC :"$''
 for f in "${matches[@]}"; do
-    commit_msg+="-   $(basename "$f")"$'\n'
+    commit_msg+="$(basename "$f")"$'\n'
 done
 
-# git add 対象（必要に応じて調整）
-git add *
 
 # コミット
+git add .
 git commit -m "$commit_msg"
 
 

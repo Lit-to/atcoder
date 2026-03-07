@@ -1,6 +1,6 @@
 import math
-class lit_math:
-    def factorial(n: int) -> int:
+class LitMath:
+    def Factorial(n: int) -> int:
         """
         n!の結果を返す。
 
@@ -12,9 +12,9 @@ class lit_math:
         Returns:
             -  int: 計算結果
         """
-        return lit_math.permutation(n, n)
+        return LitMath.Permutation(n, n)
 
-    def permutation(n: int, k: int) -> int:
+    def Permutation(n: int, k: int) -> int:
         """
         nPkの値を返す。
         より具体的にはn個の整数からk個を順番に並べられる通り数を返す。
@@ -31,7 +31,7 @@ class lit_math:
             result *= i
         return result
 
-    def combination(n: int, k: int) -> int:
+    def Combination(n: int, k: int) -> int:
         """
         nCkの値を返す。
         より具体的にはn個の整数からk個を選ぶ組み合わせ数を返す。
@@ -43,9 +43,9 @@ class lit_math:
         Returns:
             -  int: 計算結果
         """
-        return lit_math.permutation(n, k) // lit_math.factorial(k)
+        return LitMath.Permutation(n, k) // LitMath.Factorial(k)
 
-    def gcd(value_a: int, value_b: int) -> int:
+    def CalcGCD(value_a: int, value_b: int) -> int:
         """互除法で最大公約数を求める関数
 
         Args:
@@ -63,7 +63,7 @@ class lit_math:
             value_a = temp
         return value_a
 
-    def prime(num:int) -> list:
+    def Prime(num:int) -> list:
         """素因数分解の結果を返す
         ※利用するためには import mathが必須
 

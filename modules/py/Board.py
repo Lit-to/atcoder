@@ -9,15 +9,15 @@ class Board():
     ROTATE_270_DEGREE = 3
 
     # 自作ボードクラスのショートカット関数
-    def input():
+    def Input():
         """
         標準入力からボード作成
         """
         H,W = map(int,input().split())
-        return [H,W,Board.input_board_with_wall(H,W,"#")]
+        return [H,W,Board.InputBoardWithWall(H,W,"#")]
 
 
-    def input_board(height:int,f=lambda:list(input())):
+    def InputBoard(height:int,f=lambda:list(input())):
         """
         文字列を吐き出す関数からボード作成
         Args:
@@ -32,7 +32,7 @@ class Board():
             board.append(f())
         return Board(board)
 
-    def input_board_with_wall(height:int,width:int,wall:any,f:lambda:list(input())):
+    def InputBoardWithWall(height:int,width:int,wall:any,f:lambda:list(input())):
         """
         文字列を吐き出す関数からボード作成(ATフィールド付)
         Args:
@@ -50,7 +50,7 @@ class Board():
         board.append([wall]*(width+1))
         return Board(board)
 
-    def create_board(height:int,width:int,initial_value):
+    def CreateBoard(height:int,width:int,initial_value):
         """
         指定した高さと幅でボードを作成し、全て初期値を代入する。
 
@@ -83,7 +83,7 @@ class Board():
             self.__data.append(board_data[i])
         self.__cells=self.__height*self.__width
 
-    def get_height(self):
+    def GetHeight(self):
         """
         ボードの高さの値を返す関数
 
@@ -125,7 +125,7 @@ class Board():
         """
         return self.__data[pos[0]][pos[1]]
     
-    def get(self,pos:tuple):
+    def Get(self,pos:tuple):
         """
         レコードの値を取り出す関数
 
@@ -154,7 +154,7 @@ class Board():
                 sep="\n"+"-"*sep_count+"-\n"
         return sep.join(datas)
 
-    def set(self,pos,value):
+    def Set(self,pos,value):
         """
         値を代入する関数
         Args:
@@ -173,7 +173,7 @@ class Board():
         """
         self.__data[pos[0]][pos[1]]=value
 
-    def is_inside_positive(self,pos):
+    def IsInsidePositive(self,pos):
         """
         正の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
         
@@ -183,7 +183,7 @@ class Board():
         y,x=pos
         return y<self.__height and x<self.__width
 
-    def is_inside_negative(self,pos):
+    def IsInsideNegative(self,pos):
         """
         負の整数の範囲内で指定のposがボードの内側に含まれているかどうかを返す関数
         
@@ -194,7 +194,7 @@ class Board():
         return -1*self.__width<=x and -1*self.__height<=y
     
 
-    def is_inside(self,pos):
+    def IsInside(self,pos):
         """
         指定のposがボードの内側に含まれているかどうかを返す関数
         ただし、マイナスを許容する
@@ -203,9 +203,9 @@ class Board():
         Returns:
             -  bool:含まれているか否か
         """
-        return self.is_inside_positive(pos) or self.is_inside_negative(pos)
+        return self.IsInsidePositive(pos) or self.IsInsideNegative(pos)
 
-    def rotate(self,degree:int):
+    def Rotate(self,degree:int):
         """
         ボードを回転させる関数
         Args:
@@ -232,7 +232,7 @@ class Board():
         """
         self.__data = [list(g) for g in self.__data[::-1]]
     
-    def flip(self,vertical=False,horizontal=False):
+    def Flip(self,vertical=False,horizontal=False):
         """
         ボードを縦か横か指定した方向の線対称に反転する
         Args:
@@ -244,7 +244,7 @@ class Board():
         if horizontal:
             self.__flip_by_holizontal()
 
-    def copy(self):
+    def Copy(self):
         """
         コピー関数
         Returns:
@@ -255,7 +255,7 @@ class Board():
             data.append(self.__data[i].copy())
         return self.__class__(data)
 
-    def fill(self,value):
+    def Fill(self,value):
         """
         初期化関数
         valueで指定した値でボードのすべてを埋める
@@ -266,7 +266,7 @@ class Board():
             for j in range(self.__width):
                 self.__data[i][j] = value
 
-    def add_wall(self,value):
+    def AddWall(self,value):
         """
         ATフィールド関数
         valueで指定した値でボードの右端と下端をひとつ増やす。
@@ -279,7 +279,7 @@ class Board():
         self.__height+=1
         self.__data.append([value]*(self.__width))
     
-    def input(f:callable=int)->tuple:
+    def Input(f:callable=int)->tuple:
         """二次元ボードの入力
 
         Args:
