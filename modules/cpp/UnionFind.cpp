@@ -12,7 +12,7 @@ public:
      * 初期化を行う
      * @param length 長さ
      */
-    UnionFind(int64_t length) : m_nodeTree(length, ROOT), m_groupSize(length, 1), m_rootCount(length)
+    UnionFind(int64_t length) : m_groupLeaders(length, ROOT), m_sizeList(length, 1), m_rootCount(length)
     {
     }
 
@@ -36,9 +36,9 @@ public:
             std::swap(aRoot, bRoot);
             std::swap(aSize, bSize);
         }
-        m_groupSize[aRoot] += bSize;
-        m_groupSize[bRoot] = 0;
-        m_nodeTree[bRoot] = aRoot;
+        m_sizeList[aRoot] += bSize;
+        m_sizeList[bRoot] = 0;
+        m_groupLeaders[bRoot] = aRoot;
         --m_rootCount;
     }
 
@@ -48,7 +48,7 @@ public:
      */
     int64_t GetGroupSize(const int64_t node)
     {
-        return m_groupSize[UpdateRoot(node)];
+        return m_sizeList[UpdateRoot(node)];
     }
     /**
      * 根の数を数える
@@ -65,7 +65,7 @@ public:
      */
     bool IsRoot(const int64_t node) const
     {
-        return m_nodeTree[node] == ROOT;
+        return m_groupLeaders[node] == ROOT;
     }
 
     /**
@@ -76,14 +76,14 @@ public:
      */
     bool IsSameRoot(const int64_t nodeA, const int64_t nodeB)
     {
-        return GetRoot(nodeA) == GetRoot(nodeB);
+        return FetchRoot(nodeA) == FetchRoot(nodeB);
     }
 
     /**
      * @brief nodeの根を更新し、根を取得する
      * @param 調べたい対象のノード番号
      */
-    int64_t GetRoot(const int64_t node)
+    int64_t FetchRoot(const int64_t node)
     {
         return UpdateRoot(node);
     }
@@ -101,12 +101,12 @@ private:
         {
             return node;
         }
-        m_nodeTree[node] = UpdateRoot(m_nodeTree[node]);
-        return m_nodeTree[node];
+        m_groupLeaders[node] = UpdateRoot(m_groupLeaders[node]);
+        return m_groupLeaders[node];
     }
 
-    std::vector<int64_t> m_nodeTree;  //! 自分の親ノードが誰かの情報を持つ隣接リストvector
-    std::vector<int64_t> m_groupSize; //! そのグループのサイズを持つvector
-    int64_t m_rootCount;              //! 根の数を持つ値
-    static constexpr int ROOT = -1;   //! そのノードが根であることを示す値
+    std::vector<int64_t> m_groupLeaders; //! 自分の親ノードが誰かの情報を持つ隣接リストvector
+    std::vector<int64_t> m_sizeList;     //! そのグループのサイズを持つvector
+    int64_t m_rootCount;                 //! 根の数を持つ値
+    static constexpr int ROOT = -1;      //! そのノードが根であることを示す値
 };
