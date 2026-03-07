@@ -48,7 +48,6 @@ int main()
                 assert(aclUF.size(v) == litUF.GetGroupSize(v));
                 assert(aclUF.groups().size() == litUF.GetRootCount());
             }
-            // std::cout << "\n";
         }
     }
     std::cout << "OK!" << std::endl;
