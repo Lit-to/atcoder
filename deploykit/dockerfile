@@ -22,13 +22,14 @@ RUN python3 -m venv /home/Lit-to/venv \
     && /home/Lit-to/venv/bin/pip install --upgrade pip \
     && /home/Lit-to/venv/bin/pip install sortedcontainers && /home/Lit-to/venv/bin/pip install line-profiler && /home/Lit-to/venv/bin/pip install sphinx && /home/Lit-to/venv/bin/pip install sphinx-book-theme
 
-
-
 # 環境変数 PATH に venv を追加
 ENV PATH="/home/Lit-to/venv/bin:${PATH}"
 
 RUN sudo apt-get update && sudo apt-get install -y build-essential
 RUN sudo apt-get update && sudo apt-get install -y gdb
+RUN sudo apt install clang-format
+
+ENV PATH="/usr/bin:${PATH}"
 RUN sudo apt install -y clang-format
 
 ENV PATH="/usr/bin:${PATH}"
@@ -42,6 +43,7 @@ RUN git clone https://github.com/Lit-to/atcoder.git /home/Lit-to/atcoder
 COPY .profile /home/Lit-to/.profile
 COPY .profile ~/.profile
 COPY .bashrc ~/.bashrc
+RUN git clone https://github.com/atcoder/ac-library.git /home/Lit-to/acl
 
 RUN git clone https://github.com/atcoder/ac-library.git /home/Lit-to/acl
 

@@ -10,7 +10,7 @@
                 "-g",
                 "${file}",
                 "-I",
-                "/home/lit-to/acl",
+                "/home/Lit-to/acl/",
                 "-o",
                 "${fileDirname}/a",
                 "-std=c++23",
