@@ -31,9 +31,10 @@ def main():
     """
     入力受け取り例
 
-    im.input()
-    im.intInput()
-    im.listInput()
+    S = im.input()
+    N = im.intInput()
+    H,W = im.listIntInput(2)
+    A = im.listIntInput(N)
     """
 
 
@@ -77,11 +78,10 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 # 各種関数定義
 ## 便利関数
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
-def prin(stop=False,sep=" ",end="\n",file=sys.stdout):return (lambda*values:printe(*values,sep=sep,end=end)) if stop else (lambda*values:print(*values,sep=sep,end=end,file=file))
 def yes(f=True): printe("Yes") if (f) else None
 def no(f=True): printe("No") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
-def printYN(f:bool): yes() if f else no()
+def yesno(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None
 
 ## 入力受け取り用
@@ -95,7 +95,7 @@ class inputManager:
     __index = 0
 
     @staticmethod
-    def input():
+    def input() -> str:
         """
         入力取得関数
         バッファから次の空白･改行文字までの1トークンを取り出す
@@ -109,13 +109,13 @@ class inputManager:
         if inputManager.__index==len(inputManager.__buffer):
             inputManager.__buffer = []
         return result
-    def intInput():
+    def intInput() -> int:
         """
         次の数値を取り出す
         数値キャストに失敗すると死ぬ
         """
         return int(inputManager.input())
-    def listInput(n:int,f:callable=lambda x:x):
+    def listInput(n:int,f:callable=lambda x:x) -> list:
         """
         n個の入力を配列として返す
         取り出したものを引数に関数fを実行した結果を格納する        
@@ -129,6 +129,13 @@ class inputManager:
         for i in range(n):
             result.append(f(inputManager.input()))
         return result
+    
+    def listIntInput(n:int) -> list:
+        """
+        n個の入力を数値配列として返す
+        :param n: 個数
+        """ 
+        return inputManager.listInput(n,int)
 
 im = inputManager
 
