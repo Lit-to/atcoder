@@ -136,6 +136,10 @@ namespace LitUtility
         }
         return result;
     }
+    /**
+     * @brief xよりyが大きいときのみ更新する
+     * @return xよりyのほうが大きいかどうか
+     */
     int64_t ChangeMax(int64_t &x, int64_t &y)
     {
         if (x < y)
@@ -145,6 +149,10 @@ namespace LitUtility
         }
         return false;
     }
+    /**
+     * @brief xよりyが小さいときのみ更新する
+     * @return xよりyのほうが小さいかどうか
+     */
     int64_t ChangeMin(int64_t &x, int64_t &y)
     {
         if (y < x)
@@ -154,6 +162,33 @@ namespace LitUtility
         }
         return false;
     }
-
+    /**
+     * @brief 条件がtrueのときにYesと出力する
+     * @details if分岐中にYesを吐き出したい
+     * @param isYes Yesを吐き出す条件
+     * @return isYesの中身
+     */
+    bool Yes(bool isYes = true)
+    {
+        if (isYes)
+        {
+            std::cout << "Yes" << std::endl;
+        }
+        return isYes;
+    }
+    /**
+     * @brief 条件がtrueのときにNoと出力する
+     * @details if分岐中にNoを吐き出したい
+     * @param isNo Noを吐き出す条件
+     * @return isNoの中身
+     */
+    bool No(bool isNo = true)
+    {
+        if (isNo)
+        {
+            std::cout << "No" << std::endl;
+        }
+        return isNo;
+    }
 }
 namespace Lit = LitUtility;
