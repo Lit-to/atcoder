@@ -37,6 +37,17 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    H,W,Q = im.listIntInput(3)
+    QUERIES = []
+    for i in range(Q):
+        QUERIES.append(im.listIntInput(2))
+    for q,rc in QUERIES:
+        if q==1:
+            print(rc*W)
+            H-=rc
+        elif q==2:
+            print(rc*H)
+            W-=rc
 
 
     ...
@@ -63,7 +74,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)

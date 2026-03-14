@@ -37,8 +37,12 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
-
+    L,R,D,U = im.listIntInput(4)
+    result = 0
+    for i in range(L,R+1):
+        for j in range(D,U+1):
+            result+=max(abs(i),abs(j))%2==0
+    print(result)
     ...
 
     # 処理スペース
@@ -63,7 +67,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)

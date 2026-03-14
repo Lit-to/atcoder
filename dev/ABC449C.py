@@ -25,6 +25,28 @@
 
 def main():
     # 関数定義スペース
+    def Search(ok:int,ng:int,f:bool)->int:
+        """二分探索を行う関数
+        単調増加の範囲においてokのうちいちばんngに近いものの値を返す
+        利用例:
+        -  lambda i:a[i]<x xを含まない最大のiを返す
+        -  lambda i:a[i]<=x xを含む最大のiを返す
+
+        Args:
+            -  ok (int): 評価関数fに渡したときに必ずTrueを返すことが保証されている値
+            -  ng (int): 評価関数fに渡したときに必ずFalseを返すことが保証されている値
+            -  f (bool): 評価関数(引数1/戻り値bool)
+
+        Returns:
+            -  int: 結果
+        """
+        while 1<abs(ok-ng):
+            mid=(ng+ok)//2
+            if f(mid):
+                ok=mid
+            else:
+                ng=mid
+        return ok
 
     ...    
 
@@ -38,11 +60,24 @@ def main():
     A = im.listIntInput(N)
     """
 
-
+    N,L,R = im.listIntInput(3)
+    S = im.input()
+    DISTANCE = R-L
     ...
 
     # 処理スペース
+    d = dict(lambda:[])
+    result = 0
+    for i in range(N):
+        d[S[i]].append(i)
+    for i in d:
+        target = d[i]
+        for t in range(len(target)):
+            l = Search(t,len(target),lambda x:target[x]-target[t]<L)
+            r = Search(t,len(target),lambda x:target[x]-target[t]<=R)
+            result+=r-l
 
+    print(result)
     ...
 
 # テンプレートコピペエリア
@@ -63,7 +98,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)

@@ -37,6 +37,8 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    D=im.intInput()
+    print((D/2)*(D/2)*math.pi)
 
 
     ...
@@ -63,7 +65,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
