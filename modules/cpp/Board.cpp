@@ -25,6 +25,13 @@ public:
         return pos.Y * m_width + pos.X;
     }
     /**
+     * @brief 座標構造体からインデックス値に変換する関数
+     */
+    int64_t ConvertPosToIndex(const int64_t y, const int64_t x) const
+    {
+        return y * m_width + x;
+    }
+    /**
      * @brief インデックス値から座標構造体に変換する関数
      */
     Board::POS ConvertIndexToPos(const int64_t index) const
