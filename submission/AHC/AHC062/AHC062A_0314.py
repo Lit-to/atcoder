@@ -63,7 +63,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
