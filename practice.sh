@@ -2,7 +2,7 @@
 
 OLD_DIR="$PWD"
 
-cd /home/Lit-to/atcoder/ || { echo "ディレクトリ /home/Lit-to/ に移動できません"; exit 1; }
+cd ~/atcoder/ || { echo "ディレクトリ /home/Lit-to/ に移動できません"; exit 1; }
 
 if [ $# -ge 1 ]; then
     fileName="$1"
