@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     curl wget git 
 
 # 固定ユーザーを作成
-WORKDIR /home/root/
+WORKDIR /root/
 RUN sudo apt-get update && sudo apt-get install -y nano
 
 RUN sudo apt-get update && sudo apt-get install -y pypy3
@@ -23,7 +23,7 @@ RUN python3 -m venv ~/venv \
     && ~/venv/bin/pip install sortedcontainers && ~/venv/bin/pip install line-profiler && ~/venv/bin/pip install sphinx && ~/venv/bin/pip install sphinx-book-theme
 
 # 環境変数 PATH に venv を追加
-ENV PATH="/home/root/venv/bin:${PATH}"
+ENV PATH="/root/venv/bin:${PATH}"
 
 RUN sudo apt-get update && sudo apt-get install -y build-essential
 RUN sudo apt-get update && sudo apt-get install -y gdb
