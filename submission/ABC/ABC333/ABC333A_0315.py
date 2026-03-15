@@ -36,9 +36,10 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    print(str(N)*N)
 
-
-    ...
+    
 
     # 処理スペース
 
