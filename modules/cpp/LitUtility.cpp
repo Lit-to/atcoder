@@ -197,7 +197,7 @@ namespace LitUtility
      */
     bool YesNo(bool isYes)
     {
-        if (!isYes)
+        if (isYes)
         {
             Yes();
         }
