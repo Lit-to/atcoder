@@ -18,6 +18,15 @@ struct SECTION
         return l < target.l || l == target.l && r < target.r;
     }
 };
+/**
+ * @brief 座標データ構造体
+ */
+struct POS
+{
+    int64_t X; //!< x座標
+    int64_t Y; //!< y座標
+};
+
 // ===================
 
 int main()

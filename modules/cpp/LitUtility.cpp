@@ -190,5 +190,22 @@ namespace LitUtility
         }
         return isNo;
     }
+    /**
+     * @brief 条件がtrueのときにYes,そうでないときにNoと出力する
+     * @param isYes Yesを吐き出す条件
+     * @return isYesの中身
+     */
+    bool YesNo(bool isYes)
+    {
+        if (!isYes)
+        {
+            Yes();
+        }
+        else
+        {
+            No();
+        }
+        return isYes;
+    }
 }
 namespace Lit = LitUtility;
