@@ -12,7 +12,7 @@ public:
      * 初期化を行う
      * @param length 長さ
      */
-    UnionFind(int64_t length) : m_parent(length, ROOT), m_size(length, 1)
+    UnionFind(int64_t length) : m_groupLeaders(length, ROOT), m_sizeList(length, 1), m_rootCount(length)
     {
     }
 
@@ -21,7 +21,7 @@ public:
      * @param nodeA 結合対象のノード番号
      * @param nodeB 結合対象のノード番号
      */
-    void Unite(int64_t nodeA, int64_t nodeB)
+    void Unite(const int64_t nodeA, const int64_t nodeB)
     {
         int64_t aRoot = UpdateRoot(nodeA);
         int64_t bRoot = UpdateRoot(nodeB);
@@ -29,25 +29,33 @@ public:
         {
             return;
         }
-        int64_t aSize = GetSize(aRoot);
-        int64_t bSize = GetSize(bRoot);
+        int64_t aSize = GetGroupSize(aRoot);
+        int64_t bSize = GetGroupSize(bRoot);
         if (aSize < bSize)
         {
             std::swap(aRoot, bRoot);
             std::swap(aSize, bSize);
         }
-        m_size[aRoot] += bSize;
-        m_size[bRoot] = 0;
-        m_parent[bRoot] = aRoot;
+        m_sizeList[aRoot] += bSize;
+        m_sizeList[bRoot] = 0;
+        m_groupLeaders[bRoot] = aRoot;
+        --m_rootCount;
     }
 
     /**
      * @brief ノードの属するグループのサイズを求める
      * @param node ノード番号
      */
-    int64_t GetSize(int64_t node)
+    int64_t GetGroupSize(const int64_t node)
     {
-        return m_size[UpdateRoot(node)];
+        return m_sizeList[UpdateRoot(node)];
+    }
+    /**
+     * 根の数を数える
+     */
+    int64_t GetRootCount() const
+    {
+        return m_rootCount;
     }
 
     /**
@@ -55,9 +63,9 @@ public:
      * @param node ノード番号
      * @return ノードが根かどうか
      */
-    bool IsRoot(int64_t node)
+    bool IsRoot(const int64_t node) const
     {
-        return m_parent[node] == ROOT;
+        return m_groupLeaders[node] == ROOT;
     }
 
     /**
@@ -66,16 +74,16 @@ public:
      * @param nodeB 調べる対象のノード
      * @return 同じグループかどうか
      */
-    bool IsSameRoot(int64_t nodeA, int64_t nodeB)
+    bool IsSameRoot(const int64_t nodeA, const int64_t nodeB)
     {
-        return GetRoot(nodeA) == GetRoot(nodeB);
+        return FetchRoot(nodeA) == FetchRoot(nodeB);
     }
 
     /**
      * @brief nodeの根を更新し、根を取得する
      * @param 調べたい対象のノード番号
      */
-    int64_t GetRoot(int64_t node)
+    int64_t FetchRoot(const int64_t node)
     {
         return UpdateRoot(node);
     }
@@ -87,17 +95,18 @@ private:
      * @param node 更新対象のノード番号
      * @return 根のノード番号
      */
-    int64_t UpdateRoot(int64_t node)
+    int64_t UpdateRoot(const int64_t node)
     {
         if (IsRoot(node))
         {
             return node;
         }
-        m_parent[node] = UpdateRoot(m_parent[node]);
-        return m_parent[node];
+        m_groupLeaders[node] = UpdateRoot(m_groupLeaders[node]);
+        return m_groupLeaders[node];
     }
 
-    std::vector<int64_t> m_size;    //! 子のサイズを持つvector
-    std::vector<int64_t> m_parent;  //! 自分の親の情報を持つvector
-    static constexpr int ROOT = -1; //! そのノードが親であることを示す値
+    std::vector<int64_t> m_groupLeaders; //! 自分の親ノードが誰かの情報を持つ隣接リストvector
+    std::vector<int64_t> m_sizeList;     //! そのグループのサイズを持つvector
+    int64_t m_rootCount;                 //! 根の数を持つ値
+    static constexpr int ROOT = -1;      //! そのノードが根であることを示す値
 };

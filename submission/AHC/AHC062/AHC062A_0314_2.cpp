@@ -1,0 +1,233 @@
+// AHC062A
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <unordered_set>
+#include <queue>
+
+/**
+ *方針メモ欄
+ *
+ * # お気持ち
+ *
+ * # 具体的なロジック
+ *
+ */
+
+/*=========================*/
+
+/**
+ * 二次元ボードを使いやすくするためのクラス
+ */
+template <class T>
+class Board
+{
+public:
+    /**
+     * @brief 座標情報を持つ構造体
+     */
+    struct POS
+    {
+        int64_t X; //!< 横位置
+        int64_t Y; //!< 縦位置
+    };
+    /**
+     * @brief 座標構造体からインデックス値に変換する関数
+     */
+    int64_t ConvertPosToIndex(const Board::POS &pos) const
+    {
+        return pos.Y * m_width + pos.X;
+    }
+    /**
+     * @brief インデックス値から座標構造体に変換する関数
+     */
+    Board::POS ConvertIndexToPos(const int64_t index) const
+    {
+        return Board::POS{.X = index % m_width, .Y = index / m_width};
+    }
+    /**
+     * コンストラクタ
+     * @brief 縦横でボードを初期化し、各マスをデフォルトコンストラクタ初期化する
+     */
+    Board(int64_t H, int64_t W)
+        : m_height(H), m_width(W), m_size(H * W), m_data(H * W)
+    {
+    }
+    /**
+     * @brief 特定のマスの参照を返す
+     * []演算子オーバーロード
+     */
+    T &operator[](const int64_t y, const int64_t x)
+    {
+        return m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})];
+    }
+    /**
+     * @brief 特定のマスのコンスト参照を返す
+     * []演算子オーバーロード
+     */
+    const T &operator[](const int64_t y, const int64_t x) const
+    {
+        return operator[](y, x);
+    }
+    /**
+     * @brief 特定のマスの参照を返す
+     * []演算子オーバーロード
+     */
+    T &operator[](const int64_t index)
+    {
+        return m_data[index];
+    }
+    /**
+     * @brief 特定のマスのコンスト参照を返す
+     * []演算子オーバーロード
+     */
+    const T &operator[](const int64_t index) const
+    {
+        return m_data[index];
+    }
+    /**
+     * @param index 座標を表すインデックス
+     * @brief 特定のマスがボード範囲内かどうかを返す
+     */
+    bool IsInside(const int64_t index) const
+    {
+        return IsInside(ConvertIndexToPos(index));
+    }
+    /**
+     * @param pos 座標
+     * @brief 特定のマスがボード範囲内かどうかを返す
+     */
+    bool IsInside(const int64_t y, const int64_t x) const
+    {
+        return (0 <= y && y < m_height) && (0 <= x && x < m_width);
+    }
+    /**
+     * @brief インスタンスを値で埋める
+     */
+    void Fill(const T &value)
+    {
+        for (int64_t i = 0; i < m_size; ++i)
+        {
+            m_data[i] = value;
+        }
+    }
+    /**
+     * @brief インスタンスをデフォルトコンストラクタで埋める
+     */
+    void Clear()
+    {
+        Fill(T());
+    }
+    /**
+     * @brief 縦を取得する
+     */
+    int64_t GetHeight() const
+    {
+        return m_height;
+    }
+    /**
+     * @brief 横を取得する
+     */
+    int64_t GetWidth() const
+    {
+        return m_width;
+    }
+    /**
+     * @brief 縦*横の値を取得する
+     */
+    int64_t GetSize() const
+    {
+        return m_size;
+    }
+    /**
+     * @brief 標準入力からのファクトリ
+     * @details H W H*W回の内容が来る想定
+     */
+    static Board<T> Input()
+    {
+        int64_t height;
+        int64_t width;
+        std::cin >> height;
+        std::cin >> width;
+        Board<T> data = Board::Input(height, width);
+    }
+    /**
+     * @brief 標準入力からのファクトリ
+     * @details H*W回の内容が来る想定
+     * @param H 作る高さ
+     * @param W 作る幅
+     */
+    static Board<T> Input(int64_t H, int64_t W)
+    {
+        Board<T> data = Board(H, W);
+        for (int64_t i = 0; i < data.GetSize(); ++i)
+        {
+            std::cin >> data[i];
+        }
+        return data;
+    }
+
+private:
+    std::vector<T> m_data; //!< マス情報
+    int64_t m_height;      //!< 高さ
+    int64_t m_width;       //!< 幅
+    int64_t m_size;        //!< ボードの全体サイズ
+};
+int64_t conv(int64_t y, int64_t x, int64_t w)
+{
+    return y * w + x;
+}
+int main()
+{
+    int64_t N;
+    std::cin >> N;
+    Board<int64_t> BOARD = Board<int64_t>::Input(N, N);
+    struct POS
+    {
+        int64_t y;
+        int64_t x;
+    };
+    std::vector<POS> ROUTE;
+    std::unordered_set<int64_t> done;
+    const int64_t LRUD[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    int64_t last = INT64_MAX;
+    POS pos = POS{.y = 0, .x = 0};
+    for (int64_t i = 0; i < BOARD.GetHeight(); ++i)
+    {
+        for (int64_t j = 0; j < BOARD.GetWidth(); ++j)
+            if (BOARD[i, j] < last)
+            {
+                Board<int64_t>::POS p = BOARD.ConvertIndexToPos(i);
+                pos.y = p.Y;
+                pos.x = p.X;
+                last = BOARD[i, j];
+            }
+    }
+    // queue.push(pos);
+    done.insert(conv(pos.y, pos.x, BOARD.GetWidth()));
+    while (ROUTE.size() < N * N)
+    {
+        // pos = queue.front();
+        ROUTE.push_back(pos);
+        // queue.pop();
+        for (int64_t i = 0; i < 4; ++i)
+        {
+            POS next = POS{.y = pos.y + LRUD[i][0], .x = pos.x + LRUD[i][1]};
+            int64_t nextIndex = conv(next.y, next.x, BOARD.GetWidth());
+            if (BOARD.IsInside(next.y, next.x) && !done.contains(nextIndex))
+            {
+                pos = next;
+                done.insert(nextIndex);
+                // queue.push(next);
+                break;
+            }
+        }
+    }
+    for (int64_t i = 0; i < ROUTE.size(); ++i)
+    {
+        std::cout << ROUTE[i].y << " " << ROUTE[i].x << " ";
+    }
+    std::cout << std::endl;
+}

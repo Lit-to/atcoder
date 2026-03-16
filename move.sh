@@ -1,32 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# 引数
-subject="${1:-}"  # 引数がなければ空文字
-# 作業対象ディレクトリ（必要なら絶対パスに変えてください）
-DEV_DIR="./dev"
 
-# 出力先のルート
+# 引数
+subject="${1:-"Update files"}"
+DEV_DIR="./dev"
 DEST_ROOT="./submission"
 
-# 正規表現（拡張正規表現）
-# ^A.C    : A と C の間に任意の1文字
-# [0-9]{3}: 3桁の数字
-# [A-G]   : A〜G の1文字
-# \.[^.]+$: 拡張子（ドットに続く1文字以上、スラッシュは含まない）
-RE='^A.C[0-9]{3}[A-G]\.[^.]+$'
+# 1. ^([a-zA-Z]+) : 先頭のアルファベット（例: AC, ABC）
+# 2. ([0-9]+)     : 続く数値（例: 123, 001）
+# 3. ([a-zA-Z])   : 最後の1文字（例: A, b）
+# 4. \.([^.]+)$   : 拡張子
+RE='^([a-zA-Z]+)([0-9]+)([a-zA-Z])\.([^.]+)$'
 
 if [[ ! -d "$DEV_DIR" ]]; then
     echo "エラー: $DEV_DIR が見つかりません。" >&2
     exit 1
 fi
 
-# マッチするファイルを null 区切りで収集（サブディレクトリは検索しない）
-mapfile -d '' -t matches < <(find "$DEV_DIR" -maxdepth 1 -type f -print0 | while IFS= read -r -d '' f; do
+# マッチするファイルを収集
+matches=()
+while IFS= read -r -d '' f; do
     base=$(basename "$f")
-    if [[ $base =~ $RE ]]; then
-        printf '%s\0' "$f"
+    if [[ "$base" =~ $RE ]]; then
+        matches+=("$f")
     fi
-done)
+done < <(find "$DEV_DIR" -maxdepth 1 -type f -print0)
 
 if (( ${#matches[@]} == 0 )); then
     echo "マッチするファイルは見つかりませんでした。"
@@ -34,54 +32,48 @@ if (( ${#matches[@]} == 0 )); then
 fi
 
 echo "以下のファイルがマッチしました:"
-for f in "${matches[@]}"; do
-    echo "    - $f"
-done
+printf "    - %s\n" "${matches[@]}"
 
-# 確認
-read -r -p "移動しますか? [y/n] " answer
-if [[ "$answer" != "y" ]]; then
-    echo "キャンセルしました。"
-    exit 0
-fi
+read -r -p "移動とコミットを実行しますか? [y/n] " answer
+[[ "$answer" != "y" ]] && echo "キャンセルしました。" && exit 0
 
 # 移動処理
 for f in "${matches[@]}"; do
     base=$(basename "$f")
-    name_wo_ext="${base%.*}"
-    ext="${base##*.}"
-    aqc="${base:0:3}"
-    dirpart="${base:0:6}"
-    dest_dir="$DEST_ROOT/$aqc/$dirpart"
+    
+    # 正規表現で各パーツを抽出
+    [[ "$base" =~ $RE ]]
+    prefix="${BASH_REMATCH[1]}"  # 例: AC
+    num="${BASH_REMATCH[2]}"     # 例: 123
+    suffix_char="${BASH_REMATCH[3]}" # 例: A
+    ext="${BASH_REMATCH[4]}"     # 例: py
+    
+    # フォルダ構造の決定 (例: submission/AC/AC123)
+    dest_dir="$DEST_ROOT/$prefix/${prefix}${num}"
     mkdir -p "$dest_dir"
-    # 日付 suffix — MMDD。YYYYMMDD にしたければ "+%Y%m%d" にする
-    suffix=$(date +%m%d)
-    base_prefix="${name_wo_ext}_${suffix}"
-    # ベース名 + 拡張子
-    new_base="${base_prefix}.${ext}"
+
+    # ファイル名の生成（重複回避）
+    date_str=$(date +%m%d)
+    new_name_base="${prefix}${num}${suffix_char}_${date_str}"
+    
+    new_base="${new_name_base}.${ext}"
     i=1
-    # 同名ファイルがあれば _1, _2, ... を付けていく
-    while [ -e "$dest_dir/$new_base" ]; do
-        new_base="${base_prefix}_${i}.${ext}"
-        i=$((i+1))
+    while [[ -e "$dest_dir/$new_base" ]]; do
+        new_base="${new_name_base}_${i}.${ext}"
+        ((i++))
     done
+
     mv -- "$f" "$dest_dir/$new_base"
-    echo "Moved: '$base' -> '$dest_dir/$new_base'"
+    echo "Moved: $base -> $dest_dir/$new_base"
 done
 
-
-# --- ここから commit メッセージ作成 ---
-commit_msg="${subject}"$'\n'
-commit_msg+="add:AC :"$''
+# --- Commit メッセージ作成 ---
+commit_msg="AC:"
 for f in "${matches[@]}"; do
-    commit_msg+="-   $(basename "$f")"$'\n'
+    commit_msg+="$(basename "$f"),"
 done
-
-# git add 対象（必要に応じて調整）
-git add *
-
-# コミット
+commit_msg="${commit_msg%,}"
+git add .
 git commit -m "$commit_msg"
-
 
 echo "完了しました。"

@@ -37,7 +37,7 @@
         "-m"
       ],
       "env": {
-        "PYTHONPATH": "/home/lit-to/atcoder:$PYTHONPATH"
+        "PYTHONPATH": "~/atcoder:$PYTHONPATH"
       },
       "preLaunchTask": "export pypy_path"
     },
