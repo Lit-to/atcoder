@@ -1,7 +1,20 @@
-#include <stdexcept>
-#include <vector>
+// TESOK001H_
 #include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
 
+/**
+ *方針メモ欄
+ *
+ * # お気持ち
+ * ※本来はTLE解
+ * # 具体的なロジック
+ *
+ */
+
+/*=========================*/
 /**
  * 二次元ボードを使いやすくするためのクラス
  */
@@ -168,5 +181,42 @@ private:
 };
 int main()
 {
-    return 0;
+    // 入力受け取り
+    Board<int> BOARD = Board<int>::Input();
+    Board<int> RATERAL_PRESUM(BOARD.GetHeight(), BOARD.GetWidth() + 1);
+    Board<int> TWO_DIMENSIONAL_PRESUM(BOARD.GetHeight() + 1, BOARD.GetWidth() + 1);
+    int H = BOARD.GetHeight();
+    int W = BOARD.GetWidth();
+
+    int64_t Q;
+    std::cin >> Q;
+    struct QUERY
+    {
+        int64_t a;
+        int64_t b;
+        int64_t c;
+        int64_t d;
+    };
+    std::vector<QUERY> QUERIES(Q);
+    for (int64_t i = 0; i < Q; ++i)
+    {
+        std::cin >> QUERIES[i].a;
+        std::cin >> QUERIES[i].b;
+        std::cin >> QUERIES[i].c;
+        std::cin >> QUERIES[i].d;
+        --QUERIES[i].a;
+        --QUERIES[i].b;
+    }
+    for (QUERY &i : QUERIES)
+    {
+        int result = 0;
+        for (int j = i.a; j < i.c; ++j)
+        {
+            for (int k = i.b; k < i.d; ++k)
+            {
+                result += BOARD[j, k];
+            }
+        }
+        std::cout << result << std::endl;
+    }
 }
