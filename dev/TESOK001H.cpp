@@ -222,9 +222,9 @@ int main()
 
     for (int i = 0; i < H; ++i)
     {
-        for (int j = 1; j < W + 1; ++j)
+        for (int j = 0; j < W; ++j)
         {
-            RATERAL_PRESUM[i, j] = RATERAL_PRESUM[i, j - 1] + BOARD[i, j - 1];
+            TWO_DIMENSIONAL_PRESUM[i + 1, j + 1] = TWO_DIMENSIONAL_PRESUM[i + 1, j] + BOARD[i, j];
         }
     }
     //=====================================
@@ -238,13 +238,13 @@ int main()
      * 0 0 9 11 18 18        0 7 23 35 47 56
      */
 
-    for (int j = 0; j < W + 1; ++j)
+    for (int j = 0; j < W; ++j)
     {
-        for (int i = 1; i < H + 1; ++i)
+        for (int i = 1; i < H; ++i)
         {
             // TWO_DIMENSIONAL_PRESUM i-1 => 一つ前
             // RATERAL_PRESUM i-1 => オフセット
-            TWO_DIMENSIONAL_PRESUM[i, j] = TWO_DIMENSIONAL_PRESUM[i - 1, j] + RATERAL_PRESUM[i - 1, j];
+            TWO_DIMENSIONAL_PRESUM[i, j] = TWO_DIMENSIONAL_PRESUM[i + 1, j];
         }
     }
     //================================================
