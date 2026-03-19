@@ -26,5 +26,7 @@ docs
 !deploykit/dockerfile
 !prof/prof.txt
 !prof/test.txt
+test/input
+test/output
 OUTPUT
 TEST

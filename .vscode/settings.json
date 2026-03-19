@@ -120,7 +120,6 @@
   },
   "editor.defaultFormatter": "xaver.clang-format",
   "files.exclude": {
-    "": true,
     ".gitignore": true,
     ".vscode": true,
     "**/deploykit": true,
