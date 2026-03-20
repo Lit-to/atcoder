@@ -10,7 +10,7 @@ set -euo pipefail
 pushd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" > /dev/null
 output="./output"
 mkdir -p $output
-RESULT="$output/$(date +%Y%m%d%H%M%S%3N)"
+RESULT="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
 touch $RESULT
 echo "Execute Result => $execCommand" > $RESULT
 for file in ./input/*; do
