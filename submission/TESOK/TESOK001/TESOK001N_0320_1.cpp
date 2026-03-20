@@ -117,18 +117,14 @@ int main()
     {
         std::cin >> D[i];
     }
-    std::sort(A.begin(), A.end());
-    std::sort(B.begin(), B.end());
-    std::sort(C.begin(), C.end());
-    std::sort(D.begin(), D.end());
-    std::vector<int64_t> AB;
-    std::vector<int64_t> CD;
+    std::vector<int64_t> AB(N * N);
+    std::vector<int64_t> CD(N * N);
     for (int64_t i = 0; i < N; ++i)
     {
         for (int64_t j = 0; j < N; ++j)
         {
-            AB.push_back(A[i] + B[j]);
-            CD.push_back(C[i] + D[j]);
+            AB[i * N + j] = (A[i] + B[j]);
+            CD[i * N + j] = (C[i] + D[j]);
         }
     }
     std::sort(AB.begin(), AB.end());
