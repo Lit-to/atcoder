@@ -28,5 +28,6 @@ docs
 !prof/test.txt
 test/input
 test/output
+test/script.py
 OUTPUT
 TEST
