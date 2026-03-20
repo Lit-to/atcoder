@@ -94,68 +94,6 @@ std::vector<int64_t> B;
 std::vector<int64_t> C;
 std::vector<int64_t> D;
 int64_t N, K;
-bool findD(const int64_t &p)
-{
-    // for (int64_t i = 0; i < D.size(); ++i)
-    // {
-    //     if (D[i] == p)
-    //     {
-    //         return true;
-    //     }
-    // }
-    // return false;
-    int64_t index = Search(0, D.size(), [&](int64_t x)
-                           { return D[x] <= p; });
-    return D[index] == p;
-}
-
-bool walkC(const int64_t &p)
-{
-    for (int64_t i = 0; i < C.size(); ++i)
-    {
-        if (p < C[i])
-        {
-            return false;
-        }
-        if (findD(p - C[i]))
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool walkB(const int64_t &p)
-{
-    for (int64_t i = 0; i < B.size(); ++i)
-    {
-        if (p < B[i])
-        {
-            return false;
-        }
-        if (walkC(p - B[i]))
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool walkA()
-{
-    for (int64_t i = 0; i < A.size(); ++i)
-    {
-        if (K < A[i])
-        {
-            return false;
-        }
-        if (walkB(K - A[i]))
-        {
-            return true;
-        }
-    }
-    return false;
-}
 int main()
 {
     std::cin >> N >> K;
@@ -183,5 +121,26 @@ int main()
     std::sort(B.begin(), B.end());
     std::sort(C.begin(), C.end());
     std::sort(D.begin(), D.end());
-    YesNo(walkA());
+    std::vector<int64_t> AB;
+    std::vector<int64_t> CD;
+    for (int64_t i = 0; i < N; ++i)
+    {
+        for (int64_t j = 0; j < N; ++j)
+        {
+            AB.push_back(A[i] + B[j]);
+            CD.push_back(C[i] + D[j]);
+        }
+    }
+    std::sort(AB.begin(), AB.end());
+    std::sort(CD.begin(), CD.end());
+    for (int64_t i = 0; i < AB.size(); ++i)
+    {
+        int64_t index = Search(0, CD.size(), [&](int64_t x)
+                               { return AB[i] + CD[x] <= K; });
+        if (Yes(AB[i] + CD[index] == K))
+        {
+            return 0;
+        }
+    }
+    No();
 }
