@@ -37,6 +37,11 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    a= []
+    for i in range(N,0,-1):
+        a.append(i)
+    print(*a,sep=",")
 
 
     ...

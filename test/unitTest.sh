@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #================================
 # ここに実行コマンドを書く場所
-execCommand="../dev/a" #Cpp
-# execCommand="pypy3 script.py" #Python
+# execCommand="../dev/a" #Cpp
+execCommand="python ../dev/ABC450C.py" #Python
 
 #================================
 

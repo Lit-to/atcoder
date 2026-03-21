@@ -37,8 +37,16 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    C = []
+    for i in range(N):
+        C.append([-1]*(i+1)+im.listIntInput(N-i-1))
 
-
+    for a in range(N):
+        for b in range(a+1,N):
+            for c in range(b+1,N):
+                yes(C[a][b]+C[b][c]<C[a][c])
+    no()
     ...
 
     # 処理スペース

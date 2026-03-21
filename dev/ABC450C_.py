@@ -27,27 +27,22 @@
 def main():
     # 関数定義スペース
     def dfs(pos):
+        count = 0
         for offY,offX in LRUD:
             next = pos[0]+offY,pos[1]+offX
-            if BOARD[next] == ".":
+            if BOARD[next]=="%":
+                return False
+            elif BOARD[next] == "#":
+                count += 1
+                continue
+            elif BOARD[next] == ".":
                 if next not in done:
                     done.add(next)
-                    BOARD[next] = "%"
-                    dfs(next)
+                    if dfs(next) == False:
+                        BOARD[next] = "%"
+                        return False
+        return count < 4
 
-    def dfs_2(pos):
-            count = 0
-            for offY,offX in LRUD:
-                next = pos[0]+offY,pos[1]+offX
-                if BOARD[next] == "#":
-                    count += 1
-                    continue
-                elif BOARD[next] == ".":
-                    if next not in done:
-                        done.add(next)
-                        if dfs(next):
-                            continue
-            return count < 4
 
     ...    
 
@@ -60,30 +55,32 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    def conv(i,j):
+        return i*W+j
     BOARD,H,W =Board.Input(lambda x:x)
     BOARD.AddWall("%")
-    BOARD.AddWall("!")
-    done = set()
-    for i in range(H+2):
-        for j in range(W+2):
-            next = (i,j)
-            if BOARD[next]=="%":
-                if next not in done:
-                    done.add(next)
-                    dfs(next)
+    uf = UnionFind(H*W)
+    anticount = dict(lambda:0)
+    for i in range(H):
+        for j in range(W):
+            if BOARD[i,j] == ".":
+                for offY,offX in LRUD:
+                    next = i+offY,j+offX
+                    if BOARD[next] == ".":
+                        uf.Unite(conv(i,j),conv(next[0],next[1]))
+                    elif BOARD[next] == "%":
+                        anticount[i,j]+=1
     result = 0
-    done = set()
-    for i in range(H+1):
-        for j in range(W+1):
-            next = (i,j)
-            if BOARD[next]==".":
-                if next not in done:
-                    done.add(next)
-                    result += dfs_2(next)
-
-    debug(BOARD)
-    print(result)
-
+    for i in range(H):
+        for j in range(W):
+            uf.UpdateRoot(conv(i,j))
+            if BOARD[i,j]==".":
+                result += uf.parent[conv(i,j)]==-1
+    anti = set()
+    for i in anticount:
+        uf.UpdateRoot(conv(i[0],i[1]))
+        anti.add(uf.parent[conv(i[0],i[1])])
+    print(result-len(anti))
     ...
 
     # 処理スペース
@@ -91,6 +88,61 @@ def main():
     ...
 
 # テンプレートコピペエリア
+
+class UnionFind:
+    """
+    Union-Find
+    頂点を結合した際に連結する要素の親ノードを1つに統一する
+    各頂点の親ノードを高速に返す
+    """
+    def __init__(self,length:int):
+        """
+        コンストラクタ
+
+        Args:
+            -  n (int):すべて独立したn個ノードとして初期化する
+        """
+        self.parent=[-1]*length
+        self.size = length
+
+    def Unite(self,node_A:int,node_B:int)->None:
+        """ノードaとノードbを結合する
+
+        Args:
+            -  a (int): 結合したいノード
+            -  b (int): 結合したいノード
+        """
+        node_B,node_A=self.UpdateRoot(node_B),self.UpdateRoot(node_A)
+        if node_A==node_B:
+            return
+        if node_B<node_A:
+            self.parent[node_A] += self.parent[node_B]
+            self.parent[node_B] = node_A
+        else:
+            self.parent[node_B] += self.parent[node_A]
+            self.parent[node_A] = node_B
+    
+    def FetchSize(self,node:int)->int:
+        """
+        ノードの属するグループのサイズを求める
+        Args:
+        -   ノード番号
+        """
+        return self.size[self.UpdateRoot(node)]
+
+    def UpdateRoot(self,i:int)->int:
+        """親ノードを再帰的に探索する
+        途中で見つけた親ノードで各子ノード更新する
+        Args:
+            -  i (int):探したいノード 
+        Returns:
+            -  int:親ノード
+        """
+        if self.parent[i]<0:
+            return i
+        else:
+            self.parent[i]=self.UpdateRoot(self.parent[i])
+            return self.parent[i]
 class Board():
 
     """
@@ -382,9 +434,9 @@ class Board():
             -  tuple: 二次元ボードとHとWの組
         """
         H,W=map(int,input().split())
-        board = [list("%"*(W+1))]
+        board = []
         for i in range(H):
-            board.append(list(map(f,list("%"+input()))))
+            board.append(list(map(f,list(input()))))
         return Board(board),H,W
 
 
