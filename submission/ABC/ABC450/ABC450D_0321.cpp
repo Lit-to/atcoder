@@ -19,4 +19,6 @@
 
 int main()
 {
+    int64_t H, W;
+    std::vector<std::vector<bool>> a(H, std::vector<bool>(W, false));
 }

@@ -1,87 +1,32 @@
 # ABC450C
 # template
 
-"""
-/**
- *方針メモ欄
- *
- * # お気持ち
- *
- * # 入力
- *
- * # 事前準備(宣言周り,~を求めておく系のやつ)
- *
- * # 具体的なロジック
- *
- *
- *
- *
- *
- * # 出力
- *
- *
- */
-"""
-
-
 def main():
     # 関数定義スペース
-    def dfs(pos):
+    def dfs_1(pos):
+        BOARD[pos] = "#"
         for offY,offX in LRUD:
-            next = pos[0]+offY,pos[1]+offX
-            if BOARD[next] == ".":
-                if next not in done:
-                    done.add(next)
-                    BOARD[next] = "%"
-                    dfs(next)
-
-    def dfs_2(pos):
-            count = 0
-            for offY,offX in LRUD:
-                next = pos[0]+offY,pos[1]+offX
-                if BOARD[next] == "#":
-                    count += 1
-                    continue
-                elif BOARD[next] == ".":
-                    if next not in done:
-                        done.add(next)
-                        if dfs(next):
-                            continue
-            return count < 4
-
+            nextNode = (pos[0]+offY,pos[1]+offX)
+            if BOARD[nextNode] == ".":
+                dfs_1(nextNode)
     ...    
-
+    
     # 入力スペース
-    """
-    入力受け取り例
-
-    S = im.input()
-    N = im.intInput()
-    H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
-    """
     BOARD,H,W =Board.Input(lambda x:x)
     BOARD.AddWall("%")
-    BOARD.AddWall("!")
-    done = set()
-    for i in range(H+2):
-        for j in range(W+2):
-            next = (i,j)
-            if BOARD[next]=="%":
-                if next not in done:
-                    done.add(next)
-                    dfs(next)
+    for i in range(H):
+        for j in range(W):
+            if i==0 or i==H-1 or j==0 or j==W-1:
+                nextNode = (i,j)
+                if BOARD[nextNode]==".":
+                    dfs_1(nextNode)
     result = 0
-    done = set()
-    for i in range(H+1):
-        for j in range(W+1):
-            next = (i,j)
-            if BOARD[next]==".":
-                if next not in done:
-                    done.add(next)
-                    result += dfs_2(next)
-
-    debug(BOARD)
+    for i in range(H):
+        for j in range(W):
+            nextNode = (i,j)
+            if BOARD[nextNode]==".":
+                dfs_1(nextNode)
+                result+=1
     print(result)
 
     ...
@@ -102,13 +47,6 @@ class Board():
     ROTATE_270_DEGREE = 3
 
     # 自作ボードクラスのショートカット関数
-    def Input():
-        """
-        標準入力からボード作成
-        """
-        H,W = map(int,input().split())
-        return [H,W,Board.InputBoardWithWall(H,W,"#")]
-
 
     def InputBoard(height:int,f=lambda:list(input())):
         """
@@ -382,9 +320,9 @@ class Board():
             -  tuple: 二次元ボードとHとWの組
         """
         H,W=map(int,input().split())
-        board = [list("%"*(W+1))]
+        board = []
         for i in range(H):
-            board.append(list(map(f,list("%"+input()))))
+            board.append(list(map(f,list(input()))))
         return Board(board),H,W
 
 
@@ -405,7 +343,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
