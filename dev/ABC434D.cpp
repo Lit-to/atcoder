@@ -4,6 +4,8 @@
 #include <vector>
 #include <cstdint>
 #include <algorithm>
+#include <unordered_map>
+#include <map>
 
 /**
  *方針メモ欄
@@ -15,9 +17,6 @@
  */
 
 /*=========================*/
-#include <stdexcept>
-#include <vector>
-#include <iostream>
 
 /**
  * 二次元ボードを使いやすくするためのクラス
@@ -187,6 +186,9 @@ int main()
 {
     int64_t N;
     std::cin >> N;
+    int64_t H, W;
+    H = 2000;
+    W = 2000;
     struct QUERY
     {
         int64_t L;
@@ -204,19 +206,27 @@ int main()
         --QUERIES[i].U;
         --QUERIES[i].L;
     }
-    Board<int64_t> BOARD(2100, 2100);
+    Board<int64_t> BOARD(H, W);
+    Board<int64_t> BOARD_ID(H, W);
     for (int64_t i = 0; i < N; ++i)
     {
         ++BOARD[QUERIES[i].U, QUERIES[i].L];
         --BOARD[QUERIES[i].U, QUERIES[i].R];
         --BOARD[QUERIES[i].D, QUERIES[i].L];
         ++BOARD[QUERIES[i].D, QUERIES[i].R];
+
+        //
+        BOARD_ID[QUERIES[i].U, QUERIES[i].L] += i + 1;
+        BOARD_ID[QUERIES[i].U, QUERIES[i].R] -= i + 1;
+        BOARD_ID[QUERIES[i].D, QUERIES[i].L] -= i + 1;
+        BOARD_ID[QUERIES[i].D, QUERIES[i].R] += i + 1;
     }
     for (int64_t i = 0; i < N; ++i)
     {
         for (int64_t j = 0; j < N - 1; ++j)
         {
             BOARD[i, j + 1] = BOARD[i, j] + BOARD[i, j + 1];
+            BOARD_ID[i, j + 1] = BOARD_ID[i, j] + BOARD_ID[i, j + 1];
         }
     }
     for (int64_t i = 0; i < N - 1; ++i)
@@ -224,6 +234,34 @@ int main()
         for (int64_t j = 0; j < N; ++j)
         {
             BOARD[i + 1, j] = BOARD[i, j] + BOARD[i, j];
+            BOARD_ID[i + 1, j] = BOARD_ID[i, j] + BOARD_ID[i, j];
         }
+    }
+    std::map<int64_t, int64_t> countMap;
+    for (int64_t i = 0; i < H; ++i)
+    {
+        for (int64_t j = 0; j < W; ++j)
+        {
+            ++countMap[BOARD_ID[i, j]];
+        }
+    }
+
+    for (int64_t i = 0; i < 10; ++i)
+    {
+        for (int64_t j = 0; j < 10; ++j)
+        {
+            std::cerr << BOARD_ID[i, j] << " ";
+        }
+        std::cerr << std::endl;
+    }
+    int64_t sum = countMap[0];
+    for (int64_t i = 0; i < N; ++i)
+    {
+        sum += countMap[i + 1];
+    }
+    for (int64_t i = 0; i < N; ++i)
+    {
+        std::cerr << countMap[i + 1] << std::endl;
+        std::cout << sum - countMap[i + 1] << std::endl;
     }
 }
