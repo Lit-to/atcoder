@@ -13,7 +13,7 @@ mkdir -p $output
 RESULT="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
 touch $RESULT
 echo "Execute Result => $execCommand" > $RESULT
-for file in ./input/*; do
+for file in ./input/*.txt; do
     [ -e "$file" ] || continue
     name=$(basename "$file")
     echo "file : $file" >> $RESULT
