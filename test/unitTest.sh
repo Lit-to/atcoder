@@ -2,7 +2,7 @@
 #================================
 # ここに実行コマンドを書く場所
 # execCommand="../dev/a" #Cpp
-execCommand="python ../dev/ABC450C.py" #Python
+# execCommand="pypy3 ../dev/test.py" #Python
 
 #================================
 
