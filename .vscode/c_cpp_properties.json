@@ -6,7 +6,7 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/dev",
                 "${workspaceFolder}/modules/cpp",
-                "/home/Lit-to/acl/"
+                "~/acl/"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "${default}",
