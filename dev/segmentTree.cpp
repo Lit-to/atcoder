@@ -21,7 +21,7 @@ public:
     }
     int64_t build(int64_t index)
     {
-        int64_t value = -1;
+        int64_t value = m_identityElement;
         if (m_memorySize / 2 <= index)
         {
             return m_data[index];
@@ -44,7 +44,7 @@ public:
         }
         else
         {
-            int sep = (valR - valL) / 2;
+            int sep = (valR + valL) / 2;
             int64_t result_l = m_identityElement;
             int64_t result_r = m_identityElement;
             if (!(sep <= l))
@@ -70,12 +70,24 @@ public:
         {
             return;
         }
-        updateValue(pos / 2, m_eval(m_data[pos], m_data[pos + pos % 2 == 0]));
+        updateValue(pos / 2, m_eval(m_data[pos], m_data[pos + (int)(pos % 2 == 0)]));
     }
     void updateQuery(int i, int64_t value)
     {
         int pos = (m_memorySize >> 1) + i;
         updateValue(pos, value);
+    }
+    void out()
+    {
+        for (int i = 0; i < m_memorySize; ++i)
+        {
+            std::cout << m_data[i] << ",";
+        }
+        std::cout << std::endl;
+    }
+    std::vector<int64_t> debug_getData()
+    {
+        return m_data;
     }
 
 public:
@@ -92,11 +104,15 @@ public:
 };
 // int main()
 // {
-//     std::vector<int64_t> a({2, 3, 45, 26, 42, 2});
+//     std::vector<int64_t> a({35, 38, 72, 22, 98, 47, 64});
 //     SegmentTree b(a, -1, [](int64_t numa, int64_t numb)
 //                   { return std::max(numa, numb); });
-//     std::cout << b.getQuery(1, 4) << std::endl;
-//     b.updateQuery(3, 100);
+//     std::cout << b.getQuery(4, 6) << std::endl;
+//     // b.updateQuery(3, 100);
+//     // b.updateQuery(4, 101);
+//     // b.updateQuery(0, 99);
+//     // std::cout << b.getQuery(3, 4) << std::endl;
+
 //     for (int i = 0; i < b.m_memorySize; ++i)
 //     {
 //         std::cout << b.m_data[i] << " ";

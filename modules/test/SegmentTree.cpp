@@ -36,19 +36,12 @@ public:
     nonSegTree(std::vector<int64_t> data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
     {
         m_dataSize = data.size();
-        // m_height = 0; // テストしないため無視
-        // m_memorySize = ((m_height + 1) * 2) << 1;
         m_data.resize(m_dataSize, identityElement);
-        // m_identityElement = identityElement;
-        // m_eval = eval;
-        // for (int64_t i = 0; i < m_dataSize; ++i)
-        // {
-        //     m_data[i + m_memorySize / 2] = data[i];
-        // }
         for (int64_t i = 0; i < m_dataSize; ++i)
         {
             m_data[i] = data[i];
         }
+        m_eval = eval;
     };
     int64_t getQuery(int l, int r)
     {
@@ -63,6 +56,18 @@ public:
     {
         m_data[i] = v;
     }
+    void out()
+    {
+        for (int i = 0; i < m_dataSize; ++i)
+        {
+            std::cout << m_data[i] << ",";
+        }
+        std::cout << std::endl;
+    }
+    std::vector<int64_t> debug_getData()
+    {
+        return m_data;
+    }
 
 private:
     std::vector<int64_t> m_data;
@@ -71,40 +76,52 @@ private:
     std::function<int64_t(int64_t, int64_t)> m_eval;
 };
 
-void test(randomGenerator &ranGen)
+bool test(randomGenerator &ranGen)
 {
-    int64_t N = ranGen.generate(1, 100000);
+    int64_t N = ranGen.generate(1, 10);
     std::vector<int64_t> A(N);
     for (int64_t i = 0; i < N; ++i)
     {
-        A[i] = ranGen.generate(1, 100000000);
+        A[i] = ranGen.generate(1, 100);
     }
     SegmentTree segTree(A, -1, [&](int64_t u, int64_t v)
                         { return std::max(u, v); });
     nonSegTree nonSegTree(A, -1, [&](int64_t u, int64_t v)
                           { return std::max(u, v); });
+    segTree.out();
+    nonSegTree.out();
     int64_t Q = ranGen.generate(1, 100000);
-    int64_t q = ranGen.generate(1, 3);
-    if (q == 1)
+    for (int64_t i = 0; i < Q; ++i)
     {
-        // updateクエリ
-        int64_t v = ranGen.generate(1, 100000000);
-        int64_t i = ranGen.generate(0, N);
-        segTree.updateQuery(i, v);
-        nonSegTree.updateQuery(i, v);
-    }
-    else
-    {
-        // getクエリ
-        int64_t l = ranGen.generate(0, N - 1);
-        int64_t r = ranGen.generate(l + 1, N);
-        int64_t resultA = segTree.getQuery(l, r);
-        int64_t resultB = nonSegTree.getQuery(l, r);
-        if (resultA != resultB)
+        int64_t q = ranGen.generate(1, 3);
+        if (q == 1)
         {
-            std::cout << " <<< NG" << std::endl;
+            // updateクエリ
+            int64_t index = ranGen.generate(0, N);
+            int64_t v = ranGen.generate(1, 100);
+            std::cout << q << " " << index << " " << v << std::endl;
+            segTree.updateQuery(index, v);
+            nonSegTree.updateQuery(index, v);
+        }
+        else
+        {
+            // getクエリ
+            int64_t l = ranGen.generate(0, N - 1);
+            int64_t r = ranGen.generate(l + 1, N);
+            std::cout << q << " " << l << " " << r << std::endl;
+            int64_t resultA = segTree.getQuery(l, r);
+            int64_t resultB = nonSegTree.getQuery(l, r);
+            if (resultA != resultB)
+            {
+                std::cout << "true:" << resultB << " false:" << resultA << "<<< NG" << std::endl;
+
+                segTree.out();
+                nonSegTree.out();
+                return false;
+            }
         }
     }
+    return true;
 }
 
 int main()
@@ -113,6 +130,9 @@ int main()
     int64_t testAmount = 5000;
     for (int64_t testI = 0; testI < testAmount; ++testI)
     {
-        test(ranGen);
+        if (!test(ranGen))
+        {
+            break;
+        }
     }
 }
