@@ -70,7 +70,14 @@ public:
         {
             return;
         }
-        updateValue(pos / 2, m_eval(m_data[pos], m_data[pos + (int)(pos % 2 == 0)]));
+        if (pos % 2 == 0)
+        {
+            updateValue(pos / 2, m_eval(m_data[pos], m_data[pos + 1]));
+        }
+        else
+        {
+            updateValue(pos / 2, m_eval(m_data[pos], m_data[pos - 1]));
+        }
     }
     void updateQuery(int i, int64_t value)
     {
