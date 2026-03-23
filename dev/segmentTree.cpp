@@ -90,17 +90,17 @@ public:
     int64_t m_identityElement;
     std::function<int64_t(int64_t, int64_t)> m_eval;
 };
-int main()
-{
-    std::vector<int64_t> a({2, 3, 45, 26, 42, 2});
-    SegmentTree b(a, -1, [](int64_t numa, int64_t numb)
-                  { return std::max(numa, numb); });
-    std::cout << b.getQuery(1, 4) << std::endl;
-    b.updateQuery(3, 100);
-    for (int i = 0; i < b.m_memorySize; ++i)
-    {
-        std::cout << b.m_data[i] << " ";
-    }
-    std::cout << std::endl;
-    return 0;
-}
+// int main()
+// {
+//     std::vector<int64_t> a({2, 3, 45, 26, 42, 2});
+//     SegmentTree b(a, -1, [](int64_t numa, int64_t numb)
+//                   { return std::max(numa, numb); });
+//     std::cout << b.getQuery(1, 4) << std::endl;
+//     b.updateQuery(3, 100);
+//     for (int i = 0; i < b.m_memorySize; ++i)
+//     {
+//         std::cout << b.m_data[i] << " ";
+//     }
+//     std::cout << std::endl;
+//     return 0;
+// }
