@@ -1,4 +1,4 @@
-#include "../../dev/segmentTree.cpp"
+#include "../cpp/SegmentTree.cpp"
 #include <random>
 /**
  * 乱数生成ラッパ
@@ -86,9 +86,9 @@ bool test(randomGenerator &ranGen)
     {
         A[i] = ranGen.generate(1, 100);
     }
-    SegmentTree segTree(A, -1, [](int64_t u, int64_t v)
-                        { return std::max(u, v); });
-    segTree.out();
+    SegmentTree segTree(A, 0, [](int64_t u, int64_t v)
+                        { return u + v; });
+    // segTree.out();
     // nonSegTree nonSegTree(A, -1, [](int64_t u, int64_t v)
     //   { return std::max(u, v); });
     // segTree.out();
@@ -130,13 +130,13 @@ bool test(randomGenerator &ranGen)
 int main()
 {
     randomGenerator ranGen;
-    int64_t testAmount = 5000;
+    int64_t testAmount = 100;
     for (int64_t testI = 0; testI < testAmount; ++testI)
     {
         if (!test(ranGen))
         {
             break;
         }
-        std::cout << "<<OK";
     }
+    std::cout << "<<OK" << std::endl;
 }

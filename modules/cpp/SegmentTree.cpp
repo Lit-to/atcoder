@@ -34,7 +34,11 @@ public:
     }
     int64_t calcSection(int l, int r, int node, int valL, int valR)
     {
-        if (l == valL && r == valR)
+        if (r <= valL || valR <= l)
+        {
+            return m_identityElement;
+        }
+        else if (l == valL && r == valR)
         {
             return m_data[node];
         }
@@ -65,8 +69,12 @@ public:
 
     void updateValue(int pos)
     {
+        if (pos < 1)
+        {
+            return;
+        }
         m_data[pos] = m_eval(m_data[pos * 2], m_data[pos * 2 + 1]);
-        if (pos == 0)
+        if (pos == 1)
         {
             return;
         }
@@ -77,10 +85,7 @@ public:
 
         int pos = (m_memorySize >> 1) + i;
         m_data[pos] = value;
-        if (1 < i)
-        {
-            updateValue(pos >> 1);
-        }
+        updateValue(pos >> 1);
     }
     void out()
     {
