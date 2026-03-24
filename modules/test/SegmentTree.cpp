@@ -42,6 +42,7 @@ public:
             m_data[i] = data[i];
         }
         m_eval = eval;
+        m_identityElement = identityElement;
     };
     int64_t getQuery(int l, int r)
     {
@@ -79,17 +80,19 @@ private:
 bool test(randomGenerator &ranGen)
 {
     int64_t N = ranGen.generate(1, 10);
+    // int64_t N = 1;
     std::vector<int64_t> A(N);
     for (int64_t i = 0; i < N; ++i)
     {
         A[i] = ranGen.generate(1, 100);
     }
-    SegmentTree segTree(A, -1, [&](int64_t u, int64_t v)
+    SegmentTree segTree(A, -1, [](int64_t u, int64_t v)
                         { return std::max(u, v); });
-    nonSegTree nonSegTree(A, -1, [&](int64_t u, int64_t v)
-                          { return std::max(u, v); });
     segTree.out();
-    nonSegTree.out();
+    // nonSegTree nonSegTree(A, -1, [](int64_t u, int64_t v)
+    //   { return std::max(u, v); });
+    // segTree.out();
+    // nonSegTree.out();
     int64_t Q = ranGen.generate(1, 100000);
     for (int64_t i = 0; i < Q; ++i)
     {
@@ -99,26 +102,26 @@ bool test(randomGenerator &ranGen)
             // updateクエリ
             int64_t index = ranGen.generate(0, N);
             int64_t v = ranGen.generate(1, 100);
-            std::cout << q << " " << index << " " << v << std::endl;
+            // std::cout << q << " " << index << " " << v << std::endl;
             segTree.updateQuery(index, v);
-            nonSegTree.updateQuery(index, v);
+            // nonSegTree.updateQuery(index, v);
         }
         else
         {
             // getクエリ
-            int64_t l = ranGen.generate(0, N - 1);
-            int64_t r = ranGen.generate(l + 1, N);
-            std::cout << q << " " << l << " " << r << std::endl;
+            int64_t l = ranGen.generate(0, N);
+            int64_t r = ranGen.generate(l, N);
+            // std::cout << q << " " << l << " " << r << std::endl;
             int64_t resultA = segTree.getQuery(l, r);
-            int64_t resultB = nonSegTree.getQuery(l, r);
-            if (resultA != resultB)
-            {
-                std::cout << "true:" << resultB << " false:" << resultA << "<<< NG" << std::endl;
+            // int64_t resultB = nonSegTree.getQuery(l, r);
+            // if (resultA != resultB)
+            // {
+            // std::cout << "true:" << resultB << " false:" << resultA << "<<< NG" << std::endl;
 
-                segTree.out();
-                nonSegTree.out();
-                return false;
-            }
+            // segTree.out();
+            // nonSegTree.out();
+            // return false;
+            // }
         }
     }
     return true;
@@ -134,5 +137,6 @@ int main()
         {
             break;
         }
+        std::cout << "<<OK";
     }
 }

@@ -1,7 +1,21 @@
-#include <vector>
+// ACL001J
 #include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
 #include <bit>
 #include <functional>
+/**
+ *方針メモ欄
+ *
+ * # お気持ち
+ *
+ * # 具体的なロジック
+ *
+ */
+
+/*=========================*/
 class SegmentTree
 {
 public:
@@ -108,30 +122,34 @@ public:
     std::vector<int64_t> m_data;
     int m_memorySize;
     int m_dataSize;
-    // int m_height;
     int64_t m_identityElement;
     std::function<int64_t(int64_t, int64_t)> m_eval;
 };
-// int main()
-// {
-//     std::vector<int64_t> a({36});
-//     SegmentTree b(a, -1, [](int64_t numa, int64_t numb)
-//                   { return std::max(numa, numb); });
-//     b.updateQuery(1, 16);
-//     std::cout << b.getQuery(0, 1) << std::endl;
-//     b.updateQuery(1, 98);
-//     std::cout << b.getQuery(2, 3) << std::endl;
-//     b.updateQuery(2, 82);
-//     std::cout << b.getQuery(2, 3) << std::endl;
-//     // b.updateQuery(3, 100);
-//     // b.updateQuery(4, 101);
-//     // b.updateQuery(0, 99);
-//     // std::cout << b.getQuery(3, 4) << std::endl;
-
-//     for (int i = 0; i < b.m_memorySize; ++i)
-//     {
-//         std::cout << b.m_data[i] << " ";
-//     }
-//     std::cout << std::endl;
-//     return 0;
-// }
+int main()
+{
+    int64_t N, Q;
+    std::cin >> N >> Q;
+    std::vector<int64_t> A(N);
+    SegmentTree segTree(A, 0, [](int64_t a, int64_t b)
+                        { return std::max(a, b); });
+    for (int64_t i = 0; i < Q; ++i)
+    {
+        int q;
+        std::cin >> q;
+        if (q == 1)
+        {
+            int64_t pos, x;
+            std::cin >> pos >> x;
+            --pos;
+            segTree.updateQuery(pos, x);
+        }
+        else if (q == 2)
+        {
+            int64_t l, r;
+            std::cin >> l >> r;
+            --l;
+            --r;
+            std::cout << segTree.getQuery(l, r) << std::endl;
+        }
+    }
+}
