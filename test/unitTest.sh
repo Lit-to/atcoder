@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #================================
 # ここに実行コマンドを書く場所
-# execCommand="../dev/a" #Cpp
-# execCommand="pypy3 ../dev/test.py" #Python
+execCommand="../dev/a" #Cpp
+# execCommand="pypy3 randomCase.py" #Python
 
 #================================
 
