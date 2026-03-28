@@ -1,4 +1,4 @@
-# ABC451F
+# ABC451B
 # template
 
 def main():
@@ -15,6 +15,18 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    now =dict(lambda:0)
+    future = dict(lambda:0)
+    N,M = im.listIntInput(2)
+    for i in range(N):
+        a,b = im.listIntInput(2)
+        now[a]+=1
+        future[b]+=1
+    for i in range(1,M+1):
+        print(future[i]-now[i])
+
+
+    
 
 
     ...
@@ -65,7 +77,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)

@@ -15,6 +15,7 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    yesno(len(input())%5==0)
 
 
     ...
@@ -65,7 +66,7 @@ def case():
 # インポート
 import sys, itertools, math, heapq,builtins
 from collections import defaultdict, deque
-from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
+# from sortedcontainers import SortedSet, SortedList, SortedDict  # CPython?
 
 # 定数・環境設定
 sys.setrecursionlimit(10**8)
