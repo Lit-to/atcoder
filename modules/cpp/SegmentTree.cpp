@@ -2,9 +2,18 @@
 #include <iostream>
 #include <bit>
 #include <functional>
+/**
+ * @brief セグメント木
+ */
 class SegmentTree
 {
 public:
+    /**
+     * @brief コンストラクタ
+     * @param data 初期化配列
+     * @param identityElement 単位元
+     * @param eval 評価関数
+     */
     SegmentTree(std::vector<int64_t> data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
     {
         m_dataSize = data.size();
@@ -19,6 +28,10 @@ public:
         }
         build(1);
     }
+    /**
+     * @brief 木の構築
+     * @param 代入するインデックス
+     */
     int64_t build(int64_t index)
     {
         int64_t value = m_identityElement;
@@ -32,13 +45,21 @@ public:
             return m_data[index];
         }
     }
-    int64_t calcSection(int l, int r, int node, int valL, int valR)
+    /**
+     * @brief 再帰でノード区間内を調査する
+     * @param l 調べたい区間の左端
+     * @param r 調べたい区間の右端
+     * @param node 現在調べているノード
+     * @param nodeL 現在調べているノードの左端
+     * @param nodeR 現在調べているノードの右端
+     */
+    int64_t calcSection(int l, int r, int node, int nodeL, int nodeR)
     {
-        if (r <= valL || valR <= l)
+        if (r <= nodeL || nodeR <= l)
         {
             return m_identityElement;
         }
-        else if (l == valL && r == valR)
+        else if (l == nodeL && r == nodeR)
         {
             return m_data[node];
         }
@@ -48,16 +69,16 @@ public:
         }
         else
         {
-            int sep = (valR + valL) / 2;
+            int sep = (nodeR + nodeL) / 2;
             int64_t result_l = m_identityElement;
             int64_t result_r = m_identityElement;
             if (!(sep <= l))
             {
-                result_l = calcSection(l, std::min(sep, r), node * 2, valL, sep);
+                result_l = calcSection(l, std::min(sep, r), node * 2, nodeL, sep);
             }
             if (!(r <= sep))
             {
-                result_r = calcSection(std::max(sep, l), r, node * 2 + 1, sep, valR);
+                result_r = calcSection(std::max(sep, l), r, node * 2 + 1, sep, nodeR);
             }
             return m_eval(result_l, result_r);
         }
