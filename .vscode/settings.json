@@ -126,5 +126,6 @@
     "**/submission": true,
     "**/old": true,
     ".devcontainer": true
-  }
+  },
+  "python.defaultInterpreterPath": "/root/venv/bin/python"
 }
