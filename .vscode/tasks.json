@@ -27,16 +27,6 @@
                 "isDefault": true
             },
             "detail": "デバッガーによって生成されたタスク。"
-        },
-        {
-            "label": "export python_path (pypyjit)",
-            "type": "shell",
-            "command": "export PYTHONPATH=\"/home/lit-to/atcoder:$PYTHONPATH\""
-        },
-        {
-            "label": "export pypy_path",
-            "type": "shell",
-            "command": "source ~/.profile"
-        },
+        }
     ]
 }

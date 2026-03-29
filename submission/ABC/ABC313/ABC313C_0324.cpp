@@ -15,7 +15,16 @@
  */
 
 /*=========================*/
-
+template <class T>
+typename T::value_type Sum(const T &target)
+{
+    typename T::value_type now = 0;
+    for (auto &i : target)
+    {
+        now += i;
+    }
+    return now;
+}
 int main()
 {
     int64_t N;
@@ -25,24 +34,26 @@ int main()
     {
         std::cin >> A[i];
     }
+    int64_t s = Sum(A);
     std::sort(A.begin(), A.end());
-    int64_t count = 0;
+    int64_t p = s / N;
+    int64_t r = s % N;
+    std::vector<int64_t> B(N);
     for (int64_t i = 0; i < N; ++i)
     {
-        int64_t l = i;
-        int64_t r = N - l - 1;
-        if (l < r)
+        if (i < N - r)
         {
-            int64_t low_sep = (A[l] + A[r]) / 2;
-            int64_t upp_sep = (A[l] + A[r] + 1) / 2;
-            count += low_sep - A[l];
-            count += A[r] - upp_sep;
-            std::cerr << A[l] << " " << A[r] << "=>" << low_sep << " " << upp_sep << std::endl;
+            B[i] = p;
         }
         else
         {
-            break;
+            B[i] = p + 1;
         }
     }
-    std::cout << count / 2 << std::endl;
+    int64_t t = 0;
+    for (int64_t i = 0; i < N; ++i)
+    {
+        t += std::abs(A[i] - B[i]);
+    }
+    std::cout << t / 2 << std::endl;
 }

@@ -28,10 +28,12 @@ class Print:
             print(*contents,file=f,sep=sep,end=end)
 fm=Print(os.path.join("test","input","random.txt"))
 N,K=1000,5000
-fm.print(N,K)
-fm.print(*[1]*1000)
-fm.print(*[1]*1000)
-fm.print(*[1]*1000)
-fm.print(*[1]*1000)
+for i in range(2*(10**5)):
+    fm.print("Z",end="")
+fm.print()
+# fm.print(N,K)
+# fm.print(*[1]*1000)
+# fm.print(*[1]*1000)
+# fm.print(*[1]*1000)
     
     

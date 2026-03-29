@@ -35,11 +35,7 @@
       "args": [
         "-Xfrozen_modules=off",
         "-m"
-      ],
-      "env": {
-        "PYTHONPATH": "~/atcoder:$PYTHONPATH"
-      },
-      "preLaunchTask": "export pypy_path"
+      ]
     },
     {
       "name": "CppAuto",
