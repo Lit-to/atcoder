@@ -130,8 +130,8 @@ for i in range(2*10**5):
     else:
         litStack.Rebuild()
     assert str(litStack) == str(stlStack)
-print("OK")
-print("Log:",testList)
+print("OK!")
+# print("Log:",testList)
 
 
 

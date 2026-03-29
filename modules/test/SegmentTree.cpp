@@ -120,5 +120,5 @@ int main()
             break;
         }
     }
-    std::cout << "<<OK" << std::endl;
+    std::cout << "OK!" << std::endl;
 }

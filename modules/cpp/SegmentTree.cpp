@@ -29,6 +29,56 @@ public:
         build(1);
     }
     /**
+     * @brief 範囲[l,r)のクエリ結果を返す
+     * @param l 左端
+     * @param r 右端
+     */
+    int64_t getQuery(int l, int r)
+    {
+        return calcSection(l, r, 1, 0, m_memorySize >> 1);
+    }
+
+    /**
+     * @brief 更新クエリ
+     * @param pos ノード
+     * @param value 更新後の値
+     */
+    void updateQuery(int pos, int64_t value)
+    {
+
+        int node = (m_memorySize >> 1) + pos;
+        m_data[node] = value;
+        updateValue(node >> 1);
+    }
+
+private:
+    /**
+     * @brief (デバッグ用)木の中身を吐き出す
+     */
+    void out()
+    {
+        for (int i = 0; i < m_memorySize; ++i)
+        {
+            std::cout << m_data[i] << ",";
+        }
+        std::cout << std::endl;
+    }
+    /**
+     * @brief MSBを取得
+     * @param 取得したい値
+     */
+    int getMSB(int value)
+    {
+        int n = 1;
+        while (n < m_dataSize)
+        {
+            n <<= 1;
+        }
+        return n;
+    }
+
+private:
+    /**
      * @brief 木の構築
      * @param 代入するインデックス
      */
@@ -45,6 +95,8 @@ public:
             return m_data[index];
         }
     }
+
+private:
     /**
      * @brief 再帰でノード区間内を調査する
      * @param l 調べたい区間の左端
@@ -83,81 +135,27 @@ public:
             return m_eval(result_l, result_r);
         }
     }
-    int64_t getQuery(int l, int r)
-    {
-        return calcSection(l, r, 1, 0, m_memorySize >> 1);
-    }
 
-    void updateValue(int pos)
+private:
+    /**
+     * @param node 特定のノードの値を子ノードから更新する
+     */
+    void updateValue(int node)
     {
-        if (pos < 1)
+        if (node < 1)
         {
             return;
         }
-        m_data[pos] = m_eval(m_data[pos * 2], m_data[pos * 2 + 1]);
-        if (pos == 1)
+        m_data[node] = m_eval(m_data[node * 2], m_data[node * 2 + 1]);
+        if (node == 1)
         {
             return;
         }
-        updateValue(pos / 2);
+        updateValue(node / 2);
     }
-    void updateQuery(int i, int64_t value)
-    {
-
-        int pos = (m_memorySize >> 1) + i;
-        m_data[pos] = value;
-        updateValue(pos >> 1);
-    }
-    void out()
-    {
-        for (int i = 0; i < m_memorySize; ++i)
-        {
-            std::cout << m_data[i] << ",";
-        }
-        std::cout << std::endl;
-    }
-    std::vector<int64_t> debug_getData()
-    {
-        return m_data;
-    }
-
-public:
-    int getMSB(int value)
-    {
-        int n = 1;
-        while (n < m_dataSize)
-        {
-            n <<= 1;
-        }
-        return n;
-    }
-    std::vector<int64_t> m_data;
-    int m_memorySize;
-    int m_dataSize;
-    // int m_height;
-    int64_t m_identityElement;
-    std::function<int64_t(int64_t, int64_t)> m_eval;
+    std::vector<int64_t> m_data;                     //<! 木の実態
+    int m_memorySize;                                //<! 木が確保しているメモリサイズ
+    int m_dataSize;                                  //<! 葉のメモリサイズ
+    int64_t m_identityElement;                       //<! 単位元
+    std::function<int64_t(int64_t, int64_t)> m_eval; //<! 評価関数
 };
-// int main()
-// {
-//     std::vector<int64_t> a({36});
-//     SegmentTree b(a, -1, [](int64_t numa, int64_t numb)
-//                   { return std::max(numa, numb); });
-//     b.updateQuery(1, 16);
-//     std::cout << b.getQuery(0, 1) << std::endl;
-//     b.updateQuery(1, 98);
-//     std::cout << b.getQuery(2, 3) << std::endl;
-//     b.updateQuery(2, 82);
-//     std::cout << b.getQuery(2, 3) << std::endl;
-//     // b.updateQuery(3, 100);
-//     // b.updateQuery(4, 101);
-//     // b.updateQuery(0, 99);
-//     // std::cout << b.getQuery(3, 4) << std::endl;
-
-//     for (int i = 0; i < b.m_memorySize; ++i)
-//     {
-//         std::cout << b.m_data[i] << " ";
-//     }
-//     std::cout << std::endl;
-//     return 0;
-// }
