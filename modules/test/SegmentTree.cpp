@@ -33,7 +33,7 @@ private:
 class nonSegTree
 {
 public:
-    nonSegTree(std::vector<int64_t> data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
+    nonSegTree(std::vector<int64_t> &data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
     {
         m_dataSize = data.size();
         m_data.resize(m_dataSize, identityElement);
