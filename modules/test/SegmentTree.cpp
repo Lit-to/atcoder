@@ -86,8 +86,8 @@ bool testA(randomGenerator &ranGen)
     {
         A[i] = ranGen.generate(1, 1000000);
     }
-    SegmentTree segTree(A, 0, [](int64_t u, int64_t v)
-                        { return u + v; });
+    SegmentTree<int64_t> segTree(A, 0, [](int64_t u, int64_t v)
+                                 { return u + v; });
     int64_t Q = ranGen.generate(1, 100000);
     for (int64_t i = 0; i < Q; ++i)
     {
@@ -114,8 +114,8 @@ bool testB(randomGenerator &ranGen)
 {
     int64_t N = ranGen.generate(1, 100000);
     int64_t t = ranGen.generate(0, 1);
-    SegmentTree segTree(N, 0, [](int64_t u, int64_t v)
-                        { return u + v; });
+    SegmentTree<int64_t> segTree(N, 0, [](int64_t u, int64_t v)
+                                 { return u + v; });
     int64_t Q = ranGen.generate(1, 100000);
     for (int64_t i = 0; i < Q; ++i)
     {

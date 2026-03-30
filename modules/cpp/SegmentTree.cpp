@@ -5,6 +5,7 @@
 /**
  * @brief セグメント木
  */
+template <class T>
 class SegmentTree
 {
 public:
@@ -14,7 +15,7 @@ public:
      * @param identityElement 単位元
      * @param eval 評価関数
      */
-    SegmentTree(const std::vector<int64_t> &data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
+    SegmentTree(const std::vector<T> &data, T identityElement, std::function<T(T, T)> eval)
         : m_dataSize(data.size()), m_identityElement(identityElement), m_eval(eval)
     {
         int dataBegin = getMSB(m_dataSize);
@@ -32,8 +33,8 @@ public:
      * @param identityElement 単位元
      * @param eval 評価関数
      */
-    SegmentTree(int64_t size, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
-        : SegmentTree(std::vector<int64_t>(size, identityElement), identityElement, eval)
+    SegmentTree(T size, T identityElement, std::function<T(T, T)> eval)
+        : SegmentTree(std::vector<T>(size, identityElement), identityElement, eval)
     {
     }
 
@@ -42,7 +43,7 @@ public:
      * @param l 左端
      * @param r 右端
      */
-    int64_t getQuery(int l, int r)
+    T getQuery(int l, int r)
     {
         return calcSection(l, r, 1, 0, m_memorySize >> 1);
     }
@@ -52,7 +53,7 @@ public:
      * @param pos ノード
      * @param value 更新後の値
      */
-    void updateQuery(int pos, int64_t value)
+    void updateQuery(int pos, T value)
     {
 
         int node = (m_memorySize >> 1) + pos;
@@ -91,9 +92,9 @@ private:
      * @brief 木の構築
      * @param 代入するインデックス
      */
-    int64_t build(int64_t index)
+    T build(T index)
     {
-        int64_t value = m_identityElement;
+        T value = m_identityElement;
         if (m_memorySize / 2 <= index)
         {
             return m_data[index];
@@ -114,7 +115,7 @@ private:
      * @param nodeL 現在調べているノードの左端
      * @param nodeR 現在調べているノードの右端
      */
-    int64_t calcSection(int l, int r, int node, int nodeL, int nodeR)
+    T calcSection(int l, int r, int node, int nodeL, int nodeR)
     {
         if (r <= nodeL || nodeR <= l)
         {
@@ -162,9 +163,9 @@ private:
         }
         updateValue(node / 2);
     }
-    std::vector<int64_t> m_data;                     //<! 木の実態
-    int m_memorySize;                                //<! 木が確保しているメモリサイズ
-    int m_dataSize;                                  //<! 葉のメモリサイズ
-    int64_t m_identityElement;                       //<! 単位元
-    std::function<int64_t(int64_t, int64_t)> m_eval; //<! 評価関数
+    std::vector<T> m_data;         //<! 木の実態
+    int64_t m_memorySize;          //<! 木が確保しているメモリサイズ
+    int64_t m_dataSize;            //<! 葉のメモリサイズ
+    T m_identityElement;           //<! 単位元
+    std::function<T(T, T)> m_eval; //<! 評価関数
 };
