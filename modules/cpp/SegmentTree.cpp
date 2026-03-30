@@ -9,25 +9,34 @@ class SegmentTree
 {
 public:
     /**
-     * @brief コンストラクタ
+     * @brief データを渡して初期化するコンストラクタ
      * @param data 初期化配列
      * @param identityElement 単位元
      * @param eval 評価関数
      */
-    SegmentTree(std::vector<int64_t> data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
+    SegmentTree(const std::vector<int64_t> &data, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
+        : m_dataSize(data.size()), m_identityElement(identityElement), m_eval(eval)
     {
-        m_dataSize = data.size();
-        m_memorySize = getMSB(m_dataSize) << 1;
-        m_data.resize(m_memorySize + 1, identityElement);
-        m_identityElement = identityElement;
-        m_eval = eval;
         int dataBegin = getMSB(m_dataSize);
+        m_memorySize = dataBegin << 1;
+        m_data.resize(m_memorySize + 1, identityElement);
         for (int64_t i = 0; i < m_dataSize; ++i)
         {
             m_data[dataBegin + i] = data[i];
         }
         build(1);
     }
+    /**
+     * @brief すべて単位元で初期化するコンストラクタ
+     * @param size 初期化配列のサイズ
+     * @param identityElement 単位元
+     * @param eval 評価関数
+     */
+    SegmentTree(int64_t size, int64_t identityElement, std::function<int64_t(int64_t, int64_t)> eval)
+        : SegmentTree(std::vector<int64_t>(size, identityElement), identityElement, eval)
+    {
+    }
+
     /**
      * @brief 範囲[l,r)のクエリ結果を返す
      * @param l 左端
@@ -70,7 +79,7 @@ private:
     int getMSB(int value)
     {
         int n = 1;
-        while (n < m_dataSize)
+        while (n < value)
         {
             n <<= 1;
         }
