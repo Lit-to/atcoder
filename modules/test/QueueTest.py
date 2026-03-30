@@ -12,7 +12,7 @@ import random
 
 litQ = Queue()
 stlQ = deque()
-testCount = 5
+testCount = 100
 testList = [0]*(testCount+1)
 for i in range(2*10**5):
     query = random.randint(0,testCount)

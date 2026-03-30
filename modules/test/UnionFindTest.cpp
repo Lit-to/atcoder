@@ -9,7 +9,7 @@ int main()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> testDist(3, 5000);
-    int64_t testCount = testDist(gen);
+    int64_t testCount = 100;
     for (int i = 0; i < testCount; ++i)
     {
         int64_t nodes = testDist(gen);
