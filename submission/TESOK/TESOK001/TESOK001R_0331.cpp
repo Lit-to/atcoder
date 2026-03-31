@@ -1,3 +1,10 @@
+// TESOK001R
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+//
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -182,3 +189,92 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * @brief 条件がtrueのときにYesと出力する
+ * @details if分岐中にYesを吐き出したい
+ * @param isYes Yesを吐き出す条件
+ * @return isYesの中身
+ */
+bool Yes(bool isYes = true)
+{
+    if (isYes)
+    {
+        std::cout << "Yes" << std::endl;
+    }
+    return isYes;
+}
+/**
+ * @brief 条件がtrueのときにNoと出力する
+ * @details if分岐中にNoを吐き出したい
+ * @param isNo Noを吐き出す条件
+ * @return isNoの中身
+ */
+bool No(bool isNo = true)
+{
+    if (isNo)
+    {
+        std::cout << "No" << std::endl;
+    }
+    return isNo;
+}
+/**
+ * @brief 条件がtrueのときにYes,そうでないときにNoと出力する
+ * @param isYes Yesを吐き出す条件
+ * @return isYesの中身
+ */
+bool YesNo(bool isYes)
+{
+    if (isYes)
+    {
+        Yes();
+    }
+    else
+    {
+        No();
+    }
+    return isYes;
+}
+int main()
+{
+    int64_t N, S;
+    std::cin >> N >> S;
+    ++N;
+    std::vector<int64_t> A(N);
+    for (int64_t i = 1; i < N; ++i)
+    {
+        std::cin >> A[i];
+    }
+    std::sort(A.begin(), A.end());
+    int64_t H = N + 1;
+    int64_t W = 10001;
+    Board<int64_t> DP(H, W);
+    for (int64_t i = 1; i < H; ++i)
+    {
+        for (int64_t j = 1; j < W; ++j)
+        {
+            // i枚目までで値j以下のうち最大いくつを作れるかについて検討する
+            int64_t candidate_1 = 0;
+            int64_t candidate_2 = 0;
+            // 候補1 自分のカードと、1枚前までの自分のカードの値を引いた目標値の結果の和
+            if (0 <= i - 1 && 0 <= j - A[i])
+            {
+                candidate_1 = DP[i - 1, j - A[i]] + A[i];
+            }
+            // 候補2 自分のカードを使わず、1枚前までの同じ目標値の結果
+            if (0 < i - 1)
+            {
+                candidate_2 = DP[i - 1, j];
+            }
+            DP[i, j] = std::max(candidate_1, candidate_2);
+        }
+    }
+    // std::cerr << DP.Output() << std::endl;
+    YesNo(DP[N, S] == S);
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
