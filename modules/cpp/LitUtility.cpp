@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <iostream>
 #include <cmath>
-
+#include <limits>
 /**
  * @brief りっとー便利ツール詰め合わせ
  * @details 状態を持たない関数のうち、ひとまとめにするほど規模の大きくないこまごまとした関数を置く
