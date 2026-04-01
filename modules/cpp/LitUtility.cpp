@@ -82,6 +82,10 @@ namespace LitUtility
         }
         return nowMin;
     }
+    /**
+     * @brief コンテナの中の合計を求める
+     * @param 求めたいコンテナ(std::vector等)
+     */
     template <class T>
     typename T::value_type Sum(const T &target)
     {
