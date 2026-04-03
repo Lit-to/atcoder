@@ -1,30 +1,5 @@
 #include "../cpp/SegmentTree.cpp"
-#include <random>
-/**
- * 乱数生成ラッパ
- * 最初にコンストラクタを読んだら以降はgenerate関数1回でてきとうな整数が返ってくる
- */
-class randomGenerator
-{
-public:
-    /**
-     * コンストラクタ
-     */
-    randomGenerator() : m_generator(std::random_device{}()) {}
-    /**
-     * 乱数生成関数(半開区間)
-     * @param min 最小値
-     * @param max 最大値
-     */
-    int64_t generate(int64_t min, int64_t max)
-    {
-        std::uniform_int_distribution<> dist(min, max - 1);
-        return dist(m_generator);
-    }
-
-private:
-    std::mt19937 m_generator; //!< メルセンヌツイスタのジェネレータ
-};
+#include "../cpp/RandomGenerator.cpp"
 
 /**
  *愚直セグメント木

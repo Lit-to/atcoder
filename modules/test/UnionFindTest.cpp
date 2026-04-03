@@ -1,30 +1,29 @@
 #include "../cpp/UnionFind.cpp"
 #include <atcoder/all>
-#include <random>
 #include <cassert>
 #include <cstdint>
 #include <iostream>
+#include "../cpp/RandomGenerator.cpp"
+
 int main()
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> testDist(3, 5000);
-    int64_t testCount = 100;
-    for (int i = 0; i < testCount; ++i)
+    //====テスト定数====//
+    randomGenerator rg;
+    int64_t TEST_COUNT = 100;
+    int64_t QUERY_COUNT_RANGE[2] = {1, 101};
+    int64_t QUERY_RANGE[2] = {1, 4};
+    //====テスト定数====//
+    for (int i = 0; i < TEST_COUNT; ++i)
     {
-        int64_t nodes = testDist(gen);
-        std::uniform_int_distribution<> nodeDist(2, nodes - 1);
-        std::uniform_int_distribution<> queryDist(0, 3);
+        int64_t nodes = rg.generate(1, 200000);
         atcoder::dsu aclUF(nodes);
         UnionFind litUF(nodes);
 
-        for (int j = 0; j < testDist(gen); ++j)
+        for (int j = 0; j < rg.generate(QUERY_COUNT_RANGE); ++j)
         {
-            // std::cout << i << "-" << j << ": ";
-            int64_t query = queryDist(gen);
-            int64_t u = nodeDist(gen);
-            int64_t v = nodeDist(gen);
-            // std::cout << query << " " << u << " " << v;
+            int64_t query = rg.generate(QUERY_RANGE);
+            int64_t u = rg.generate(1, nodes);
+            int64_t v = rg.generate(1, nodes);
             if (query == 0)
             {
                 assert(aclUF.leader(u) == litUF.FetchRoot(u));
