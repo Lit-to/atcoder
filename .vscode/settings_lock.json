@@ -59,7 +59,7 @@
   "files.readonlyInclude": {
     "modules/cpp/*.cpp": true,
     "modules/py/*.py": true,
-    "deploykit/*": true
+    "others/deploykit/*": true
   },
   "files.readonlyExclude": {
     "lang/python/material/test.py": true
