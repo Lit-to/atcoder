@@ -1,4 +1,4 @@
-# ABC452C
+# ABC452B
 # template
 
 def main():
@@ -15,6 +15,19 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    H,W = im.listIntInput(2)
+    BOARD = []
+    for i in range(H):
+        BOARD.append(["."]*W)
+    for i in range(H):
+        for j in range(W):
+            if i==0 or j==0 or i==H-1 or j==W-1:
+                BOARD[i][j] = "#"
+    for i in range(H):
+        for j in range(W):
+            print(BOARD[i][j],end="")
+        print()
+
 
 
     ...

@@ -1,4 +1,4 @@
-# ABC452F
+# ABC452A
 # template
 
 def main():
@@ -15,7 +15,8 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    MD = im.listIntInput(2)
+    yesno(MD==[1,7]or MD==[3,3] or MD==[5,5] or MD==[7,7] or MD==[9,9])
 
     ...
 

@@ -1,4 +1,4 @@
-# ABC452G
+# ABC452C
 # template
 
 def main():
@@ -15,7 +15,35 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    BONES = []
+    for i in range(N):
+        BONES.append(tuple(map(int,input().split())))
+    M = im.intInput()
+    S = []
+    for i in range(M):
+        S.append(input())
+    d=dict(lambda:dict(lambda:dict(lambda:False)))
+    for i in range(M):
+        for j in range(len(S[i])):
+            d[len(S[i])][j][S[i][j]] = True
 
+    for i in range(M):
+        nowS = S[i]
+        if (len(S[i]))!=N:
+            print("No")
+            continue
+        for j in range(N):
+            a=BONES[j][0]
+            b=BONES[j][1]
+            if (d[a][b-1][nowS[j]]):
+                if (j==N-1):
+                    print("Yes")
+                    break
+                continue
+            else:
+                print("No")
+                break
 
     ...
 
