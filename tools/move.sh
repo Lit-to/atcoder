@@ -5,6 +5,7 @@ set -euo pipefail
 subject="${1:-"Update files"}"
 DEV_DIR="./dev"
 DEST_ROOT="./submission"
+cd ..
 
 # 1. ^([a-zA-Z]+) : 先頭のアルファベット（例: AC, ABC）
 # 2. ([0-9]+)     : 続く数値（例: 123, 001）

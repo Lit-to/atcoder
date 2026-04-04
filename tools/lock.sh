@@ -1,4 +1,5 @@
 param="$1"
+cd ..
 if [[ $param == "lock" ]]; then
     cp ./.vscode/settings_lock.json ./.vscode/settings.json
 fi

@@ -23,7 +23,7 @@ rust/target/debug
 rust/target
 docs
 !docs/boot/
-!deploykit/dockerfile
+!others/deploykit/dockerfile
 !prof/prof.txt
 !prof/test.txt
 test/input
