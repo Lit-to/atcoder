@@ -122,10 +122,12 @@
   "files.exclude": {
     ".gitignore": true,
     ".vscode": true,
+    "others": true,
     "**/deploykit": true,
     "**/submission": true,
     "**/old": true,
-    ".devcontainer": true
+    ".devcontainer": true,
+    "docker-compose.yml": true
   },
   "python.defaultInterpreterPath": "/root/venv/bin/python"
 }

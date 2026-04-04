@@ -56,6 +56,14 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "files.readonlyInclude": {
+    "modules/cpp/*.cpp": true,
+    "modules/py/*.py": true,
+    "others/deploykit/*": true
+  },
+  "files.readonlyExclude": {
+    "lang/python/material/test.py": true
+  },
   "files.associations": {
     "vector": "cpp",
     "iostream": "cpp",
@@ -111,5 +119,15 @@
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
   "editor.defaultFormatter": "xaver.clang-format",
+  "files.exclude": {
+    ".gitignore": true,
+    ".vscode": true,
+    "others": true,
+    "**/deploykit": true,
+    "**/submission": true,
+    "**/old": true,
+    ".devcontainer": true,
+    "docker-compose.yml": true
+  },
   "python.defaultInterpreterPath": "/root/venv/bin/python"
 }

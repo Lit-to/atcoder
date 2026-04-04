@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
+OLD_DIR="$PWD"
+cd ~/atcoder/
 
 # 引数
 subject="${1:-"Update files"}"
 DEV_DIR="./dev"
 DEST_ROOT="./submission"
-cd ..
 
 # 1. ^([a-zA-Z]+) : 先頭のアルファベット（例: AC, ABC）
 # 2. ([0-9]+)     : 続く数値（例: 123, 001）
@@ -78,3 +79,5 @@ git add .
 git commit -m "$commit_msg"
 
 echo "完了しました。"
+
+cd $OLD_DIR
