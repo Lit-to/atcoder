@@ -45,7 +45,7 @@ bool SearchTest(int64_t testCount)
 }
 
 template <class Func>
-void DoTest(std::string &name, Func f)
+void DoTest(const std::string &name, Func f)
 {
     std::cout << name << ": ";
     if (!f(100))
@@ -60,18 +60,6 @@ void DoTest(std::string &name, Func f)
 
 int main()
 {
-    // === テストパラメータ === //
-    // --------------------------
     randomGenerator rand;
-    // === テストパラメータ === //
-    // int64_t N = rand.Generate(1, N_MAX);
-    std::cout << "SearchTest: ";
-    if (!SearchTest(100))
-    {
-        std::cout << "NG SearchTest" << std::endl;
-    }
-    else
-    {
-        std::cout << "OK!" << std::endl;
-    }
+    DoTest("SearchTest", SearchTest);
 }
