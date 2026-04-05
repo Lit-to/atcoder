@@ -44,11 +44,42 @@ bool SearchTest(int64_t testCount)
     return true;
 }
 
+bool GenerateBitTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t BIT_MAX = 18;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t bit = rand.Generate(1, BIT_MAX);
+        int64_t value = rand.Generate(1, (BIT_MAX - 1) << 1);
+        std::vector<bool> result = Lit::GenerateBit(value, bit + 1);
+        std::reverse(result.begin(), result.end());
+        int64_t num = 0;
+        for (int64_t i = 0; i < bit; ++i)
+        {
+            if (result[i])
+            {
+                num += 1 << i;
+            }
+        }
+
+        if (result.size() == bit && num != value)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 template <class Func>
 void DoTest(const std::string &name, Func f)
 {
     std::cout << name << ": ";
-    if (!f(100))
+    if (!f(200))
     {
         std::cout << ">>>>>>>NG" << std::endl;
     }
@@ -60,6 +91,6 @@ void DoTest(const std::string &name, Func f)
 
 int main()
 {
-    randomGenerator rand;
     DoTest("SearchTest", SearchTest);
+    DoTest("GenerateBitTest", GenerateBitTest);
 }
