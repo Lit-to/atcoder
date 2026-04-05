@@ -2,7 +2,7 @@
 
 /**
  * 乱数生成ラッパ
- * 最初にコンストラクタを読んだら以降はgenerate関数1回でてきとうな整数が返ってくる
+ * 最初にコンストラクタを読んだら以降はGenerate関数1回でてきとうな整数が返ってくる
  */
 class randomGenerator
 {
@@ -16,7 +16,7 @@ public:
      * @param min 最小値
      * @param max 最大値
      */
-    int64_t generate(int64_t min, int64_t max)
+    int64_t Generate(int64_t min, int64_t max)
     {
         std::uniform_int_distribution<> dist(min, max - 1);
         return dist(m_generator);
@@ -26,9 +26,9 @@ public:
      * @param range {最小値,最大値}
      */
     template <size_t N>
-    int64_t generate(int64_t (&range)[N])
+    int64_t Generate(int64_t (&range)[N])
     {
-        return generate(range[0], range[1]);
+        return Generate(range[0], range[1]);
     }
 
 private:

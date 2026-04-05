@@ -15,15 +15,15 @@ int main()
     //====テスト定数====//
     for (int i = 0; i < TEST_COUNT; ++i)
     {
-        int64_t nodes = rg.generate(1, 200000);
+        int64_t nodes = rg.Generate(1, 200000);
         atcoder::dsu aclUF(nodes);
         UnionFind litUF(nodes);
 
-        for (int j = 0; j < rg.generate(QUERY_COUNT_RANGE); ++j)
+        for (int j = 0; j < rg.Generate(QUERY_COUNT_RANGE); ++j)
         {
-            int64_t query = rg.generate(QUERY_RANGE);
-            int64_t u = rg.generate(1, nodes);
-            int64_t v = rg.generate(1, nodes);
+            int64_t query = rg.Generate(QUERY_RANGE);
+            int64_t u = rg.Generate(1, nodes);
+            int64_t v = rg.Generate(1, nodes);
             if (query == 0)
             {
                 assert(aclUF.leader(u) == litUF.FetchRoot(u));
