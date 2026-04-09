@@ -5,6 +5,7 @@ __pycache__
 /__pycache__
 !others/deploykit/dockerfile
 !others/tools/*
+.vscode/settings.json
 test/input
 test/output
 test/script.py
