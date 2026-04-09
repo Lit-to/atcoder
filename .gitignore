@@ -31,4 +31,4 @@ test/output
 test/script.py
 OUTPUT
 TEST
-!tools/*
+!others/tools/*
