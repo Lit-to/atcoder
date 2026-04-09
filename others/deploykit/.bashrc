@@ -92,6 +92,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 export CPLUS_INCLUDE_PATH="/home/Lit-to/acl/"
+export PATH="$PATH:/root/atcoder/tools"
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
