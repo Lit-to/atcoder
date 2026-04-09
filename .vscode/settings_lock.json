@@ -124,6 +124,7 @@
     ".vscode": true,
     "others": true,
     "**/deploykit": true,
+    "**/tools": true,
     "**/submission": true,
     "**/old": true,
     ".devcontainer": true,
