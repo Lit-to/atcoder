@@ -32,9 +32,9 @@ bool SearchTest(int64_t testCount)
         int64_t searchResult = -1;
         int64_t searchIndex = Lit::Search(0, n, [&](int64_t index)
                                           { return A[index] <= v; });
-        if (A[searchIndex] == v)
+        if (0 <= searchIndex && searchIndex < n && A[searchIndex] == v)
         {
-            searchIndex = searchIndex;
+            searchResult = searchIndex;
         }
         if (simpleResult != searchResult)
         {
@@ -55,7 +55,7 @@ bool GenerateBitTest(int64_t testCount)
     for (int64_t i = 0; i < testCount; ++i)
     {
         int64_t bit = rand.Generate(1, BIT_MAX);
-        int64_t value = rand.Generate(1, (BIT_MAX - 1) << 1);
+        int64_t value = rand.Generate(0, (1LL << bit));
         std::vector<bool> result = Lit::GenerateBit(value, bit + 1);
         std::reverse(result.begin(), result.end());
         int64_t num = 0;
@@ -67,7 +67,7 @@ bool GenerateBitTest(int64_t testCount)
             }
         }
 
-        if (result.size() == bit && num != value)
+        if (result.size() != bit + 1 || num != value)
         {
             return false;
         }

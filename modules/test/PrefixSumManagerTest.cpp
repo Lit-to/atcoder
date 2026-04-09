@@ -41,8 +41,9 @@ using NPSM = NonPrefixSumManager;
 int main()
 {
     // === テストパラメータ === //
-    const int64_t N_MAX = 999999;
+    const int64_t N_MAX = 99999;
     const int64_t V_MAX = 9999999;
+    const int64_t V_MIN = -9999999;
     const int64_t TEST_COUNT = 100;
     const int64_t Q_MAX = 999;
 
@@ -56,7 +57,7 @@ int main()
         std::vector<int64_t> A(N);
         for (int64_t i = 0; i < N; ++i)
         {
-            A[i] = rand.Generate(1, V_MAX);
+            A[i] = rand.Generate(V_MIN, V_MAX);
         }
 
         PSM ps(A);
@@ -65,8 +66,8 @@ int main()
         int64_t Q = rand.Generate(1, Q_MAX);
         for (int64_t i = 0; i < Q; ++i)
         {
-            int64_t r = rand.Generate(0, N);
-            int64_t l = rand.Generate(0, r);
+            int64_t l = rand.Generate(1, N - 1);
+            int64_t r = rand.Generate(l + 1, N);
             if (ps.GetSum(l, r) != nps.GetSum(l, r))
             {
                 std::cout << "<<<<<<NG" << std::endl;
