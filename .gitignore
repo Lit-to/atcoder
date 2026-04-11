@@ -6,8 +6,8 @@ __pycache__
 !others/deploykit/dockerfile
 !others/tools/*
 .vscode/settings.json
-test/input
-test/output
-test/script.py
+sandBox/input
+sandBox/output
+sandBox/script.py
 OUTPUT
 TEST
