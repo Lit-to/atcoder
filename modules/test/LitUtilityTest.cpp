@@ -47,7 +47,7 @@ bool SearchTest(int64_t testCount)
 bool GenerateBitTest(int64_t testCount)
 {
     // === テストパラメータ === //
-    int64_t BIT_MAX = 18;
+    int64_t BIT_MAX = 31;
     // --------------------------
     randomGenerator rand;
     // === テストパラメータ === //
