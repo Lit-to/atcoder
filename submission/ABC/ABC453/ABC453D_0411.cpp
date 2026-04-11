@@ -5,13 +5,12 @@
 #include <vector>
 #include <cstdint>
 #include <algorithm>
+#include <set>
 //
 #include <stdexcept>
 #include <vector>
 #include <iostream>
-#include <queue>
-template <typename T>
-using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+
 /**
  * 二次元ボードを使いやすくするためのクラス
  */
@@ -192,117 +191,209 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * @brief 条件がtrueのときにYesと出力する
+ * @details if分岐中にYesを吐き出したい
+ * @param isYes Yesを吐き出す条件
+ * @return isYesの中身
+ */
+bool Yes(bool isYes = true)
+{
+    if (isYes)
+    {
+        std::cout << "Yes" << std::endl;
+    }
+    return isYes;
+}
+/**
+ * @brief 条件がtrueのときにNoと出力する
+ * @details if分岐中にNoを吐き出したい
+ * @param isNo Noを吐き出す条件
+ * @return isNoの中身
+ */
+bool No(bool isNo = true)
+{
+    if (isNo)
+    {
+        std::cout << "No" << std::endl;
+    }
+    return isNo;
+}
+/**
+ * @brief 条件がtrueのときにYes,そうでないときにNoと出力する
+ * @param isYes Yesを吐き出す条件
+ * @return isYesの中身
+ */
+bool YesNo(bool isYes)
+{
+    if (isYes)
+    {
+        Yes();
+    }
+    else
+    {
+        No();
+    }
+    return isYes;
+}
 int main()
 {
     int64_t H, W;
     std::cin >> H >> W;
     Board<char> BOARD = Board<char>::Input(H, W);
-    Board<std::vector<int>> distanceBoard(H, W);
+    int64_t start = 0;
+    int64_t goal = 0;
     for (int64_t i = 0; i < H * W; ++i)
     {
-        distanceBoard[i] = std::vector<int>(4);
-    }
-    int64_t START = 0;
-    int64_t GOAL = 0;
-    const int64_t LRUD[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
-    for (int64_t i = 0; i < H; ++i)
-    {
-        for (int64_t j = 0; j < W; ++j)
+        if (BOARD[i] == 'S')
         {
-            if (BOARD[i, j] == 'S')
+            start = i;
+            BOARD[i] = '.';
+        }
+        else if (BOARD[i] == 'G')
+        {
+            goal = i;
+            BOARD[i] = '.';
+        }
+    }
+    // struct NODE
+    // {
+    //     int64_t posY;
+    //     int64_t posX;
+    //     int64_t direction;
+    //     const bool operator<(NODE &rhs)
+    //     {
+    //         this->posY<
+    //     }
+    // };
+    // std::set<NODE> done;
+    std::vector<std::vector<bool>> done(5, std::vector<bool>(H * W));
+    const int64_t LURD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+    std::vector<int64_t> route;
+    auto dfs = [&](auto self, int64_t direction, int64_t curPosY, int64_t curPosX) -> bool
+    {
+        int64_t curPos = BOARD.ConvertPosToIndex(curPosY, curPosX);
+        int64_t id = curPos;
+        if (curPos == goal)
+        {
+            route.push_back(direction);
+            return true;
+        }
+        if (done[direction][id])
+        {
+            return false;
+        }
+        done[direction][id] = true;
+
+        if (BOARD[curPosY, curPosX] == '#')
+        {
+            return false;
+        }
+        if (BOARD[curPosY, curPosX] == '.')
+        {
+            for (int64_t i = 0; i < 4; ++i)
             {
-                START = BOARD.ConvertPosToIndex(i, j);
-                BOARD[i, j] = '.';
-            }
-            else if (BOARD[i, j] == 'G')
-            {
-                GOAL = BOARD.ConvertPosToIndex(i, j);
-                BOARD[i, j] = '.';
-            }
-            if (BOARD[i, j] == '#')
-            {
-                for (int k = 0; k < 4; ++k)
+                int64_t nextY = curPosY + LURD[i][0];
+                int64_t nextX = curPosX + LURD[i][1];
+                if (!BOARD.IsInside(nextY, nextX))
                 {
-                    distanceBoard[i, j][k] = -1;
+                    continue;
                 }
-            }
-            else //(BOARD[i, j] == '.' || BOARD[i, j] == 'o' || BOARD[i, j] == 'x')
-            {
-                for (int k = 0; k < 4; ++k)
+                if (BOARD[nextY, nextX] != '#')
                 {
-                    int64_t newPosY = i + LRUD[k][0];
-                    int64_t newPosX = j + LRUD[k][1];
-                    if (!BOARD.IsInside(newPosY, newPosX))
+                    int64_t nextId = BOARD.ConvertPosToIndex(nextY, nextX);
+                    if (done[i][nextId])
                     {
-                        distanceBoard[i, j][k] = -1;
                         continue;
                     }
-                    if (BOARD[newPosY, newPosX] == 'o' || BOARD[newPosY, newPosX] == 'x')
+
+                    bool result = self(self, i, nextY, nextX);
+                    if (result)
                     {
-                        distanceBoard[newPosY, newPosX][k] = distanceBoard[i, j][k] + 1;
+                        route.push_back(i);
+                        return true;
                     }
                 }
             }
         }
-    }
-    /**
-     * @brief 半開区間を表す構造体
-     */
-    struct NODE
-    {
-        int64_t pos;    //<! ノード番号
-        int64_t weight; //<! 重み(距離)
-        /**
-         * ソート用の比較関数
-         */
-        bool operator>(const NODE &target) const
+        else if (BOARD[curPosY, curPosX] == 'o')
         {
-            return weight > target.weight;
+            for (int64_t i = 0; i < 4; ++i)
+            {
+                if (i != direction)
+                {
+                    continue;
+                }
+                int64_t nextY = curPosY + LURD[i][0];
+                int64_t nextX = curPosX + LURD[i][1];
+                if (!BOARD.IsInside(nextY, nextX))
+                {
+                    continue;
+                }
+                if (BOARD[nextY, nextX] != '#')
+                {
+                    int64_t nextId = BOARD.ConvertPosToIndex(nextY, nextX);
+                    if (done[i][nextId])
+                    {
+                        continue;
+                    }
+                    bool result = self(self, i, nextY, nextX);
+                    if (result)
+                    {
+                        route.push_back(i);
+                        return true;
+                    }
+                }
+            }
         }
+        else if (BOARD[curPosY, curPosX] == 'x')
+        {
+            for (int64_t i = 0; i < 4; ++i)
+            {
+                if (i == direction)
+                {
+                    continue;
+                }
+                int64_t nextY = curPosY + LURD[i][0];
+                int64_t nextX = curPosX + LURD[i][1];
+                if (!BOARD.IsInside(nextY, nextX))
+                {
+                    continue;
+                }
+                if (BOARD[nextY, nextX] != '#')
+                {
+                    int64_t nextId = BOARD.ConvertPosToIndex(nextY, nextX);
+                    if (done[i][nextId])
+                    {
+                        continue;
+                    }
+                    bool result = self(self, i, nextY, nextX);
+                    if (result)
+                    {
+                        route.push_back(i);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     };
-    std::vector<std::vector<NODE>> GRAPH(H * W);
-    for (int64_t i = 0; i < H; ++i)
+    Board<char>::POS pos = BOARD.ConvertIndexToPos(start);
+    dfs(dfs, 4, pos.Y, pos.X);
+    if (No(route.empty()))
     {
-        for (int64_t j = 0; j < W; ++j)
-        {
-            if (BOARD[i, j] == '#')
-            {
-                continue;
-            }
-            else // if (BOARD[i, j] == '.')
-            {
-                for (int k = 0; k < 4; ++k)
-                {
-                    int newPosY = i + LRUD[k][0];
-                    int newPosX = j + LRUD[k][1];
-                    if (!BOARD.IsInside(newPosY, newPosX))
-                    {
-                        continue;
-                    }
-                    NODE nextTo = NODE{.pos = BOARD.ConvertPosToIndex(i, j), .weight = distanceBoard[i, j][(k + 2) % 4]};
-                    int64_t kp = BOARD.ConvertPosToIndex(newPosY, newPosX);
-                    GRAPH[kp].push_back(nextTo);
-                }
-            }
-        }
+        return 0;
     }
-
-    greater_priority_queue<NODE> tasks;
-    tasks.push(NODE{.pos = START, .weight = 0});
-    while (!tasks.empty())
+    Yes();
+    std::reverse(route.begin(), route.end());
+    route.pop_back();
+    char LURD_CHAR[4] = {'L', 'U', 'R', 'D'};
+    for (int64_t &i : route)
     {
-        NODE task = tasks.top();
-        Board<std::vector<int>>::POS p = distanceBoard.ConvertIndexToPos(task.pos);
-        int posX = p.X;
-        int posY = p.Y;
-        for (int i = 0; i < 4; ++i)
-        {
-            int newPosY = posY + LRUD[i][0];
-            int newPosX = posX + LRUD[i][1];
-        }
+        std::cout << LURD_CHAR[i];
     }
+    std::cout << std::endl;
 }
-
 //======================
 /**
  *方針メモ欄
