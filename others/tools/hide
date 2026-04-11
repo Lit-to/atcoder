@@ -1,5 +1,5 @@
 param="$1"
 OLD_DIR="$PWD"
 cd ~/atcoder/
-cp ./.vscode/settings_lock.json ./.vscode/settings.json
+cp ./.vscode/settings_hide.json ./.vscode/settings.json
 cd $OLD_DIR
