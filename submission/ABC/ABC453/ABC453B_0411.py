@@ -1,4 +1,4 @@
-# ABC453A
+# ABC453B
 # template
 
 def main():
@@ -15,7 +15,17 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    T = im.intInput()
+    T+=1
+    X = im.intInput()
+    A = im.listIntInput(T)
+    result = []
+    result.append((0,A[0]))
+    for i in range(1,T):
+        if (X<=abs(result[-1][1]-A[i])):
+            result.append((i,A[i]))
+    for i in result:
+        print(*i)
 
     ...
 

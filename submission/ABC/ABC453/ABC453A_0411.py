@@ -1,4 +1,4 @@
-# ABC453E
+# ABC453A
 # template
 
 def main():
@@ -15,6 +15,11 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    S = list(im.input())
+    while (0<len(S) and S[0]=="o"):
+        S.pop(0)
+    print("".join(S))
 
 
     ...
