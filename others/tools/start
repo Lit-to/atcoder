@@ -3,8 +3,13 @@ OLD_DIR="$PWD"
 
 # フォルダ名の決定
 cd ~/atcoder/
-echo "コンテスト名を入力=>"
-read contestName
+
+if [ -n "$1" ]; then
+    contestName="$1"
+else
+    echo "コンテスト名を入力=>"
+    read contestName
+fi
 contestName=$(echo "$contestName" | tr '[:lower:]' '[:upper:]')
 echo "この名前でコンテストを開始します=>\"$contestName\" y/n"
 read question
