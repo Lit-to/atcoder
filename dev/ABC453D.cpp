@@ -301,7 +301,6 @@ int main()
             int newPosX = posX + LRUD[i][1];
         }
     }
-    // std::cerr << distanceBoard.Output() << std::endl;
 }
 
 //======================
