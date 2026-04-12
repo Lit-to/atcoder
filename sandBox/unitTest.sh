@@ -5,6 +5,11 @@ execCommand="../dev/a" #Cpp
 # execCommand="pypy3 ../dev/ABC452E.py" #Python
 
 #================================
+if [ "$#" -eq 0 ]; then
+    execCommand="$defaultCommand"
+else
+    execCommand="$@"
+fi
 
 set -euo pipefail
 pushd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" > /dev/null
@@ -31,5 +36,6 @@ for file in ./input/*.txt; do
     fi
 done
 resultPath=$(realpath "$RESULT")
-echo "Test Summary => " $resultPath
+echo $resultPath
+echo "<====== Test Summary"
 popd > /dev/null
