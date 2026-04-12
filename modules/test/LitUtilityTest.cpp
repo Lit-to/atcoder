@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "../cpp/RandomGenerator.cpp"
 #include "../cpp/LitUtility.cpp"
-
+#include "cmath"
 bool SearchTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -158,6 +158,28 @@ bool SumTest(int64_t testCount)
     }
     return true;
 }
+bool GCDTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t VALUE_MIN = 0;
+    int64_t VALUE_MAX = 99999999;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t A = rand.Generate(VALUE_MIN, VALUE_MAX);
+        int64_t B = rand.Generate(VALUE_MIN, VALUE_MAX);
+        int64_t LitResult = Lit::calcGCD(A, B);
+        int64_t cmathResult = std::gcd(A, B);
+        if (LitResult != cmathResult)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 template <class Func>
 void DoTest(const std::string &name, Func f)
 {
@@ -179,4 +201,5 @@ int main()
     DoTest("MaxTest", MaxTest);
     DoTest("MinTest", MinTest);
     DoTest("SumTest", SumTest);
+    DoTest("GCDTest", GCDTest);
 }

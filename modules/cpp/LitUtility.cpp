@@ -141,6 +141,29 @@ namespace LitUtility
         return result;
     }
     /**
+     * @brief 最大公約数を求める
+     * @param A 求める値
+     * @param B 求める値
+     * @return AとBの最大公約数
+     */
+    int64_t calcGCD(int64_t A, int64_t B)
+    {
+        if (A < B)
+        {
+            std::swap(A, B);
+        }
+        while (A % B != 0)
+        {
+            int64_t temp = A % B;
+            A = temp;
+            if (A < B)
+            {
+                std::swap(A, B);
+            }
+        }
+        return B;
+    }
+    /**
      * @brief xよりyが大きいときのみ更新する
      * @return xよりyのほうが大きいかどうか
      */
