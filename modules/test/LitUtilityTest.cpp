@@ -75,6 +75,89 @@ bool GenerateBitTest(int64_t testCount)
     return true;
 }
 
+bool MaxTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t N_MAX = 999999;
+    int64_t VALUE_MIN = -999999;
+    int64_t VALUE_MAX = 9999999;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t N = rand.Generate(1, N_MAX);
+        std::vector<int64_t> A(N);
+        for (int64_t j = 0; j < N; ++j)
+        {
+            A[j] = rand.Generate(VALUE_MIN, VALUE_MAX);
+        }
+        int64_t result = Lit::Max(A);
+        std::sort(A.begin(), A.end());
+        if (result != A[N - 1])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool MinTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t N_MAX = 999999;
+    int64_t VALUE_MIN = -999999;
+    int64_t VALUE_MAX = 9999999;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t N = rand.Generate(1, N_MAX);
+        std::vector<int64_t> A(N);
+        for (int64_t j = 0; j < N; ++j)
+        {
+            A[j] = rand.Generate(VALUE_MIN, VALUE_MAX);
+        }
+        int64_t result = Lit::Min(A);
+        std::sort(A.begin(), A.end());
+        if (result != A[0])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool SumTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t N_MAX = 999999;
+    int64_t VALUE_MIN = -99999;
+    int64_t VALUE_MAX = 99999;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t N = rand.Generate(1, N_MAX);
+        std::vector<int64_t> A(N);
+        int64_t testResult = 0;
+        for (int64_t j = 0; j < N; ++j)
+        {
+            int64_t token = rand.Generate(VALUE_MIN, VALUE_MAX);
+            testResult += token;
+            A[j] = token;
+        }
+        int64_t result = Lit::Sum(A);
+        if (result != testResult)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 template <class Func>
 void DoTest(const std::string &name, Func f)
 {
@@ -93,4 +176,7 @@ int main()
 {
     DoTest("SearchTest", SearchTest);
     DoTest("GenerateBitTest", GenerateBitTest);
+    DoTest("MaxTest", MaxTest);
+    DoTest("MinTest", MinTest);
+    DoTest("SumTest", SumTest);
 }
