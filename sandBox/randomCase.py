@@ -1,4 +1,5 @@
 import os
+import random
 class Print:
     """
     @brief ファイル指定での読み書きを楽に行うためのクラス
@@ -26,11 +27,28 @@ class Print:
         """
         with open(self.path,encoding=self.encoding,mode="a") as f:
             print(*contents,file=f,sep=sep,end=end)
-fm=Print(os.path.join("test","input","random.txt"))
-N,K=1000,5000
-for i in range(2*(10**5)):
-    fm.print("Z",end="")
-fm.print()
+for test in range(1):
+    fm=Print(os.path.join("input","random_"+str(test)+".txt"))
+    N,A=10000,100
+    x = 0
+    queries = []
+    for i in range(N):
+        y = x
+        q,a = ["+","-","*"][random.randint(0,2)],random.randint(1,A)
+        if q=="+":
+            x+=a
+        elif q=="-":
+            x-=a
+        elif q=="*":
+            x*=a
+        if 0<=x:
+            queries.append((q,a))
+        else:
+            x = y
+    fm.print(len(queries))
+    for i in queries:
+        fm.print(*i)
+    fm.print()
 # fm.print(N,K)
 # fm.print(*[1]*1000)
 # fm.print(*[1]*1000)
