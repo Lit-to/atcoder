@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
 #================================
 # ここに実行コマンドを書く場所
 execCommand="../dev/a" #Cpp
@@ -6,13 +7,13 @@ execCommand="../dev/a" #Cpp
 
 #================================
 if [ "$#" -eq 0 ]; then
-    execCommand="$defaultCommand"
+    execCommand="$execCommand"
 else
     execCommand="$@"
 fi
 
 set -euo pipefail
-pushd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" > /dev/null
+# pushd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" > /dev/null
 output="./output"
 mkdir -p $output
 RESULT="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
