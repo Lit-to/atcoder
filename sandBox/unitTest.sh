@@ -13,7 +13,6 @@ else
 fi
 
 set -euo pipefail
-# pushd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" > /dev/null
 output="./output"
 mkdir -p $output
 RESULT="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
