@@ -7,8 +7,11 @@ targetProgram="pypy3 ../dev/a.py" #Cpp
 # execCommand="python3 ../dev/ABC452E.py" #Python
 
 #================================
+# それぞれ実行
 correctResult=$(./unitTest.sh $correctProgram | head -n 1)
 targetResult=$(./unitTest.sh $targetProgram | head -n 1)
+
+# 比較結果の出力
 code --diff $correctResult $targetResult
 popd
 
