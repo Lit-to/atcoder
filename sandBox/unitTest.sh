@@ -7,10 +7,22 @@ execCommand="../dev/a" #Cpp
 
 #================================
 # 引数から受け取り
-if [ "$#" -eq 0 ]; then
+
+args=()
+notl_flag=false
+
+for arg in "$@"; do
+    if [ "$arg" = "-notl" ]; then
+        notl_flag=true
+    else
+        args+=("$arg")
+    fi
+done
+
+if [ "${#args[@]}" -eq 0 ]; then
     execCommand="$execCommand"
 else
-    execCommand="$@"
+    execCommand="${args[@]}"
 fi
 
 # シェル事故時の救済おまじない
@@ -39,6 +51,9 @@ for file in ./input/*.txt; do
     path=$(realpath "$output/$name")
     time=$(( (end - start) / 1000000 ))
     echo -e "\n================" >> $RESULT
+    if [ "$notl_flag" = true ]; then
+        continue
+    fi
     if [ "$time" -gt 2000 ]; then
         echo "[TLE] time: $time ms" >> $RESULT
     else

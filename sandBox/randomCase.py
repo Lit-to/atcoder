@@ -1,5 +1,7 @@
 import os
 import random
+from pathlib import Path
+os.chdir(Path(__file__).resolve().parent)
 class Print:
     """
     @brief ファイル指定での読み書きを楽に行うためのクラス
@@ -29,7 +31,7 @@ class Print:
             print(*contents,file=f,sep=sep,end=end)
 for test in range(1):
     fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    N,A=10000,100
+    N,A=1000,100
     x = 0
     queries = []
     for i in range(N):
