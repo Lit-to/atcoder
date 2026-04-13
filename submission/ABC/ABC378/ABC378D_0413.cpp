@@ -1,3 +1,10 @@
+// ABC378D
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+//
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -65,7 +72,7 @@ public:
      */
     void set(const int64_t y, const int64_t x, const T value)
     {
-        m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})] = value;
+        m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y}, value)];
     }
     /**
      * @brief 特定のマスのコンスト参照を返す
@@ -189,29 +196,59 @@ int main()
     std::vector<bool> done(H * W);
     const int64_t LRUD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
     int64_t result = 0;
-    auto dfs = [&](auto self, int64_t y, int64_t x, int64_t moveCount) -> void
+    auto dfs = [&](auto &&self, int64_t y, int64_t x, int64_t moveCount) -> void
     {
-        ++moveCount;
         if (moveCount == K)
         {
             ++result;
+            return;
         }
         for (int i = 0; i < 4; ++i)
         {
             int64_t newY = y + LRUD[i][0];
             int64_t newX = x + LRUD[i][1];
+            if (!BOARD.IsInside(newY, newX))
+            {
+                continue;
+            }
             if (BOARD.at(newY, newX) == '#')
             {
                 continue;
             }
-            else
+            int64_t index = BOARD.ConvertPosToIndex(newY, newX);
+            if (done[index])
             {
-                int64_t index = BOARD.ConvertPosToIndex(newY, newX);
-                done[index] = true;
-                self(self, newY, newX);
-                done[index] = false;
+                continue;
             }
+            done[index] = true;
+            self(self, newY, newX, moveCount + 1);
+            done[index] = false;
         }
     };
+    for (int64_t i = 0; i < H; ++i)
+    {
+        for (int64_t j = 0; j < W; ++j)
+        {
+            int64_t index = BOARD.ConvertPosToIndex(i, j);
+            if (done[index])
+            {
+                continue;
+            }
+            if (BOARD.at(i, j) == '#')
+            {
+                continue;
+            }
+            done[index] = true;
+            dfs(dfs, i, j, 0);
+            done[index] = false;
+        }
+    }
     std::cout << result << std::endl;
 }
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
