@@ -3,7 +3,7 @@ pushd "$(dirname "$0")" > /dev/null
 #================================
 # ここに実行コマンドを書く場所
 correctProgram="../dev/a" #Cpp
-targetProgram="python ../dev/TESOK002B.py" #Cpp
+targetProgram="../dev/b" #Cpp
 # execCommand="python3 ../dev/ABC452E.py" #Python
 
 #================================

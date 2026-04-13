@@ -29,28 +29,29 @@ class Print:
         """
         with open(self.path,encoding=self.encoding,mode="a") as f:
             print(*contents,file=f,sep=sep,end=end)
-for test in range(1):
+for test in range(100):
     fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    N,A=1000,100
+    a,b=100,100000000
     x = 0
     queries = []
-    for i in range(N):
-        y = x
-        q,a = ["+","-","*"][random.randint(0,2)],random.randint(1,A)
-        if q=="+":
-            x+=a
-        elif q=="-":
-            x-=a
-        elif q=="*":
-            x*=a
-        if 0<=x:
-            queries.append((q,a))
-        else:
-            x = y
-    fm.print(len(queries))
-    for i in queries:
-        fm.print(*i)
-    fm.print()
+    fm.print(*(random.randint(1,a+1),random.randint(1,b+1)))
+    # for i in range(N):
+    #     y = x
+    #     q,a = ["+","-","*"][random.randint(0,2)],random.randint(1,A)
+    #     if q=="+":
+    #         x+=a
+    #     elif q=="-":
+    #         x-=a
+    #     elif q=="*":
+    #         x*=a
+    #     if 0<=x:
+    #         queries.append((q,a))
+    #     else:
+    #         x = y
+    # fm.print(len(queries))
+    # for i in queries:
+    #     fm.print(*i)
+    # fm.print()
 # fm.print(N,K)
 # fm.print(*[1]*1000)
 # fm.print(*[1]*1000)
