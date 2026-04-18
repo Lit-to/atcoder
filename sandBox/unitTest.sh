@@ -9,11 +9,11 @@ execCommand="../dev/a" #Cpp
 # 引数から受け取り
 
 args=()
-notl_flag=false
+isNoTimeLimit=false
 
 for arg in "$@"; do
     if [ "$arg" = "-notl" ]; then
-        notl_flag=true
+        isNoTimeLimit=true
     else
         args+=("$arg")
     fi
@@ -51,7 +51,7 @@ for file in ./input/*.txt; do
     path=$(realpath "$output/$name")
     time=$(( (end - start) / 1000000 ))
     echo -e "\n================" >> $RESULT
-    if [ "$notl_flag" = true ]; then
+    if [ "$isNoTimeLimit" = true ]; then
         continue
     fi
     if [ "$time" -gt 2000 ]; then
