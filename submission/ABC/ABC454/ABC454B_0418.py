@@ -1,4 +1,4 @@
-# ABC454C
+# ABC454B
 # template
 
 def main():
@@ -12,9 +12,18 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N,M = im.listIntInput(2)
+    F:list = im.listIntInput(N)
+    clothes = set(F)
+    if (len(clothes)==len(F)):
+        print("Yes")
+    else:
+        print("No")
+    yes((len(clothes)==M))
+    no()
+
 
 
     ...
