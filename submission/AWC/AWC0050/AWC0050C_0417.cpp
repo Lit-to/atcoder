@@ -41,23 +41,25 @@ int main()
     }
     int64_t p = 0;
     std::stack<int64_t> st;
+    int64_t c = 0;
     for (int64_t i = 0; i < N; ++i)
     {
         if (queries[i].q == 0)
         {
-            p ^= queries[i].c;
-            st.push(p);
+            p = p ^ queries[i].c;
+            st.push(queries[i].c);
         }
         else if (queries[i].q == 1)
         {
             int64_t v = st.top();
-            p ^= v;
+            p = p ^ v;
             st.pop();
         }
         else
         {
+            ++c;
             std::cout << latest[p] - 1 << std::endl;
-            latest[p] = i + 1;
+            latest[p] = c + 1;
         }
     }
 }
