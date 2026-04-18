@@ -31,30 +31,13 @@ class Print:
             print(*contents,file=f,sep=sep,end=end)
 for test in range(100):
     fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    a,b=100,100000000
-    x = 0
-    queries = []
-    fm.print(*(random.randint(1,a+1),random.randint(1,b+1)))
-    # for i in range(N):
-    #     y = x
-    #     q,a = ["+","-","*"][random.randint(0,2)],random.randint(1,A)
-    #     if q=="+":
-    #         x+=a
-    #     elif q=="-":
-    #         x-=a
-    #     elif q=="*":
-    #         x*=a
-    #     if 0<=x:
-    #         queries.append((q,a))
-    #     else:
-    #         x = y
-    # fm.print(len(queries))
-    # for i in queries:
-    #     fm.print(*i)
-    # fm.print()
-# fm.print(N,K)
-# fm.print(*[1]*1000)
-# fm.print(*[1]*1000)
-# fm.print(*[1]*1000)
-    
+    N,M=random.randint(1,10),random.randint(1,10)
+    A=[]
+    B=[]
+    for i in range(M):
+        A.append(random.randint(1,N))
+        B.append(random.randint(1,N))
+    fm.print(N,M)
+    fm.print(*A)
+    fm.print(*B)
     

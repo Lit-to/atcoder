@@ -2,8 +2,8 @@
 pushd "$(dirname "$0")" > /dev/null
 #================================
 # ここに実行コマンドを書く場所
-correctProgram="../dev/a" #Cpp
-targetProgram="../dev/b" #Cpp
+correctProgram="python3 ../dev/ABC327D_sample.py" #Cpp
+targetProgram="../dev/a" #Cpp
 # execCommand="python3 ../dev/ABC452E.py" #Python
 
 #================================
