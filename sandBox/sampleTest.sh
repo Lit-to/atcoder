@@ -3,11 +3,12 @@ pushd "$(dirname "$0")" > /dev/null
 
 #================================
 # ここに実行コマンドを書く場所
-correctProgram="../dev/a" #Cpp
+targetProgram="../dev/a" #Cpp
+# /usr/bin/c++ -fdiagnostics-color=always -g ../dev/AWC0049C.cpp -o a -std=c++23 && 
 
 #================================
 # 実験対象はそのまま実行
-targetResult=$(./unitTest.sh -notl $correctProgram | head -n 1)
+targetResult=$(./unitTest.sh -notl $targetProgram | head -n 1)
 
 # サンプルの出力結果を流す
 output="./output"
@@ -21,12 +22,12 @@ for file in ./sample_output/*.txt; do
     echo "file : $file" >> $sampleResult
     echo -e "================\n" >> $sampleResult
     # 実行
-    cat $file >> $sampleResult
+    cat "$file" >> "$sampleResult"
     # 中身吐き出し結果    
     path=$(realpath "$output/$name")
     echo -e "\n================" >> $sampleResult
 done
 
 # 比較結果の出力
-code --diff $correctResult $sampleResult
+code --diff $targetResult $sampleResult
 popd

@@ -11,6 +11,21 @@
  */
 void solve()
 {
+    int64_t N, L, P, Q;
+    std::cin >> N >> L >> P >> Q;
+    for (int64_t i = 0; i < N; ++i)
+    {
+        int64_t s;
+        std::cin >> s;
+        if (s <= L)
+        {
+            std::cout << (s * P) / 100 << std::endl;
+        }
+        else
+        {
+            std::cout << (L * P + (s - L) * Q) / 100 << std::endl;
+        }
+    }
 }
 
 /**
