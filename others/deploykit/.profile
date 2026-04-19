@@ -26,3 +26,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 export PATH=$PATH:/usr/bin
 export PATH=~/opt/pypy3.10-v7.3.17-linux64/bin:$PATH
+export PATH="$PATH:/root/atcoder/others/tools"
+export PATH="$PATH:/root/atcoder/sandBox/tools"

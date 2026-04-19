@@ -9,7 +9,7 @@ targetProgram="../dev/a" #Cpp
 
 #================================
 # 実験対象はそのまま実行
-targetResult=$(./unit.sh -notl $targetProgram | head -n 1)
+targetResult=$(unit -notl $targetProgram | head -n 1)
 
 # サンプルの出力結果を流す
 output="./output"

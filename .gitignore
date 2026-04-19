@@ -9,5 +9,6 @@ __pycache__
 sandBox/input
 sandBox/output
 sandBox/sample_output
+!sandBox/tools/*
 OUTPUT
 TEST
