@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
 #================================
 # ここに実行コマンドを書く場所
 execCommand="../dev/a" #Cpp
@@ -64,4 +66,5 @@ done
 resultPath=$(realpath "$RESULT")
 echo $resultPath
 echo "<====== Test Summary"
+popd > /dev/null
 popd > /dev/null

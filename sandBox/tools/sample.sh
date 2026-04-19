@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
 
 #================================
 # ここに実行コマンドを書く場所
@@ -8,7 +9,7 @@ targetProgram="../dev/a" #Cpp
 
 #================================
 # 実験対象はそのまま実行
-targetResult=$(./unitTest.sh -notl $targetProgram | head -n 1)
+targetResult=$(./unit.sh -notl $targetProgram | head -n 1)
 
 # サンプルの出力結果を流す
 output="./output"
@@ -31,4 +32,5 @@ done
 # 比較結果の出力
 diff -u $targetResult $sampleResult > ./output/diff.txt
 code --diff $targetResult $sampleResult
-popd
+popd > /dev/null
+popd > /dev/null
