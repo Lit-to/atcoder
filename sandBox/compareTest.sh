@@ -12,6 +12,7 @@ correctResult=$(./unitTest.sh -notl $correctProgram | head -n 1)
 targetResult=$(./unitTest.sh -notl $targetProgram | head -n 1)
 
 # 比較結果の出力
-code --diff $correctResult $targetResult
+diff -u $targetResult $sampleResult > ./output/diff.txt
+code --diff $targetResult $sampleResult
 popd
 

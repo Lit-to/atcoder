@@ -29,5 +29,6 @@ for file in ./sample_output/*.txt; do
 done
 
 # 比較結果の出力
+diff -u $targetResult $sampleResult > ./output/diff.txt
 code --diff $targetResult $sampleResult
 popd
