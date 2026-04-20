@@ -31,15 +31,14 @@ class Print:
             print(*contents,file=f,sep=sep,end=end)
 for test in range(100):
     fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    N=random.randint(1,10)
+    # N=random.randint(1,10)
+    # N=20
     A=[]
     B=[]
-    for i in range(N):
-        for j in range(random.randint(0,100)):
-            A.append("x()"[random.randint(0,2)])
-        for j in range(random.randint(0,100)):
-            B.append("x()"[random.randint(0,2)])
-        fm.print(N)
-        fm.print(*A,sep="")
-        fm.print(*B,sep="")
+    for i in range(1):
+        for j in range(20):
+            A.append(random.randint(1,500))
+        # fm.print(N)
+        fm.print(*set(A),sep=" ")
+        # fm.print(*B,sep="")
     
