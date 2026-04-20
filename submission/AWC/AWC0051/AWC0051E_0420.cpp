@@ -1,5 +1,4 @@
-// AWC0051C
-// template
+// AWC0051E
 #include <iostream>
 #include <string>
 #include <vector>
