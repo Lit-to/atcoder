@@ -1,4 +1,4 @@
-// AWC0052A
+// AWC0052B
 // template
 #include <iostream>
 #include <string>
@@ -12,6 +12,20 @@
  */
 void solve()
 {
+    int64_t N, K;
+    std::cin >> N >> K;
+    std::vector<int64_t> CARDS(N);
+    for (int64_t i = 0; i < N; ++i)
+    {
+        CARDS[i] = i + 1;
+    }
+    int64_t f = N - (K % N) + N;
+    int64_t count = f;
+    while (count < f + N)
+    {
+        std::cout << CARDS[count % N] << std::endl;
+        ++count;
+    }
 }
 
 /**
