@@ -1,5 +1,9 @@
 {
   "editor.formatOnSave": true,
+  "files.readonlyInclude": {
+    "modules/cpp/*.cpp": true,
+    "modules/py/*.py": true
+  },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
