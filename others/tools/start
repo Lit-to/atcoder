@@ -30,7 +30,7 @@ for letter in A B C D E F G; do
     cp modules/py/template.py dev/$contestName$letter.py
     sed -i "1i # $contestName$letter" dev/$contestName$letter.py
     done
-for letter in C D; do
+for letter in A B C D E F G; do
     cp modules/cpp/template.cpp dev/$contestName$letter.cpp
     sed -i "1i // $contestName$letter" dev/$contestName$letter.cpp
     done
