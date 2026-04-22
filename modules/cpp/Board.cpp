@@ -137,7 +137,7 @@ public:
         {
             for (int64_t j = 0; j < GetWidth(); ++j)
             {
-                result += std::to_string((*this)[i, j]);
+                result += std::to_string(*this.at(i, i));
                 result += " ";
             }
             result += "\n";
@@ -181,37 +181,3 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
-int main()
-{
-    int64_t H, W, K;
-    std::cin >> H >> W >> K;
-    auto BOARD = Board<char>::Input(H, W);
-    std::vector<bool> done(H * W);
-    const int64_t LRUD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
-    int64_t result = 0;
-    auto dfs = [&](auto self, int64_t y, int64_t x, int64_t moveCount) -> void
-    {
-        ++moveCount;
-        if (moveCount == K)
-        {
-            ++result;
-        }
-        for (int i = 0; i < 4; ++i)
-        {
-            int64_t newY = y + LRUD[i][0];
-            int64_t newX = x + LRUD[i][1];
-            if (BOARD.at(newY, newX) == '#')
-            {
-                continue;
-            }
-            else
-            {
-                int64_t index = BOARD.ConvertPosToIndex(newY, newX);
-                done[index] = true;
-                self(self, newY, newX);
-                done[index] = false;
-            }
-        }
-    };
-    std::cout << result << std::endl;
-}

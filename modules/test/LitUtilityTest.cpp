@@ -171,7 +171,7 @@ bool GCDTest(int64_t testCount)
     {
         int64_t A = rand.Generate(VALUE_MIN, VALUE_MAX);
         int64_t B = rand.Generate(VALUE_MIN, VALUE_MAX);
-        int64_t LitResult = Lit::calcGCD(A, B);
+        int64_t LitResult = Lit::CalcGCD(A, B);
         int64_t cmathResult = std::gcd(A, B);
         if (LitResult != cmathResult)
         {

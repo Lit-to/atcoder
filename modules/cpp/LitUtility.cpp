@@ -146,7 +146,7 @@ namespace LitUtility
      * @param B 求める値
      * @return AとBの最大公約数
      */
-    int64_t calcGCD(int64_t A, int64_t B)
+    int64_t CalcGCD(int64_t A, int64_t B)
     {
         if (A < B)
         {
@@ -164,7 +164,7 @@ namespace LitUtility
         return B;
     }
     /**
-     * @brief xよりyが大きいときのみ更新する
+     * @brief xよりyが大きいときのみxを更新する
      * @return xよりyのほうが大きいかどうか
      */
     int64_t ChangeMax(int64_t &x, int64_t &y)
@@ -177,7 +177,7 @@ namespace LitUtility
         return false;
     }
     /**
-     * @brief xよりyが小さいときのみ更新する
+     * @brief xよりyが小さいときのみxを更新する
      * @return xよりyのほうが小さいかどうか
      */
     int64_t ChangeMin(int64_t &x, int64_t &y)
@@ -185,6 +185,36 @@ namespace LitUtility
         if (y < x)
         {
             y = x;
+            return true;
+        }
+        return false;
+    }
+
+    template <class T>
+    /**
+     * @brief uよりvが大きいときのみuを更新する
+     * @return uよりvのほうが大きいかどうか
+     */
+    bool ChangeMax(T &u, T v)
+    {
+        if (u < v)
+        {
+            u = v;
+            return true;
+        }
+        return false;
+    }
+
+    template <class T>
+    /**
+     * @brief uよりvが小さいときのみuを更新する
+     * @return uよりvのほうが小さいかどうか
+     */
+    bool ChangeMin(T &u, T v)
+    {
+        if (v < u)
+        {
+            u = v;
             return true;
         }
         return false;
@@ -235,4 +265,5 @@ namespace LitUtility
         return isYes;
     }
 }
+
 namespace Lit = LitUtility;
