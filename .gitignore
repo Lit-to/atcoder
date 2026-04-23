@@ -8,7 +8,7 @@ __pycache__
 .vscode/settings.json
 sandBox/input
 sandBox/output
-sandBox/sample_output
+sandBox/expect
 !sandBox/tools/*
 OUTPUT
 TEST
