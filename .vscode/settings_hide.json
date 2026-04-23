@@ -17,6 +17,7 @@
     "**/submission": true,
     "**/old": true,
     "**/backup": true,
+    "**/sandBox/output": true,
     ".devcontainer": true,
     "docker-compose.yml": true,
     "README.md": true

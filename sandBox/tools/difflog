@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
+set -euo pipefail
+
+dir="./output"
+i="${1:-0}"
+
+# 新しい順に配列に取得
+mapfile -t files < <(ls -t "$dir")
+
+# 必要なインデックス
+idx1=$((i + 1))
+idx2=$((i + 0))
+
+# 存在チェック
+if [ "${#files[@]}" -le "$idx1" ]; then
+    echo "not enough files"
+    exit 1
+fi
+
+f1="$dir/${files[$idx1]}"
+f2="$dir/${files[$idx2]}"
+
+echo "diff:"
+echo "$f1"
+echo "$f2"
+
+code --reuse-window --diff "$f1" "$f2"
+popd > /dev/null
