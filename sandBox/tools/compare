@@ -13,7 +13,6 @@ correctResult=$(unit -notl $correctProgram | head -n 1)
 targetResult=$(unit -notl $targetProgram | head -n 1)
 
 # 比較結果の出力
-diff -u --color=always $targetResult $correctResult > ./output/diff.txt 
 code --diff $targetResult $correctResult
 popd > /dev/null
 popd > /dev/null

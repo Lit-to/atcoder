@@ -16,8 +16,8 @@ output="./output"
 mkdir -p $output
 sampleResult="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
 touch $sampleResult
-echo "Execute Result => cat (sample_output)" > $sampleResult
-for file in ./sample_output/*.txt; do
+echo "Execute Result => cat (expect)" > $sampleResult
+for file in ./expect/*.txt; do
     [ -e "$file" ] || continue
     name=$(basename "$file")
     echo "file : $file" >> $sampleResult
@@ -30,7 +30,6 @@ for file in ./sample_output/*.txt; do
 done
 
 # 比較結果の出力
-diff -u $targetResult $sampleResult > ./output/diff.txt
 code --diff $targetResult $sampleResult
 popd > /dev/null
 popd > /dev/null
