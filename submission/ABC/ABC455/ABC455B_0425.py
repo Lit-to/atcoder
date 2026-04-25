@@ -16,6 +16,28 @@ def main():
     A = im.listIntInput(N)
     """
 
+    def check(h1,h2,w1,w2):
+        for i in range(h1,h2):
+            for j in range(w1,w2):
+                if (BOARD[h1+h2-i-1][w1+w2-j-1]!=BOARD[i][j]):
+                    return False
+        return True
+
+    H,W = im.listIntInput(2)
+    BOARD = []
+    for i in range(H):
+        BOARD.append(list(im.input()))
+    result = 0
+    for h1 in range(H):
+        for h2 in range(h1,H):
+            for w1 in range(W):
+                for w2 in range(w1,W):
+                    result+=check(h1,h2+1,w1,w2+1)
+    
+    print(result)
+
+
+
 
     ...
 
