@@ -264,6 +264,29 @@ namespace LitUtility
         }
         return isYes;
     }
+    /**
+     * 繰り返し2乗法でx^nを計算する
+     * @param x 底
+     * @param n 指数
+     * @return n^rの値
+     */
+    int64_t Pow(int64_t x, int64_t n, int64_t mod)
+    {
+        int64_t result = 1;
+        int64_t product = x;
+        while (0 < n)
+        {
+            if (n & 1)
+            {
+                result *= product % mod;
+                result %= mod;
+            }
+            product *= product % mod;
+            product %= mod;
+            n >>= 1;
+        }
+        return result;
+    }
 }
 
 namespace Lit = LitUtility;

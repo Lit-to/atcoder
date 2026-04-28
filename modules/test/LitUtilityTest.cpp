@@ -2,6 +2,7 @@
 #include "../cpp/RandomGenerator.cpp"
 #include "../cpp/LitUtility.cpp"
 #include "cmath"
+#include <atcoder/all>
 bool SearchTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -43,7 +44,6 @@ bool SearchTest(int64_t testCount)
     }
     return true;
 }
-
 bool GenerateBitTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -74,7 +74,6 @@ bool GenerateBitTest(int64_t testCount)
     }
     return true;
 }
-
 bool MaxTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -180,6 +179,31 @@ bool GCDTest(int64_t testCount)
     }
     return true;
 }
+bool PowTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t X_MIN = 0;
+    int64_t X_MAX = 9999;
+    int64_t N_MIN = 1;
+    int64_t N_MAX = 100;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t n = rand.Generate(X_MIN, X_MAX);
+        int64_t r = rand.Generate(N_MIN, N_MAX);
+        int64_t LitResult = Lit::Pow(n, r, 998244353);
+        int64_t aclResult = atcoder::pow_mod(n, r, 998244353);
+        if (LitResult != aclResult)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 template <class Func>
 void DoTest(const std::string &name, Func f)
 {
@@ -202,4 +226,5 @@ int main()
     DoTest("MinTest", MinTest);
     DoTest("SumTest", SumTest);
     DoTest("GCDTest", GCDTest);
+    DoTest("PowTest", PowTest);
 }
