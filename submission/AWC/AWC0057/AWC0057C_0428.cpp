@@ -1,3 +1,30 @@
+// AWC0057C
+// template
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <queue>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+using namespace std;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+// using mint = atcoder::modint998244353;
+using mint = atcoder::modint1000000007;
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+template <class T>
+void v_output(const std::vector<T> &a)
+{
+    for (int64_t i = 0; i < a.size(); ++i)
+    {
+        std::cout << a[i] << " ";
+    }
+    std::cout << std::endl;
+}
 #include <vector>
 #include <cstdint>
 #include <iostream>
@@ -56,7 +83,7 @@ namespace LitUtility
     typename T::value_type Max(const T &target)
     {
         typename T::value_type nowMax = std::numeric_limits<typename T::value_type>::min();
-        for (const auto &i : target)
+        for (auto &i : target)
         {
             if (nowMax < i)
             {
@@ -73,7 +100,7 @@ namespace LitUtility
     typename T::value_type Min(const T &target)
     {
         typename T::value_type nowMin = std::numeric_limits<typename T::value_type>::max();
-        for (const auto &i : target)
+        for (auto &i : target)
         {
             if (i < nowMin)
             {
@@ -90,7 +117,7 @@ namespace LitUtility
     typename T::value_type Sum(const T &target)
     {
         typename T::value_type now = 0;
-        for (const auto &i : target)
+        for (auto &i : target)
         {
             now += i;
         }
@@ -267,3 +294,45 @@ namespace LitUtility
 }
 
 namespace Lit = LitUtility;
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> L(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> L[i];
+    }
+    mint r = Lit::Sum(L);
+    mint mx = Lit::Max(L);
+    r -= mx;
+    mint k = K;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int64_t TESTCASES = 1;
+
+    // std::cin >> TESTCASES;
+
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================

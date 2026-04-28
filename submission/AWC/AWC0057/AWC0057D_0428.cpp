@@ -1,3 +1,30 @@
+// AWC0057D
+// template
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <queue>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+using namespace std;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+template <class T>
+void v_output(const std::vector<T> &a)
+{
+    for (int64_t i = 0; i < a.size(); ++i)
+    {
+        std::cout << a[i] << " ";
+    }
+    std::cout << std::endl;
+}
 #include <vector>
 #include <cstdint>
 #include <iostream>
@@ -56,7 +83,7 @@ namespace LitUtility
     typename T::value_type Max(const T &target)
     {
         typename T::value_type nowMax = std::numeric_limits<typename T::value_type>::min();
-        for (const auto &i : target)
+        for (auto &i : target)
         {
             if (nowMax < i)
             {
@@ -73,7 +100,7 @@ namespace LitUtility
     typename T::value_type Min(const T &target)
     {
         typename T::value_type nowMin = std::numeric_limits<typename T::value_type>::max();
-        for (const auto &i : target)
+        for (auto &i : target)
         {
             if (i < nowMin)
             {
@@ -267,3 +294,93 @@ namespace LitUtility
 }
 
 namespace Lit = LitUtility;
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    ll N, K, M;
+    cin >> N >> K >> M;
+    vector<ll> S(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> S[i];
+    }
+    struct contest
+    {
+        ll L;
+        ll R;
+        ll P;
+    };
+    vector<contest> CONTESTS(M);
+    for (ll i = 0; i < M; ++i)
+    {
+        cin >> CONTESTS[i].L;
+        cin >> CONTESTS[i].R;
+        cin >> CONTESTS[i].P;
+        --CONTESTS[i].L;
+    }
+    ll result = INT64_MIN;
+    for (ll i = 0; i < (1 << N); ++i)
+    {
+        vector<bool> bits = Lit::GenerateBit(i, N);
+        ll candidate = 0;
+        ll k = 0;
+        for (ll j = 0; j < N; ++j)
+        {
+            if (bits[j])
+            {
+                ++k;
+            }
+        }
+        if (K < k)
+        {
+            continue;
+        }
+        for (ll j = 0; j < N; ++j)
+        {
+            if (bits[j])
+            {
+                candidate += S[j];
+            }
+        }
+        for (contest &c : CONTESTS)
+        {
+            for (ll j = c.L; j < c.R; ++j)
+            {
+                if (bits[j])
+                {
+                    candidate += c.P;
+                    break;
+                }
+            }
+        }
+        result = max(result, candidate);
+    }
+    cout << result << endl;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int64_t TESTCASES = 1;
+
+    // std::cin >> TESTCASES;
+
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================

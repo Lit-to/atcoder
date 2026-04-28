@@ -15,6 +15,14 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N,K = im.listIntInput(2)
+    A= im.listIntInput(N)
+    result = sum(A)
+    mx = max(A)
+    result -= mx
+    mx *= pow(2,K,MOD)
+    mx %= MOD
+    print((mx+result)%MOD)
 
 
     ...
@@ -73,7 +81,7 @@ sys.set_int_max_str_digits(0)
 dict = defaultdict
 UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
-MOD = 998244353
+MOD = 10**9 + 7
 MAX = 10**18
 LRUD = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]

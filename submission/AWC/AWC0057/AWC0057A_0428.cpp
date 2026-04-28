@@ -1,4 +1,4 @@
-// AWC0057F
+// AWC0057A
 // template
 #include <iostream>
 #include <string>
@@ -31,6 +31,33 @@ void v_output(const std::vector<T> &a)
  */
 void solve()
 {
+    int64_t N, X;
+    std::cin >> N >> X;
+    std::vector<ll> A(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> A[i];
+    }
+    std::vector<ll> B(N);
+    B[0] = A[0];
+    B[N - 1] = A[N - 1];
+    for (ll i = 1; i < N - 1; ++i)
+    {
+        if (A[i - 1] == A[i + 1] && A[i - 1] != A[i])
+        {
+            B[i] = 0;
+        }
+        else
+        {
+            B[i] = A[i];
+        }
+    }
+    ll D = X;
+    for (int64_t i = 0; i < N; ++i)
+    {
+        D = D ^ B[i];
+    }
+    cout << D << endl;
 }
 
 /**
