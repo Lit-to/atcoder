@@ -179,7 +179,7 @@ bool GCDTest(int64_t testCount)
     }
     return true;
 }
-bool PowTest(int64_t testCount)
+bool PowModTest(int64_t testCount)
 {
     // === テストパラメータ === //
     int64_t X_MIN = 0;
@@ -192,11 +192,40 @@ bool PowTest(int64_t testCount)
 
     for (int64_t i = 0; i < testCount; ++i)
     {
-        int64_t n = rand.Generate(X_MIN, X_MAX);
-        int64_t r = rand.Generate(N_MIN, N_MAX);
-        int64_t LitResult = Lit::Pow(n, r, 998244353);
-        int64_t aclResult = atcoder::pow_mod(n, r, 998244353);
-        if (LitResult != aclResult)
+        int64_t x = rand.Generate(X_MIN, X_MAX);
+        int64_t n = rand.Generate(N_MIN, N_MAX);
+        int64_t mod = 1000000007ll;
+        int64_t LitResult = Lit::PowMod(x, n, mod);
+        int64_t AclResult = atcoder::pow_mod(x, n, mod);
+        if (LitResult != AclResult)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool PowTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t X_MIN = 1;
+    int64_t X_MAX = 10;
+    int64_t N_MIN = 1;
+    int64_t N_MAX = 9;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t x = rand.Generate(X_MIN, X_MAX);
+        int64_t n = rand.Generate(N_MIN, N_MAX);
+        int64_t LitResult = Lit::Pow(x, n);
+        int64_t result = x;
+        for (int64_t i = 0; i < n - 1; ++i)
+        {
+            result *= x;
+        }
+        if (LitResult != result)
         {
             return false;
         }
@@ -226,5 +255,6 @@ int main()
     DoTest("MinTest", MinTest);
     DoTest("SumTest", SumTest);
     DoTest("GCDTest", GCDTest);
+    DoTest("PowModTest", PowModTest);
     DoTest("PowTest", PowTest);
 }
