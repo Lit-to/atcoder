@@ -288,7 +288,6 @@ namespace LitUtility
         return result;
     }
     /**
-     * @deprecated
      * @brief x^nを計算する
      * @details 繰り返し2乗法で計算する。あまりをとらない。
      * @note ACLのmint等を利用する想定なので、積を取る際にmod計算が走らないとオーバーフローするので注意
