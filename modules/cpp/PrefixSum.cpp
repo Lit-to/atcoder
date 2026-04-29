@@ -29,6 +29,14 @@ public:
         return m_data[rightSection] - m_data[leftSection];
     };
 
+    /**
+     * 累積済みの配列のi番目の値を求める
+     */
+    int64_t At(int64_t pos)
+    {
+        return m_data[pos];
+    }
+
 private:
     std::vector<int64_t> m_data; //!< 累積和として計算済みのデータ
 };
