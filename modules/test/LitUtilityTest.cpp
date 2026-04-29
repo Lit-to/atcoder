@@ -2,6 +2,7 @@
 #include "../cpp/RandomGenerator.cpp"
 #include "../cpp/LitUtility.cpp"
 #include "cmath"
+#include <atcoder/all>
 bool SearchTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -43,7 +44,6 @@ bool SearchTest(int64_t testCount)
     }
     return true;
 }
-
 bool GenerateBitTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -74,7 +74,6 @@ bool GenerateBitTest(int64_t testCount)
     }
     return true;
 }
-
 bool MaxTest(int64_t testCount)
 {
     // === テストパラメータ === //
@@ -180,6 +179,60 @@ bool GCDTest(int64_t testCount)
     }
     return true;
 }
+bool PowModTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t X_MIN = 0;
+    int64_t X_MAX = 9999;
+    int64_t N_MIN = 1;
+    int64_t N_MAX = 100;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t x = rand.Generate(X_MIN, X_MAX);
+        int64_t n = rand.Generate(N_MIN, N_MAX);
+        int64_t mod = 1000000007ll;
+        int64_t LitResult = Lit::PowMod(x, n, mod);
+        int64_t AclResult = atcoder::pow_mod(x, n, mod);
+        if (LitResult != AclResult)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+bool PowTest(int64_t testCount)
+{
+    // === テストパラメータ === //
+    int64_t X_MIN = 1;
+    int64_t X_MAX = 10;
+    int64_t N_MIN = 1;
+    int64_t N_MAX = 9;
+    // --------------------------
+    randomGenerator rand;
+    // === テストパラメータ === //
+
+    for (int64_t i = 0; i < testCount; ++i)
+    {
+        int64_t x = rand.Generate(X_MIN, X_MAX);
+        int64_t n = rand.Generate(N_MIN, N_MAX);
+        int64_t LitResult = Lit::Pow(x, n);
+        int64_t result = x;
+        for (int64_t i = 0; i < n - 1; ++i)
+        {
+            result *= x;
+        }
+        if (LitResult != result)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 template <class Func>
 void DoTest(const std::string &name, Func f)
 {
@@ -202,4 +255,6 @@ int main()
     DoTest("MinTest", MinTest);
     DoTest("SumTest", SumTest);
     DoTest("GCDTest", GCDTest);
+    DoTest("PowModTest", PowModTest);
+    DoTest("PowTest", PowTest);
 }

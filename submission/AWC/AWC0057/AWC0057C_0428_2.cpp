@@ -1,3 +1,34 @@
+// AWC0057C
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <queue>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+using namespace std;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+// using mint = atcoder::modint998244353;
+using mint = atcoder::modint1000000007;
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+template <class T>
+void v_output(const std::vector<T> &a)
+{
+    for (int64_t i = 0; i < a.size(); ++i)
+    {
+        std::cout << a[i] << " ";
+    }
+    std::cout << std::endl;
+}
+#include <vector>
+#include <cstdint>
+#include <iostream>
+#include <cmath>
+#include <limits>
 #include <vector>
 #include <cstdint>
 #include <iostream>
@@ -288,6 +319,7 @@ namespace LitUtility
         return result;
     }
     /**
+     * @deprecated
      * @brief x^nを計算する
      * @details 繰り返し2乗法で計算する。あまりをとらない。
      * @note ACLのmint等を利用する想定なので、積を取る際にmod計算が走らないとオーバーフローするので注意
@@ -312,4 +344,47 @@ namespace LitUtility
         return result;
     }
 }
+
 namespace Lit = LitUtility;
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    int64_t N, K;
+    std::cin >> N >> K;
+    std::vector<int64_t> L(N);
+    for (int64_t i = 0; i < N; ++i)
+    {
+        std::cin >> L[i];
+    }
+    mint mx = Lit::Max(L);
+    mint result = Lit::Sum(L) - mx;
+    mint p = Lit::Pow(mint(2), K);
+    std::cout << (result + mx * p).val() << std::endl;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int64_t TESTCASES = 1;
+
+    // std::cin >> TESTCASES;
+
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
