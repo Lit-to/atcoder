@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "../cpp/RandomGenerator.cpp"
-#include "../cpp/LitUtility.cpp"
+#include "../cpp/LitAlgorithm.cpp"
+#include "../cpp/LitMath.cpp"
 #include "cmath"
 #include <atcoder/all>
 bool SearchTest(int64_t testCount)
@@ -31,8 +32,8 @@ bool SearchTest(int64_t testCount)
             }
         }
         int64_t searchResult = -1;
-        int64_t searchIndex = Lit::Search(0, n, [&](int64_t index)
-                                          { return A[index] <= v; });
+        int64_t searchIndex = LitA::Search(0, n, [&](int64_t index)
+                                           { return A[index] <= v; });
         if (0 <= searchIndex && searchIndex < n && A[searchIndex] == v)
         {
             searchResult = searchIndex;
@@ -56,7 +57,7 @@ bool GenerateBitTest(int64_t testCount)
     {
         int64_t bit = rand.Generate(1, BIT_MAX);
         int64_t value = rand.Generate(0, (1LL << bit));
-        std::vector<bool> result = Lit::GenerateBit(value, bit + 1);
+        std::vector<bool> result = LitA::GenerateBit(value, bit + 1);
         std::reverse(result.begin(), result.end());
         int64_t num = 0;
         for (int64_t i = 0; i < bit; ++i)
@@ -92,7 +93,7 @@ bool MaxTest(int64_t testCount)
         {
             A[j] = rand.Generate(VALUE_MIN, VALUE_MAX);
         }
-        int64_t result = Lit::Max(A);
+        int64_t result = LitM::Max(A);
         std::sort(A.begin(), A.end());
         if (result != A[N - 1])
         {
@@ -119,7 +120,7 @@ bool MinTest(int64_t testCount)
         {
             A[j] = rand.Generate(VALUE_MIN, VALUE_MAX);
         }
-        int64_t result = Lit::Min(A);
+        int64_t result = LitM::Min(A);
         std::sort(A.begin(), A.end());
         if (result != A[0])
         {
@@ -149,7 +150,7 @@ bool SumTest(int64_t testCount)
             testResult += token;
             A[j] = token;
         }
-        int64_t result = Lit::Sum(A);
+        int64_t result = LitM::Sum(A);
         if (result != testResult)
         {
             return false;
@@ -170,7 +171,7 @@ bool GCDTest(int64_t testCount)
     {
         int64_t A = rand.Generate(VALUE_MIN, VALUE_MAX);
         int64_t B = rand.Generate(VALUE_MIN, VALUE_MAX);
-        int64_t LitResult = Lit::CalcGCD(A, B);
+        int64_t LitResult = LitM::CalcGCD(A, B);
         int64_t cmathResult = std::gcd(A, B);
         if (LitResult != cmathResult)
         {
@@ -195,7 +196,7 @@ bool PowModTest(int64_t testCount)
         int64_t x = rand.Generate(X_MIN, X_MAX);
         int64_t n = rand.Generate(N_MIN, N_MAX);
         int64_t mod = 1000000007ll;
-        int64_t LitResult = Lit::PowMod(x, n, mod);
+        int64_t LitResult = LitM::PowMod(x, n, mod);
         int64_t AclResult = atcoder::pow_mod(x, n, mod);
         if (LitResult != AclResult)
         {
@@ -219,7 +220,7 @@ bool PowTest(int64_t testCount)
     {
         int64_t x = rand.Generate(X_MIN, X_MAX);
         int64_t n = rand.Generate(N_MIN, N_MAX);
-        int64_t LitResult = Lit::Pow(x, n);
+        int64_t LitResult = LitM::Pow(x, n);
         int64_t result = x;
         for (int64_t i = 0; i < n - 1; ++i)
         {
