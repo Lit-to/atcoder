@@ -9,14 +9,6 @@ class Board():
     ROTATE_270_DEGREE = 3
 
     # 自作ボードクラスのショートカット関数
-    def Input():
-        """
-        標準入力からボード作成
-        """
-        H,W = map(int,input().split())
-        return [H,W,Board.InputBoardWithWall(H,W,"#")]
-
-
     def InputBoard(height:int,f=lambda:list(input())):
         """
         文字列を吐き出す関数からボード作成

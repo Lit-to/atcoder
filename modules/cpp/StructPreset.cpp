@@ -26,6 +26,16 @@ struct POS
     int64_t X; //!< x座標
     int64_t Y; //!< y座標
 };
+const int64_t LRUD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+
+/**
+ * @brief グラフの辺情報
+ */
+struct EDGE
+{
+    int64_t distination; // 隣の行先ノード
+    int64_t cost;        // そのノードに行くコスト
+};
 
 // ===================
 

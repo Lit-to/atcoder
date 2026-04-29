@@ -6,6 +6,7 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/dev",
                 "${workspaceFolder}/modules/cpp",
+                "${workspaceFolder}/modules/test",
                 "~/acl/"
             ],
             "compilerPath": "/usr/bin/gcc",

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
+#================================
+# ここに実行コマンドを書く場所
+targetProgram="../dev/a" #Cpp
+# /usr/bin/c++ -fdiagnostics-color=always -g ../dev/AWC0049C.cpp -o a -std=c++23 && 
+
+#================================
+# 実験対象はそのまま実行
+targetResult=$(unit -notl $targetProgram | head -n 1)
+
+# サンプルの出力結果を流す
+output="./output"
+mkdir -p $output
+sampleResult="$output/$(date +%Y%m%d%H%M%S%3N)_TestSummary"
+touch $sampleResult
+echo "Execute Result => cat (expect)" > $sampleResult
+for file in ./expect/*.txt; do
+    [ -e "$file" ] || continue
+    name=$(basename "$file")
+    echo "file : $file" >> $sampleResult
+    echo -e "================\n" >> $sampleResult
+    # 実行
+    cat "$file" >> "$sampleResult"
+    # 中身吐き出し結果    
+    path=$(realpath "$output/$name")
+    echo -e "\n================" >> $sampleResult
+done
+
+# 比較結果の出力
+code --diff $targetResult $sampleResult
+popd > /dev/null
+popd > /dev/null

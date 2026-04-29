@@ -1,0 +1,50 @@
+FROM ubuntu:latest
+SHELL ["/bin/bash", "-l", "-c"]
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+
+# sudo と最低限のツール
+RUN apt-get update && apt-get install -y apt-utils
+RUN apt-get update && apt-get install -y \
+    sudo \
+    curl wget git 
+
+# 固定ユーザーを作成
+WORKDIR /root/
+RUN sudo apt-get update && sudo apt-get install -y nano
+
+RUN sudo apt-get update && sudo apt-get install -y pypy3
+RUN sudo apt-get update && sudo apt-get install -y python3 python3-pip
+RUN sudo apt install python3.12-venv -y
+
+RUN python3 -m venv /root/venv \
+    && /root/venv/bin/pip install --upgrade pip \
+    && /root/venv/bin/pip install sortedcontainers && /root/venv/bin/pip install line-profiler && /root/venv/bin/pip install sphinx && /root/venv/bin/pip install sphinx-book-theme
+ENV PATH="/root/venv/bin:${PATH}"
+
+RUN pypy3 -m venv /root/pypy-venv \
+    && /root/pypy-venv/bin/pip install --upgrade pip \
+    && /root/pypy-venv/bin/pip install sortedcontainers
+ENV PATH="/root/pypy-venv/bin:${PATH}"
+
+RUN sudo apt-get update && sudo apt-get install -y build-essential
+RUN sudo apt-get update && sudo apt-get install -y gdb
+
+RUN sudo apt install -y clang-format
+RUN sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
+RUN pip install icdiff
+
+RUN git config --global user.name "Lit-to"
+RUN git config --global user.email "litto0315@gmail.com"
+RUN git config --global fetch.prune true
+
+RUN git clone https://github.com/Lit-to/atcoder.git /root/atcoder
+COPY .profile /root/.profile
+COPY .profile /root/.profile
+COPY .bashrc /root/.bashrc
+RUN git clone https://github.com/atcoder/ac-library.git /root/acl
+
+
+# docker build -t atcoder .
+# docker start -ai atcoder

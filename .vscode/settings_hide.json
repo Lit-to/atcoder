@@ -1,0 +1,26 @@
+{
+  "editor.formatOnSave": true,
+  "files.readonlyInclude": {
+    "modules/cpp/*.cpp": true,
+    "modules/py/*.py": true
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "editor.defaultFormatter": "xaver.clang-format",
+  "files.exclude": {
+    ".gitignore": true,
+    ".vscode": true,
+    "others": true,
+    "**/deploykit": true,
+    "**/tools": true,
+    "**/submission": true,
+    "**/old": true,
+    "**/backup": true,
+    "**/sandBox/output": true,
+    ".devcontainer": true,
+    "docker-compose.yml": true,
+    "README.md": true
+  },
+  "python.defaultInterpreterPath": "/root/venv/bin/python"
+}

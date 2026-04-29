@@ -26,9 +26,18 @@ public:
      */
     int64_t GetSum(int64_t leftSection, int64_t rightSection) const
     {
-        return m_data.at(rightSection) - m_data.at(leftSection);
+        return m_data[rightSection] - m_data[leftSection];
     };
+
+    /**
+     * 累積済みの配列のi番目の値を求める
+     */
+    int64_t At(int64_t pos)
+    {
+        return m_data[pos];
+    }
 
 private:
     std::vector<int64_t> m_data; //!< 累積和として計算済みのデータ
 };
+using PSM = PrefixSumManager;

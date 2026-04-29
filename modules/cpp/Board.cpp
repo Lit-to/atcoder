@@ -47,37 +47,34 @@ public:
     {
     }
     /**
-     * @brief 特定のマスの参照を返す
-     * []演算子オーバーロード
+     * @brief 特定のマスのコンスト参照を返す
      */
-    T &operator[](const int64_t y, const int64_t x)
+    const T &at(const int64_t y, const int64_t x) const
     {
         return m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})];
     }
     /**
      * @brief 特定のマスのコンスト参照を返す
-     * []演算子オーバーロード
      */
-    const T &operator[](const int64_t y, const int64_t x) const
-    {
-        return operator[](y, x);
-    }
-    /**
-     * @brief 特定のマスの参照を返す
-     * []演算子オーバーロード
-     */
-    T &operator[](const int64_t index)
+    const T &at(const int64_t index) const
     {
         return m_data[index];
     }
     /**
      * @brief 特定のマスのコンスト参照を返す
-     * []演算子オーバーロード
      */
-    const T &operator[](const int64_t index) const
+    void set(const int64_t y, const int64_t x, const T value)
     {
-        return m_data[index];
+        m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})] = value;
     }
+    /**
+     * @brief 特定のマスのコンスト参照を返す
+     */
+    void set(const int64_t index, const T value)
+    {
+        m_data[index] = value;
+    }
+
     /**
      * @param index 座標を表すインデックス
      * @brief 特定のマスがボード範囲内かどうかを返す
@@ -132,6 +129,22 @@ public:
     {
         return m_size;
     }
+
+    std::string Output() const
+    {
+        std::string result = "";
+        for (int64_t i = 0; i < GetHeight(); ++i)
+        {
+            for (int64_t j = 0; j < GetWidth(); ++j)
+            {
+                result += std::to_string(this->at(i, i));
+                result += " ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
+
     /**
      * @brief 標準入力からのファクトリ
      * @details H W H*W回の内容が来る想定
@@ -142,7 +155,7 @@ public:
         int64_t width;
         std::cin >> height;
         std::cin >> width;
-        Board<T> data = Board::Input(height, width);
+        return Board::Input(height, width);
     }
     /**
      * @brief 標準入力からのファクトリ
@@ -155,7 +168,9 @@ public:
         Board<T> data = Board(H, W);
         for (int64_t i = 0; i < data.GetSize(); ++i)
         {
-            std::cin >> data[i];
+            T value;
+            std::cin >> value;
+            data.set(i, value);
         }
         return data;
     }
@@ -166,7 +181,3 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
-int main()
-{
-    return 0;
-}
