@@ -10,51 +10,19 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+#include <vector>
+#include <cstdint>
+#include <iostream>
+#include <cmath>
+#include <limits>
+#include <vector>
+#include <cstdint>
 /**
- * @brief りっとー便利ツール詰め合わせ
- * @details 状態を持たない関数のうち、ひとまとめにするほど規模の大きくないこまごまとした関数を置く
+ * @brief りっとー数学便利ツール詰め合わせ
+ * @details 状態を持たない関数として詰め合わせた数学ツールたち
  */
-namespace LitUtility
+namespace LitMath
 {
-    /**
-     * 二分探索関数
-     * 評価関数evalがtrueになる範囲とfalseになる範囲の境界値を求める
-     * @param ok trueになる片極端
-     * @param ng falseになる片極端
-     * @param eval 評価関数
-     */
-    template <class Func>
-    int64_t Search(int64_t ok, int64_t ng, Func eval)
-    {
-        while (1 < std::abs(ok - ng))
-        {
-            int64_t mid = (ok + ng) / 2;
-            if (eval(mid))
-            {
-                ok = mid;
-            }
-            else
-            {
-                ng = mid;
-            }
-        }
-        return ok;
-    }
-    /**
-     * 値と桁数からビット列を生成する。
-     * e.g.,(5,3) -> {true,false,true}
-     */
-    std::vector<bool> GenerateBit(int64_t value, const int64_t digits)
-    {
-        std::vector<bool> result(digits);
-        for (int64_t i = 0; i < digits; ++i)
-        {
-            result[digits - i - 1] = (value & 1);
-            value >>= 1;
-        }
-        ++value;
-        return result;
-    }
     /**
      * @brief コンテナの中の最大値を求める
      * @param 求めたいコンテナ(std::vector等)
@@ -63,7 +31,7 @@ namespace LitUtility
     typename T::value_type Max(const T &target)
     {
         typename T::value_type nowMax = std::numeric_limits<typename T::value_type>::min();
-        for (auto &i : target)
+        for (const auto &i : target)
         {
             if (nowMax < i)
             {
@@ -80,7 +48,7 @@ namespace LitUtility
     typename T::value_type Min(const T &target)
     {
         typename T::value_type nowMin = std::numeric_limits<typename T::value_type>::max();
-        for (auto &i : target)
+        for (const auto &i : target)
         {
             if (i < nowMin)
             {
@@ -97,7 +65,7 @@ namespace LitUtility
     typename T::value_type Sum(const T &target)
     {
         typename T::value_type now = 0;
-        for (auto &i : target)
+        for (const auto &i : target)
         {
             now += i;
         }
@@ -170,33 +138,6 @@ namespace LitUtility
         }
         return B;
     }
-    /**
-     * @brief xよりyが大きいときのみxを更新する
-     * @return xよりyのほうが大きいかどうか
-     */
-    int64_t ChangeMax(int64_t &x, int64_t &y)
-    {
-        if (x < y)
-        {
-            x = y;
-            return true;
-        }
-        return false;
-    }
-    /**
-     * @brief xよりyが小さいときのみxを更新する
-     * @return xよりyのほうが小さいかどうか
-     */
-    int64_t ChangeMin(int64_t &x, int64_t &y)
-    {
-        if (y < x)
-        {
-            y = x;
-            return true;
-        }
-        return false;
-    }
-
     template <class T>
     /**
      * @brief uよりvが大きいときのみuを更新する
@@ -211,7 +152,6 @@ namespace LitUtility
         }
         return false;
     }
-
     template <class T>
     /**
      * @brief uよりvが小さいときのみuを更新する
@@ -227,53 +167,55 @@ namespace LitUtility
         return false;
     }
     /**
-     * @brief 条件がtrueのときにYesと出力する
-     * @details if分岐中にYesを吐き出したい
-     * @param isYes Yesを吐き出す条件
-     * @return isYesの中身
+     * @brief x^nを計算する
+     * @details 繰り返し2乗法で計算する。modの値で毎回余りを取る。
+     * @param x 底
+     * @param n 指数
+     * @param mod 余りを取る値(デフォルトは998244353)
+     * @return n^rの値
      */
-    bool Yes(bool isYes = true)
+    int64_t PowMod(int64_t x, int64_t n, int64_t mod = 998244353)
     {
-        if (isYes)
+        int64_t result = 1;
+        int64_t product = x;
+        while (0 < n)
         {
-            std::cout << "Yes" << std::endl;
+            if (n & 1)
+            {
+                result = result * product % mod;
+            }
+            product = product * product % mod;
+            n >>= 1;
         }
-        return isYes;
+        return result;
     }
     /**
-     * @brief 条件がtrueのときにNoと出力する
-     * @details if分岐中にNoを吐き出したい
-     * @param isNo Noを吐き出す条件
-     * @return isNoの中身
+     * @brief x^nを計算する
+     * @details 繰り返し2乗法で計算する。あまりをとらない。
+     * @note ACLのmint等を利用する想定なので、積を取る際にmod計算が走らないとオーバーフローするので注意
+     * @param x 底
+     * @param n 指数
+     * @return n^rの値
      */
-    bool No(bool isNo = true)
+    template <class T>
+    T Pow(T x, int64_t n)
     {
-        if (isNo)
+        T result = 1;
+        T product = x;
+        while (0 < n)
         {
-            std::cout << "No" << std::endl;
+            if (n & 1)
+            {
+                result *= product;
+            }
+            product *= product;
+            n >>= 1;
         }
-        return isNo;
-    }
-    /**
-     * @brief 条件がtrueのときにYes,そうでないときにNoと出力する
-     * @param isYes Yesを吐き出す条件
-     * @return isYesの中身
-     */
-    bool YesNo(bool isYes)
-    {
-        if (isYes)
-        {
-            Yes();
-        }
-        else
-        {
-            No();
-        }
-        return isYes;
+        return result;
     }
 }
+namespace LitM = LitMath;
 
-namespace Lit = LitUtility;
 /**
  * 1ケースぶんの処理実行
  */
@@ -299,35 +241,32 @@ void solve()
         std::cin >> POSTS[i].X >> POSTS[i].C;
     }
     std::sort(POSTS.begin(), POSTS.end());
-    std::vector<int64_t> pos;
-    for (int64_t i = 0; i < N - 1; ++i)
+    int64_t pos_p = 0;
+    int64_t pos_px = INT64_MAX;
+    for (int64_t i = 0; i < N; ++i)
     {
-        pos.push_back(POSTS[i + 1].X - POSTS[i].X);
+        if (LitM::ChangeMin(pos_px, std::abs(P - POSTS[i].X)))
+        {
+            pos_p = i;
+        }
     }
-    std::vector<int64_t> pfs;
-    pfs.push_back(0);
-    for (int64_t i = 0; i < N - 1; ++i)
+    int64_t pos_q = 0;
+    int64_t pos_qx = INT64_MAX;
+    for (int64_t i = 0; i < N; ++i)
     {
-        pfs.push_back(pfs.back() + pos[i]);
+        if (LitM::ChangeMin(pos_qx, std::abs(Q - POSTS[i].X)))
+        {
+            pos_q = i;
+        }
     }
-    ++N;
-    int64_t a = Lit::Search(N - 1, -1, [&](int64_t x)
-                            { return P <= pfs[x]; });
-    ++POSTS[a].C;
-    int64_t b = Lit::Search(N - 1, -1, [&](int64_t x)
-                            { return Q <= pos[x]; });
-    ++POSTS[b].C;
-    int64_t result = 0;
-    if (a != b)
+    if (pos_p == pos_q)
     {
-        result += POSTS[a].C;
-        result += POSTS[b].C;
+        std::cout << POSTS[pos_p].C + 2 << std::endl;
     }
-    else
+    else if (pos_p != pos_q)
     {
-        result += POSTS[a].C;
+        std::cout << POSTS[pos_p].C + POSTS[pos_q].C + 2 << std::endl;
     }
-    std::cout << result << std::endl;
 }
 
 /**
