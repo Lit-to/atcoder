@@ -1,4 +1,4 @@
-// AWC0059D
+// AWC0059A
 // template
 #include <iostream>
 #include <string>
@@ -31,6 +31,34 @@ void v_output(const std::vector<T> &a)
  */
 void solve()
 {
+    int64_t N, P, T, C;
+    std::cin >> N >> P >> T >> C;
+    std::vector<int64_t> S(N);
+    for (int64_t i = 1; i < N; ++i)
+    {
+        cin >> S[i];
+    }
+    S[0] = P;
+    sort(all(S));
+
+    if (T <= P)
+    {
+        cout << 0 << endl;
+
+        return;
+    }
+    else
+    {
+        for (ll i = 0; i < N; ++i)
+        {
+            if (T <= S[i])
+            {
+                cout << C << endl;
+                return;
+            }
+        }
+    }
+    cout << -1 << endl;
 }
 
 /**
