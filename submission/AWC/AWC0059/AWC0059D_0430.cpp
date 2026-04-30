@@ -1,4 +1,4 @@
-// AWC0059E
+// AWC0059D
 // template
 #include <iostream>
 #include <string>
@@ -31,6 +31,34 @@ void v_output(const std::vector<T> &a)
  */
 void solve()
 {
+    int64_t N;
+    cin >> N;
+    string S;
+    cin >> S;
+    int64_t vegfru = 0;
+    vector<ll> m(2 * N + 1, 0);
+    ++m[N];
+    for (int64_t i = 0; i < N; ++i)
+    {
+        if (S[i] == 'V')
+        {
+            vegfru++;
+        }
+        else if (S[i] == 'F')
+        {
+            vegfru--;
+        }
+        ++m[vegfru + N];
+    }
+    int64_t result = 0;
+    for (ll i = 0; i < m.size(); ++i)
+    {
+        if (0 < m[i])
+        {
+            result += (m[i] * (m[i] - 1)) / 2;
+        }
+    }
+    cout << result << endl;
 }
 
 /**

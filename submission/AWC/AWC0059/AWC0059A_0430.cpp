@@ -1,4 +1,4 @@
-// AWC0059D
+// AWC0059A
 // template
 #include <iostream>
 #include <string>
@@ -31,6 +31,37 @@ void v_output(const std::vector<T> &a)
  */
 void solve()
 {
+    int64_t N;
+    cin >> N;
+    vector<ll> A(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> A[i];
+    }
+    vector<bool> isAlive(N, true);
+    for (ll i = 0; i < N - 1; ++i)
+    {
+        if (!isAlive[i])
+        {
+            continue;
+        }
+        if (A[i] < A[i + 1])
+        {
+            isAlive[i] = false;
+            A[i + 1] += A[i] / 2;
+        }
+        else if (A[i + 1] < A[i])
+        {
+            isAlive[i + 1] = false;
+            A[i] += A[i + 1] / 2;
+        }
+    }
+    ll result = 0;
+    for (const bool &i : isAlive)
+    {
+        result += i;
+    }
+    cout << result;
 }
 
 /**
