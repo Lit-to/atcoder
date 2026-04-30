@@ -4,7 +4,7 @@
 
 std::vector<int64_t> dfsDijkstra(std::vector<std::vector<Dijkstra::EDGE>> &GRAPH, int64_t start)
 {
-    std::vector<int64_t> costs(GRAPH.size(), INT64_MAX / 2);
+    std::vector<int64_t> costs(GRAPH.size(), (int64_t)1e18);
     std::vector<bool> done(GRAPH.size(), false);
 
     auto dfs = [&](auto &self, int64_t node, int64_t cost) -> void

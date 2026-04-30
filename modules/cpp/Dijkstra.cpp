@@ -24,8 +24,7 @@ public:
     }
     std::vector<int64_t> calcCosts(int64_t start)
     {
-        int64_t INF = INT64_MAX / 2;
-        std::vector<int64_t> costs(m_graph.size(), INF);
+        std::vector<int64_t> costs(m_graph.size(), m_INF);
         costs[start] = 0;
         GreaterPriorityQueue<EDGE> gpq;
         gpq.push({.to = start, .cost = costs[start]});
@@ -51,4 +50,5 @@ public:
     }
     std::vector<std::vector<EDGE>> m_graph;
     int64_t m_graphSize;
+    const int64_t m_INF = (int64_t)1e18;
 };
