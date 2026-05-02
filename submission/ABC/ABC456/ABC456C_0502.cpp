@@ -31,6 +31,47 @@ void v_output(const std::vector<T> &a)
  */
 void solve()
 {
+    string S;
+    cin >> S;
+    const int64_t N = S.size();
+    // for (ll i = 0; i < N; ++i)
+    // {
+    //     ll r = 0;
+    //     for (ll j = 1; j < 3; ++j)
+    //     {
+    //         if (N <= (i + j))
+    //         {
+    //             break;
+    //         }
+    //         if (S[i + j - 1] == S[i + j])
+    //         {
+    //             break;
+    //         }
+    //         ++r;
+    //     }
+    //     result += r + 1;
+    // }
+    vector<ll> A;
+    A.push_back(0);
+    for (ll i = 1; i < N; ++i)
+    {
+        if (S[i] == S[i - 1])
+        {
+            A.push_back(i);
+        }
+    }
+    A.push_back(S.size());
+
+    mint result = S.size();
+    mint div = 2;
+    for (ll i = 0; i < A.size() - 1; ++i)
+    {
+        mint c = A[i + 1] - A[i];
+        result += (c * (c - 1)) / div;
+    }
+
+    cout << result.val() << endl;
+    // cout << result << endl;
 }
 
 /**

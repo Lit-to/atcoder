@@ -1,4 +1,4 @@
-# ABC456E
+# ABC456A
 # template
 
 def main():
@@ -16,6 +16,13 @@ def main():
     A = im.listIntInput(N)
     """
 
+    X = im.intInput()
+    for i in range(6):
+        for j in range(6):
+            for k in range(6):
+                if i+j+k+3==X:
+                    yes()
+    no()
 
     ...
 

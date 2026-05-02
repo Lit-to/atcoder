@@ -1,4 +1,4 @@
-// ABC456A
+// ABC456E
 // template
 #include <iostream>
 #include <string>
@@ -43,7 +43,7 @@ int main()
     cin.tie(nullptr);
     int64_t TESTCASES = 1;
 
-    // std::cin >> TESTCASES;
+    std::cin >> TESTCASES;
 
     for (int64_t i = 0; i < TESTCASES; ++i)
     {

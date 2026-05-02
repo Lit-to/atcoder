@@ -1,4 +1,4 @@
-# ABC456D
+# ABC456B
 # template
 
 def main():
@@ -15,6 +15,22 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+
+    H,W = 3,6
+    A=[]
+    for i in range(H):
+        A.append(im.listIntInput(W))
+    result = 0
+    for i in range(6):
+        for j in range(6):
+            for k in range(6):
+                d = dict(lambda:0)
+                d[A[0][i]]+=1
+                d[A[1][j]]+=1
+                d[A[2][k]]+=1
+                result+=(d[4]==1 and d[5] == 1 and d[6] ==1)
+    print(result/(6**3))
+ 
 
 
     ...
