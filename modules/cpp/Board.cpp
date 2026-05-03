@@ -137,7 +137,7 @@ public:
         {
             for (int64_t j = 0; j < GetWidth(); ++j)
             {
-                result += std::to_string(this->at(i, i));
+                result += std::to_string(this->at(i, j));
                 result += " ";
             }
             result += "\n";
