@@ -36,6 +36,13 @@ public:
     {
         return m_data[pos];
     }
+    /**
+     * サイズ取得
+     */
+    int64_t GetSize()
+    {
+        return m_data.size();
+    }
 
 private:
     std::vector<int64_t> m_data; //!< 累積和として計算済みのデータ
