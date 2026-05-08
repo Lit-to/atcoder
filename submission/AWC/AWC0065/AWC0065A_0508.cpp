@@ -1,4 +1,4 @@
-// AWC0065D
+// AWC0065A
 // template
 #include <iostream>
 #include <string>
@@ -22,6 +22,23 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N, K;
+    cin >> N >> K;
+    vector<ll> A(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> A[i];
+    }
+    ll result = 0;
+    for (ll i = 0; i < N; ++i)
+    {
+        result += A[i];
+        if ((i + 1) % K == 0 && i + 1 < N)
+        {
+            ++result;
+        }
+    }
+    cout << result << endl;
 }
 
 /**
