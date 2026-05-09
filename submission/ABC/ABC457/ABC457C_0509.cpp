@@ -22,6 +22,48 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N, K;
+    cin >> N >> K;
+    --K;
+    vector<ll> L(N);
+    vector<vector<ll>> A(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        ll l;
+        cin >> l;
+        vector<ll> a(l);
+        for (ll j = 0; j < l; ++j)
+        {
+            cin >> a[j];
+        }
+        A[i] = a;
+        L[i] = l;
+    }
+    vector<ll> C(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> C[i];
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        L[i] *= C[i];
+    }
+    ll c = 0;
+    ll index = 0;
+    ll k;
+    for (ll i = 0; i < N; ++i)
+    {
+        ll f = c + L[i];
+        if (K < f)
+        {
+            index = i;
+            k = K - c;
+            break;
+        }
+        c = f;
+    }
+    ll r = k % A[index].size();
+    cout << A[index][r] << endl;
 }
 
 /**

@@ -15,7 +15,14 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    N = im.intInput()
+    BOARD = []
+    for i in range(N):
+        l = im.intInput()
+        a = im.listIntInput(l)
+        BOARD.append(a)
+    X,Y = im.listIntInput(2)
+    print(BOARD[X-1][Y-1])
 
     ...
 
