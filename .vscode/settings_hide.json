@@ -2,7 +2,8 @@
   "editor.formatOnSave": true,
   "files.readonlyInclude": {
     "modules/cpp/*.cpp": true,
-    "modules/py/*.py": true
+    "modules/py/*.py": true,
+    "modules/rust/*.rs": true
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
