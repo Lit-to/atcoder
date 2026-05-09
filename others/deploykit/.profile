@@ -24,6 +24,7 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+. "$HOME/.cargo/env"     
 export PATH=$PATH:/usr/bin
 export PATH=~/opt/pypy3.10-v7.3.17-linux64/bin:$PATH
 export PATH="$PATH:/root/atcoder/others/tools"

@@ -24,7 +24,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "buildWithBackup"
+      "preLaunchTask": "cppBuild"
     },
     {
       "name": "Launch(Pypy)",
@@ -36,6 +36,18 @@
         "-Xfrozen_modules=off",
         "-m"
       ]
+    },
+    {
+      "name": "Launch(Rust)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/a",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "stopAtEntry": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "preLaunchTask": "rustBuild"
     },
     {
       "name": "CppAuto",
