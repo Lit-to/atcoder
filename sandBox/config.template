@@ -1,0 +1,5 @@
+# 実験したいプログラム
+targetProgram="../dev/a" #Cpp
+
+# 正解であるとわかっているプログラム
+correctProgram="../dev/a" #Cpp
