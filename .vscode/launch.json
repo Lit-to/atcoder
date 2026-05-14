@@ -44,6 +44,7 @@
       "program": "${fileDirname}/a",
       "args": [],
       "cwd": "${fileDirname}",
+      "externalConsole": false,
       "stopAtEntry": false,
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",

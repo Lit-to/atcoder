@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   app:
     build: 
@@ -11,7 +10,6 @@ services:
       - .:/root/atcoder:rw
     tty: true
     stdin_open: true
-    command: ["/bin/bash"]
     cap_add:
       - SYS_PTRACE
     security_opt:

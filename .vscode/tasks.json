@@ -25,6 +25,10 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
             "detail": "デバッガーによって生成されたタスク。"
         },
         {
@@ -38,6 +42,10 @@
                 "${fileDirname}/a"
             ],
             "group": "build",
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
             "problemMatcher": []
         }
     ]
