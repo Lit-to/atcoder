@@ -2,7 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch(Cpp)",
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch(LLDB)",
+      "console": "integratedTerminal",
+      "program": "${fileDirname}/a",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "cppBuild"
+    },
+    {
+      "name": "Launch(Cpp/GDB)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/a",
@@ -38,7 +48,7 @@
       ]
     },
     {
-      "name": "Launch(Rust)",
+      "name": "Launch(Rust/GDB)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/a",
