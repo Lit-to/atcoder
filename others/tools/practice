@@ -33,7 +33,7 @@ cp "$template" "dev/$fileName"
 sed -i "1s/^\([^[:space:]]\+\).*/\1 ${basename}/" "dev/$fileName"
 
 
-printf '作成: dev/%s\nテンプレート %s → コピー。1行目に "%s" を挿入\n' \
-        "$fileName" "$template" "$basename"
-
+# printf '作成: dev/%s\nテンプレート %s → コピー。1行目に "%s" を挿入\n' \
+        # "$fileName" "$template" "$basename"
+code "dev/$fileName"
 cd "$OLD_DIR"
