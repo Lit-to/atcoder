@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+source config
+# コンパイル（あれば実行）
+if [ -n "${compileProgram:-}" ]; then
+    echo $compileProgram
+    eval "$compileProgram" || exit 1
+fi
+echo $targetProgram
+eval $targetProgram
+# 比較結果の出力
+popd > /dev/null
+popd > /dev/null

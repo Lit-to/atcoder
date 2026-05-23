@@ -15,15 +15,6 @@ using mint = atcoder::modint998244353;
 // using mint = atcoder::modint1000000007;
 template <typename T>
 using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
-template <class T>
-void v_output(const std::vector<T> &a)
-{
-    for (int64_t i = 0; i < a.size(); ++i)
-    {
-        std::cout << a[i] << " ";
-    }
-    std::cout << std::endl;
-}
 
 /**
  * 1ケースぶんの処理実行

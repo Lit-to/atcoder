@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 pushd "$(dirname "$0")" > /dev/null
 pushd .. > /dev/null
-
-#================================
-# ここに実行コマンドを書く場所
-targetProgram="../dev/a" #Cpp
-# /usr/bin/c++ -fdiagnostics-color=always -g ../dev/AWC0049C.cpp -o a -std=c++23 && 
-
-#================================
+source config
 # 実験対象はそのまま実行
 targetResult=$(unit -notl $targetProgram | head -n 1)
 

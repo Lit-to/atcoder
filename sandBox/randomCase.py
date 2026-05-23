@@ -2,6 +2,8 @@ import os
 import random
 from pathlib import Path
 os.chdir(Path(__file__).resolve().parent)
+UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LOWER_ALPHABET="abcdefghijklmnopqrstuvwxyz"
 class Print:
     """
     @brief ファイル指定での読み書きを楽に行うためのクラス
@@ -31,14 +33,13 @@ class Print:
             print(*contents,file=f,sep=sep,end=end)
 for test in range(100):
     fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    # N=random.randint(1,10)
-    # N=20
-    A=[]
-    B=[]
-    for i in range(1):
-        for j in range(20):
-            A.append(random.randint(1,500))
-        # fm.print(N)
-        fm.print(*set(A),sep=" ")
-        # fm.print(*B,sep="")
-    
+    n = random.randint(1,20)
+    m = random.randint(1,5)
+    S = []
+    T = []
+    for i in range(n):
+        S.append(random.choice(list(LOWER_ALPHABET)))
+    for i in range(m):
+        T.append(random.choice(list(LOWER_ALPHABET)))
+    fm.print(*S,sep="")
+    fm.print(*T,sep="")

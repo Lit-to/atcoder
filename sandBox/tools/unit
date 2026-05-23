@@ -4,8 +4,8 @@ pushd .. > /dev/null
 
 #================================
 # ここに実行コマンドを書く場所
-execCommand="../dev/a" #Cpp
-# execCommand="pypy3 ../dev/ABC452E.py" #Python
+
+source config
 
 #================================
 # 引数から受け取り
@@ -22,9 +22,14 @@ for arg in "$@"; do
 done
 
 if [ "${#args[@]}" -eq 0 ]; then
-    execCommand="$execCommand"
+    execCommand="$targetProgram"
 else
     execCommand="${args[@]}"
+fi
+
+# コンパイル（あれば実行）
+if [ -n "${compileProgram:-}" ]; then
+    eval "$compileProgram" || exit 1
 fi
 
 # シェル事故時の救済おまじない
@@ -46,7 +51,7 @@ for file in ./input/*.txt; do
     
     # 時間計測・実行
     start=$(date +%s%N)
-    $execCommand < $file >> $RESULT
+    eval $execCommand < $file >> $RESULT
     end=$(date +%s%N)
     
     # 計測結果の実行時間出力    

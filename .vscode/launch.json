@@ -2,7 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch(Cpp)",
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch(LLDB)",
+      "console": "integratedTerminal",
+      "program": "${fileDirname}/a",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "cppBuild"
+    },
+    {
+      "name": "Launch(Cpp/GDB)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/a",
@@ -24,7 +34,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "buildWithBackup"
+      "preLaunchTask": "cppBuild"
     },
     {
       "name": "Launch(Pypy)",
@@ -36,6 +46,19 @@
         "-Xfrozen_modules=off",
         "-m"
       ]
+    },
+    {
+      "name": "Launch(Rust/GDB)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/a",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "externalConsole": false,
+      "stopAtEntry": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "preLaunchTask": "rustBuild"
     },
     {
       "name": "CppAuto",

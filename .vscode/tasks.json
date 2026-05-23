@@ -2,33 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "buildWithBackup",
-            "dependsOn": [
-                "renameBackup",
-                "backupBinary",
-                "cppBuild"
-            ],
-            "dependsOrder": "sequence"
-        },
-        {
-            "type": "shell",
-            "label": "renameBackup",
-            "command": "bash",
-            "args": [
-                "-c",
-                "if [ -f ${fileDirname}/../backup/latest ]; then mv ${fileDirname}/../backup/latest ${fileDirname}/../backup/a_$(date +%Y%m%d_%H%M%S); fi"
-            ]
-        },
-        {
-            "type": "shell",
-            "label": "backupBinary",
-            "command": "bash",
-            "args": [
-                "-c",
-                "mkdir -p ${fileDirname}/../backup && if [ -f ${fileDirname}/a ]; then mv ${fileDirname}/a ${fileDirname}/../backup/latest; fi"
-            ]
-        },
-        {
             "type": "cppbuild",
             "label": "cppBuild",
             "command": "/usr/bin/g++",
@@ -41,7 +14,6 @@
                 "-o",
                 "${fileDirname}/a",
                 "-std=c++23",
-                ""
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -53,7 +25,28 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
             "detail": "デバッガーによって生成されたタスク。"
+        },
+        {
+            "label": "rustBuild",
+            "type": "shell",
+            "command": "rustc",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/a"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ]
 }

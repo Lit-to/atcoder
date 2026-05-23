@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+
 /**
  * @brief りっとーアルゴリズム便利ツール詰め合わせ
  * @details 状態を持たない関数のうち、ひとまとめにするほど規模の大きくないこまごまとした関数を置く
@@ -93,6 +94,62 @@ namespace LitAlgorithm
         }
         return isYes;
     }
-}
+    /**
+     * vectorの中身を前から順に空白区切りで吐き出す
+     * @param first 開始イテレータ
+     * @param last 終了イテレータ
+     */
+    template <class T>
+    void Output(const T &first, const T &last)
+    {
+        for (auto it = first; it != last; ++it)
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+    }
+    /**
+     * vectorの中身を前から順に空白区切りで吐き出す
+     * @param data コンテナ
+     */
+    template <class T>
+    void Output(const T &data)
+    {
+        Output(data.begin(), data.end());
+    }
+    template <class T>
+    /**
+     * vectorの中身を前から順に取り込む
+     * @param first 開始イテレータ
+     * @param last 終了イテレータ
+     */
+    void Input(T first, T last)
+    {
+        for (auto it = first; it != last; ++it)
+        {
+            std::cin >> *it;
+        }
+    }
+    /**
+     * vectorの中身を前から順に取り込む
+     * @param data コンテナ
+     */
+    template <class T>
+    void Input(T &data)
+    {
+        Input(data.begin(), data.end());
+    }
+    /**
+     * そこがボードの内側かどうかを判定する
+     * @param i 調べたい座標(高さ)
+     * @param j 調べたい座標(幅)
+     * @param H ボードの高さ
+     * @param W ボードの幅
+     */
+    bool IsInside(int64_t i, int64_t j, int64_t H, int64_t W)
+    {
+        return 0 <= i && i < H && 0 <= j && j < W;
+    }
 
+}
 namespace LitA = LitAlgorithm;

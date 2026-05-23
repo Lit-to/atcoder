@@ -94,10 +94,5 @@ fi
 export CPLUS_INCLUDE_PATH="/home/Lit-to/acl/"
 export PATH="$PATH:/root/atcoder/others/tools"
 export PATH="$PATH:/root/atcoder/sandBox/tools"
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-#    . /etc/bash_completion
-#fi
+. "$HOME/.cargo/env"     
+export PATH=$PATH:/usr/bin
