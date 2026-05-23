@@ -15,6 +15,17 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    S = im.listInput(N)
+    GROUP = [set({ "a","b","c"}),set({ "d","e","f"}),set({ "g","h","i"}),set({ "j","k","l"}),set({ "m","n","o"}),set({ "p","q","r","s"}),set({ "t","u","v"}),set({ "w","x","y","z"})]
+    result = []
+    for i in S:
+        for j in range(len(GROUP)):
+            if i[0] in GROUP[j]:
+                result.append(j+1+1)
+    print(*result,sep="")
+    
+
 
 
     ...
