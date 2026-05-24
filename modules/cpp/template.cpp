@@ -8,7 +8,7 @@
 #include <atcoder/all>
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-using namespace std;
+// using namespace std;
 using ll = int64_t;
 using vll = std::vector<int64_t>;
 using mint = atcoder::modint998244353;
@@ -29,8 +29,8 @@ void solve()
  */
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
     int64_t TESTCASES = 1;
 
     // std::cin >> TESTCASES;
