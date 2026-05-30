@@ -1,4 +1,4 @@
-# ABC460G
+# ABC460B
 # template
 
 def main():
@@ -15,6 +15,10 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    X_1,Y_1,R_1,X_2,Y_2,R_2 = im.listIntInput(6)
+    D = (X_1-X_2)**2+(Y_1-Y_2)**2
+    yesno(abs(R_2-R_1)**2<=D<=(R_1+R_2)**2)
+
 
 
     ...
@@ -53,7 +57,7 @@ def main():
 # テストケース中枢処理
 def case():
     TESTCASE = 1
-    # TESTCASE = int(input()) # テストケース数の指定
+    TESTCASE = int(input()) # テストケース数の指定
     for _ in range(TESTCASE):
         try:
             main()

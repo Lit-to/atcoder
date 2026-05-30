@@ -1,4 +1,4 @@
-# ABC460C
+# ABC460A
 # template
 
 def main():
@@ -15,7 +15,13 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    N,M = im.listIntInput(2)
+    count = 0
+    while(M!=0):
+        x=N%M
+        M=x
+        count+=1
+    print(count)
 
     ...
 
