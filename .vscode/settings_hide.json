@@ -3,7 +3,7 @@
   "files.readonlyInclude": {
     "modules/cpp/*.cpp": true,
     "modules/py/*.py": true,
-    "modules/rust/*.rs": true
+    "modules/rs/*.rs": true
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
