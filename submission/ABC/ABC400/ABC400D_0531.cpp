@@ -1,3 +1,20 @@
+// ABC400D
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <queue>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+using namespace std;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -84,7 +101,8 @@ public:
      */
     bool IsInside(const int64_t index) const
     {
-        return IsInside(ConvertIndexToPos(index));
+        POS p = ConvertIndexToPos(index);
+        return this->IsInside(p.Y, p.X);
     }
     /**
      * @param pos 座標
@@ -180,3 +198,104 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    ll H, W;
+    cin >> H >> W;
+    auto BOARD = Board<char>::Input(H, W);
+    ll A, B, C, D;
+    cin >> A >> B >> C >> D;
+    --A;
+    --B;
+    --C;
+    --D;
+    /**
+     * @brief グラフの辺情報
+     */
+    struct EDGE
+    {
+        int64_t destination; // 隣の行先ノード
+        int64_t cost;        // そのノードに行くコスト
+
+        bool operator>(const EDGE &target) const
+        {
+            return cost > target.cost;
+        }
+    };
+    vector<vector<EDGE>> GRAPH(H * W);
+    const int64_t LRUD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+    for (ll i = 0; i < H; ++i)
+    {
+        for (ll j = 0; j < W; ++j)
+        {
+            for (ll d = 0; d < 4; ++d)
+            {
+                ll pos = BOARD.ConvertPosToIndex({j, i});
+                ll pos1 = BOARD.ConvertPosToIndex({j + LRUD[d][1], i + LRUD[d][0]});
+                if (BOARD.IsInside(i + LRUD[d][0], j + LRUD[d][1]))
+                {
+                    GRAPH[pos].push_back(EDGE{.destination = pos1, .cost = BOARD[pos1] == '#'});
+                }
+                ll pos2 = BOARD.ConvertPosToIndex({j + LRUD[d][1] + LRUD[d][1], i + LRUD[d][0] + LRUD[d][0]});
+                if (BOARD.IsInside(i + LRUD[d][0] + LRUD[d][0], j + LRUD[d][1] + LRUD[d][1]))
+                {
+                    GRAPH[pos].push_back(EDGE{.destination = pos2, .cost = (BOARD[pos1] == '#' || BOARD[pos2] == '#')});
+                }
+            }
+        }
+    }
+    ll T = BOARD.ConvertPosToIndex({B, A});
+    ll F = BOARD.ConvertPosToIndex({D, C});
+    vector<ll> costs(H * W, (ll)(10e9));
+    greater_priority_queue<EDGE> tasks;
+    tasks.push(EDGE{.destination = T, .cost = 0});
+    costs[T] = 0;
+    while (!tasks.empty())
+    {
+        EDGE p = tasks.top();
+        tasks.pop();
+        if (costs[p.destination] < p.cost)
+        {
+            continue;
+        }
+        for (EDGE &d : GRAPH[p.destination])
+        {
+            ll newCost = p.cost + d.cost;
+            if (costs[d.destination] <= newCost)
+            {
+                continue;
+            }
+            costs[d.destination] = newCost;
+            tasks.push(EDGE{.destination = d.destination, .cost = newCost});
+        }
+    }
+    cout << costs[F] << endl;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int64_t TESTCASES = 1;
+
+    // std::cin >> TESTCASES;
+
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================

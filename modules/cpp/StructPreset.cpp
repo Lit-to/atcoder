@@ -33,7 +33,7 @@ const int64_t LRUD[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
  */
 struct EDGE
 {
-    int64_t distination; // 隣の行先ノード
+    int64_t destination; // 隣の行先ノード
     int64_t cost;        // そのノードに行くコスト
 };
 
