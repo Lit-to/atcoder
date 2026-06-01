@@ -153,3 +153,8 @@ namespace LitAlgorithm
 
 }
 namespace LitA = LitAlgorithm;
+
+namespace LitUtility
+{
+    using namespace LitA;
+}

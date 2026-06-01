@@ -198,3 +198,7 @@ namespace LitMath
     }
 }
 namespace LitM = LitMath;
+namespace LitUtility
+{
+    using namespace LitM;
+}
