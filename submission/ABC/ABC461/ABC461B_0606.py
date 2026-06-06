@@ -15,6 +15,12 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    B = im.listIntInput(N)
+    for i in range(N):
+        no(B[A[i]-1]-1!=i)
+    yes()
 
 
     ...
