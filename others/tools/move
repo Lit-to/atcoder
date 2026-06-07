@@ -36,6 +36,19 @@ fi
 echo "以下のファイルがマッチしました:"
 printf "    - %s\n" "${matches[@]}"
 
+# 比較して削除
+for f in "${matches[@]}"; do
+    ext="${f##*.}"
+    template="./template.$ext"
+
+    if [[ -f "$template" ]]; then
+        if cmp -s "$f" "$template"; then
+            echo "削除: $f (template.$ext と一致)"
+            rm "$f"
+        fi
+    fi
+done
+
 read -r -p "移動とコミットを実行しますか? [y/n] " answer
 [[ "$answer" != "y" ]] && echo "キャンセルしました。" && exit 0
 
