@@ -1,4 +1,3 @@
-// ABC461G
 // template
 #include <iostream>
 #include <string>

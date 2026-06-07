@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# set -euo pipefail
 OLD_DIR="$PWD"
 cd ~/atcoder/
 
@@ -36,21 +36,27 @@ fi
 echo "以下のファイルがマッチしました:"
 printf "    - %s\n" "${matches[@]}"
 
-# 比較して削除
+echo "以下のファイルを削除します:"
+to_delete=()
 for f in "${matches[@]}"; do
     ext="${f##*.}"
-    template="./template.$ext"
-
+    template="./modules/$ext/template.$ext"
     if [[ -f "$template" ]]; then
-        if cmp -s "$f" "$template"; then
-            echo "削除: $f (template.$ext と一致)"
-            rm "$f"
+        if cmp -s <(tail -n +2 "$f") <"$template"; then
+            echo "    -  $f"
+            to_delete+=("$f")
         fi
     fi
 done
 
-read -r -p "移動とコミットを実行しますか? [y/n] " answer
+
+read -r -p "移動・コミット・不要ファイル削除を実行しますか? [y/n] " answer
 [[ "$answer" != "y" ]] && echo "キャンセルしました。" && exit 0
+
+# 削除処理
+for f in "${to_delete[@]}"; do
+    rm "$f"
+done
 
 # 移動処理
 for f in "${matches[@]}"; do
