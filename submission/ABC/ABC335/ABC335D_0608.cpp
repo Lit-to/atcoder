@@ -1,3 +1,20 @@
+// ABC335D
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <algorithm>
+#include <queue>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+using namespace std;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -132,14 +149,14 @@ public:
     {
         return m_size;
     }
-    std::string toString() const
+    std::string Output() const
     {
         std::string result = "";
         for (int64_t i = 0; i < GetHeight(); ++i)
         {
             for (int64_t j = 0; j < GetWidth(); ++j)
             {
-                result += std::to_string(m_data[i][j]);
+                result += std::to_string(m_data[i * m_width + j]);
                 result += " ";
             }
             result += "\n";
@@ -180,3 +197,75 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    // 上左下右
+    int N;
+    cin >> N;
+    Board<ll> BOARD(N, N);
+    const int64_t LRUD[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    int pos[] = {0, 0};
+
+    // cout << BOARD.Output() << endl;
+    ll count = 0;
+    ll direction = 0;
+    while (count < N * N)
+    {
+        BOARD[pos[0], pos[1]] = ++count;
+        pos[0] += LRUD[direction % 4][0];
+        pos[1] += LRUD[direction % 4][1];
+        if (!BOARD.IsInside(pos[0], pos[1]) || BOARD[pos[0], pos[1]] != 0)
+        {
+            pos[0] -= LRUD[direction % 4][0];
+            pos[1] -= LRUD[direction % 4][1];
+            ++direction;
+            pos[0] += LRUD[direction % 4][0];
+            pos[1] += LRUD[direction % 4][1];
+        }
+        // cerr << BOARD.Output() << endl;
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        for (ll j = 0; j < N; ++j)
+        {
+            if (BOARD[i, j] == N * N)
+            {
+                cout << 'T' << " ";
+            }
+            else
+            {
+                cout << BOARD[i, j] << " ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int64_t TESTCASES = 1;
+
+    // std::cin >> TESTCASES;
+
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
