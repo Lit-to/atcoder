@@ -1,4 +1,5 @@
 # 実験したいプログラム
+compileProgram="/usr/bin/g++ -fdiagnostics-color=always -g ../dev/xxxxx.cpp -I ~/acl/ -o ../dev/a -std=c++23"
 targetProgram="../dev/a" #Cpp
 
 # 正解であるとわかっているプログラム
