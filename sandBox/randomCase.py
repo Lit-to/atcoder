@@ -31,15 +31,9 @@ class Print:
         """
         with open(self.path,encoding=self.encoding,mode="a") as f:
             print(*contents,file=f,sep=sep,end=end)
-for test in range(100):
-    fm=Print(os.path.join("input","random_"+str(test)+".txt"))
-    n = random.randint(1,20)
-    m = random.randint(1,5)
-    S = []
-    T = []
-    for i in range(n):
-        S.append(random.choice(list(LOWER_ALPHABET)))
-    for i in range(m):
-        T.append(random.choice(list(LOWER_ALPHABET)))
-    fm.print(*S,sep="")
-    fm.print(*T,sep="")
+for test in range(20):
+    caseName = "random"
+    fm=Print(os.path.join("input",caseName+"_"+str(test)+".txt"))
+    
+
+
