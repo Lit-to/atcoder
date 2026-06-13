@@ -1,4 +1,4 @@
-# ABC462C
+# ABC462B
 # template
 
 def main():
@@ -15,6 +15,23 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    GIFT_GRAPH  =[]
+    N = im.intInput()
+    for i in range(N):
+        K = im.intInput()
+        gift = im.listIntInput(K)
+        GIFT_GRAPH.append(gift)
+    GOT_GIFT = []
+    for i in range(N):
+        GOT_GIFT.append([])
+    for i in range(N):
+        for j in GIFT_GRAPH[i]:
+            GOT_GIFT[j-1].append(i+1)
+    
+    for i in GOT_GIFT:
+        print(len(i),*i)
+    
+
 
 
     ...

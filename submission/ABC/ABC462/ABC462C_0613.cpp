@@ -1,4 +1,4 @@
-// ABC462D
+// ABC462C
 // template
 #include <iostream>
 #include <string>
@@ -22,6 +22,37 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N;
+    cin >> N;
+    struct point
+    {
+        ll X;
+        ll Y;
+        /**
+         * ソート用の比較関数
+         */
+        bool operator<(const point &target) const
+        {
+            return X < target.X;
+        }
+    };
+    vector<point> POINTS(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        cin >> POINTS[i].X >> POINTS[i].Y;
+    }
+    sort(all(POINTS));
+    ll nowY = N + 1;
+    ll result = 0;
+    for (auto &p : POINTS)
+    {
+        if (p.Y < nowY)
+        {
+            ++result;
+            nowY = p.Y;
+        }
+    }
+    cout << result << endl;
 }
 
 /**

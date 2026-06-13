@@ -1,4 +1,4 @@
-# ABC462E
+# ABC462A
 # template
 
 def main():
@@ -15,7 +15,14 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    S = im.input()
+    N = len(S)
+    result = []
+    for i in range(N):
+        if (S[i] in list(LOWER_ALPHABET)):
+            continue
+        result.append(S[i])
+    print("".join(result))
 
     ...
 
