@@ -1,7 +1,6 @@
 #include <algorithm>
 #include "../cpp/RandomGenerator.cpp"
-#include "../cpp/LitAlgorithm.cpp"
-#include "../cpp/LitMath.cpp"
+#include "../cpp/LitUtility.cpp"
 #include "cmath"
 #include <atcoder/all>
 bool SearchTest(int64_t testCount)
