@@ -577,25 +577,27 @@ void solve()
     {
         cin >> ITEMS[i].C >> ITEMS[i].V;
     }
-    Board<ll> BOARD(N + 1, S + 1);
+    vector<ll> DP(S + 1);
+    vector<ll> candidates(2);
     for (ll i = 0; i < N + 1; ++i)
     {
-        for (ll j = 0; j < S + 1; ++j)
+        for (ll j = S; 0 <= j; --j)
         {
             if (i == 0 || j == 0)
             {
                 continue;
             }
-            vector<ll> candidates;
-            candidates.push_back(BOARD[i - 1, j]);
+            candidates[0] = 0;
+            candidates[1] = 0;
+            candidates[0] = DP[j];
             if (0 <= j - ITEMS[i].C)
             {
-                candidates.push_back(BOARD[i - 1, j - ITEMS[i].C] + ITEMS[i].V);
+                candidates[1] = DP[j - ITEMS[i].C] + ITEMS[i].V;
             }
-            BOARD[i, j] = Lit::Max(candidates);
+            DP[j] = Lit::Max(candidates);
         }
     }
-    cout << BOARD[N, S] << endl;
+    cout << DP[S] << endl;
 }
 
 /**
