@@ -1,4 +1,4 @@
-# ABC463C
+# ABC463B
 # template
 
 def main():
@@ -15,6 +15,20 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    X = im.input()
+    S = []
+    chairs = dict(lambda:False)
+    for i in range(N):
+        S.append(im.input())
+    for i in S:
+        for j in range(5):
+            if i[j]=='o':
+                chairs[UPPER_ALPHABET[j]] = True
+    yesno(chairs[X])
+        
+
+
 
 
     ...

@@ -1,4 +1,4 @@
-# ABC463B
+# ABC463C
 # template
 
 def main():
@@ -15,6 +15,31 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    PEOPLE = []
+    for i in range(N):
+        h,l = im.listIntInput(2)
+        PEOPLE.append([h,l,i])
+    Q = im.intInput()
+    T = im.listIntInput(Q)
+    H = []
+    for i in range(N):
+        H.append(PEOPLE[i][0])
+    heightRanking=SortedList(H)
+    PEOPLE.reverse()
+    QUERIES = []
+    for i in range(Q):
+        QUERIES.append((T[i],i))
+    QUERIES.sort()
+    result = [0]*Q
+    for i in range(Q):
+        q,index=QUERIES[i]
+        while(PEOPLE[-1][1]<=q):
+            heightRanking.discard(PEOPLE[-1][0])
+            PEOPLE.pop()
+        result[index] = heightRanking[-1]
+    print(*result,sep="\n")
+    
 
 
     ...
