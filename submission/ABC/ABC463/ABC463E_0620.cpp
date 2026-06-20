@@ -97,7 +97,7 @@ void solve()
         ll u, v, T;
     };
     vector<inp> INPUT_NODES(M);
-    for (ll i = 0; i < N; ++i)
+    for (ll i = 0; i < M; ++i)
     {
         cin >> INPUT_NODES[i].u;
         cin >> INPUT_NODES[i].v;
@@ -110,7 +110,7 @@ void solve()
     {
         cin >> X[i];
     }
-    vector<vector<Dijkstra::EDGE>> graph(N);
+    vector<vector<Dijkstra::EDGE>> graph(N + 2);
     for (ll i = 0; i < M; ++i)
     {
         ll u = INPUT_NODES[i].u;
@@ -119,13 +119,11 @@ void solve()
         graph[u].push_back(Dijkstra::EDGE{.to = v, .cost = T});
         graph[v].push_back(Dijkstra::EDGE{.to = u, .cost = T});
     }
+    graph[N].push_back(Dijkstra::EDGE{.to = N + 1, .cost = Y});
     for (ll i = 0; i < N; ++i)
     {
-        for (ll j = 0; j < N; ++j)
-        {
-            graph[i].push_back(Dijkstra::EDGE{.to = j, .cost = X[i] + X[j] + Y});
-            graph[j].push_back(Dijkstra::EDGE{.to = i, .cost = X[i] + X[j] + Y});
-        }
+        graph[i].push_back(Dijkstra::EDGE{.to = N, .cost = X[i]});
+        graph[N + 1].push_back(Dijkstra::EDGE{.to = i, .cost = X[i]});
     }
     Dijkstra dijk(graph);
     auto result = dijk.calcCosts(0);
