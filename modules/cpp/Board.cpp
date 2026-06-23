@@ -60,7 +60,7 @@ public:
      */
     const T &operator[](const int64_t y, const int64_t x) const
     {
-        return operator[](y, x);
+        return m_data[ConvertPosToIndex(Board::POS{.X = x, .Y = y})];
     }
     /**
      * @brief 特定のマスの参照を返す
@@ -139,7 +139,7 @@ public:
         {
             for (int64_t j = 0; j < GetWidth(); ++j)
             {
-                result += std::to_string(m_data[i][j]);
+                result += std::to_string(this->operator[](i, j));
                 result += " ";
             }
             result += "\n";
