@@ -1,4 +1,4 @@
-# ABC464B
+# ABC464A
 # template
 
 def main():
@@ -15,6 +15,10 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    S = im.input()
+    if(S.count("W")<S.count("E")):
+        printe("East")
+    printe("West")
 
 
     ...

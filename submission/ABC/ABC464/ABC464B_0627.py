@@ -1,6 +1,5 @@
-# ABC464F
+# ABC464B
 # template
-
 def main():
     # 関数定義スペース
 
@@ -12,10 +11,53 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    H,W = im.listIntInput(2)
+    BOARD = []
+    for i in range(H):
+        BOARD.append(list(im.input()))
+    d,u,l,r = H-1,0,0,W-1
+    for i in range(H):
+        if BOARD[i][0]=="." and len(set(BOARD[i]))==1:
+            u+=1
+        else:
+            break
 
+    for i in range(H-1,-1,-1):
+        if BOARD[i][0]=="." and len(set(BOARD[i]))==1:
+            d-=1
+        else:
+            break
+
+    def f1(l):
+        for i in range(0,W,1):
+            for j in range(H):
+                if BOARD[j][i]!=".":
+                    return l
+            else:
+                l+=1
+        return l
+    l = f1(l)
+
+    def f2(r):
+        for i in range(W-1,-1,-1):
+            for j in range(H):
+                if BOARD[j][i]!=".":
+                    return r
+            else:
+                r-=1
+        return r
+    r = f2(r)
+    # print(r+1-l,d+1-u)
+    for i in range(u,d+1):
+        for j in range(l,r+1):
+            print(BOARD[i][j],end="")
+        print()
+    
+
+
+    # Board.Input((H,W))
 
     ...
 
