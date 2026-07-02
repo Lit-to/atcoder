@@ -8,7 +8,9 @@
 #include <atcoder/all>
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 using ll = int64_t;
 using vll = std::vector<int64_t>;
 using mint = atcoder::modint998244353;
