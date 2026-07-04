@@ -1,4 +1,4 @@
-// ABC465F
+// ABC465C
 // template
 #include <iostream>
 #include <string>
@@ -24,6 +24,50 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    int64_t N;
+    cin >> N;
+    std::string S;
+    cin >> S;
+    bool isMaruBack = true;
+    std::deque<ll> result;
+    for (ll i = 0; i < N; ++i)
+    {
+        if (S[i] == 'o')
+        {
+            if (isMaruBack)
+            {
+                result.push_back(i);
+            }
+            else
+            {
+                result.push_front(i);
+            }
+            isMaruBack = !isMaruBack;
+        }
+        else
+        {
+            if (isMaruBack)
+            {
+                result.push_back(i);
+            }
+            else
+            {
+                result.push_front(i);
+            }
+        }
+    }
+    if (!isMaruBack)
+    {
+        std::reverse(result.begin(), result.end());
+    }
+    auto rIter = result.begin();
+    for (ll i = 0; i < N; ++i)
+    {
+        cout << (*rIter) + 1 << " ";
+        ++rIter;
+        // cout << result[i] + 1 << " ";
+    }
+    cout << endl;
 }
 
 /**

@@ -1,4 +1,4 @@
-// ABC465G
+// ABC465D
 // template
 #include <iostream>
 #include <string>
@@ -12,6 +12,7 @@
 using std::cin;
 using std::cout;
 using std::endl;
+using std::vector;
 using ll = int64_t;
 using vll = std::vector<int64_t>;
 using mint = atcoder::modint998244353;
@@ -24,6 +25,26 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll X, Y, K;
+    cin >> X >> Y >> K;
+    ll x = X;
+    ll countX = 0;
+    ll y = Y;
+    ll countY = 0;
+    while (x != y)
+    {
+        while (x < y)
+        {
+            ++countY;
+            y /= K;
+        }
+        while (y < x)
+        {
+            ++countX;
+            x /= K;
+        }
+    }
+    cout << countX + countY << endl;
 }
 
 /**
@@ -36,7 +57,7 @@ int main()
     std::cin.tie(nullptr);
     int64_t TESTCASES = 1;
 
-    // std::cin >> TESTCASES;
+    std::cin >> TESTCASES;
 
     for (int64_t i = 0; i < TESTCASES; ++i)
     {

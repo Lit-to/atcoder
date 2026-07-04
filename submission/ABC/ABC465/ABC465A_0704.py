@@ -1,4 +1,4 @@
-# ABC465B
+# ABC465A
 # template
 
 def main():
@@ -15,6 +15,8 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    A,B = im.listIntInput(2)
+    yesno(A>B*(2/3))
 
 
     ...

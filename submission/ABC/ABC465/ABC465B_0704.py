@@ -1,4 +1,4 @@
-# ABC465F
+# ABC465B
 # template
 
 def main():
@@ -12,11 +12,16 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
-
+    X,Y,L,R,A,B = im.listIntInput(6)
+    result = 0
+    for i in range(A,B):
+        if(L<=i<R):
+            result += X
+        else:
+            result += Y
+    print(result)
     ...
 
     # 処理スペース
