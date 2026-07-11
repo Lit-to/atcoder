@@ -1,4 +1,4 @@
-// template
+// ABC466A
 #include <iostream>
 #include <string>
 #include <vector>
@@ -41,6 +41,17 @@ std::vector<T> input(int64_t n)
  */
 void solve()
 {
+    auto N = input<ll>();
+    auto X = input<ll>(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        if (0 <= X[i])
+        {
+            cout << "No" << endl;
+            return;
+        }
+    }
+    cout << "Yes" << endl;
 }
 
 /**
