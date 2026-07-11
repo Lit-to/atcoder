@@ -1,4 +1,4 @@
-// ABC465E
+// ABC465D
 // template
 #include <iostream>
 #include <string>
@@ -24,6 +24,44 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N, M;
+    cin >> N >> M;
+    struct coma
+    {
+        ll r;
+        ll c;
+    };
+    std::vector<coma> komas(M);
+    for (ll i = 0; i < M; ++i)
+    {
+        cin >> komas[i].r >> komas[i].c;
+        --komas[i].r;
+        --komas[i].c;
+    }
+    std::vector<ll> row(N, -1);
+    std::vector<ll> col(N, -1);
+    for (ll i = 0; i < M; ++i)
+    {
+        if (row[komas[i].r] != -1)
+        {
+            col[row[komas[i].r]] = -1;
+        }
+        if (col[komas[i].c] != -1)
+        {
+            row[col[komas[i].c]] = -1;
+        }
+        row[komas[i].r] = komas[i].c;
+        col[komas[i].c] = komas[i].r;
+    }
+    ll result = 0;
+    for (ll i = 0; i < N; ++i)
+    {
+        if (0 <= row[i])
+        {
+            ++result;
+        }
+    }
+    cout << result << endl;
 }
 
 /**

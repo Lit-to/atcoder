@@ -1,4 +1,4 @@
-// ABC465C
+// ABC465E
 // template
 #include <iostream>
 #include <string>
@@ -24,6 +24,13 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N;
+    for (ll i = 0; i < N; ++i)
+    {
+        for (ll j = 0; j < N; ++j)
+        {
+        }
+    }
 }
 
 /**

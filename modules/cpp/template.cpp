@@ -17,6 +17,13 @@ using mint = atcoder::modint998244353;
 // using mint = atcoder::modint1000000007;
 template <typename T>
 using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+template <typename T>
+T input()
+{
+    T variable;
+    cin >> variable;
+    return variable;
+}
 
 /**
  * 1ケースぶんの処理実行

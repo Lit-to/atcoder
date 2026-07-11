@@ -15,6 +15,14 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N,M = im.listIntInput(2)
+    A = [-1]*M
+    for i in range(N):
+        C,S = im.listIntInput(2)
+        C-=1
+        A[C] = max(A[C],S)
+    print(*A)
+        
 
 
     ...

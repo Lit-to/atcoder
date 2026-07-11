@@ -24,6 +24,37 @@ using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::great
  */
 void solve()
 {
+    ll N, M;
+    cin >> N >> M;
+    struct coma
+    {
+        ll r;
+        ll c;
+    };
+    std::vector<coma> komas(M);
+    for (ll i = 0; i < M; ++i)
+    {
+        cin >> komas[i].r >> komas[i].c;
+        --komas[i].r;
+        --komas[i].c;
+    }
+    std::reverse(all(komas));
+    std::vector<bool> row(N);
+    std::vector<bool> col(N);
+    ll result = 0;
+    for (ll i = 0; i < M; ++i)
+    {
+        if (row[komas[i].r] || col[komas[i].c])
+        {
+        }
+        else
+        {
+            ++result;
+        }
+        row[komas[i].r] = true;
+        col[komas[i].c] = true;
+    }
+    cout << result << endl;
 }
 
 /**

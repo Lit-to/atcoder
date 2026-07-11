@@ -1,4 +1,4 @@
-# ABC465F
+# ABC465A
 # template
 
 def main():
@@ -11,10 +11,13 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    for i in range(N):
+        no(0<=A[i])
+    yes()
 
 
     ...
