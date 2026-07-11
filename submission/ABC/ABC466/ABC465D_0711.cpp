@@ -1,3 +1,4 @@
+// ABC465D
 // template
 #include <iostream>
 #include <string>
@@ -17,19 +18,43 @@ using mint = atcoder::modint998244353;
 // using mint = atcoder::modint1000000007;
 template <typename T>
 using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
-template <typename T>
-T input()
-{
-    T variable;
-    cin >> variable;
-    return variable;
-}
 
 /**
  * 1ケースぶんの処理実行
  */
 void solve()
 {
+    ll N, M;
+    cin >> N >> M;
+    struct coma
+    {
+        ll r;
+        ll c;
+    };
+    std::vector<coma> komas(M);
+    for (ll i = 0; i < M; ++i)
+    {
+        cin >> komas[i].r >> komas[i].c;
+        --komas[i].r;
+        --komas[i].c;
+    }
+    std::reverse(all(komas));
+    std::vector<bool> row(N);
+    std::vector<bool> col(N);
+    ll result = 0;
+    for (ll i = 0; i < M; ++i)
+    {
+        if (row[komas[i].r] || col[komas[i].c])
+        {
+        }
+        else
+        {
+            ++result;
+        }
+        row[komas[i].r] = true;
+        col[komas[i].c] = true;
+    }
+    cout << result << endl;
 }
 
 /**
