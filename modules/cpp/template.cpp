@@ -22,6 +22,11 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
  */
 void solve()
 {
+    /*
+    // const auto N = input<ll>();
+    // const auto S = input<std::string>();
+    // const auto A = input<ll>(10);
+     */
 }
 
 /**
@@ -33,7 +38,7 @@ int main()
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     int64_t TESTCASES = DEFAULT_TESTCASE;
-    std::cin >> TESTCASES;
+    // std::cin >> TESTCASES;
     for (int64_t i = 0; i < TESTCASES; ++i)
     {
         solve();
