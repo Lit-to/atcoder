@@ -1,4 +1,4 @@
-class fraction:  # 分数
+class Fraction:  # 分数
     def __init__(self, numerator: int = 1, denominator: int = 1):
         """
         分数クラスの初期化メソッド
@@ -96,7 +96,7 @@ class fraction:  # 分数
         Returns:
             -  fraction: 結果
         """
-        return fraction(
+        return Fraction(
             self.__numerator * value.__denominator
             + value.__numerator * self.__denominator,
             self.__denominator * value.__denominator,
@@ -112,7 +112,7 @@ class fraction:  # 分数
         Returns:
             -  fraction: 結果
         """
-        return fraction(
+        return Fraction(
             self.__numerator * value.__denominator
             - value.__numerator * self.__denominator,
             self.__denominator * value.__denominator,
@@ -128,7 +128,7 @@ class fraction:  # 分数
         Returns:
             -  fraction: 結果
         """
-        return fraction(
+        return Fraction(
             self.__numerator * value.__numerator,
             self.__denominator * value.__denominator,
         )
@@ -144,7 +144,7 @@ class fraction:  # 分数
             -  fraction: 結果
         """
 
-        return fraction(
+        return Fraction(
             self.__numerator * value.__denominator,
             self.__denominator * value.__numerator,
         )
