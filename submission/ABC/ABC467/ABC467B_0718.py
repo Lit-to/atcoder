@@ -1,4 +1,4 @@
-# ABC467E
+# ABC467B
 # template
 
 def main():
@@ -11,10 +11,20 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    TAKAHASHI = []
+    for i in range(N):
+        A,B = im.listIntInput(2)
+        S=im.input()
+        TAKAHASHI.append((A,B,S))
+
+    result = 0
+    for i in range(N):
+        if TAKAHASHI[i][2] == "keep":
+            result += TAKAHASHI[i][1]-TAKAHASHI[i][0]
+    print(result)
 
 
     ...
