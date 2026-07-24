@@ -14,3 +14,8 @@ services:
       - SYS_PTRACE
     security_opt:
       - seccomp:unconfined
+    resources:
+      - limits:
+        - memoty:512M
+      - reservations:
+        - memory:256M
