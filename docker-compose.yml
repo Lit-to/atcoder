@@ -14,5 +14,4 @@ services:
       - SYS_PTRACE
     security_opt:
       - seccomp:unconfined
-    mem_limit: 512m
-    mem_reservation: 256m
+      

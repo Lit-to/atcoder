@@ -113,7 +113,7 @@ void solve()
     {
         count.A %= 4;
         count.B %= 4;
-        if (count.)
+        // if (count.)
     }
 }
 
