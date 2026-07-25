@@ -1,4 +1,4 @@
-# ABC468G
+# ABC468A
 # template
 
 def main():
@@ -11,10 +11,15 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    result = 0
+    for i in range(N-2):
+        result += (A[i]<A[i+1] and A[i+1]>A[i+2])
+    printe(result)
+
 
 
     ...

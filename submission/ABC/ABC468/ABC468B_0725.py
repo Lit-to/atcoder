@@ -1,4 +1,4 @@
-# ABC468F
+# ABC468B
 # template
 
 def main():
@@ -11,10 +11,28 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    M = im.intInput()
+    D = im.intInput()
+    A = list(im.input())
+    guardmanPos = []
+    for i in range(M):
+        if A[i]=="G":
+            guardmanPos.append(i)
+    lastMan = 0
+    result = 0
+    N = len(guardmanPos)
+    if N==0:
+        printe(M)
+    for x in range(M):
+        if lastMan+1<N:
+            if abs(guardmanPos[lastMan+1]-x)<abs(guardmanPos[lastMan]-x):
+                lastMan+=1
+        result += not(abs(guardmanPos[lastMan]-x)<=D)
+
+    print(result)
 
 
     ...
