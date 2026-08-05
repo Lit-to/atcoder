@@ -1,5 +1,4 @@
-// template
-// clang-format off
+// TESOK003B
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,6 +9,7 @@
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define DEFAULT_TESTCASE (1);
+// clang-format off
 using std::cin;using std::cout;using std::endl;using ll = int64_t;using vll = std::vector<int64_t>;using mint = atcoder::modint998244353;
 // using mint = atcoder::modint1000000007;
 template <typename T>using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
@@ -23,10 +23,42 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
     // const auto A = input<ll>(10);
-     */
+    */
+    const auto Q = input<ll>();
+    struct QUERY
+    {
+        ll q;
+        std::string x;
+        ll y;
+    };
+    std::vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        cin >> queries[i].x;
+        if (queries[i].q == 1)
+        {
+            cin >> queries[i].y;
+        }
+        else
+        {
+            queries[i].y = -1;
+        }
+    }
+    std::unordered_map<std::string, ll> scores;
+    for (ll i = 0; i < Q; ++i)
+    {
+        if (queries[i].q == 1)
+        {
+            scores[queries[i].x] = queries[i].y;
+        }
+        else
+        {
+            cout << scores[queries[i].x] << endl;
+        }
+    }
 }
 
 /**

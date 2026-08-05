@@ -1,4 +1,4 @@
-// template
+// ABC469C
 // clang-format off
 #include <iostream>
 #include <string>
@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <algorithm>
 #include <queue>
+#include <stack>
 #include <atcoder/all>
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
@@ -23,10 +24,43 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
     // const auto A = input<ll>(10);
-     */
+    */
+    const auto N = input<ll>();
+    const auto S = input<char>(N);
+    std::stack<char> tokens;
+    std::vector<ll> groups;
+    for (ll i = 0; i < N; ++i)
+    {
+        if (S[i] == 'x')
+        {
+            if (tokens.top() == 'o')
+            {
+                tokens.pop();
+            }
+            if (tokens.size() == 0)
+            {
+                groups.push_back(i);
+            }
+        }
+        else
+        {
+            tokens.push(S[i]);
+        }
+    }
+    if (tokens.size() != 0)
+    {
+        groups.push_back(N - 1);
+    }
+    std::reverse(all(groups));
+    for (ll i = 0; i < N; ++i)
+    {
+        while (groups.back() <= i)
+        {
+            groups.pop_back();
+        }
+        cout << groups.back() << endl;
+    }
 }
 
 /**

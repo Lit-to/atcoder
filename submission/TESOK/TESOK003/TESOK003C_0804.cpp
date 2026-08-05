@@ -1,7 +1,8 @@
-// template
+// TESOK003C
 // clang-format off
 #include <iostream>
 #include <string>
+#include <set>
 #include <vector>
 #include <cstdint>
 #include <algorithm>
@@ -23,10 +24,44 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
     // const auto A = input<ll>(10);
-     */
+    */
+    const auto Q = input<ll>();
+    struct QUERY
+    {
+        ll q;
+        ll x;
+    };
+    std::vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q >> queries[i].x;
+    }
+    std::set<ll> desk;
+    for (ll i = 0; i < Q; ++i)
+    {
+        if (queries[i].q == 1)
+        {
+            desk.insert(queries[i].x);
+        }
+        else if (queries[i].q == 2)
+        {
+            desk.erase(queries[i].x);
+        }
+        else
+        {
+            auto ans = desk.lower_bound(queries[i].x);
+            if (ans == desk.end())
+            {
+                cout << -1 << endl;
+            }
+            else
+            {
+                cout << *ans << endl;
+            }
+        }
+    }
 }
 
 /**

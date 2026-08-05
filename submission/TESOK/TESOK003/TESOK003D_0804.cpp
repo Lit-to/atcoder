@@ -1,4 +1,4 @@
-// template
+// TESOK003D
 // clang-format off
 #include <iostream>
 #include <string>
@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <algorithm>
 #include <queue>
+#include <stack>
 #include <atcoder/all>
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
@@ -23,10 +24,36 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(10);
-     */
+    */
+    const auto N = input<ll>();
+    const auto A = input<ll>(N);
+    struct CONTENT
+    {
+        ll x;
+        ll index;
+        bool operator<(ll rhs)
+        {
+            return this->x < rhs;
+        };
+    };
+    std::stack<CONTENT> score;
+    for (ll i = 0; i < N; ++i)
+    {
+        while (0 < score.size() && score.top() < A[i])
+        {
+            score.pop();
+        }
+        if (score.size() == 0)
+        {
+            cout << -1 << endl;
+        }
+        else
+        {
+            cout << score.top().index + 1 << endl;
+        }
+        score.push({A[i], i});
+    }
 }
 
 /**
