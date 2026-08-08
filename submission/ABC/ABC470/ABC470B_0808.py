@@ -11,10 +11,18 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    balls = [0]*N
+    for i in range(N):
+        balls[A[i]-1]+=1
+    balls.sort()
+    balls.pop()
+    print(sum(balls))
+
+
 
 
     ...

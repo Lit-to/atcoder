@@ -15,6 +15,10 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    # print(0^0^1^1^2)
+    # print(0^0^0^0^2)
+    print(2^3^3)
+    print(1^2)
 
 
     ...

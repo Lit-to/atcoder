@@ -1,4 +1,4 @@
-// ABC470A
+// ABC470D
 // template
 // clang-format off
 #include <iostream>
@@ -23,11 +23,57 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
  */
 void solve()
 {
-    /*
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(10);
-     */
+    const auto N = input<ll>();
+    const auto Q = input<ll>();
+    auto P = input<ll>(N);
+    struct QUERY
+    {
+        ll q;
+        ll x;
+        ll y;
+    };
+    std::vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        if (queries[i].q == 1)
+        {
+            cin >> queries[i].x;
+            cin >> queries[i].y;
+            --queries[i].x;
+            --queries[i].y;
+        }
+        else
+        {
+            queries[i].y = -1;
+            queries[i].x = -1;
+        }
+    }
+    std::vector<ll> p(P);
+    std::vector<ll> inversed_p(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        --p[i];
+        inversed_p[p[i]] = i;
+    }
+
+    for (ll i = 0; i < Q; ++i)
+    {
+        if (queries[i].q == 1)
+        {
+            std::swap(p[queries[i].x], p[queries[i].y]);
+            std::swap(inversed_p[p[queries[i].x]], inversed_p[p[queries[i].y]]);
+        }
+        else
+        {
+            std::swap(p, inversed_p);
+        }
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        cout << p[i] + 1 << " ";
+    }
+    cout << endl;
 }
 
 /**

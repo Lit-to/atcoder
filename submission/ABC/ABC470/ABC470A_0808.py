@@ -1,4 +1,4 @@
-# ABC470E
+# ABC470A
 # template
 
 def main():
@@ -11,10 +11,15 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    for i in range(N):
+        if (i+1)%3==0:
+            print("Fizz")
+        else:
+            print(i+1)
 
 
     ...

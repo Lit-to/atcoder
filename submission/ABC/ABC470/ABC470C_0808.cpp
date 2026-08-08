@@ -1,4 +1,4 @@
-// ABC470F
+// ABC470C
 // template
 // clang-format off
 #include <iostream>
@@ -24,10 +24,50 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(10);
-     */
+    */
+    const auto N = input<ll>();
+    const auto Q = input<ll>();
+    struct QUERY
+    {
+        ll q;
+        ll index;
+    };
+    std::vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        if (queries[i].q == 1)
+        {
+            cin >> queries[i].index;
+            --queries[i].index;
+        }
+        else
+        {
+            queries[i].index = -1;
+        }
+    }
+    std::vector<ll> a(N);
+    std::vector<ll> counts(N);
+    counts[0] = N;
+    ll allUpdateCost = 0;
+    ll offset = 0;
+    for (ll i = 0; i < Q; ++i)
+    {
+        if (queries[i].q == 1)
+        {
+            ++a[queries[i].index];
+        }
+        else
+        {
+            ll result;
+            for (ll i = 0; i < N; ++i)
+            {
+                result ^= a[i];
+            }
+            cout << result << endl;
+        }
+    }
 }
 
 /**
