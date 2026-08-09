@@ -9,6 +9,7 @@ __pycache__
 sandBox/input
 sandBox/output
 sandBox/expect
+sandBox/bk
 !sandBox/tools/*
 OUTPUT
 TEST
