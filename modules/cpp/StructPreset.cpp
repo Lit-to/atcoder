@@ -37,6 +37,11 @@ struct EDGE
     int64_t cost;        // そのノードに行くコスト
 };
 
+// 構造体ではないけどおまじない
+#include <queue>
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+
 // ===================
 
 int main()
