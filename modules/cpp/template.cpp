@@ -9,7 +9,7 @@
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define DEFAULT_TESTCASE (1);
-using std::cin;using std::cout;using std::endl;std::vector;using ll = int64_t;using vll = std::vector<int64_t>;using mint = atcoder::modint998244353;
+using std::cin;using std::cout;using std::endl;using std::vector;using ll = int64_t;using vll = std::vector<int64_t>;using mint = atcoder::modint998244353;
 // using mint = atcoder::modint1000000007;
 template <typename T>T input(){T variable;cin >> variable;return variable;}
 template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);for (int64_t i = 0; i < n; ++i){contents[i] = input<T>();}return contents;}
