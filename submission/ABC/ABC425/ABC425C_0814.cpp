@@ -1,4 +1,4 @@
-// template
+// ABC425C
 // clang-format off
 #include <iostream>
 #include <cstdint>
@@ -20,13 +20,58 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
  */
 void solve()
 {
+    /*
+    // const auto S = input<std::string>();
+    // const auto A = input<ll>(10);
+    */
     const auto N = input<ll>();
-    vector<bool> isPrime(N);
-    for (ll i = 2; i < N; ++i)
+    const auto Q = input<ll>();
+    const auto A = input<ll>(N);
+    ll n = 2 * N;
+    vector<ll> a(n);
+    for (ll i = 0; i < N; ++i)
     {
-        for (ll j = 1; j < N; ++j)
+        a[i] = A[i];
+        a[N + i] = A[i];
+    }
+    struct QUERY
+    {
+        ll q;
+        ll c;
+        ll l;
+        ll r;
+    };
+    vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        if (queries[i].q == 1)
         {
-            isPrime[i * j] = true;
+            cin >> queries[i].c;
+        }
+        else
+        {
+            cin >> queries[i].l >> queries[i].r;
+            --queries[i].l;
+        }
+    }
+    std::vector<ll> preSum(n + 1);
+    for (ll i = 0; i < n; ++i)
+    {
+        preSum[i + 1] = preSum[i] + a[i];
+    }
+    ll offset = 0;
+    for (auto &query : queries)
+    {
+        if (query.q == 1)
+        {
+            offset += query.c;
+            offset %= N;
+        }
+        else
+        {
+            ll result = preSum[query.r + offset] - preSum[query.l + offset];
+            cout << result << endl;
         }
     }
 }
