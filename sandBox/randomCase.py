@@ -31,9 +31,18 @@ class Print:
         """
         with open(self.path,encoding=self.encoding,mode="a") as f:
             print(*contents,file=f,sep=sep,end=end)
-for test in range(20):
+for test in range(100):
     caseName = "random"
     fm=Print(os.path.join("input",caseName+"_"+str(test)+".txt"))
+    N = random.randint(1,10)
+    a = []
+    for i in range(N):
+        a.append(random.randint(-1*(10**9),1*(10**9)))
+    A = set(a)
+    a.append(10**9)
+    random.shuffle(a)
+    fm.print(len(A))
+    fm.print(*A)
     
 
 

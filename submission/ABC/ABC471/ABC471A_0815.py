@@ -1,4 +1,4 @@
-# ABC471C
+# ABC471A
 # template
 
 def main():
@@ -12,10 +12,10 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    H,W = im.listIntInput(2)
+    yesno(H+W==9 or H-W==9 or H*W==9 or H/W==9.0)
 
     ...
 
@@ -81,8 +81,8 @@ LURULDRD = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 # 各種関数定義
 ## 便利関数
 def printe(*values,sep=" ",end="\n"):print(*values,sep=sep,end=end); fin()
-def yes(f=True): printe("Yes") if (f) else None
-def no(f=True): printe("No") if (f) else None
+def yes(f=True): printe("Nine") if (f) else None
+def no(f=True): printe("Nein") if (f) else None
 def debug(*values,sep=" ",end="\n"): print(*values,sep=sep,end=end,file=sys.stderr)
 def yesno(f:bool): yes() if f else no()
 def fin(f=True): raise solvedException if f else None

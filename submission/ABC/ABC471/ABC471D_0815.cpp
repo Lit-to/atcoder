@@ -1,4 +1,4 @@
-// ABC471A
+// ABC471D
 // template
 // clang-format off
 #include <iostream>
@@ -15,6 +15,9 @@ using std::cin;using std::cout;using std::endl;using std::vector;using ll = int6
 template <typename T>T input(){T variable;cin >> variable;return variable;}
 template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);for (int64_t i = 0; i < n; ++i){contents[i] = input<T>();}return contents;}
 // clang-format on
+#include <queue>
+template <typename T>
+using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 
 /**
  * 1ケースぶんの処理実行
@@ -22,10 +25,60 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
     // const auto A = input<ll>(10);
     */
+    const auto Q = input<ll>();
+    const auto V = input<ll>();
+    struct QUERY
+    {
+        ll q;
+        ll t;
+        ll w;
+    };
+    struct BAT
+    {
+        ll time;
+        ll value;
+        ll eval(const ll t) const
+        {
+            return t - this->time + this->value;
+        }
+        bool operator>(const BAT &target) const
+        {
+            return target.value < target.value;
+        }
+    };
+    vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        cin >> queries[i].t;
+        if (queries[i].q == 1)
+        {
+            cin >> queries[i].w;
+        }
+    }
+    greater_priority_queue<ll> gpq;
+    for (auto &query : queries)
+    {
+        if (query.q == 1)
+        {
+            gpq.push(query.w - query.t);
+        }
+        else
+        {
+            if (gpq.size() == 0)
+            {
+                cout << -1 << endl;
+                continue;
+            }
+            auto e = gpq.top();
+            ll result = e + query.t;
+            cout << result << endl;
+            gpq.pop();
+        }
+    }
 }
 
 /**
