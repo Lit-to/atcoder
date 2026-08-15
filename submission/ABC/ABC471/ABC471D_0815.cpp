@@ -40,13 +40,9 @@ void solve()
     {
         ll time;
         ll value;
-        ll eval(const ll t) const
-        {
-            return t - this->time + this->value;
-        }
         bool operator>(const BAT &target) const
         {
-            return target.value < target.value;
+            return target.value > target.value;
         }
     };
     vector<QUERY> queries(Q);
@@ -59,7 +55,7 @@ void solve()
             cin >> queries[i].w;
         }
     }
-    greater_priority_queue<ll> gpq;
+    std::priority_queue<ll> gpq;
     for (auto &query : queries)
     {
         if (query.q == 1)
@@ -75,7 +71,7 @@ void solve()
             }
             auto e = gpq.top();
             ll result = e + query.t;
-            cout << result << endl;
+            cout << std::min(result, V) << endl;
             gpq.pop();
         }
     }
