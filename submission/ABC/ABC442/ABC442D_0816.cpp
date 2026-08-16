@@ -1,4 +1,4 @@
-// ABC471C
+// ABC442D
 // clang-format off
 #include <iostream>
 #include <cstdint>
@@ -23,41 +23,52 @@ void solve()
 {
     /*
     // const auto S = input<std::string>();
+    // const auto A = input<ll>(10);
     */
     const auto N = input<ll>();
+    const auto Q = input<ll>();
     const auto A = input<ll>(N);
     vector<ll> a(A);
-    a.push_back(0);
-    a.push_back(1e18);
-    a.push_back(-1 * 1e18);
-    std::sort(all(a));
-    ll pos = 0;
-    for (ll i = 0; i < a.size(); ++i)
+    struct QUERY
     {
-        if (a[i] == 0)
-        {
-            pos = i;
-        }
-    }
-    ll left = pos;
-    ll right = pos;
-    ll result = 0;
-    while (!(left == 0 && right == a.size() - 1))
+        ll q;
+        ll x;
+        ll l;
+        ll r;
+    };
+    vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
     {
-        if (a[pos] - a[left] <= a[right] - a[pos])
+        cin >> queries[i].q;
+        if (queries[i].q == 1)
         {
-            result += a[pos] - a[left];
-            pos = left;
-            --left;
+            cin >> queries[i].x;
+            --queries[i].x;
         }
         else
         {
-            result += a[right] - a[pos];
-            pos = right;
-            ++right;
+            cin >> queries[i].l >> queries[i].r;
+            --queries[i].l;
         }
     }
-    cout << result << endl;
+    vector<ll> preSum(N + 1);
+    for (ll i = 0; i < N; ++i)
+    {
+        preSum[i + 1] = preSum[i] + A[i];
+    }
+    for (auto &query : queries)
+    {
+        if (query.q == 1)
+        {
+            std::swap(a[query.x], a[query.x + 1]);
+            preSum[query.x + 1] = preSum[query.x] + a[query.x];
+        }
+        else
+        {
+            ll result = preSum[query.r] - preSum[query.l];
+            cout << result << endl;
+        }
+    }
 }
 
 /**
