@@ -1,4 +1,4 @@
-// ABC472D
+// ABC472C
 // template
 // clang-format off
 #include <iostream>
@@ -23,10 +23,40 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
 void solve()
 {
     /*
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
     // const auto A = input<ll>(10);
     */
+    const auto N = input<ll>();
+    const auto M = input<ll>();
+    const auto K = input<ll>();
+    const auto A = input<ll>(N);
+    ll l = 0;
+    ll kal = 0;
+    struct SNACK
+    {
+        ll day;
+        ll kal;
+    };
+    std::queue<SNACK> ate;
+    ll sum = 0;
+    for (ll i = 0; i < N; ++i)
+    {
+        if (sum + A[i] <= K)
+        {
+            cout << "Yes" << endl;
+            ate.push(SNACK{.day = i, .kal = A[i]});
+            sum += A[i];
+        }
+        else
+        {
+            cout << "No" << endl;
+        }
+        while (!ate.empty() && ate.front().day <= i - M + 1)
+        {
+            sum -= ate.front().kal;
+            ate.pop();
+        }
+    }
 }
 
 /**

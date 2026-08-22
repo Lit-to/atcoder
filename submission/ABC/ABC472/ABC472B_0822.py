@@ -11,10 +11,19 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    sa = sum(A)
+    result = 0
+    ans = 10e9
+    for i in range(N):
+        result+= A[i]
+        sa-=A[i]
+        ans = min(ans,abs(sa-result))
+    print(ans)
+
 
 
     ...
