@@ -37,10 +37,28 @@ struct EDGE
     int64_t cost;        // そのノードに行くコスト
 };
 
+/**
+ * DFSスニペット
+ */
+auto dfs = [&](auto self) -> bool // 引数にノード、戻り値は適度に
+{
+    // 訪問済み管理のチェック
+
+    // 訪問済み管理の登録
+
+    // 行きがけ順に処理したい内容
+
+    for (;;) // 遷移処理
+    {
+        self(self);
+    }
+    // 帰りがけ順に処理したい内容
+}
+
 // 構造体ではないけどおまじない
 #include <queue>
-template <typename T>
-using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+                             template <typename T>
+                             using greater_priority_queue = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 
 // ===================
 
