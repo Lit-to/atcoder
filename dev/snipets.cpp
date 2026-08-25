@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-// コピペ用 構造体集
+// コピペ用
 // ===================
 /**
  * @brief 半開区間を表す構造体
