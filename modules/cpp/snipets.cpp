@@ -48,7 +48,7 @@ struct EDGE
 /**
  * DFSスニペット
  */
-auto dfs = [&](auto self) -> bool // 引数にノード、戻り値は適度に
+auto dfs = [&](auto self) -> void // 引数にノード、戻り値は適度に
 {
     // 訪問済み管理のチェック
 
@@ -56,7 +56,7 @@ auto dfs = [&](auto self) -> bool // 引数にノード、戻り値は適度に
 
     // 行きがけ順に処理したい内容
 
-    for (;;) // 遷移処理
+    for (auto &dest :) // 遷移処理
     {
         self(self);
     }
