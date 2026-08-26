@@ -52,4 +52,4 @@ int main()
 //======================
 
 // AtCoder提出用テンプレート
-// 自作ライブラリはここ:https://github.com/Lit-to/atcoder
+// 自作ライブラリ・スニペットはここ:https://github.com/Lit-to/atcoder/tree/main/modules/cpp
