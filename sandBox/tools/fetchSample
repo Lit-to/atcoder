@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
+# ===== 設定 =====
+IN_DIR="./input"
+OUT_DIR="./expect"
+# =================
+
+
+if [ "$#" -eq 0 ]; then
+    echo "Usage: $0 <URL>" >&2
+    exit 1
+fi
+
+URL="$1"
+
+mkdir -p "$IN_DIR" "$OUT_DIR"
+rm -f "$IN_DIR"/sample_*.txt
+rm -f "$OUT_DIR"/sample_*.txt
+
+tmp="$(mktemp)"
+curl -s "$URL" > "$tmp"
+
+mode=""
+idx=0
+
+# sedで <h3>〜<pre>〜</pre> のまとまりを抽出
+sed -n '/<h3/,/<\/pre>/p' "$tmp" | while IFS= read -r line; do
+    case "$line" in
+        *入力例*) mode="in"; continue ;;
+        *出力例*) mode="out"; continue ;;
+    esac
+
+    if [[ "$line" == *"<pre>"* ]]; then
+        content="$(sed -n '/<pre>/,/<\/pre>/p' <<< "$line")"
+
+        # ↑これだと1行しか取れないので、ちゃんと下で読む
+        content=""
+        while IFS= read -r l; do
+            [[ "$l" == *"</pre>"* ]] && break
+            content+="$l"$'\n'
+        done
+
+        if [[ "$mode" == "in" ]]; then
+            idx=$((idx+1))
+            printf "%s" "$content" > "$IN_DIR/sample_${idx}.txt"
+        elif [[ "$mode" == "out" ]]; then
+            printf "%s" "$content" > "$OUT_DIR/sample_${idx}.txt"
+        fi
+    fi
+done
+
+# rm -f "$tmp"
+
+
+popd > /dev/null
+popd > /dev/null

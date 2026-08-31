@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+#================================
+source config
+
+
+#================================
+# それぞれ実行
+correctResult=$(unit -notl $correctProgram | head -n 1)
+targetResult=$(unit -notl $targetProgram | head -n 1)
+
+# 比較結果の出力
+code --diff $targetResult $correctResult
+popd > /dev/null
+popd > /dev/null
+
+
