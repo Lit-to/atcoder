@@ -1,3 +1,21 @@
+// DFS001J
+// https://atcoder.jp/contests/past202010-open/tasks/past202010_g
+// clang-format off
+#include <iostream>
+#include <cstdint>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define DEFAULT_TESTCASE (1);
+using std::abs;
+using std::cin;using std::cout;using std::endl;using std::vector;using ll = int64_t;using vll = std::vector<int64_t>;using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>T input(){T variable;cin >> variable;return variable;}
+template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);for (int64_t i = 0; i < n; ++i){contents[i] = input<T>();}return contents;}
+// clang-format on
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -197,3 +215,120 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * 4方向移動差分配列LRUD
+ */
+const int64_t LRUD_4[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    /*
+    // const auto S = input<std::string>();
+    // const auto A = input<ll>(10);
+    */
+    const auto H = input<ll>();
+    const auto W = input<ll>();
+    const auto BOARD = Board<char>::Input(H, W);
+    auto board = Board(BOARD);
+    ll dot = 0;
+    for (ll i = 0; i < H; ++i)
+    {
+        for (ll j = 0; j < W; ++j)
+        {
+            dot += BOARD[i, j] == '.';
+        }
+    }
+    auto eval = [&](ll posY, ll posX) -> bool
+    {
+        board[posY, posX] = '.';
+        vector<bool> done(H * W);
+        /**
+         * DFSスニペット
+         */
+        auto dfs = [&](auto self, ll posY, ll posX) -> ll // 引数にノード、戻り値は適度に
+        {
+            ll index = BOARD.ConvertPosToIndex(posY, posX);
+            if (!BOARD.IsInside(posY, posX))
+            {
+                return 0;
+            }
+            if (board[posY, posX] == '#')
+            {
+                return 0;
+            }
+            // 訪問済み管理のチェック
+            if (done[index])
+            {
+                return 0;
+            }
+
+            // 訪問済み管理の登録
+            done[index] = true;
+
+            // 行きがけ順に処理したい内容
+            ll count = 1;
+            for (auto &dest : LRUD_4) // 遷移処理
+            {
+                ll destY = posY + dest[0];
+                ll destX = posX + dest[1];
+                count += self(self, destY, destX);
+            }
+            // 帰りがけ順に処理したい内容
+            return count;
+        };
+        for (ll i = 0; i < H; ++i)
+        {
+            for (ll j = 0; j < W; ++j)
+            {
+                if (board[i, j] == '.')
+                {
+                    return ((dot + 1) == dfs(dfs, i, j));
+                }
+            }
+        }
+        return false;
+    };
+    ll result = 0;
+    for (ll i = 0; i < H; ++i)
+    {
+        for (ll j = 0; j < W; ++j)
+        {
+            if (BOARD[i, j] == '#')
+            {
+                board[i, j] = '.';
+                result += eval(i, j);
+                board[i, j] = '#';
+            }
+        }
+    }
+    cout << result << endl;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int64_t TESTCASES = DEFAULT_TESTCASE;
+    // std::cin >> TESTCASES;
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
+
+// AtCoder提出用テンプレート
+// 自作ライブラリ・スニペットはここ:https://github.com/Lit-to/atcoder/tree/main/modules/cpp
