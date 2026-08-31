@@ -55,14 +55,13 @@ void solve()
         {
             return true;
         }
-        if (N - 2 <= index)
+        if (index + 1 == N - 1)
         {
-            ll last = (K - sum) / N;
-            if (0 <= last)
+            if ((K - sum) % (N) == 0)
             {
-                r[N - 1] = last;
                 vector<ll> temp(N);
                 std::copy(all(r), temp.begin());
+                temp[N - 1] = (K - sum) / (N);
                 result.push_back(temp);
             }
             return false;
@@ -78,9 +77,17 @@ void solve()
         // 帰りがけ順に処理したい内容
         return false;
     };
+    if (N == 1)
+    {
+        cout << K << endl;
+        return;
+    }
     for (ll i = 0; i < K + 1; ++i)
     {
-        dfs(dfs, 0, i, 0);
+        if (dfs(dfs, 0, i, 0))
+        {
+            break;
+        }
     }
     for (auto &ans : result)
     {
