@@ -21,11 +21,11 @@ template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);
  */
 void solve()
 {
-    /*
+    // 入力スニペ
     // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(10);
-    */
+    // const auto A = input<ll>(N);
+    //
 }
 
 /**
