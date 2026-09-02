@@ -1,3 +1,21 @@
+// BFS001G
+// clang-format off
+#include <iostream>
+#include <cstdint>
+#include <queue>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <atcoder/all>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define DEFAULT_TESTCASE (1);
+using std::abs;
+using std::cin;using std::cout;using std::endl;using std::vector;using ll = int64_t;using vll = std::vector<int64_t>;using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>T input(){T variable;cin >> variable;return variable;}
+template <typename T>std::vector<T> input(int64_t n){std::vector<T> contents(n);for (int64_t i = 0; i < n; ++i){contents[i] = input<T>();}return contents;}
+// clang-format on
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -103,16 +121,6 @@ public:
     {
         return IsInside(ConvertIndexToPos(index));
     }
-
-    /**
-     * @param index 座標を表すインデックス
-     * @brief 特定のマスがボード範囲外かどうかを返す
-     */
-    bool IsOutside(const int64_t index) const
-    {
-        return !IsInside(ConvertIndexToPos(index));
-    }
-
     /**
      * @param pos 座標
      * @brief 特定のマスがボード範囲内かどうかを返す
@@ -121,16 +129,6 @@ public:
     {
         return (0 <= y && y < m_height) && (0 <= x && x < m_width);
     }
-
-    /**
-     * @param pos 座標
-     * @brief 特定のマスがボード範囲外かどうかを返す
-     */
-    bool IsOutside(const int64_t y, const int64_t x) const
-    {
-        return !IsInside(y, x);
-    }
-
     /**
      * @brief インスタンスを値で埋める
      */
@@ -217,3 +215,113 @@ private:
     int64_t m_width;       //!< 幅
     int64_t m_size;        //!< ボードの全体サイズ
 };
+/**
+ * 4方向移動差分配列LRUD
+ */
+const int64_t LRUD_4[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    // 入力スニペ
+    // const auto S = input<std::string>();
+    // const auto A = input<ll>(N);
+    //
+    const auto H = input<ll>();
+    const auto W = input<ll>();
+    auto BOARD = Board<char>::Input(H, W);
+    vector<vector<ll>> GRAPH(H * W);
+    for (ll i = 0; i < H; ++i)
+    {
+        for (ll j = 0; j < W; ++j)
+        {
+            for (auto &d : LRUD_4)
+            {
+                ll destY = d[0] + i;
+                ll destX = d[1] + j;
+                if (BOARD.IsInside(destY, destX))
+                {
+                    if (BOARD[i, j] != BOARD[destY, destX])
+                    {
+                        ll fromIndex = BOARD.ConvertPosToIndex(i, j);
+                        ll destIndex = BOARD.ConvertPosToIndex(destY, destX);
+                        GRAPH[fromIndex].push_back(destIndex);
+                        GRAPH[destIndex].push_back(fromIndex);
+                    }
+                }
+            }
+        }
+    }
+    const std::vector<int> EMPTY{};
+    const ll GOAL = H * W;
+    auto bfs = [&]() -> ll
+    {
+        /**
+         * BFSスニペット
+         */
+        struct TASK
+        {
+            int64_t pos;
+            int64_t cost;
+        };
+        std::queue<TASK> tasks;
+        vector<bool> done(H * W);
+        tasks.push(TASK{.pos = 0, .cost = 0});
+        done[0] = true;
+        while (!tasks.empty())
+        {
+            // キューから取り出す
+            auto task = tasks.front();
+            tasks.pop();
+            for (auto &dest : GRAPH[task.pos])
+            // 遷移
+            {
+                // 訪問済み確認
+                if (done[dest])
+                {
+                    continue;
+                }
+                // 訪問済み登録
+                done[dest] = true;
+                // タスク処理
+                if (dest == GOAL - 1)
+                {
+                    return task.cost + 1;
+                }
+                // キューの登録
+                tasks.push(TASK{.pos = dest, .cost = task.cost + 1});
+            }
+        }
+        return -1;
+    };
+    ll result = bfs();
+    cout << result << endl;
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int64_t TESTCASES = DEFAULT_TESTCASE;
+    // std::cin >> TESTCASES;
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
+
+// AtCoder提出用テンプレート
+// 自作ライブラリ・スニペットはここ:https://github.com/Lit-to/atcoder/tree/main/modules/cpp

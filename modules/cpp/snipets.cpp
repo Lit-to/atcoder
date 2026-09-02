@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <queue>
 // コピペ用
 // ===================
 /**
@@ -61,6 +62,40 @@ auto dfs = [&](auto self) -> void // 引数にノード、戻り値は適度に
         self(self);
     }
     // 帰りがけ順に処理したい内容
+};
+const std::vector<int> EMPTY{};
+auto bfs = [&]() -> void
+{
+    /**
+     * BFSスニペット
+     */
+    struct TASK
+    {
+        int64_t node;
+    };
+    std::queue<TASK> tasks;
+    while (!tasks.empty())
+    {
+        // キューから取り出す
+        auto task = tasks.front();
+        tasks.pop();
+
+        for (auto &dest : EMPTY)
+        // 遷移
+        {
+            // 訪問済み確認
+            if (true)
+            {
+                continue;
+            }
+            // 訪問済み登録
+
+            // タスク処理
+
+            // キューの登録
+            tasks.push(TASK{/**/});
+        }
+    }
 };
 // 構造体ではないけどおまじない
 #include <queue>
