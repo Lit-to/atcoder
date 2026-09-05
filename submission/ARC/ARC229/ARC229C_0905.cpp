@@ -1,4 +1,4 @@
-// template
+// ARC229C
 #include <iostream>
 #include <cstdint>
 #include <algorithm>
@@ -59,10 +59,49 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto N = input<ll>();
+    const auto A = input<ll>(N);
+    vector<ll> a(A);
+    std::sort(all(a));
+    std::swap(a[0], a[N - 2]);
+    ll result = 0;
+    vector<vector<ll>> oddeven(2, vector<ll>());
+    for (ll i = 1; i < N - 1; ++i)
+    {
+        oddeven[a[i] % 2 == 0].push_back(a[i]);
+    }
+    vector<ll> b;
+    int nextIsOdd = a[0] % 2 == 0;
+    b.push_back(a[0]);
+    while (!oddeven[0].empty() || !oddeven[1].empty())
+    {
+        ++nextIsOdd;
+        nextIsOdd %= 2;
+        if (!oddeven[nextIsOdd].empty())
+        {
+            ll t = oddeven[nextIsOdd].back();
+            b.push_back(t);
+            oddeven[nextIsOdd].pop_back();
+        }
+    }
+    while (!oddeven[0].empty())
+    {
+        ll t = oddeven[0].back();
+        b.push_back(t);
+        oddeven[0].pop_back();
+    }
+    while (!oddeven[1].empty())
+    {
+        ll t = oddeven[1].back();
+        b.push_back(t);
+        oddeven[1].pop_back();
+    }
+    b.push_back(a[N - 1]);
+    for (ll i = 0; i < N - 1; ++i)
+    {
+        result += (b[i] + b[i + 1]) / 2;
+    }
+    cout << result << endl;
 }
 
 /**
@@ -74,7 +113,7 @@ int main()
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     int64_t TESTCASES = DEFAULT_TESTCASE;
-    // std::cin >> TESTCASES;
+    std::cin >> TESTCASES;
     for (int64_t i = 0; i < TESTCASES; ++i)
     {
         solve();

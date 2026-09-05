@@ -1,4 +1,4 @@
-// template
+// ARC229A
 #include <iostream>
 #include <cstdint>
 #include <algorithm>
@@ -59,10 +59,43 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto X = input<ll>();
+    const ll x = 625 - X;
+    vector<char> AC;
+    for (ll i = 0; i < 25; ++i)
+    {
+        AC.push_back('A');
+    }
+    for (ll i = 0; i < 25; ++i)
+    {
+        AC.push_back('C');
+    }
+    ll count = 0;
+    auto f = [&]() -> void
+    {
+        for (bool isSorted = true;; !isSorted)
+        {
+            for (ll i = 0; i < AC.size() - 1; ++i)
+            {
+                if (AC[i] == 'A' && AC[i + 1] == 'C')
+                {
+                    isSorted = false;
+                    std::swap(AC[i], AC[i + 1]);
+                    ++count;
+                    if (count == x)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+    };
+    f();
+    for (ll i = 0; i < AC.size(); ++i)
+    {
+        cout << AC[i] << "R";
+    }
+    cout << endl;
 }
 
 /**
