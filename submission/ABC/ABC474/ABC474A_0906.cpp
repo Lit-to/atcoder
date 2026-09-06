@@ -1,4 +1,4 @@
-// ABC474F
+// ABC474A
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,22 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
+    const auto N = input<ll>();
     // const auto S = input<std::string>();
     // const auto A = input<ll>(N);
     //
+    if (N == 1)
+    {
+        cout << 2 << endl;
+    }
+    else if (N == 2)
+    {
+        cout << 3 << endl;
+    }
+    else
+    {
+        cout << 1 << endl;
+    }
 }
 
 /**

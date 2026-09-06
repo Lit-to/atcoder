@@ -1,4 +1,4 @@
-# ABC474E
+# ABC474B
 # template
 
 def main():
@@ -11,10 +11,26 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    P = im.listIntInput(N)
+    correct = []
+    i = 0
+    while(i<N):
+        group = set()
+        for j in range(10):
+            i+=1
+            group.add(i)
+        correct.append(group)
+    nowGroup = -1
+    for i in range(N):
+        if i%10 == 0:
+            nowGroup+=1
+        no(P[i] not in correct[nowGroup])
+    yes()
+        
+    
 
 
     ...
