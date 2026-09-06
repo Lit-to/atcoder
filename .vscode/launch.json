@@ -7,14 +7,14 @@
       "request": "launch",
       "map": {
         "*.py": "Launch(Pypy)",
-        "*.cpp": "Launch(LLDB)",
-        "*.rs": "Launch(LLDB)"
+        "*.cpp": "Launch(C++/LLDB)",
+        "*.rs": "Launch(Rust/LLDB)"
       }
     },
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Launch(LLDB)",
+      "name": "Launch(C++/LLDB)",
       "console": "integratedTerminal",
       "program": "${fileDirname}/a",
       "args": [],
@@ -22,7 +22,17 @@
       "preLaunchTask": "cppBuild"
     },
     {
-      "name": "Launch(Cpp/GDB)",
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch(Rust/LLDB)",
+      "console": "integratedTerminal",
+      "program": "${fileDirname}/a",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "preLaunchTask": "rustBuild"
+    },
+    {
+      "name": "Launch(C++/GDB)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/a",
@@ -47,17 +57,6 @@
       "preLaunchTask": "cppBuild"
     },
     {
-      "name": "Launch(Pypy)",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal",
-      "args": [
-        "-Xfrozen_modules=off",
-        "-m"
-      ]
-    },
-    {
       "name": "Launch(Rust/GDB)",
       "type": "cppdbg",
       "request": "launch",
@@ -69,6 +68,17 @@
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
       "preLaunchTask": "rustBuild"
+    },
+    {
+      "name": "Launch(Pypy)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "args": [
+        "-Xfrozen_modules=off",
+        "-m"
+      ]
     },
     {
       "name": "CppAuto",
