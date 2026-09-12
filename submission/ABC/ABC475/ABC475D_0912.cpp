@@ -1,4 +1,4 @@
-// ABC475A
+// ABC475D
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,83 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
     // const auto A = input<ll>(N);
     //
+    const auto S = input<std::string>();
+    const auto N = S.size();
+    vector<ll> primes;
+    HashSet<ll> notPrimes;
+    const ll INF = 1e7;
+    for (ll i = 2; i < INF; ++i)
+    {
+        if (notPrimes.contains(i))
+        {
+            continue;
+        }
+        for (ll j = 2; j < INF; ++j)
+        {
+            ll num = i * j;
+            if (num < INF)
+            {
+                notPrimes.insert(num);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    for (ll i = 2; i < INF; ++i)
+    {
+        if (notPrimes.contains(i))
+        {
+            continue;
+        }
+        primes.push_back(i);
+    }
+    std::string s = S;
+    std::reverse(all(s));
+    ll result = -1;
+
+    for (auto &prime : primes)
+    {
+        ll p = prime;
+        vector<ll> d;
+        while (0 < p)
+        {
+            d.push_back(p % 10);
+            p /= 10;
+        }
+        auto eval = [&](vector<ll> d)
+        {
+            vector<vector<ll>> ti;
+            if (d.size() != s.size())
+            {
+                return false;
+            }
+            for (ll i = 0; i < N; ++i)
+            {
+                for (ll j = 0; j < N; ++j)
+                {
+                    if (d[i] == d[j] && s[i] == s[j] || d[i] != d[j] && s[i] != s[j])
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        };
+        if (eval(d))
+        {
+            result = prime;
+            break;
+        }
+    }
+    cout << result << endl;
 }
 
 /**

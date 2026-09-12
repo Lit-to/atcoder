@@ -1,4 +1,4 @@
-# ABC475C
+# ABC475B
 # template
 
 def main():
@@ -11,10 +11,23 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    coin1 = 0
+    coin10 = 0
+    coin100 = 0
+    for i in range(N):
+        n = ((A[i]-1)//1000)+1
+        cash = (n*1000)-A[i]
+        coin100+= cash//100
+        cash%=100
+        coin10+= cash//10
+        cash %=10
+        coin1+= cash
+    print(coin1,coin10,coin100)
+
 
 
     ...
