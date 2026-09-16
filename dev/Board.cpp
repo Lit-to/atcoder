@@ -200,25 +200,94 @@ class Board
 
     //==コンストラクタ
     // コンストラクタ
+    Board<T>() : m_data(null), m_height(0), m_width(0)
+    {
+    }
+
     // コピーコンストラクタ (ボード) =>(void)
+    Board<T>(Board &rhs) : m_data(rhs.m_data) : m_height(rhs.m_height), m_width(rhs.m_width)
+    {
+    }
+    // サイズ指定
+    Board<T>(int64_t height, int64_t width) : m_data(height * width), m_height(height), m_width(width)
+    {
+    }
+
+    // サイズ指定・デフォルト埋めコンストラクタ (サイズ,値)=>(void)
+    Board<T>(int64_t height, int64_t width, T value) : m_data(height * width, value), m_height(height), m_width(width)
+    {
+    }
 
     //==主要メソッド
-    // サイズ指定・デフォルト埋めコンストラクタ (サイズ,値)=>(void)
+    // 座標からインデックスの取得
+    int64_t getIndex(int64_t r, int64_t c)
+    {
+        return r * m_width + c;
+    }
+
     // 特定位置のイテレータ取得(r,c)=>itr
+    Iterator getIterator(int64_t r, int64_t c)
+    {
+        return Iterator(this, getIndex(r, c));
+    }
+
     // 先頭(左上位置)のイテレータ取得?()=>itr
+    Iterator getFirst()
+    {
+        return getIterator(0, 0);
+    }
+
     // 全部埋め(値)=>void
+    void fill(T value)
+    {
+        for (int64_t i = 0; i < getSize(); ++i)
+        {
+            m_data[i] = value;
+        }
+    }
+
     // ある位置がボードの内側かどうか(r,c)=>bool
+    bool isInside(int64_t r, int64_t c)
+    {
+        int64_t pos = r * m_width + c;
+        return 0 <= pos && pos < getSize();
+    }
+
     // ある位置がボードの外側かどうか(r,c)=>bool
+    bool isOutside(int64_t r, int64_t c)
+    {
+        return !isInside();
+    }
+
     // 特定位置の値取得(r,c)
+
+    T &getRef(int64_t r, int64_t c)
+    {
+        return m_data[getIndex(r, c)];
+    }
+
     // 指定位置の参照取得(r,c)
+    T &getValue(int64_t r, int64_t c)
+    {
+        return *getRef(r, c);
+    }
+
+    // サイズ取得
+    int64_t getSize()
+    {
+        return m_height * m_width;
+    }
+
+    // 位置取得
+    int64_t getIndex(int64_t r, int64_t c)
+    {
+        return r * m_width + c;
+    }
 
     //==メンバ変数
-    // データ実体
-    vector<T> m_data;
-    // 縦高さ
-    int64_t m_height;
-    // 横幅
-    int64_t m_width;
+    vector<T> m_data; //<! データ実体
+    int64_t m_height; //<! 高さ
+    int64_t m_width;  //<! 横幅
 
     // フレンド登録
     friend Iterator;
