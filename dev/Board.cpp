@@ -15,31 +15,158 @@ class Board
     {
 
         //==コンストラクタ
-        // デフォルトコンストラクタ(全null)
-        // コンストラクタ(ボード指定、r,c,0初期化?)
-        // コピーコンストラクタ
-        // 演算子,主要メソッド
-        // +演算子(移動せずにコピーを返す)
-        // -演算子(移動せずにコピーを返す)
-        // *演算子(ボードの参照を返す)
-        // +=演算子(差分移動)
-        // -=演算子(差分移動)
-        // 左に1つ移動
-        // 右に1つ移動
-        // 上に1つ移動
-        // 下に1つ移動
-        // 等価演算子(同じボード、同じ位置かどうか)
-        // 不等価演算子
+        /**
+         * デフォルトコンストラクタ
+         */
+        Iterator() : m_data(null), m_pos(0)
+        {
+        }
 
-        //==移動差分の取得
-        // 上
-        // 下
+        /**
+         * ボードと位置から作成するコンストラクタ
+         */
+        Iterator(Board &board, int64_t pos) : m_data(board), m_pos(pos)
+        {
+        }
+
+        // コピーコンストラクタ
+        Iterator(Iterator &target) : m_data(target.m_data), m_pos(target.m_pos)
+        {
+        }
+
+        //== 演算子,主要メソッド
+        // +演算子(移動せずにコピーを返す)
+        Iterator &operator+(Iterator rhs)
+        {
+            return getRight(rhs.m_pos);
+        }
+
+        // -演算子(移動せずにコピーを返す)
+        Iterator &operator-(Iterator rhs)
+        {
+            return getLeft(rhs.m_pos);
+        }
+
+        // *演算子(ボードの参照を返す)
+        Iterator &operator*()
+        {
+            return *m_data[m_pos];
+        }
+
+        // アロー演算子(ボードの参照を返す)
+        Iterator &operator*()
+        {
+            return m_data[m_pos];
+        }
+
+        // +=演算子(差分移動)
+        Iterator &operator+=(Iterator &rhs)
+        {
+            m_pos += rhs.m_pos;
+        }
+
+        // -=演算子(差分移動)
+        Iterator &operator-=(Iterator &rhs)
+        {
+            m_pos -= rhs.m_pos;
+        }
+
+        Iterator &operator--()
+        {
+            --m_pos;
+            return m_pos;
+        }
+        Iterator operator--(int)
+        {
+            int64_t reval = m_pos;
+            --m_pos;
+            return reval;
+        }
+        Iterator &operator++()
+        {
+            m_pos += rhs.m_pos;
+        }
+
+        Iterator operator++(int)
+        {
+            int64_t reval = m_pos;
+            ++m_pos;
+            return reval;
+        }
+
+        // 左に1つ移動
+        Iterator &moveL()
+        {
+            --m_pos;
+        }
+
+        // 右に1つ移動
+        Iterator &moveR()
+        {
+            ++m_pos;
+        }
+
+        // 上に1つ移動
+        Iterator &moveU()
+        {
+            m_pos -= m_data.m_width;
+        }
+
+        // 下に1つ移動
+        Iterator &moveD()
+        {
+            m_pos += m_data.m_width;
+        }
+
+        // 等価演算子(同じボード、同じ位置かどうか)
+        bool operator=(Iterator &rhs)
+        {
+            return m_data == rhs.m_data && m_pos == rhs.m_pos;
+        }
+
+        // 不等価演算子
+        bool operator!=(Iterator &rhs)
+        {
+            return (!this == rhs);
+        }
+
+        // ボードの内側かどうか
+        bool isInside()
+        {
+            return 0 <= m_pos && < m_data->m_height * m_data->m_width;
+        }
+
+        // ボードの外側かどうか
+        bool isOutside()
+        {
+            return (!isInside());
+        }
+
+        //==移動先コピーイテレータの取得
         // 左
+        Iterator getLeft(int64_t distance)
+        {
+            return Iterator(m_data, m_pos - distance);
+        }
         // 右
+        Iterator getRight(int64_t distance)
+        {
+            return Iterator(m_data, m_pos + distance);
+        }
+        // 上
+        Iterator getUpper(int64_t distance)
+        {
+            return Iterator(m_data, m_pos + m_data.m_width * distance);
+        }
+        // 下
+        Iterator getLower(int64_t distance)
+        {
+            return Iterator(m_data, m_pos - m_data.m_width * distance);
+        }
 
         //==メンバー変数
-        // 紐づけるボード
-        // 指し示す位置(index/int64_t)
+        Board m_data;  //<!対応するボード
+        int64_t m_pos; //<! 指し示す位置(index/int64_t)
     };
 
     /**
@@ -87,6 +214,13 @@ class Board
 
     //==メンバ変数
     // データ実体
+    vector<T> m_data;
     // 縦高さ
+    int64_t m_height;
     // 横幅
+    int64_t m_width;
+
+    // フレンド登録
+    friend Iterator;
+    friend SearchIterater;
 };
