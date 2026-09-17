@@ -8,6 +8,7 @@
 template <class T>
 class Board
 {
+public:
     /**
      * イテレータ
      */
@@ -195,7 +196,7 @@ class Board
     }
 
     // >>演算子(入力受け取り用)
-    friend std::istream &operator>>(std::istream &stream, const Board<T> &target)
+    friend std::istream &operator>>(std::istream &stream, Board<T> &target)
     {
         for (int64_t i = 0; i < target->m_height; ++i)
         {
@@ -207,7 +208,7 @@ class Board
         return stream;
     }
     // <<演算子(出力受け取り用)
-    friend std::istream &operator<<(std::istream &stream, const Board<T> &target)
+    friend std::ostream &operator<<(std::ostream &stream, const Board<T> &target)
     {
         for (int64_t i = 0; i < target->m_height; ++i)
         {
