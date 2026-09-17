@@ -41,32 +41,35 @@ class Board
             return *m_data[m_data->getIndex(m_r, m_c)];
         }
 
-        void move(int64_t r, int64_t c)
+        // <<演算子(出力用)
+
+        void
+        move(int64_t r, int64_t c)
         {
             m_r += r;
             m_c += c;
         }
 
         // 左に1つ移動
-        void &moveL()
+        void moveL()
         {
             --m_r;
         }
 
         // 右に1つ移動
-        void &moveR()
+        void moveR()
         {
             ++m_r;
         }
 
         // 上に1つ移動
-        void &moveU()
+        void moveU()
         {
             --m_c;
         }
 
         // 下に1つ移動
-        void &moveD()
+        void moveD()
         {
             ++m_c;
         }
@@ -108,21 +111,21 @@ class Board
 
     //==コンストラクタ
     // コンストラクタ
-    Board<T>() : m_data(null), m_height(0), m_width(0)
+    Board() : m_data(nullptr), m_height(0), m_width(0)
     {
     }
 
     // コピーコンストラクタ (ボード) =>(void)
-    Board<T>(Board &rhs) : m_data(rhs.m_data) : m_height(rhs.m_height), m_width(rhs.m_width)
+    Board(Board &rhs) : m_data(rhs.m_data), m_height(rhs.m_height), m_width(rhs.m_width)
     {
     }
     // サイズ指定
-    Board<T>(int64_t height, int64_t width) : m_data(height * width), m_height(height), m_width(width)
+    Board(int64_t height, int64_t width) : m_data(height * width), m_height(height), m_width(width)
     {
     }
 
     // サイズ指定・デフォルト埋めコンストラクタ (サイズ,値)=>(void)
-    Board<T>(int64_t height, int64_t width, T value) : m_data(height * width, value), m_height(height), m_width(width)
+    Board(int64_t height, int64_t width, T value) : m_data(height * width, value), m_height(height), m_width(width)
     {
     }
 
@@ -143,6 +146,11 @@ class Board
     Iterator getFirst()
     {
         return getIterator(0, 0);
+    }
+
+    Iterator getLast()
+    {
+        return getIterator(m_height - 1, m_width - 1);
     }
 
     // 全部埋め(値)=>void
@@ -186,16 +194,35 @@ class Board
         return m_height * m_width;
     }
 
-    // 位置取得
-    int64_t getIndex(int64_t r, int64_t c)
+    // >>演算子(入力受け取り用)
+    friend std::istream &operator>>(std::istream &stream, const Board<T> &target)
     {
-        return r * m_width + c;
+        for (int64_t i = 0; i < target->m_height; ++i)
+        {
+            for (int64_t j = 0; j < target->m_width; ++j)
+            {
+                std::cin >> target->m_data[target->getIndex(i, j)];
+            }
+        }
+        return stream;
+    }
+    // <<演算子(出力受け取り用)
+    friend std::istream &operator<<(std::istream &stream, const Board<T> &target)
+    {
+        for (int64_t i = 0; i < target->m_height; ++i)
+        {
+            for (int64_t j = 0; j < target->m_width; ++j)
+            {
+                std::cout << target->m_data[target->getIndex(i, j)];
+            }
+        }
+        return stream;
     }
 
     //==メンバ変数
-    vector<T> m_data; //<! データ実体
-    int64_t m_height; //<! 高さ
-    int64_t m_width;  //<! 横幅
+    std::vector<T> m_data; //<! データ実体
+    int64_t m_height;      //<! 高さ
+    int64_t m_width;       //<! 横幅
 
     // フレンド登録
     friend Iterator;
