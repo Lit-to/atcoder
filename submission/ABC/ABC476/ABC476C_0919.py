@@ -1,4 +1,4 @@
-# ABC476A
+# ABC476C
 # template
 
 def main():
@@ -11,10 +11,20 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    A = im.listIntInput(N)
+    for i in range(N):
+        A[i]*=-1
+    slist = SortedList()
+    for i in range(N):
+        slist.add(A[i])
+        if (i<2):
+            continue
+        print(slist[2]*-1)
+    #ABC458D
+
 
 
     ...

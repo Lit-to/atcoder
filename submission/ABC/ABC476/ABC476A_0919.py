@@ -1,4 +1,4 @@
-# ABC476F
+# ABC476A
 # template
 
 def main():
@@ -10,11 +10,15 @@ def main():
     """
     入力受け取り例
 
-    S = im.input()
     N = im.intInput()
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    S = im.input()
+    if (S[-1]=="e"):
+        printe(S+"r")
+    else:
+        printe(S+"er")
 
 
     ...
