@@ -137,6 +137,14 @@ public:
             return m_pSource != nullptr && 0 <= m_index;
         }
 
+        /**
+         * index取得
+         */
+        int64_t GetIndex() const
+        {
+            return m_index;
+        }
+
     private:
         // フィールド
         LinkedList *m_pSource; //!< 元データのポインタ
@@ -169,7 +177,7 @@ public:
      * @param size 連結リストのサイズ
      * @param initValue 初期値
      */
-    LinkedList(int64_t size, T initValue = T{})
+    LinkedList(int64_t size, T initValue = T{}) : LinkedList()
     {
         for (int64_t i = 0; i < size; ++i)
         {
@@ -186,9 +194,9 @@ public:
     void Insert(const Iterator &pos, const T &elem)
     {
         int64_t newNodeIndex = _Reserve();
-        m_data[newNodeIndex] = Node{.m_prev = m_data[pos.m_index].m_prev, .m_next = pos.m_index, .m_value = elem};
-        m_data[m_data[pos.m_index].m_prev].m_next = newNodeIndex;
-        m_data[pos.m_index].m_prev = newNodeIndex;
+        m_data[newNodeIndex] = Node{.m_prev = m_data[pos.GetIndex()].m_prev, .m_next = pos.GetIndex(), .m_value = elem};
+        m_data[m_data[pos.GetIndex()].m_prev].m_next = newNodeIndex;
+        m_data[pos.GetIndex()].m_prev = newNodeIndex;
         ++m_size;
     }
     /**
@@ -197,7 +205,7 @@ public:
      * @param pos 削除したい位置
      * @return 削除した次の位置を表すイテレータ
      */
-    Iterator Erase(Iterator &pos)
+    Iterator Erase(Iterator pos)
     {
         if (m_sentinel == pos)
         {
@@ -205,9 +213,9 @@ public:
             return Iterator();
         }
 
-        m_data[m_data[pos.m_index].m_prev].m_next = m_data[pos.m_index].m_next;
-        m_data[m_data[pos.m_index].m_next].m_prev = m_data[pos.m_index].m_prev;
-        m_gabage.push_back(pos.m_index);
+        m_data[m_data[pos.GetIndex()].m_prev].m_next = m_data[pos.GetIndex()].m_next;
+        m_data[m_data[pos.GetIndex()].m_next].m_prev = m_data[pos.GetIndex()].m_prev;
+        m_gabage.push_back(pos.GetIndex());
         --m_size;
         return ++pos;
     }
@@ -218,6 +226,8 @@ public:
      */
     void PushBack(const T &value)
     {
+        // auto pos = GetEnd();
+        // --pos;
         Insert(GetEnd(), value);
     }
 
@@ -266,7 +276,7 @@ public:
     /**
      * 先頭イテレータの取得
      */
-    Iterator GetBegin()
+    Iterator GetBegin() const
     {
         auto retVal = m_sentinel;
         return ++retVal;
@@ -275,7 +285,7 @@ public:
     /**
      * 末尾イテレータの取得
      */
-    Iterator GetEnd()
+    Iterator GetEnd() const
     {
         return m_sentinel;
     }
@@ -293,7 +303,7 @@ public:
      */
     bool IsEmpty()
     {
-        return GetSize() != 0;
+        return m_size == 0;
     }
 
     /**
@@ -334,8 +344,9 @@ private:
     {
         if (m_gabage.empty())
         {
+            auto retVal = m_data.size();
             m_data.push_back(Node{});
-            return m_data.size() - 1;
+            return retVal;
         }
         else
         {
