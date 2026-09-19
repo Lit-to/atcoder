@@ -12,17 +12,17 @@ public:
      */
     randomGenerator() : m_generator(std::random_device{}()) {}
     /**
-     * @brief 値から乱数生成関数(半開区間)
+     * @brief 値から乱数生成関数
      * @param min 最小値
      * @param max 最大値
      */
     int64_t Generate(int64_t min, int64_t max)
     {
-        std::uniform_int_distribution<> dist(min, max - 1);
+        std::uniform_int_distribution<> dist(min, max);
         return dist(m_generator);
     }
     /**
-     * @brief 範囲から乱数生成関数(半開区間)
+     * @brief 範囲から乱数生成関数
      * @param range {最小値,最大値}
      */
     template <size_t N>
