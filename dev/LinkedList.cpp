@@ -2,9 +2,15 @@
 #include <cstdint>
 #include <iostream>
 template <class T>
+/**
+ * 連結リスト
+ */
 class LinkedList
 {
 public:
+    /**
+     * 連結リストイテレータ
+     */
     class Iterator
     {
     public:
@@ -158,7 +164,10 @@ public:
         }
     }
     /**
-     *
+     * コンストラクタ
+     * @details サイズと初期値を指定したコンストラクタ
+     * @param size 連結リストのサイズ
+     * @param initValue 初期値
      */
     LinkedList(int64_t size, T initValue = T{})
     {
@@ -169,7 +178,11 @@ public:
     }
 
 public:
-    // posの前に挿入
+    /**
+     * 特定位置の手前に挿入
+     * @param pos 挿入位置を示すイテレータ
+     * @param elem 挿入したい値
+     */
     void Insert(const Iterator &pos, const T &elem)
     {
         int64_t newNodeIndex = _Reserve();
@@ -178,7 +191,12 @@ public:
         m_data[pos.m_index].m_prev = newNodeIndex;
         ++m_size;
     }
-    // イテレータがさす先の値の削除
+    /**
+     * 特定位置の削除
+     * @details 即座にメモリを解放するわけではなく、後から挿入するとき用に空きメモリを確保したままにする
+     * @param pos 削除したい位置
+     * @return 削除した次の位置を表すイテレータ
+     */
     Iterator Erase(Iterator &pos)
     {
         if (m_sentinel == pos)
@@ -194,81 +212,124 @@ public:
         return ++pos;
     }
 
-    // 末尾への挿入
-    void PushBack(const T &elem)
+    /**
+     * 末尾に指定の値を挿入する
+     * @param value 値
+     */
+    void PushBack(const T &value)
     {
-        Insert(GetEnd(), elem);
+        Insert(GetEnd(), value);
     }
-    // 末尾からの削除
+
+    /**
+     * 末尾の要素を削除する
+     */
     void PopBack()
     {
         Erase(--GetEnd());
     }
-    // 先頭への挿入
+
+    /**
+     * 先頭に指定の値を挿入する
+     * @param value 値
+     */
     void PushFront(T &elem)
     {
         Insert(GetBegin(), elem);
     }
-    // 先頭からの削除
+
+    /**
+     * 先頭の要素を削除する
+     */
     void PopFront()
     {
         Erase(GetBegin());
     }
 
 public:
-    // 先頭イテレータの取得
+    /**
+     * 先頭の参照を取得
+     */
     T &GetFront()
     {
         return *GetBegin();
     }
 
-    // 末尾の取得
+    /**
+     * 末尾の参照を取得
+     */
     T &GetBack()
     {
         return *(--GetEnd());
     }
 
-    // 始端の取得 getBegin()
+    /**
+     * 先頭イテレータの取得
+     */
     Iterator GetBegin()
     {
         auto retVal = m_sentinel;
         return ++retVal;
     }
-    // 終端の取得 getEnd()
+
+    /**
+     * 末尾イテレータの取得
+     */
     Iterator GetEnd()
     {
         return m_sentinel;
     }
-    // 要素数の取得
+
+    /**
+     * リストの要素数を取得
+     */
     int64_t GetSize()
     {
         return m_size;
     }
-    // 空かどうか
+
+    /**
+     * リストに要素が存在するかどうか
+     */
     bool IsEmpty()
     {
         return GetSize() != 0;
     }
+
+    /**
+     * リストの全ての要素を削除する
+     */
     void Clear()
     {
         for (auto i = GetBegin(); i != GetEnd(); i = Erase(i))
-            ;
+        {
+        }
     }
 
 public:
-    // 始端の取得 begin()
+    /**
+     * 標準メソッド
+     * 先頭イテレータの取得
+     */
     Iterator begin()
     {
         return GetBegin();
     }
-
-    // 終端の取得 end()
+    /**
+     * 標準メソッド
+     * 末尾イテレータの取得
+     */
     Iterator end()
     {
         return GetEnd();
     }
 
 private:
+    /**
+     * 要素の確保
+     * @details 既に確保済みの空きメモリがある場合はそこから優先的に利用する
+     * @return 確保した位置を示すindex
+     */
     int64_t _Reserve()
     {
         if (m_gabage.empty())
@@ -286,17 +347,21 @@ private:
     }
 
 private:
+    /**
+     * 各要素の値と位置関係を示すデータ
+     */
     struct Node
     {
-        int64_t m_prev;
-        int64_t m_next;
-        T m_value;
+        int64_t m_prev; //!< 一つ前の要素のインデックス
+        int64_t m_next; //!< 一つ後の要素のインデックス
+        T m_value;      //!< 値
     };
 
 private:
-    std::vector<Node> m_data;
-    std::vector<int64_t> m_gabage;
-    Iterator m_sentinel;
-    int64_t m_size;
+    std::vector<Node> m_data;      //!< データの実体
+    std::vector<int64_t> m_gabage; //!< 削除済みの要素
+    Iterator m_sentinel;           //!< 末尾の次の要素
+    int64_t m_size;                //!< データの要素数
+
     friend Iterator;
 };
