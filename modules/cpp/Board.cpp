@@ -25,12 +25,18 @@ public:
 
         /**
          * ボードと位置から作成するコンストラクタ
+         * @param board 対応するボード
+         * @param r 上から何行目か
+         * @param c 左から何列目か
          */
         Iterator(Board<T> &board, int64_t r, int64_t c) : m_data(&board), m_r(r), m_c(c)
         {
         }
 
-        // コピーコンストラクタ
+        /**
+         * コピーコンストラクタ
+         * @param target コピー元イテレータのイテレータ
+         */
         Iterator(const Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
 
         //== 演算子,主要メソッド
