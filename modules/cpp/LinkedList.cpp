@@ -138,7 +138,7 @@ public:
         }
 
         /**
-         * index取得
+         * データ上の位置を示すインデックスを返す
          */
         int64_t GetIndex() const
         {
