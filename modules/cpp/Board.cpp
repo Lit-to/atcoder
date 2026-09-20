@@ -47,7 +47,7 @@ public:
          */
         T &operator*()
         {
-            return m_data->getRef(m_r, m_c);
+            return m_data->GetRef(m_r, m_c);
         }
 
         /**
@@ -55,7 +55,7 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        void move(int64_t r, int64_t c)
+        void Move(int64_t r, int64_t c)
         {
             m_r += r;
             m_c += c;
@@ -66,7 +66,7 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        Iterator getMoved(int64_t r, int64_t c)
+        Iterator GetMoved(int64_t r, int64_t c)
         {
             auto itr = Iterator(*this);
             itr.move(r, c);
@@ -97,25 +97,25 @@ public:
          * 自分自身がボードの範囲内かどうか
          * @return 範囲内ならtrue
          */
-        bool isInside() const
+        bool IsInside() const
         {
-            return m_data->isInside(m_r, m_c);
+            return m_data->IsInside(m_r, m_c);
         }
 
         /**
          * 自分自身がボードの範囲外かどうか
          * @return 範囲外ならtrue
          */
-        bool isOutside() const
+        bool IsOutside() const
         {
-            return (!isInside());
+            return (!IsInside());
         }
 
         /**
          * 自分自身の位置を表す一意の値を返す
          * @return 値
          */
-        int64_t getIndex() const
+        int64_t GetIndex() const
         {
             return m_data.getIndex(m_r, m_c);
         }
@@ -164,7 +164,7 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    int64_t getIndex(int64_t r, int64_t c)
+    int64_t GetIndex(int64_t r, int64_t c)
     {
         return r * m_width + c;
     }
@@ -174,7 +174,7 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    Iterator getIterator(int64_t r, int64_t c)
+    Iterator GetIterator(int64_t r, int64_t c)
     {
         return Iterator(*this, r, c);
     }
@@ -183,9 +183,9 @@ public:
      * 全ての位置に同じ値を埋める
      * @param value 埋めたい値
      */
-    void fill(T value)
+    void Fill(T value)
     {
-        for (int64_t i = 0; i < getSize(); ++i)
+        for (int64_t i = 0; i < GetSize(); ++i)
         {
             m_data[i] = value;
         }
@@ -195,7 +195,7 @@ public:
      * 特定位置がボードの範囲内かどうか
      * @return 範囲内ならtrue
      */
-    bool isInside(int64_t r, int64_t c)
+    bool IsInside(int64_t r, int64_t c)
     {
         return (0 <= r && r < m_height) && (0 <= c && c < m_width);
     }
@@ -204,9 +204,9 @@ public:
      * 特定位置がボードの範囲外かどうか
      * @return 範囲外ならtrue
      */
-    bool isOutside(int64_t r, int64_t c)
+    bool IsOutside(int64_t r, int64_t c)
     {
-        return !isInside(r, c);
+        return !IsInside(r, c);
     }
 
     /**
@@ -215,9 +215,9 @@ public:
      * @param c 横方向の位置
      * @return 参照
      */
-    T &getRef(int64_t r, int64_t c)
+    T &GetRef(int64_t r, int64_t c)
     {
-        return m_data[getIndex(r, c)];
+        return m_data[GetIndex(r, c)];
     }
 
     /**
@@ -226,15 +226,15 @@ public:
      * @param c 横方向の位置
      * @return 値
      */
-    T getValue(int64_t r, int64_t c)
+    T GetValue(int64_t r, int64_t c)
     {
-        return getRef(r, c);
+        return GetRef(r, c);
     }
 
     /**
      * ボードのサイズ取得
      */
-    int64_t getSize()
+    int64_t GetSize()
     {
         return m_height * m_width;
     }
@@ -245,7 +245,7 @@ public:
      */
     T &operator[](int64_t m_r, int64_t m_c)
     {
-        return getRef(m_r, m_c);
+        return GetRef(m_r, m_c);
     }
 
     /**
@@ -258,7 +258,7 @@ public:
         {
             for (int64_t j = 0; j < target.m_width; ++j)
             {
-                stream >> target.m_data[target.getIndex(i, j)];
+                stream >> target.m_data[target.GetIndex(i, j)];
             }
         }
         return stream;
@@ -274,7 +274,7 @@ public:
         {
             for (int64_t j = 0; j < target.m_width; ++j)
             {
-                stream << target.m_data[target.getIndex(i, j)] << " ";
+                stream << target.m_data[target.GetIndex(i, j)] << " ";
             }
         }
         return stream;

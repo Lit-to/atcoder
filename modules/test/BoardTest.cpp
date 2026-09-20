@@ -63,9 +63,9 @@ int main()
             int64_t posC = rand.Generate(1, H_MAX);
             int64_t diffR = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * H_MAX), 200), std::min<int64_t>(200, H_MAX)));
             int64_t diffC = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * W_MAX), 200), std::min<int64_t>(200, W_MAX)));
-            auto itr = customBoard.getIterator(posR, posC);
-            itr.move(diffR, diffC);
-            if (itr.isInside())
+            auto itr = customBoard.GetIterator(posR, posC);
+            itr.Move(diffR, diffC);
+            if (itr.IsInside())
             {
                 int64_t r = posR + diffR;
                 int64_t c = posC + diffC;
