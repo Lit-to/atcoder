@@ -268,7 +268,7 @@ public:
     /**
      * 先頭の参照を取得(const版)
      */
-    const T &GetFront() const
+    T &GetFront() const
     {
         return *GetBegin();
     }
@@ -284,7 +284,7 @@ public:
     /**
      * 末尾の参照を取得(const版)
      */
-    const T &GetBack() const
+    T &GetBack() const
     {
         return *(--GetEnd());
     }
