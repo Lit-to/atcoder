@@ -268,7 +268,7 @@ public:
     /**
      * 先頭の参照を取得(const版)
      */
-    T &GetFront() const
+    const T &GetFront() const
     {
         return *GetBegin();
     }
@@ -284,7 +284,7 @@ public:
     /**
      * 末尾の参照を取得(const版)
      */
-    T &GetBack() const
+    const T &GetBack() const
     {
         return *(--GetEnd());
     }
@@ -301,7 +301,7 @@ public:
     /**
      * 先頭イテレータの取得(const版)
      */
-    const Iterator GetBegin() const
+    Iterator GetBegin() const
     {
         auto retVal = m_sentinel;
         return ++retVal;
@@ -318,7 +318,7 @@ public:
     /**
      * 末尾イテレータの取得(const版)
      */
-    const Iterator GetEnd() const
+    Iterator GetEnd() const
     {
         return m_sentinel;
     }
@@ -362,7 +362,7 @@ public:
      * 標準メソッド
      * 先頭イテレータの取得(const版)
      */
-    const Iterator begin() const
+    Iterator begin() const
     {
         return GetBegin();
     }
@@ -380,7 +380,7 @@ public:
      * 標準メソッド
      * 末尾イテレータの取得(const版)
      */
-    const Iterator end() const
+    Iterator end() const
     {
         return GetEnd();
     }
