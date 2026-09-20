@@ -362,7 +362,7 @@ public:
      * 標準メソッド
      * 先頭イテレータの取得(const版)
      */
-    Iterator begin() const
+    const Iterator begin() const
     {
         return GetBegin();
     }
@@ -380,7 +380,7 @@ public:
      * 標準メソッド
      * 末尾イテレータの取得(const版)
      */
-    Iterator end() const
+    const Iterator end() const
     {
         return GetEnd();
     }
