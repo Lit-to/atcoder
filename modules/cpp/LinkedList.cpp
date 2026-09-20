@@ -292,6 +292,15 @@ public:
     /**
      * 先頭イテレータの取得
      */
+    Iterator GetBegin()
+    {
+        auto retVal = m_sentinel;
+        return ++retVal;
+    }
+
+    /**
+     * 先頭イテレータの取得(const版)
+     */
     Iterator GetBegin() const
     {
         auto retVal = m_sentinel;
@@ -301,11 +310,18 @@ public:
     /**
      * 末尾イテレータの取得
      */
-    Iterator GetEnd() const
+    Iterator GetEnd()
     {
         return m_sentinel;
     }
 
+    /**
+     * 末尾イテレータの取得(const版)
+     */
+    Iterator GetEnd() const
+    {
+        return m_sentinel;
+    }
     /**
      * リストの要素数を取得
      */
@@ -341,11 +357,30 @@ public:
     {
         return GetBegin();
     }
+
+    /**
+     * 標準メソッド
+     * 先頭イテレータの取得(const版)
+     */
+    Iterator begin() const
+    {
+        return GetBegin();
+    }
+
     /**
      * 標準メソッド
      * 末尾イテレータの取得
      */
     Iterator end()
+    {
+        return GetEnd();
+    }
+
+    /**
+     * 標準メソッド
+     * 末尾イテレータの取得(const版)
+     */
+    Iterator end() const
     {
         return GetEnd();
     }
