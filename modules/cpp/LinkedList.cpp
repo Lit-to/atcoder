@@ -210,7 +210,7 @@ public:
         if (m_sentinel == pos)
         {
             std::cerr << "範囲外削除" << std::endl;
-            return Iterator();
+            std::abort();
         }
 
         m_data[m_data[pos.GetIndex()].m_prev].m_next = m_data[pos.GetIndex()].m_next;
@@ -266,9 +266,25 @@ public:
     }
 
     /**
+     * 先頭の参照を取得(const版)
+     */
+    T &GetFront() const
+    {
+        return *GetBegin();
+    }
+
+    /**
      * 末尾の参照を取得
      */
     T &GetBack()
+    {
+        return *(--GetEnd());
+    }
+
+    /**
+     * 末尾の参照を取得(const版)
+     */
+    T &GetBack() const
     {
         return *(--GetEnd());
     }
@@ -293,7 +309,7 @@ public:
     /**
      * リストの要素数を取得
      */
-    int64_t GetSize()
+    int64_t GetSize() const
     {
         return m_size;
     }
@@ -301,7 +317,7 @@ public:
     /**
      * リストに要素が存在するかどうか
      */
-    bool IsEmpty()
+    bool IsEmpty() const
     {
         return m_size == 0;
     }

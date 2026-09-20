@@ -6,6 +6,10 @@
 bool isEqual(std::list<int64_t> &stdList, LinkedList<int64_t> customList)
 {
     int64_t n = stdList.size();
+    if (n != customList.GetSize())
+    {
+        std::cout << "NG:Size" << std::endl;
+    }
     auto customItr = customList.begin();
     for (auto stdItr = stdList.begin(); stdItr != stdList.end(); ++stdItr)
     {
