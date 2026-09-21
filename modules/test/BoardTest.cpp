@@ -15,7 +15,6 @@ int main()
     randomGenerator rand;
     // === テストパラメータ === //
     int64_t test = 0;
-    std::ofstream file("out.md");
     Board<int64_t> debugBoard(11, 15);
     for (int64_t i = 0; i < 11; ++i)
     {
@@ -24,8 +23,7 @@ int main()
             debugBoard[i, j] = rand.Generate(1, 100);
         }
     }
-    file << debugBoard.ToMermaidString() << std::endl;
-    file.close();
+    debugBoard.Dump("testout.md");
     while (test < TEST_COUNT)
     {
         const int64_t H = rand.Generate(1, H_MAX);

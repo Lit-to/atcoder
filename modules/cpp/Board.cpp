@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <vector>
-#include <iostream>
+#include <fstream>
 
 /**
  * 二次元ボード
@@ -164,7 +164,7 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    int64_t GetIndex(int64_t r, int64_t c)
+    int64_t GetIndex(int64_t r, int64_t c) const
     {
         return r * m_width + c;
     }
@@ -249,10 +249,10 @@ public:
     }
 
     /**
-     * デバッグ用出力
+     * デバッグ用文字列生成
      * @return mermaid文字列
      */
-    std::string ToMermaidString()
+    const std::string ToMermaidString() const
     {
         std::string valueStr = "";
         std::string classPatternAStr = "class ";
@@ -296,6 +296,17 @@ public:
         resultStr += classPatternBStr + "\n";
         resultStr += "```";
         return resultStr;
+    }
+
+    /**
+     * デバッグ用 ファイル出力(mermaid形式)
+     * @param fileName ファイル名
+     */
+    void Dump(const std::string &fileName = "out.md") const
+    {
+        std::ofstream file(fileName);
+        file << ToMermaidString() << std::endl;
+        file.close();
     }
 
     /**
