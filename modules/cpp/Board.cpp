@@ -249,6 +249,56 @@ public:
     }
 
     /**
+     * デバッグ用出力
+     * @return mermaid文字列
+     */
+    std::string ToMermaidString()
+    {
+        std::string valueStr = "";
+        std::string classPatternAStr = "class ";
+        std::string classPatternBStr = "class ";
+        for (int64_t i = 0; i < m_height; ++i)
+        {
+            for (int64_t j = 0; j < m_width; ++j)
+            {
+                valueStr += "   ";
+                std::string key = "n" + std::to_string(GetIndex(i, j));
+                valueStr += key;
+                valueStr += "[\"";
+                valueStr += std::to_string(m_data[GetIndex(i, j)]);
+                valueStr += "\"]";
+                valueStr.push_back('\n');
+                if ((i + j) % 2 == 0)
+                {
+                    classPatternAStr += key + ",";
+                }
+                else
+                {
+                    classPatternBStr += key + ",";
+                }
+            }
+        }
+        classPatternAStr.pop_back(); //","を消す
+        classPatternBStr.pop_back(); //","を消す
+        classPatternAStr += " patternA";
+        classPatternBStr += " patternB";
+
+        std::string classDefStr = "";
+        classDefStr += "classDef patternA fill:#1B2026,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
+        classDefStr += "classDef patternB fill:#303740,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
+        std::string resultStr = "";
+        resultStr += "```mermaid\n";
+        resultStr += "block-beta\n";
+        resultStr += "columns " + std::to_string(m_width) + "\n";
+        resultStr += valueStr + "\n";
+        resultStr += classDefStr + "\n";
+        resultStr += classPatternAStr + "\n";
+        resultStr += classPatternBStr + "\n";
+        resultStr += "```";
+        return resultStr;
+    }
+
+    /**
      * 入力ストリーム演算子
      * 左上から右下まで順にデータを入力として取り込む
      */
