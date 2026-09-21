@@ -14,7 +14,8 @@ int main()
     // --------------------------
     randomGenerator rand;
     // === テストパラメータ === //
-    int64_t test = 0;
+
+    // === 出力テスト === //
     Board<int64_t> debugBoard(11, 15);
     for (int64_t i = 0; i < 11; ++i)
     {
@@ -24,6 +25,9 @@ int main()
         }
     }
     debugBoard.Dump("testout.md");
+    // === 出力テスト === //
+
+    int64_t test = 0;
     while (test < TEST_COUNT)
     {
         const int64_t H = rand.Generate(1, H_MAX);
