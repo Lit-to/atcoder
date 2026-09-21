@@ -16,12 +16,12 @@ int main()
     // === テストパラメータ === //
 
     // === 出力テスト === //
-    Board<int64_t> debugBoard(11, 15);
+    Board<char> debugBoard(11, 15);
     for (int64_t i = 0; i < 11; ++i)
     {
-        for (int64_t j = 0; j < 11; ++j)
+        for (int64_t j = 0; j < 15; ++j)
         {
-            debugBoard[i, j] = rand.Generate(1, 100);
+            debugBoard[i, j] = rand.Generate('?', '?');
         }
     }
     debugBoard.Dump("testout.md");

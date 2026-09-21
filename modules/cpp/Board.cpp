@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <vector>
 #include <fstream>
-
+#include <sstream>
 /**
  * 二次元ボード
  */
@@ -254,20 +254,22 @@ public:
      */
     const std::string ToMermaidString() const
     {
-        std::string valueStr = "";
+        std::ostringstream result;
+        result << "```mermaid\n";
+        result << "block-beta\n";
+        result << "columns " + std::to_string(m_width) + "\n";
         std::string classPatternAStr = "class ";
         std::string classPatternBStr = "class ";
         for (int64_t i = 0; i < m_height; ++i)
         {
             for (int64_t j = 0; j < m_width; ++j)
             {
-                valueStr += "   ";
+                result << "   ";
                 std::string key = "n" + std::to_string(GetIndex(i, j));
-                valueStr += key;
-                valueStr += "[\"";
-                valueStr += std::to_string(m_data[GetIndex(i, j)]);
-                valueStr += "\"]";
-                valueStr.push_back('\n');
+                result << key;
+                result << "[\"";
+                result << m_data[GetIndex(i, j)];
+                result << "\"]\n";
                 if ((i + j) % 2 == 0)
                 {
                     classPatternAStr += key + ",";
@@ -278,24 +280,19 @@ public:
                 }
             }
         }
+        result << "classDef patternA fill:#1B2026,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
+        result << "classDef patternB fill:#303740,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
         classPatternAStr.pop_back(); //","を消す
         classPatternBStr.pop_back(); //","を消す
         classPatternAStr += " patternA";
         classPatternBStr += " patternB";
 
         std::string classDefStr = "";
-        classDefStr += "classDef patternA fill:#1B2026,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
-        classDefStr += "classDef patternB fill:#303740,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
         std::string resultStr = "";
-        resultStr += "```mermaid\n";
-        resultStr += "block-beta\n";
-        resultStr += "columns " + std::to_string(m_width) + "\n";
-        resultStr += valueStr + "\n";
-        resultStr += classDefStr + "\n";
-        resultStr += classPatternAStr + "\n";
-        resultStr += classPatternBStr + "\n";
-        resultStr += "```";
-        return resultStr;
+        result << classPatternAStr + "\n";
+        result << classPatternBStr + "\n";
+        result << "```";
+        return result.str();
     }
 
     /**
