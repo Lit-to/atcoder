@@ -33,6 +33,13 @@ int main()
     // --------------------------
     randomGenerator rand;
     // === テストパラメータ === //
+
+    LinkedList<int64_t> debugLinkedList;
+    for (int64_t i = 0; i < 10; ++i)
+    {
+        debugLinkedList.PushBack(rand.Generate(1, 100));
+    }
+    debugLinkedList.Dump("testout.md");
     int64_t test = 0;
     while (test < TEST_COUNT)
     {

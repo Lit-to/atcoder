@@ -1,6 +1,8 @@
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 template <class T>
 /**
  * 連結リスト
@@ -346,6 +348,47 @@ public:
         for (auto i = GetBegin(); i != GetEnd(); i = Erase(i))
         {
         }
+    }
+
+    /**
+     * デバッグ用 出力
+     */
+    std::string ToMermaidString() const
+    {
+        std::ostringstream nodes;
+        std::string tree;
+        nodes << "```mermaid\n";
+        nodes << "flowchart TB\n";
+        std::string prevKey = "head";
+        for (auto i = GetBegin(); i != GetEnd(); ++i)
+        {
+            std::string key = "n" + std::to_string(i.GetIndex());
+            nodes << "    ";
+            nodes << key << "[\"";
+            nodes << *i;
+            nodes << "\"]\n";
+            tree += "    " + prevKey + " <--> " + key + "\n";
+            prevKey = key;
+        }
+        tree += "    " + prevKey + " <--> tail" + "\n";
+
+        nodes << "\n";
+        std::string result;
+        result += nodes.str();
+        result += tree;
+        result += "\n```";
+        return result;
+    }
+
+    /**
+     * デバッグ用 ファイル出力(mermaid形式)
+     * @param fileName ファイル名
+     */
+    void Dump(const std::string &fileName = "out.md") const
+    {
+        std::ofstream file(fileName);
+        file << ToMermaidString() << std::endl;
+        file.close();
     }
 
 public:
