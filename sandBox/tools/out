@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
+#================================
+# 設定読み込み
+
+source config
+
+#================================
+# 引数から受け取り
+
+args=()
+
+for arg in "$@"; do
+    if [ "$arg" = "-notl" ]; then
+        continue
+    else
+        args+=("$arg")
+    fi
+done
+
+if [ "${#args[@]}" -eq 0 ]; then
+    execCommand="$targetProgram"
+else
+    execCommand="${args[@]}"
+fi
+
+# コンパイル
+if [ -n "${compileProgram:-}" ]; then
+    eval "$compileProgram" || exit 1
+fi
+
+# シェル事故時の救済おまじない
+set -euo pipefail
+
+#================================
+# 入力ファイル
+
+if [ -z "${outputSample:-}" ]; then
+    echo "outputSample is not defined in config" >&2
+    exit 1
+fi
+
+sampleFile="./input/$outputSample"
+
+if [ ! -f "$sampleFile" ]; then
+    echo "Input sample not found: $sampleFile" >&2
+    exit 1
+fi
+
+#================================
+# 出力ファイル
+
+output="./output"
+mkdir -p "$output"
+
+result="$output/$(date +%Y%m%d%H%M%S%3N)_Output"
+
+#================================
+# 実行結果を output に保存
+
+eval "$execCommand" < "$sampleFile" > "$result"
+
+# 出力ファイルのパスだけ表示
+realpath "$result"
+resultPath=$(realpath "$result")
+echo "$resultPath"
+
+code "$resultPath"
+popd > /dev/null
+popd > /dev/null
