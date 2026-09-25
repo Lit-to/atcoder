@@ -132,7 +132,7 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードかつ同じ位置かどうか
          */
-        bool operator==(Iterator &rhs)
+        bool operator==(const Iterator &rhs)
         {
             return m_data == rhs.m_data && m_r == rhs.m_r && m_c == rhs.m_c;
         }
@@ -142,9 +142,9 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードもしくは同じ位置ではない
          */
-        bool operator!=(Iterator &rhs)
+        bool operator!=(const Iterator &rhs)
         {
-            return (!this == rhs);
+            return !(*this == rhs);
         }
 
         /**
@@ -174,7 +174,7 @@ public:
             return m_data->GetIndex(m_r, m_c);
         }
 
-    private:
+    public:
         //==メンバー変数
         Board *m_data; //<!対応するボード
         int64_t m_r;   //<! 指し示すボードの縦方向の位置(index/int64_t)
@@ -406,7 +406,12 @@ struct EDGE
     int64_t destR; // 隣の行先ノード
     int64_t destC; // そのノードに行くコスト
 };
-const int64_t LRUD_4[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
+using Iter = Board<char>::Iterator;
+
+//
+const int JUMP_DISTANCE = 1;
 
 // 自作ライブラリここまで
 /**
@@ -419,46 +424,58 @@ void solve()
     const auto CELLS = N * N;
     const auto K = input<ll>();
     Board<char> BOARD(N, N);
+    Board<int> isAlive(N, N, 0);
     cin >> BOARD;
-    vector<vector<Board<char>::Iterator>> GRAPH(N * N);
-    vector<vector<Board<char>::Iterator>> slimes(12);
-    vector<Board<char>::Iterator> nests(12);
+    struct NODE
+    {
+        char direction;
+        Iter iterator;
+        int64_t distance;
+    };
+    vector<vector<NODE>> GRAPH(N * N);
+    vector<vector<Iter>> slimes(12);
+    vector<Iter> nests(12);
 
     // 経路探索
-    auto searchRoute = [&](ll from, ll to) -> vector<ll>
+    auto searchRoute = [&](Iter from, Iter to) -> vector<NODE>
     {
         vector<bool> done(N * N);
-        std::queue<ll> tasks;
+        std::queue<Iter> tasks;
         tasks.push(from);
-        vector<ll> parents(N * N);
+        vector<NODE> parents(N * N);
         while (!tasks.empty())
         {
             auto pos = tasks.front();
             tasks.pop();
-            for (auto &dest : GRAPH[pos])
+            for (auto &dest : GRAPH[pos.GetIndex()])
             {
-                ll destIndex = dest.GetIndex();
+                ll destIndex = dest.iterator.GetIndex();
                 if (done[destIndex])
                 {
                     continue;
                 }
                 done[destIndex] = true;
-                parents[destIndex] = pos;
-                if (destIndex == to)
+                parents[destIndex] = NODE{.direction = dest.direction, .iterator = pos, .distance = dest.distance};
+                if (dest.iterator == to)
                 {
                     break;
                 }
-                tasks.push(destIndex);
+                tasks.push(dest.iterator);
             }
         }
-        ll pos = to;
-        vector<ll> routes;
-        routes.push_back(to);
-        while (pos != from)
+        auto nextNode = NODE{
+            // 初期値
+            .direction = 'p',
+            .iterator = to,
+            .distance = 1};
+        vector<NODE> routes;
+        routes.push_back(nextNode);
+        while (nextNode.iterator != from)
         {
-            pos = parents[pos];
-            routes.push_back(pos);
+            nextNode = parents[nextNode.iterator.GetIndex()];
+            routes.push_back(nextNode);
         }
+        std::reverse(all(routes));
         return routes;
     };
 
@@ -470,19 +487,20 @@ void solve()
             if ('a' <= *iter && *iter <= 'z')
             {
                 slimes[*iter - 'a'].push_back(BOARD.GetIterator(i, j));
+                isAlive[i, j] = 1;
             }
             if ('A' <= *iter && *iter <= 'Z')
             {
                 nests[*iter - 'A'] = BOARD.GetIterator(i, j);
             }
-            for (auto &d : LRUD_4)
+            for (int direction = 0; direction < 4; ++direction)
             {
-                for (ll k = 1; k < K; ++k)
+                for (ll k = 1; k < JUMP_DISTANCE + 1; ++k)
                 {
-                    ll destR = i + (d[0] * k);
-                    ll destC = j + (d[1] * k);
+                    ll destR = i + (LRUD_4[direction][0] * k);
+                    ll destC = j + (LRUD_4[direction][1] * k);
                     auto destIter = BOARD.GetIterator(destR, destC);
-                    if (BOARD.IsOutside(i + (d[0] * k), j + (d[1] * k)))
+                    if (BOARD.IsOutside(i + (LRUD_4[direction][0] * k), j + (LRUD_4[direction][1] * k)))
                     {
                         continue;
                     }
@@ -490,26 +508,59 @@ void solve()
                     {
                         break;
                     }
-                    GRAPH[iter.GetIndex()].push_back(destIter);
+                    GRAPH[iter.GetIndex()].push_back(NODE{.direction = LRUD_4_c[direction], .iterator = destIter, .distance = k});
                 }
             }
         }
     }
-    vector<vector<ll>> rawResult;
+    vector<vector<NODE>> rawResult(K);
     for (int i = 0; i < K; ++i)
     {
-        for (auto &pos : slimes[i])
+        for (int j = 0; j < slimes[i].size(); ++j)
         {
-            rawResult[pos.GetIndex()].insert(all(rawResult[pos.GetIndex()]), searchRoute(pos.GetIndex(), nests[i].GetIndex()).begin());
+            Iter &pos = slimes[i][j];
+            auto r = searchRoute(pos, nests[i]);
+            rawResult[(*pos) - 'a'].insert(rawResult[(*pos) - 'a'].end(), all(r));
         }
     }
-    vector<vector<ll>> result;
+    struct RESULT
+    {
+        ll i;
+        ll j;
+        ll k;
+        char d;
+        ll l;
+    };
+    vector<RESULT> result;
+    bool isFirst = true;
+    ll firstR;
+    ll firstC;
     for (auto &routes : rawResult)
     {
-        for (ll i = 0; i < routes.size() - 1; ++i)
+        for (ll i = 0; i < routes.size(); ++i)
         {
-            result.push_back({routes[i]});
+            ll r = routes[i].iterator.m_r;
+            ll c = routes[i].iterator.m_c;
+            if (routes[i].direction == 'p')
+            {
+                isAlive[firstR, firstC] = 0;
+                isFirst = true;
+                continue;
+            }
+            ll k = isAlive[r, c];
+            if (isFirst)
+            {
+                firstR = r;
+                firstC = c;
+                --k;
+                isFirst = false;
+            }
+            result.push_back(RESULT{.i = r, .j = c, .k = k, .d = routes[i].direction, .l = routes[i + 1].distance});
         }
+    }
+    for (auto &r : result)
+    {
+        cout << r.i << " " << r.j << " " << r.k << " " << r.d << " " << r.l << endl;
     }
 }
 
