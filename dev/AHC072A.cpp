@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <atcoder/all>
+#include <queue>
 
 #include <map>
 template <class KEY_TYPE, class VALUE_TYPE>
@@ -170,7 +171,7 @@ public:
          */
         int64_t GetIndex() const
         {
-            return m_data.getIndex(m_r, m_c);
+            return m_data->GetIndex(m_r, m_c);
         }
 
     private:
@@ -413,29 +414,66 @@ const int64_t LRUD_4[4][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
  */
 void solve()
 {
-    // 経路復元ダイクストラ
-
     // 入力スニペ
     const auto N = input<ll>();
     const auto CELLS = N * N;
     const auto K = input<ll>();
     Board<char> BOARD(N, N);
     cin >> BOARD;
-    vector<vector<EDGE>> GRAPH(N * N);
+    vector<vector<Board<char>::Iterator>> GRAPH(N * N);
     vector<vector<Board<char>::Iterator>> slimes(12);
     vector<Board<char>::Iterator> nests(12);
+
+    // 経路探索
+    auto searchRoute = [&](ll from, ll to) -> vector<ll>
+    {
+        vector<bool> done(N * N);
+        std::queue<ll> tasks;
+        tasks.push(from);
+        vector<ll> parents(N * N);
+        while (!tasks.empty())
+        {
+            auto pos = tasks.front();
+            tasks.pop();
+            for (auto &dest : GRAPH[pos])
+            {
+                ll destIndex = dest.GetIndex();
+                if (done[destIndex])
+                {
+                    continue;
+                }
+                done[destIndex] = true;
+                parents[destIndex] = pos;
+                if (destIndex == to)
+                {
+                    break;
+                }
+                tasks.push(destIndex);
+            }
+        }
+        ll pos = to;
+        vector<ll> routes;
+        routes.push_back(to);
+        while (pos != from)
+        {
+            pos = parents[pos];
+            routes.push_back(pos);
+        }
+        return routes;
+    };
+
     for (ll i = 0; i < N; ++i)
     {
         for (ll j = 0; j < N; ++j)
         {
-            ll index = BOARD.GetIndex(i, j);
-            if ('a' <= BOARD[i, j] && BOARD[i, j] <= 'z')
+            auto iter = BOARD.GetIterator(i, j);
+            if ('a' <= *iter && *iter <= 'z')
             {
-                slimes[BOARD[i, j] - 'a'].push_back(BOARD.GetIterator(i, j));
+                slimes[*iter - 'a'].push_back(BOARD.GetIterator(i, j));
             }
-            if ('A' <= BOARD[i, j] && BOARD[i, j] <= 'Z')
+            if ('A' <= *iter && *iter <= 'Z')
             {
-                nests[BOARD[i, j] - 'A'] = BOARD.GetIterator(i, j);
+                nests[*iter - 'A'] = BOARD.GetIterator(i, j);
             }
             for (auto &d : LRUD_4)
             {
@@ -443,17 +481,34 @@ void solve()
                 {
                     ll destR = i + (d[0] * k);
                     ll destC = j + (d[1] * k);
+                    auto destIter = BOARD.GetIterator(destR, destC);
                     if (BOARD.IsOutside(i + (d[0] * k), j + (d[1] * k)))
                     {
                         continue;
                     }
-                    if (BOARD[i, j] == '#')
+                    if (*iter == '#')
                     {
                         break;
                     }
-                    GRAPH[index].push_back(EDGE{.destR = destR, .destC = destC});
+                    GRAPH[iter.GetIndex()].push_back(destIter);
                 }
             }
+        }
+    }
+    vector<vector<ll>> rawResult;
+    for (int i = 0; i < K; ++i)
+    {
+        for (auto &pos : slimes[i])
+        {
+            rawResult[pos.GetIndex()].insert(all(rawResult[pos.GetIndex()]), searchRoute(pos.GetIndex(), nests[i].GetIndex()).begin());
+        }
+    }
+    vector<vector<ll>> result;
+    for (auto &routes : rawResult)
+    {
+        for (ll i = 0; i < routes.size() - 1; ++i)
+        {
+            result.push_back({routes[i]});
         }
     }
 }
