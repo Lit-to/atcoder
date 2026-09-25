@@ -117,7 +117,7 @@ public:
          */
         int64_t GetIndex() const
         {
-            return m_data.getIndex(m_r, m_c);
+            return m_data->GetIndex(m_r, m_c);
         }
 
     private:
