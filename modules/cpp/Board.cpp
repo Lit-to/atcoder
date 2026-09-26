@@ -120,6 +120,22 @@ public:
             return m_data->GetIndex(m_r, m_c);
         }
 
+        /**
+         * イテレータの指し示す左上からの縦の距離を返す
+         */
+        int64_t GetR() const
+        {
+            return m_r;
+        }
+
+        /**
+         * イテレータの指し示す左上からの横の距離を返す
+         */
+        int64_t GetC() const
+        {
+            return m_c;
+        }
+
     private:
         //==メンバー変数
         Board *m_data; //<!対応するボード
