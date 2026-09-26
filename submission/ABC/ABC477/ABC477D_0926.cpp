@@ -1,4 +1,4 @@
-// ABC477C
+// ABC477D
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,85 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto N = input<ll>();
+    const auto Q = input<ll>();
+    struct QUERY
+    {
+        ll q;
+        ll x;
+        char c;
+    };
+    vector<QUERY> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].q;
+        if (queries[i].q == 1)
+        {
+            cin >> queries[i].x;
+            --queries[i].x;
+        }
+        else
+        {
+            cin >> queries[i].c;
+        }
+    }
+    HashSet<ll> active;
+    for (ll i = 0; i < N; ++i)
+    {
+        active.insert(i);
+    }
+    for (auto &query : queries)
+    {
+        if (query.q == 1)
+        {
+            if (active.contains(query.x))
+            {
+                active.erase(query.x);
+            }
+            else
+            {
+                active.insert(query.x);
+            }
+        }
+        else
+        {
+            continue;
+        }
+    }
+    HashSet<ll> done;
+    std::reverse(all(queries));
+    vector<char> color(N, 'a');
+    for (auto &query : queries)
+    {
+        if (query.q == 1)
+        {
+            if (done.contains(query.x))
+            {
+                continue;
+            }
+            if (active.contains(query.x))
+            {
+                active.erase(query.x);
+            }
+            else
+            {
+                active.insert(query.x);
+            }
+        }
+        else
+        {
+            for (auto i = active.begin(); i != active.end(); i = active.erase(i))
+            {
+                done.insert(*i);
+                color[*i] = query.c;
+            }
+        }
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        cout << color[i];
+    }
+    cout << endl;
 }
 
 /**

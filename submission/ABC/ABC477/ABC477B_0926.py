@@ -11,10 +11,26 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
+    N = im.intInput()
+    D = im.intInput()
+    X = im.listIntInput(N)
+    resultMap = [True]*N
+    for i in range(N):
+        for j in range(N):
+            if (i==j):
+                continue
+            elif (abs(X[i]-X[j])<D):
+                resultMap[i] = False
+                break
+    result = []
+    for i in range(N):
+        if (resultMap[i]):
+            result.append(i+1)
+    print(len(result))
+    print(*result)
+
 
 
     ...
