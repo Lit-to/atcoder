@@ -479,6 +479,7 @@ void solve()
         return routes;
     };
 
+    // グラフ構築
     for (ll i = 0; i < N; ++i)
     {
         for (ll j = 0; j < N; ++j)
@@ -513,6 +514,8 @@ void solve()
             }
         }
     }
+
+    // アルファベット事の経路作成
     vector<vector<NODE>> rawResult(K);
     for (int i = 0; i < K; ++i)
     {
@@ -535,6 +538,7 @@ void solve()
     bool isFirst = true;
     ll firstR;
     ll firstC;
+    // 経路を指示に整形
     for (auto &routes : rawResult)
     {
         for (ll i = 0; i < routes.size(); ++i)
