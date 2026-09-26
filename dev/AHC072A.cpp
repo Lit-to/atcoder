@@ -424,7 +424,7 @@ void solve()
     const auto CELLS = N * N;
     const auto K = input<ll>();
     Board<char> BOARD(N, N);
-    Board<int> isAlive(N, N, 0);
+    vector<bool> isAlive(CELLS, false);
     cin >> BOARD;
     struct NODE
     {
@@ -487,7 +487,7 @@ void solve()
             if ('a' <= *iter && *iter <= 'z')
             {
                 slimes[*iter - 'a'].push_back(BOARD.GetIterator(i, j));
-                isAlive[i, j] = 1;
+                isAlive[BOARD.GetIndex(i, j)] = true;
             }
             if ('A' <= *iter && *iter <= 'Z')
             {
@@ -543,11 +543,11 @@ void solve()
             ll c = routes[i].iterator.m_c;
             if (routes[i].direction == 'p')
             {
-                isAlive[firstR, firstC] = 0;
+                isAlive[BOARD.GetIndex(firstR, firstC)] = false;
                 isFirst = true;
                 continue;
             }
-            ll k = isAlive[r, c];
+            ll k = isAlive[BOARD.GetIndex(r, c)];
             if (isFirst)
             {
                 firstR = r;
