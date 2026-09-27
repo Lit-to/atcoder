@@ -493,14 +493,14 @@ void solve()
         }
         std::reverse(all(routes));
 
-        // kの計算 スタート地点のみ自分自身を動かす
+        ll carried = 1; // スタート地点から自分自身を運ぶ
         for (ll i = 0; i < routes.size(); ++i)
         {
             const auto index = routes[i].to.GetIndex();
-            routes[i].k = isAlive[index];
-            if (i == 0)
+            routes[i].k = isAlive[index] - carried;
+            if (BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
             {
-                --routes[i].k;
+                carried += routes[i].k - isAlive[index];
             }
         }
         isAlive[from.GetIndex()] = false;
