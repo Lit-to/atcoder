@@ -35,38 +35,56 @@ fi
 set -euo pipefail
 
 #================================
-# 入力ファイル
+# 入力フォルダ
 
-if [ -z "${outputSample:-}" ]; then
-    echo "outputSample is not defined in config" >&2
-    exit 1
-fi
+input="./input"
 
-sampleFile="./input/$outputSample"
-
-if [ ! -f "$sampleFile" ]; then
-    echo "Input sample not found: $sampleFile" >&2
+if [ ! -d "$input" ]; then
+    echo "Input directory not found: $input" >&2
     exit 1
 fi
 
 #================================
-# 出力ファイル
+# 出力フォルダ
 
-output="./output"
-mkdir -p "$output"
-
-result="$output/$(date +%Y%m%d%H%M%S%3N)_Output"
+dump="./dump"
+mkdir -p "$dump"
 
 #================================
-# 実行結果を output に保存
+# 全入力ファイルを実行
 
-eval "$execCommand" < "$sampleFile" > "$result"
+shopt -s nullglob
 
-# 出力ファイルのパスだけ表示
-realpath "$result"
-resultPath=$(realpath "$result")
+inputFiles=("$input"/*)
+
+if [ "${#inputFiles[@]}" -eq 0 ]; then
+    echo "No input files found: $input" >&2
+    exit 1
+fi
+
+for sampleFile in "${inputFiles[@]}"; do
+    if [ ! -f "$sampleFile" ]; then
+        continue
+    fi
+
+    fileName=$(basename "$sampleFile")
+    result="$dump/${fileName}"
+
+    echo "================================"
+    echo "Input : $sampleFile"
+    echo "Output: $result"
+
+    eval "$execCommand" < "$sampleFile" > "$result"
+
+    echo "Done"
+done
+
+#================================
+# dump を VS Code で開く
+
+resultPath=$(realpath "$dump")
 echo "$resultPath"
 
-code "$resultPath"
+
 popd > /dev/null
 popd > /dev/null

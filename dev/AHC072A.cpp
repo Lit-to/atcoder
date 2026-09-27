@@ -410,8 +410,9 @@ const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
 using Iter = Board<char>::Iterator;
 
-//
+// パラメータ値
 const int JUMP_DISTANCE = 1;
+const int MAX_HEIGHT = 8;
 
 // 自作ライブラリここまで
 /**
@@ -501,7 +502,7 @@ void solve()
         {
             const auto index = routes[i].to.GetIndex();
             ll count = carried + isAlive[index];
-            if (isAlive[index] && BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
+            if (carried < MAX_HEIGHT-1 && isAlive[index] && BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
             {
                 ++carried;
                 isAlive[index] = false;
