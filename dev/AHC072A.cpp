@@ -493,15 +493,18 @@ void solve()
         }
         std::reverse(all(routes));
 
-        ll carried = 1; // スタート地点から自分自身を運ぶ
-        for (ll i = 0; i < routes.size(); ++i)
+        routes[0].k = 0;
+        ll carried = 1;
+        for (ll i = 1; i < routes.size(); ++i)
         {
             const auto index = routes[i].to.GetIndex();
-            routes[i].k = isAlive[index] - carried;
-            if (BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
+            ll count = carried + isAlive[index];
+            if (isAlive[index] && BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
             {
-                carried += routes[i].k - isAlive[index];
+                ++carried;
+                isAlive[index] = false;
             }
+            routes[i].k = count - carried;
         }
         isAlive[from.GetIndex()] = false;
 
@@ -551,8 +554,11 @@ void solve()
         for (int j = 0; j < slimes[i].size(); ++j)
         {
             Iter &pos = slimes[i][j];
-            auto r = searchRoute(pos, nests[i]);
-            rawResult.push_back(r);
+            if (isAlive[pos.GetIndex()] == true)
+            {
+                auto r = searchRoute(pos, nests[i]);
+                rawResult.push_back(r);
+            }
         }
     }
     struct RESULT
