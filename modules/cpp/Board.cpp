@@ -90,7 +90,7 @@ public:
          */
         bool operator!=(const Iterator &rhs) const
         {
-            return (!this == rhs);
+            return (!(*this == rhs));
         }
 
         /**
