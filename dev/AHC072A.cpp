@@ -455,6 +455,7 @@ void solve()
     auto searchRoute = [&](Iter from, Iter to) -> vector<STEP>
     {
         vector<bool> done(N * N);
+        done[from.GetIndex()] = true;
         std::queue<Iter> tasks;
         tasks.push(from);
         vector<STEP> parents(N * N);
@@ -494,6 +495,7 @@ void solve()
         std::reverse(all(routes));
 
         routes[0].k = 0;
+        isAlive[from.GetIndex()] = false;
         ll carried = 1;
         for (ll i = 1; i < routes.size(); ++i)
         {
