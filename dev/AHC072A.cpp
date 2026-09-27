@@ -426,11 +426,12 @@ void solve()
     Board<char> BOARD(N, N);
     vector<bool> isAlive(CELLS, false);
     cin >> BOARD;
-    struct EDGE
+    struct STEP
     {
         char direction;
         Iter to;
         ll distance;
+        ll k;
     };
 
     struct PARENT
@@ -446,17 +447,17 @@ void solve()
         Iter iterator;
         ll distance;
     };
-    vector<vector<EDGE>> GRAPH(N * N);
+    vector<vector<STEP>> GRAPH(N * N);
     vector<vector<Iter>> slimes(12);
     vector<Iter> nests(12);
 
     // 経路探索
-    auto searchRoute = [&](Iter from, Iter to) -> vector<EDGE>
+    auto searchRoute = [&](Iter from, Iter to) -> vector<STEP>
     {
         vector<bool> done(N * N);
         std::queue<Iter> tasks;
         tasks.push(from);
-        vector<EDGE> parents(N * N);
+        vector<STEP> parents(N * N);
         while (!tasks.empty())
         {
             auto pos = tasks.front();
@@ -469,7 +470,7 @@ void solve()
                     continue;
                 }
                 done[destIndex] = true;
-                parents[destIndex] = EDGE{.direction = dest.direction, .to = pos, .distance = dest.distance};
+                parents[destIndex] = STEP{.direction = dest.direction, .to = pos, .distance = dest.distance};
                 if (dest.to == to)
                 {
                     break;
@@ -477,12 +478,13 @@ void solve()
                 tasks.push(dest.to);
             }
         }
-        auto nextNode = EDGE{
+        auto nextNode = STEP{
             // 初期値
             .direction = 'p',
             .to = to,
-            .distance = 1};
-        vector<EDGE> routes;
+            .distance = 1,
+            .k = 0};
+        vector<STEP> routes;
         routes.push_back(nextNode);
         while (nextNode.to != from)
         {
@@ -490,6 +492,19 @@ void solve()
             routes.push_back(nextNode);
         }
         std::reverse(all(routes));
+
+        // kの計算 スタート地点のみ自分自身を動かす
+        for (ll i = 0; i < routes.size(); ++i)
+        {
+            const auto index = routes[i].to.GetIndex();
+            routes[i].k = isAlive[index];
+            if (i == 0)
+            {
+                --routes[i].k;
+            }
+        }
+        isAlive[from.GetIndex()] = false;
+
         return routes;
     };
 
@@ -523,14 +538,14 @@ void solve()
                     {
                         break;
                     }
-                    GRAPH[iter.GetIndex()].push_back(EDGE{.direction = LRUD_4_c[direction], .to = destIter, .distance = k});
+                    GRAPH[iter.GetIndex()].push_back(STEP{.direction = LRUD_4_c[direction], .to = destIter, .distance = k});
                 }
             }
         }
     }
 
     // アルファベット事の経路作成
-    vector<vector<EDGE>> rawResult;
+    vector<vector<STEP>> rawResult;
     for (int i = 0; i < K; ++i)
     {
         for (int j = 0; j < slimes[i].size(); ++j)
@@ -556,10 +571,8 @@ void solve()
         {
             ll r = routes[i].to.m_r;
             ll c = routes[i].to.m_c;
-            ll k = isAlive[BOARD.GetIndex(r, c)];
-            result.push_back(RESULT{.i = r, .j = c, .k = k, .d = routes[i].direction, .l = routes[i + 1].distance});
+            result.push_back(RESULT{.i = r, .j = c, .k = routes[i].k, .d = routes[i].direction, .l = routes[i + 1].distance});
         }
-        isAlive[BOARD.GetIndex(routes.front().to.m_r, routes.front().to.m_c)] = false;
     }
     for (auto &r : result)
     {
