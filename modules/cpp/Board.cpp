@@ -29,7 +29,7 @@ public:
          * @param r 上から何行目か
          * @param c 左から何列目か
          */
-        Iterator(Board<T> &board, int64_t r, int64_t c) : m_data(&board), m_r(r), m_c(c)
+        Iterator(Board<T> &board, const int64_t r, const int64_t c) : m_data(&board), m_r(r), m_c(c)
         {
         }
 
@@ -37,7 +37,7 @@ public:
          * コピーコンストラクタ
          * @param target コピー元イテレータのイテレータ
          */
-        Iterator(const Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
+        Iterator(Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
 
         //== 演算子,主要メソッド
 
@@ -55,7 +55,7 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        void Move(int64_t r, int64_t c)
+        void Move(const int64_t r, const int64_t c)
         {
             m_r += r;
             m_c += c;
@@ -66,7 +66,7 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        Iterator GetMoved(int64_t r, int64_t c)
+        Iterator GetMoved(const int64_t r, const int64_t c) const
         {
             auto itr = Iterator(*this);
             itr.move(r, c);
@@ -78,7 +78,7 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードかつ同じ位置かどうか
          */
-        bool operator==(Iterator &rhs)
+        bool operator==(const Iterator &rhs) const
         {
             return m_data == rhs.m_data && m_r == rhs.m_r && m_c == rhs.m_c;
         }
@@ -88,7 +88,7 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードもしくは同じ位置ではない
          */
-        bool operator!=(Iterator &rhs)
+        bool operator!=(const Iterator &rhs) const
         {
             return (!this == rhs);
         }
@@ -122,6 +122,7 @@ public:
 
         /**
          * イテレータの指し示す左上からの縦の距離を返す
+         * @return 値
          */
         int64_t GetR() const
         {
@@ -130,6 +131,7 @@ public:
 
         /**
          * イテレータの指し示す左上からの横の距離を返す
+         * @return 値
          */
         int64_t GetC() const
         {
@@ -154,7 +156,7 @@ public:
     /**
      * コピーコンストラクタ
      */
-    Board(Board &rhs) : m_data(rhs.m_data), m_height(rhs.m_height), m_width(rhs.m_width)
+    Board(const Board &rhs) : m_data(rhs.m_data), m_height(rhs.m_height), m_width(rhs.m_width)
     {
     }
 
@@ -162,7 +164,7 @@ public:
      * コンストラクタ
      * 縦と横を指定してボードを作成
      */
-    Board(int64_t height, int64_t width) : m_data(height * width), m_height(height), m_width(width)
+    Board(const int64_t height, const int64_t width) : m_data(height * width), m_height(height), m_width(width)
     {
     }
 
@@ -170,7 +172,7 @@ public:
      * コンストラクタ
      * 縦と横とデフォルト値を指定してボードを作成
      */
-    Board(int64_t height, int64_t width, T value) : m_data(height * width, value), m_height(height), m_width(width)
+    Board(const int64_t height, const int64_t width, const T value) : m_data(height * width, value), m_height(height), m_width(width)
     {
     }
 
@@ -180,7 +182,7 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    int64_t GetIndex(int64_t r, int64_t c) const
+    int64_t GetIndex(const int64_t r, const int64_t c) const
     {
         return r * m_width + c;
     }
@@ -190,7 +192,7 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    Iterator GetIterator(int64_t r, int64_t c)
+    Iterator GetIterator(const int64_t r, const int64_t c)
     {
         return Iterator(*this, r, c);
     }
@@ -199,7 +201,7 @@ public:
      * 全ての位置に同じ値を埋める
      * @param value 埋めたい値
      */
-    void Fill(T value)
+    void Fill(const T value)
     {
         for (int64_t i = 0; i < GetSize(); ++i)
         {
@@ -211,7 +213,7 @@ public:
      * 特定位置がボードの範囲内かどうか
      * @return 範囲内ならtrue
      */
-    bool IsInside(int64_t r, int64_t c)
+    bool IsInside(const int64_t r, const int64_t c) const
     {
         return (0 <= r && r < m_height) && (0 <= c && c < m_width);
     }
@@ -220,7 +222,7 @@ public:
      * 特定位置がボードの範囲外かどうか
      * @return 範囲外ならtrue
      */
-    bool IsOutside(int64_t r, int64_t c)
+    bool IsOutside(const int64_t r, const int64_t c) const
     {
         return !IsInside(r, c);
     }
@@ -231,7 +233,7 @@ public:
      * @param c 横方向の位置
      * @return 参照
      */
-    T &GetRef(int64_t r, int64_t c)
+    T &GetRef(const int64_t r, const int64_t c)
     {
         return m_data[GetIndex(r, c)];
     }
@@ -242,24 +244,27 @@ public:
      * @param c 横方向の位置
      * @return 値
      */
-    T GetValue(int64_t r, int64_t c)
+    T GetValue(const int64_t r, const int64_t c) const
     {
-        return GetRef(r, c);
+        return *GetRef(r, c);
     }
 
     /**
      * ボードのサイズ取得
+     * @return 値
      */
-    int64_t GetSize()
+    int64_t GetSize() const
     {
         return m_height * m_width;
     }
 
     /**
      * 添え字演算子
-     * @param イテレータが指し示す先の参照
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
      */
-    T &operator[](int64_t m_r, int64_t m_c)
+    T &operator[](const int64_t m_r, const int64_t m_c)
     {
         return GetRef(m_r, m_c);
     }
@@ -325,6 +330,7 @@ public:
     /**
      * 入力ストリーム演算子
      * 左上から右下まで順にデータを入力として取り込む
+     * @return 更新後の入力ストリーム
      */
     friend std::istream &operator>>(std::istream &stream, Board<T> &target)
     {
@@ -341,6 +347,7 @@ public:
     /**
      * 出力ストリーム演算子
      * 左上から右下まで順に出力する
+     * @return 更新後の出力ストリーム
      */
     friend std::ostream &operator<<(std::ostream &stream, const Board<T> &target)
     {

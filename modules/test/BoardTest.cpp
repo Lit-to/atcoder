@@ -6,7 +6,6 @@
 int main()
 {
     // === テストパラメータ === //
-    const int64_t N_MAX = 999999;
     const int64_t H_MAX = 9999;
     const int64_t W_MAX = 999;
     const int64_t V_MAX = 99999999;
@@ -21,7 +20,7 @@ int main()
     {
         for (int64_t j = 0; j < 15; ++j)
         {
-            debugBoard[i, j] = rand.Generate('?', '?');
+            debugBoard[i, j] = rand.Generate('a', 'z');
         }
     }
     debugBoard.Dump("testout.md");
@@ -32,8 +31,8 @@ int main()
     {
         const int64_t H = rand.Generate(1, H_MAX);
         const int64_t W = rand.Generate(1, W_MAX);
-        std::vector<std::vector<int64_t>> stdBoard(H, std::vector<int64_t>(W));
-        Board<int64_t> customBoard(H, W);
+        std::vector<std::vector<char>> stdBoard(H, std::vector<char>(W));
+        Board<char> customBoard(H, W);
         for (int64_t i = 0; i < H; ++i)
         {
             for (int64_t j = 0; j < W; ++j)
@@ -62,8 +61,8 @@ int main()
             // てきとうな場所を上書き
             for (int i = 0; i < 10; ++i)
             {
-                int64_t posR = rand.Generate(1, H);
-                int64_t posC = rand.Generate(1, W);
+                int64_t posR = rand.Generate(1, H) - 1;
+                int64_t posC = rand.Generate(1, W) - 1;
                 int64_t value = rand.Generate(1, V_MAX);
                 stdBoard[posR][posC] = value;
                 customBoard[posR, posC] = value;
