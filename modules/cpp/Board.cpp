@@ -47,7 +47,7 @@ public:
          */
         T &operator*()
         {
-            return m_data->GetRef(m_r, m_c);
+            return m_data->Get(m_r, m_c);
         }
 
         /**
@@ -233,7 +233,7 @@ public:
      * @param c 横方向の位置
      * @return 参照
      */
-    T &GetRef(const int64_t r, const int64_t c)
+    T &Get(const int64_t r, const int64_t c)
     {
         return m_data[GetIndex(r, c)];
     }
@@ -244,9 +244,9 @@ public:
      * @param c 横方向の位置
      * @return 値
      */
-    T GetValue(const int64_t r, const int64_t c) const
+    const T &Get(const int64_t r, const int64_t c) const
     {
-        return *GetRef(r, c);
+        return Get(r, c);
     }
 
     /**
@@ -266,7 +266,7 @@ public:
      */
     T &operator[](const int64_t m_r, const int64_t m_c)
     {
-        return GetRef(m_r, m_c);
+        return Get(m_r, m_c);
     }
 
     /**

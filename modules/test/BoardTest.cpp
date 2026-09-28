@@ -111,13 +111,18 @@ int main()
             int64_t diffR = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * H_MAX), 200), std::min<int64_t>(200, H_MAX)));
             int64_t diffC = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * W_MAX), 200), std::min<int64_t>(200, W_MAX)));
             auto itr = customBoard.GetIterator(posR, posC).GetMoved(diffR, diffC);
+            if (customBoard.IsOutside(posR, posC))
+            {
+                continue;
+            }
             if (itr == customBoard.GetIterator(posR, posC))
             {
                 std::cerr << "q4:不具合:==" << std::endl;
-            }
-            else
-            {
                 continue;
+            }
+            if (customBoard.Get(posR, posC) != stdBoard[posR][posC])
+            {
+                std::cerr << "q4:不一致:GetValue" << std::endl;
             }
         }
         ++test;
