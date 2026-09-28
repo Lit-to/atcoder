@@ -37,15 +37,33 @@ public:
          * コピーコンストラクタ
          * @param target コピー元イテレータのイテレータ
          */
-        Iterator(const Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
+        Iterator(const Iterator &rhs) : m_data(rhs.m_data), m_r(rhs.m_r), m_c(rhs.m_c) {}
 
         //== 演算子,主要メソッド
+        /**
+         * コピー代入演算子
+         * @param rhs 比較相手のイテレータ
+         * @return 同じボードかつ同じ位置かどうか
+         */
+        bool operator=(const Iterator &rhs) const
+        {
+            return Iterator(rhs);
+        }
 
         /**
          * 参照演算子
          * @param イテレータが指し示す先の参照
          */
         T &operator*()
+        {
+            return m_data->Get(m_r, m_c);
+        }
+
+        /**
+         * 参照演算子(const)
+         * @param イテレータが指し示す先の参照
+         */
+        T &operator*() const
         {
             return m_data->Get(m_r, m_c);
         }
@@ -66,9 +84,9 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        Iterator GetMoved(const int64_t r, const int64_t c)
+        Iterator GetMoved(const int64_t r, const int64_t c) const
         {
-            auto itr = Iterator(*this);
+            auto itr = *this;
             itr.Move(r, c);
             return itr;
         };
@@ -192,9 +210,9 @@ public:
      * @param r 縦方向の位置
      * @param c 横方向の位置
      */
-    Iterator GetIterator(const int64_t r, const int64_t c)
+    Iterator GetIterator(const int64_t r, const int64_t c) const
     {
-        return Iterator(*this, r, c);
+        return Iterator(const_cast<Board<T> &>(*this), r, c);
     }
 
     /**
@@ -265,6 +283,17 @@ public:
      * @return イテレータが指し示す先の参照
      */
     T &operator[](const int64_t m_r, const int64_t m_c)
+    {
+        return Get(m_r, m_c);
+    }
+
+    /**
+     * 添え字演算子
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
+     */
+    T &operator[](const int64_t m_r, const int64_t m_c) const
     {
         return Get(m_r, m_c);
     }
