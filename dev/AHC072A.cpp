@@ -435,6 +435,15 @@ void solve()
         ll k;
     };
 
+    struct TASK
+    {
+        char direction;
+        Iter to;
+        ll distance;
+        ll k;
+        ll count;
+    };
+
     struct PARENT
     {
         char direction;
@@ -453,7 +462,7 @@ void solve()
     vector<Iter> nests(12);
 
     // 経路探索
-    auto searchRoute = [&](Iter from, Iter to) -> vector<STEP>
+    auto searchRoute = [&](Iter from, Iter to) -> vector<TASK>
     {
         vector<bool> done(N * N);
         done[from.GetIndex()] = true;
@@ -480,34 +489,43 @@ void solve()
                 tasks.push(dest.to);
             }
         }
-        auto nextNode = STEP{
+        auto nextNode = TASK{
             // 初期値
             .direction = 'p',
             .to = to,
             .distance = 1,
-            .k = 0};
-        vector<STEP> routes;
+            .k = 0,
+            .count = 0,
+        };
+        vector<TASK> routes;
         routes.push_back(nextNode);
         while (nextNode.to != from)
         {
-            nextNode = parents[nextNode.to.GetIndex()];
+            STEP nextStep = parents[nextNode.to.GetIndex()];
+            nextNode.direction = nextStep.direction;
+            nextNode.to = nextStep.to;
+            nextNode.distance = nextStep.distance;
+            nextNode.k = nextStep.k;
+            nextNode.count = 0;
             routes.push_back(nextNode);
         }
         std::reverse(all(routes));
 
         routes[0].k = 0;
+        routes[0].count = 1;
         isAlive[from.GetIndex()] = false;
         ll carried = 1;
         for (ll i = 1; i < routes.size(); ++i)
         {
             const auto index = routes[i].to.GetIndex();
-            ll count = carried + isAlive[index];
-            if (carried < MAX_HEIGHT-1 && isAlive[index] && BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
+            ll count = carried + isAlive[index]; // 場にいるスライムの数
+            if (carried < MAX_HEIGHT - 1 && isAlive[index] && BOARD[routes[i].to.m_r, routes[i].to.m_c] == BOARD[routes[0].to.m_r, routes[0].to.m_c])
             {
                 ++carried;
                 isAlive[index] = false;
             }
             routes[i].k = count - carried;
+            routes[i].count = count;
         }
         isAlive[from.GetIndex()] = false;
 
@@ -551,7 +569,7 @@ void solve()
     }
 
     // アルファベット事の経路作成
-    vector<vector<STEP>> rawResult;
+    vector<vector<TASK>> rawResult;
     for (int i = 0; i < K; ++i)
     {
         for (int j = 0; j < slimes[i].size(); ++j)
@@ -574,6 +592,7 @@ void solve()
     };
     vector<RESULT> result;
     // 経路を指示に整形
+    auto prevOrder = RESULT{.i = -1, .j = -1, .k = -1, .d = '.', .l = -1};
     for (auto &routes : rawResult)
     {
         for (ll i = 0; i + 1 < routes.size(); ++i)
