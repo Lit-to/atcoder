@@ -6,7 +6,7 @@
 #include <vector>
 #include <atcoder/all>
 #include <random>
-
+#include <chrono>
 #include <map>
 template <class KEY_TYPE, class VALUE_TYPE>
 using TreeMap = std::map<KEY_TYPE, VALUE_TYPE>;
@@ -518,6 +518,7 @@ private:
 };
 // 自作ライブラリここまで
 // 定数表現
+
 using Iter = Board<char>::Iterator;
 const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
@@ -527,7 +528,9 @@ int K = 12;
 Board<char> BOARD(0, 0);
 int64_t N;
 int64_t CELLS;
-// std::mt19937 randomGenerator(std::random_device{}());
+const int64_t TIME_LIMIT = 1900;
+std::mt19937 randomGenerator(std::random_device{}());
+
 // 定数表現ここまで
 
 // 型定義
@@ -762,20 +765,20 @@ vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Bo
     return retVal;
 }
 
-// void ShuffleSlimes(vector<vector<int64_t>> &slimes)
-// {
-//     for (ll i = 0; i < K; ++i)
-//     {
-//         std::shuffle(all(slimes[i]), randomGenerator);
-//     }
-// }
+void ShuffleSlimes(vector<vector<int64_t>> &slimes)
+{
+    for (ll i = 0; i < K; ++i)
+    {
+        std::shuffle(all(slimes[i]), randomGenerator);
+    }
+}
 
 /**
  * 1ケースぶんの処理実行
  */
 void solve()
 {
-    // std::mt19937 randomGenerator(std::random_device{}());
+    std::mt19937 randomGenerator(std::random_device{}());
     // 入力受け取り
     N = input<ll>();
     CELLS = N * N;
@@ -803,11 +806,18 @@ void solve()
     }
     int64_t score = INT64_MAX;
     vector<SLIME_SCORE> tentative(K);
-    // while (true)
+
+    const auto start = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
+
+    while (elapsed < TIME_LIMIT)
     {
-        // ShuffleSlimes(slimes);
+        ShuffleSlimes(slimes);
         auto result = TryTask(slimes, nests, BOARD);
         UpdateTentative(result, slimes, tentative);
+        now = std::chrono::steady_clock::now();
+        elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
     }
     auto result = Answer(tentative, nests, BOARD);
     for (auto &r : result)
