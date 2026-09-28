@@ -42,7 +42,7 @@ int main()
                 customBoard[i, j] = v;
             }
         }
-        const int64_t q = rand.Generate(1, 4);
+        const int64_t q = rand.Generate(1, 5);
         if (q == 1)
         {
             for (int64_t i = 0; i < H; ++i)
@@ -87,7 +87,7 @@ int main()
                 }
             }
         }
-        else
+        else if (q == 4)
         {
             int64_t posR = rand.Generate(1, W_MAX);
             int64_t posC = rand.Generate(1, H_MAX);
@@ -102,6 +102,22 @@ int main()
             else
             {
                 std::cerr << "q4:不具合:!=" << std::endl;
+            }
+        }
+        else if (q == 5)
+        {
+            int64_t posR = rand.Generate(1, W_MAX);
+            int64_t posC = rand.Generate(1, H_MAX);
+            int64_t diffR = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * H_MAX), 200), std::min<int64_t>(200, H_MAX)));
+            int64_t diffC = rand.Generate(1, std::min<int64_t>(std::max<int64_t>((-1 * W_MAX), 200), std::min<int64_t>(200, W_MAX)));
+            auto itr = customBoard.GetIterator(posR, posC).GetMoved(diffR, diffC);
+            if (itr == customBoard.GetIterator(posR, posC))
+            {
+                std::cerr << "q4:不具合:==" << std::endl;
+            }
+            else
+            {
+                continue;
             }
         }
         ++test;

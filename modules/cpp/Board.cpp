@@ -37,7 +37,7 @@ public:
          * コピーコンストラクタ
          * @param target コピー元イテレータのイテレータ
          */
-        Iterator(Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
+        Iterator(const Iterator &target) : m_data(target.m_data), m_r(target.m_r), m_c(target.m_c) {}
 
         //== 演算子,主要メソッド
 
@@ -66,10 +66,10 @@ public:
          * @param r 移動差分(縦)
          * @param c 移動差分(横)
          */
-        Iterator GetMoved(const int64_t r, const int64_t c) const
+        Iterator GetMoved(const int64_t r, const int64_t c)
         {
             auto itr = Iterator(*this);
-            itr.move(r, c);
+            itr.Move(r, c);
             return itr;
         };
 
