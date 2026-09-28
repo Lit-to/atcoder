@@ -657,7 +657,12 @@ vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes)
     return result;
 }
 
-vector<RESULT> GenerateResult(vector<TRACK> line, const Board<char> &BOARD, vector<bool> &isActive)
+int64_t GetDistance(ll u1, ll v1, ll u2, ll v2)
+{
+    return std::max(abs(u1 - u1), abs(v1 - v2));
+};
+
+vector<RESULT> GenerateResult(vector<TRACK> line, Board<char> &BOARD, vector<bool> &isActive, vector<int64_t> nests)
 {
     vector<RESULT> result;
     auto firstIter = BOARD.GetIterator(line[0].pos);
@@ -678,14 +683,19 @@ vector<RESULT> GenerateResult(vector<TRACK> line, const Board<char> &BOARD, vect
                 --k;
             }
         }
-        result.push_back(
-            RESULT{
-                .i = iter.GetR(),
-                .j = iter.GetC(),
-                .k = k,
-                .d = line[i].direction,
-                .l = line[i].distance,
-            });
+        else if (!result.empty() && GetDistance(iter.GetR(), iter.GetC(), result.back().i, result.back().j) <= 1 && result.back().l + 1 <= result.back().k + 1 && result.back().d == line[i].direction)
+        {
+            ++result.back().l;
+            continue;
+        }
+        auto task = RESULT{
+            .i = iter.GetR(),
+            .j = iter.GetC(),
+            .k = k,
+            .d = line[i].direction,
+            .l = line[i].distance,
+        };
+        result.push_back(task);
     }
 
     return result;
@@ -739,7 +749,7 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
             {
                 slimeGroups[j].push_back(nests[i]);
                 auto tasks = GenerateGroupTasks(BOARD, slimeGroups[j]);
-                auto groupResult = GenerateResult(tasks, BOARD, isActive);
+                auto groupResult = GenerateResult(tasks, BOARD, isActive, nests);
                 result[i].insert(result[i].end(), all(groupResult));
             }
         }
