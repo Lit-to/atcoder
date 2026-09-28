@@ -523,12 +523,13 @@ using Iter = Board<char>::Iterator;
 const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
 const int MAX_HEIGHT = 8;
+const int MAX_GROUP_SIZE = 7;
 const int MAX_K = 12;
 int K = 12;
 Board<char> BOARD(0, 0);
 int64_t N;
 int64_t CELLS;
-const int64_t TIME_LIMIT = 1900;
+const int64_t TIME_LIMIT = 1950;
 std::mt19937 randomGenerator(std::random_device{}());
 
 // 定数表現ここまで
@@ -564,6 +565,7 @@ struct RESULT
 struct SLIME_SCORE
 {
     ll score = INT64_MAX;
+    ll groupSize;
     vector<ll> slimes;
 };
 
@@ -643,12 +645,12 @@ vector<TRACK> GenerateGroupTasks(const Board<char> &BOARD, vector<ll> nodes)
 }
 
 // スライム同士のグループ分けを行った結果を返す
-vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes)
+vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes, int64_t groupSize)
 {
     vector<vector<int64_t>> result;
     for (int64_t i = 0; i < slimes.size(); ++i)
     {
-        if (i % (MAX_HEIGHT - 1) == 0)
+        if (i % (groupSize) == 0)
         {
             result.push_back(vector<int64_t>());
         }
@@ -706,7 +708,7 @@ int64_t Eval(const vector<RESULT> &result, int64_t penalty = 0)
     return result.size() + penalty * 1e6;
 };
 
-int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<SLIME_SCORE> &tentative)
+int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<int64_t> groupSizes, vector<SLIME_SCORE> &tentative)
 {
     ll result = 0;
     for (ll i = 0; i < orderes.size(); ++i)
@@ -716,13 +718,14 @@ int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>
         {
             tentative[i].slimes = slimes[i];
             tentative[i].score = score;
+            tentative[i].groupSize = groupSizes[i];
         }
         result += score;
     }
     return result;
 }
 
-vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> &nests, Board<char> &BOARD)
+vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSize, vector<int64_t> &nests, Board<char> &BOARD)
 {
 
     vector<vector<RESULT>> result(K, vector<RESULT>());
@@ -741,8 +744,8 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
     }
     for (ll i = 0; i < K; ++i)
     {
-        auto slimeGroups = PlacementSlimes(slimes[i]);
-        // スライムを7個体ごとのグループに分ける
+        auto slimeGroups = PlacementSlimes(slimes[i], groupSize[i]);
+        // スライムを7個ごとのグループに分ける
         {
             // グラフ構築(グラフ)
             for (int64_t j = 0; j < slimeGroups.size(); ++j)
@@ -760,11 +763,13 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
 vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Board<char> &BOARD)
 {
     vector<vector<int64_t>> slimes(K);
+    vector<int64_t> groupSize(K);
     for (ll i = 0; i < K; ++i)
     {
         slimes[i] = tentative[i].slimes;
+        groupSize[i] = tentative[i].groupSize;
     }
-    auto result = TryTask(slimes, nests, BOARD);
+    auto result = TryTask(slimes, groupSize, nests, BOARD);
     vector<RESULT> retVal;
     for (ll i = 0; i < K; ++i)
     {
@@ -776,11 +781,12 @@ vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Bo
     return retVal;
 }
 
-void ShuffleSlimes(vector<vector<int64_t>> &slimes)
+void ShuffleSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSizes)
 {
     for (ll i = 0; i < K; ++i)
     {
         std::shuffle(all(slimes[i]), randomGenerator);
+        groupSizes[i] = std::uniform_int_distribution<ll>(1, MAX_GROUP_SIZE)(randomGenerator);
     }
 }
 
@@ -822,11 +828,12 @@ void solve()
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
 
+    vector<ll> groupSizes(K);
     while (elapsed < TIME_LIMIT)
     {
-        ShuffleSlimes(slimes);
-        auto result = TryTask(slimes, nests, BOARD);
-        UpdateTentative(result, slimes, tentative);
+        ShuffleSlimes(slimes, groupSizes);
+        auto result = TryTask(slimes, groupSizes, nests, BOARD);
+        UpdateTentative(result, slimes, groupSizes, tentative);
         now = std::chrono::steady_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
     }
