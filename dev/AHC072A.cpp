@@ -592,14 +592,26 @@ void solve()
     };
     vector<RESULT> result;
     // 経路を指示に整形
-    auto prevOrder = RESULT{.i = -1, .j = -1, .k = -1, .d = '.', .l = -1};
+    ll slimeCount = 0;
     for (auto &routes : rawResult)
     {
+        auto prevOrder = RESULT{.i = -1, .j = -1, .k = -1, .d = '.', .l = -1};
         for (ll i = 0; i + 1 < routes.size(); ++i)
         {
             ll r = routes[i].to.m_r;
             ll c = routes[i].to.m_c;
-            result.push_back(RESULT{.i = r, .j = c, .k = routes[i].k, .d = routes[i].direction, .l = routes[i + 1].distance});
+            auto nextOrder = RESULT{.i = r, .j = c, .k = routes[i].k, .d = routes[i].direction, .l = routes[i + 1].distance};
+            if (prevOrder.l + nextOrder.l <= prevOrder.k && prevOrder.d == nextOrder.d)
+            {
+                result.pop_back();
+                ll skip_l = nextOrder.l + prevOrder.l;
+                nextOrder = prevOrder;
+                nextOrder.l = skip_l;
+                nextOrder.k = routes[i].k;
+            }
+            slimeCount = routes[i].count;
+            result.push_back(nextOrder);
+            prevOrder = nextOrder;
         }
     }
     for (auto &r : result)
