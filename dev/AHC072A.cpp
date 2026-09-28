@@ -360,7 +360,7 @@ public:
      */
     const T &Get(const int64_t index) const
     {
-        return Get(index);
+        return m_data[index];
     }
 
     /**
@@ -532,8 +532,9 @@ const int COLOR_MAX = 12;
 struct TRACK
 {
     int64_t pos;      // トークンの位置を表す
-    char direction;   // トークンの位置を表す
+    char direction;   // トークンの方向を表す
     int64_t distance; // 距離
+    bool isPickup;    // 拾うかどうか
 };
 /**
  * 答え配列の各命令指示
@@ -547,15 +548,15 @@ struct RESULT
     ll l;
 };
 // ノードとノードの間にどのノードがいるのかを求める関数
-vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to)
+vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to, char nestType)
 {
-    int64_t N = BOARD.GetSize();
+    int64_t HW = BOARD.GetSize();
     vector<TRACK> result;
-    vector<int64_t> done(BOARD.GetSize());
+    vector<int64_t> done(HW);
     done[from] = true;
     std::queue<int64_t> tasks;
     tasks.push(from);
-    vector<TRACK> parent(N);
+    vector<TRACK> parent(HW);
     // 探索
     TRACK posToken; // ゴールノードが入る予定の変数
     auto Search = [&]() -> void
@@ -568,6 +569,10 @@ vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to)
             for (int i = 0; i < 4; ++i)
             {
                 auto destIter = iterator.GetMoved(LRUD_4[i][0], LRUD_4[i][1]);
+                if (destIter.IsOutside())
+                {
+                    continue;
+                }
                 auto destIndex = destIter.GetIndex();
                 if (BOARD[destIndex] == '#')
                 {
@@ -583,10 +588,11 @@ vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to)
                     .pos = task,
                     .direction = LRUD_4_c[i],
                     .distance = distance,
+                    .isPickup = false,
                 };
-                if (destIndex == to)
+                if (destIndex == to || BOARD[destIndex] == nestType)
                 {
-                    posToken = parent[destIndex];
+                    posToken = TRACK{.pos = destIndex}; // ここから先に進むことはない
                     return;
                 }
                 tasks.push(destIndex);
@@ -596,31 +602,41 @@ vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to)
     Search();
     while (posToken.pos != from)
     {
+        auto pos = posToken;
+        posToken = parent[pos.pos];
         result.push_back(posToken);
-        auto pos = posToken.pos;
-        posToken = parent[pos];
     }
-    result.push_back(TRACK{.pos = from});
     std::reverse(all(result));
+    result[0].isPickup = true;
     return result;
 };
 
 // スライム同士の位置関係を表すグラフを構築する
-void GenerateGraph(vector<vector<TRACK>> &GRAPH, const Board<char> &BOARD, vector<ll> nodes)
+// void GenerateGraph(HashMap<ll, vector<TRACK>> &GRAPH, const Board<char> &BOARD, vector<ll> nodes)
+// {
+//     for (ll i = 0; i + 1 < nodes.size(); ++i)
+//     {
+//         auto line = GenerateLine(BOARD, nodes[i], nodes[i + 1]);
+//         for (ll j = 0; j + 1 < line.size(); ++j)
+//         {
+//             GRAPH[line[j].pos].push_back(line[j + 1]);
+//             GRAPH[line[j + 1].pos].push_back(line[j]);
+//         }
+//     }
+// };
+vector<TRACK> GenerateGraph(HashMap<ll, vector<TRACK>> &GRAPH, const Board<char> &BOARD, vector<ll> nodes)
 {
+    vector<TRACK> result;
     for (ll i = 0; i + 1 < nodes.size(); ++i)
     {
-        auto line = GenerateLine(BOARD, nodes[i], nodes[i + 1]);
-        for (ll j = 0; j < j + 1 < line.size(); ++j)
-        {
-            GRAPH[line[i].pos].push_back(line[i + 1]);
-            GRAPH[line[i + 1].pos].push_back(line[i]);
-        }
+        auto line = GenerateLine(BOARD, nodes[i], nodes[i + 1], BOARD[nodes.back()]);
+        result.insert(result.end(), all(line));
     }
-};
+    return result;
+}
 
 // スライム同士のグループ分けを行った結果を返す
-vector<vector<int64_t>> placementSlimes(vector<int64_t> slimes)
+vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes)
 {
     vector<vector<int64_t>> result;
     for (int64_t i = 0; i < slimes.size(); ++i)
@@ -634,40 +650,74 @@ vector<vector<int64_t>> placementSlimes(vector<int64_t> slimes)
     return result;
 }
 
-vector<RESULT> generateResult(vector<vector<TRACK>> &GRAPH, Board<char> BOARD, vector<bool> &isAlive)
+// vector<RESULT> GenerateResult(const HashMap<ll, vector<TRACK>> &GRAPH, const Board<char> &BOARD, vector<bool> &isActive)
+// {
+//     vector<RESULT> result;
+
+//     for (const auto &routes : GRAPH)
+//     {
+//         auto firstIter = BOARD.GetIterator(routes.second[0].pos);
+//         ll carries = 0;
+//         for (ll i = 0; i + 1 < routes.second.size(); ++i)
+//         {
+//             const auto pos = routes.second[i].pos;
+//             const auto iter = BOARD.GetIterator(routes.second[i].pos);
+//             ll newSlime = 0;
+//             if (isActive[iter.GetIndex()] && (*iter) == (*firstIter))
+//             {
+//                 isActive[iter.GetIndex()] = false;
+//                 ++newSlime;
+//             }
+//             ll k = isActive[iter.GetIndex()];
+//             result.push_back(
+//                 RESULT{
+//                     .i = iter.GetR(),
+//                     .j = iter.GetC(),
+//                     .k = k,
+//                     .d = routes.second[i].direction,
+//                     .l = routes.second[i].distance,
+//                 });
+//         }
+//     }
+
+//     return result;
+// }
+
+vector<RESULT> GenerateResult(vector<TRACK> line, const Board<char> &BOARD, vector<bool> &isActive)
 {
     vector<RESULT> result;
-
-    for (const auto &routes : GRAPH)
+    auto firstIter = BOARD.GetIterator(line[0].pos);
+    isActive[firstIter.GetIndex()] = false;
+    for (ll i = 0; i < line.size(); ++i)
     {
-        for (ll i = 0; i + 1 < routes.size(); ++i)
+        const auto pos = line[i].pos;
+        const auto iter = BOARD.GetIterator(line[i].pos);
+        ll newSlime = 0;
+        ll k = 0;
+        if (isActive[iter.GetIndex()])
         {
-            const auto currentPos = BOARD.GetIterator(routes[i].pos);
-            const ll currentR = currentPos.GetR();
-            const ll currentC = currentPos.GetC();
-
-            const auto nextPos = BOARD.GetIterator(routes[i + 1].pos);
-            const ll nextR = nextPos.GetR();
-            const ll nextC = nextPos.GetC();
-
-            ll k = 0;
-            if (isAlive[currentPos.GetIndex()])
+            ++k;
+            if (line[i].isPickup)
             {
-                ++k;
+                isActive[iter.GetIndex()] = false;
+                ++newSlime;
+                --k;
             }
-
-            result.push_back(RESULT{
-                .i = currentR,
-                .j = currentC,
-                .k = k,
-                .d = routes[i].direction,
-                .l = routes[i].distance,
-            });
         }
+        result.push_back(
+            RESULT{
+                .i = iter.GetR(),
+                .j = iter.GetC(),
+                .k = k,
+                .d = line[i].direction,
+                .l = line[i].distance,
+            });
     }
+
     return result;
 }
-int64_t eval(const vector<RESULT> &result, ll penalty = 0)
+
+int64_t Eval(const vector<RESULT> &result, ll penalty = 0)
 {
     return result.size() + penalty * 1e6;
 };
@@ -706,29 +756,30 @@ void solve()
         }
     }
     vector<RESULT> result;
-    int64_t score = 0;
-    while (true)
+    int64_t score = INT64_MAX;
+    // while(true)
     {
+        vector<RESULT> currentResult;
         // <独立変数>スライムの順序
         // スライムを7個体ごとのグループに分ける
-        vector<vector<TRACK>> GRAPH(CELLS);
         for (ll i = 0; i < COLOR_MAX; ++i)
         {
-            auto slimeGroups = placementSlimes(slimes[i]);
+            auto slimeGroups = PlacementSlimes(slimes[i]);
             // グラフ構築(グラフ)
             for (auto &slimeGroup : slimeGroups)
             {
+                HashMap<ll, vector<TRACK>> GRAPH;
                 slimeGroup.push_back(nests[i]);
-                GenerateGraph(GRAPH, BOARD, slimeGroup);
+                auto lines = GenerateGraph(GRAPH, BOARD, slimeGroup);
+                auto groupResult = GenerateResult(lines, BOARD, isAlive);
+                currentResult.insert(currentResult.end(), all(groupResult));
             }
         }
-        // 行動命令の作成(巣からスライムに向かってDFS)
-        auto currentResult = generateResult(GRAPH, BOARD, isAlive);
-        int64_t currentScore = eval(currentResult);
+        int64_t currentScore = Eval(currentResult);
         if (currentScore < score)
         {
-            result = currentResult;
             score = currentScore;
+            result = currentResult;
         }
     }
     for (auto &r : result)
