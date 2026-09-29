@@ -522,6 +522,7 @@ private:
 using Iter = Board<char>::Iterator;
 const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
+HashMap<char, int> LRUD_4_i{{'L', 0}, {'R', 1}, {'U', 2}, {'D', 3}};
 const int MAX_HEIGHT = 8;
 const int MAX_GROUP_SIZE = 7;
 const int MAX_K = 12;
@@ -551,11 +552,26 @@ struct TRACK
  */
 struct RESULT
 {
-    ll i;
-    ll j;
-    ll k;
-    char d;
-    ll l;
+    ll i;   // 位置y
+    ll j;   // 位置x
+    ll k;   // k何匹残すか
+    char d; // 方向LRUD
+    ll l;   // 移動距離
+};
+
+/**
+ * 解答
+ */
+struct SCORE_RESULT
+{
+    vector<ll> score;
+    vector<RESULT> result;
+};
+
+struct SLIME_GROUP
+{
+    ll nest;
+    vector<ll> contents;
 };
 
 /**
@@ -565,8 +581,18 @@ struct RESULT
 struct SLIME_SCORE
 {
     ll score = INT64_MAX;
-    ll groupSize;
-    vector<ll> slimes;
+    vector<ll> result;
+};
+
+/**
+ * トークン
+ */
+struct TOKEN
+{
+    Iter pos;
+    int64_t height;
+    vector<char> colors;
+    bool isNest;
 };
 
 // ノードとノードの間にどのノードがいるのかを求める関数
@@ -645,16 +671,22 @@ vector<TRACK> GenerateGroupTasks(const Board<char> &BOARD, vector<ll> nodes)
 }
 
 // スライム同士のグループ分けを行った結果を返す
-vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes, int64_t groupSize)
+vector<SLIME_GROUP> PlacementSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> nests, int64_t groupSize = MAX_GROUP_SIZE)
 {
-    vector<vector<int64_t>> result;
-    for (int64_t i = 0; i < slimes.size(); ++i)
+    vector<SLIME_GROUP> result;
+    for (ll i = 0; i < K; ++i)
     {
-        if (i % (groupSize) == 0)
+        for (int64_t j = 0; j < slimes[i].size(); ++j)
         {
-            result.push_back(vector<int64_t>());
+            if (j % (groupSize) == 0)
+            {
+                result.push_back(SLIME_GROUP{
+                    .nest = i,
+                    .contents = vector<ll>(),
+                });
+            }
+            result.back().contents.push_back(slimes[i][j]);
         }
-        result.back().push_back(slimes[i]);
     }
     return result;
 }
@@ -664,40 +696,141 @@ int64_t GetDistance(ll u1, ll v1, ll u2, ll v2)
     return std::max(abs(u1 - u1), abs(v1 - v2));
 };
 
-vector<RESULT> GenerateResult(vector<TRACK> line, Board<char> &BOARD, vector<bool> &isActive, vector<int64_t> nests)
+vector<RESULT> GenerateResult(vector<TRACK> line, Board<int64_t> &activeSlimes, vector<TOKEN> &tokens, Board<char> &BOARD, char color)
 {
     vector<RESULT> result;
-    auto firstIter = BOARD.GetIterator(line[0].pos);
-    isActive[firstIter.GetIndex()] = false;
+
     for (ll i = 0; i < line.size(); ++i)
     {
-        const auto pos = line[i].pos;
-        const auto iter = BOARD.GetIterator(line[i].pos);
-        ll newSlime = 0;
+        const auto &track = line[i];
+
+        const auto iter = BOARD.GetIterator(track.pos);
+        const ll r = iter.GetR();
+        const ll c = iter.GetC();
+
         ll k = 0;
-        if (isActive[iter.GetIndex()])
+
+        const ll tokenIndex = activeSlimes[r, c];
+
+        if (0 <= tokenIndex)
         {
-            ++k;
-            if (line[i].isPickup)
+            const auto &token = tokens[tokenIndex];
+
+            if (token.isNest)
             {
-                isActive[iter.GetIndex()] = false;
-                ++newSlime;
-                --k;
+                k = 0;
+                result.push_back({r, c, k, track.direction, track.distance});
+                break;
+            }
+
+            if (track.isPickup && token.colors[0] == color)
+            {
+                auto &colors = tokens[tokenIndex].colors;
+
+                colors.erase(
+                    std::remove(colors.begin(), colors.end(), color),
+                    colors.end());
+
+                k = colors.size();
+
+                if (colors.empty())
+                {
+                    activeSlimes[r, c] = -1;
+                }
+            }
+            else
+            {
+                k = token.colors.size();
             }
         }
-        else if (!result.empty() && GetDistance(iter.GetR(), iter.GetC(), result.back().i, result.back().j) <= 1 && result.back().l + 1 <= result.back().k + 1 && result.back().d == line[i].direction)
+
+        ll distance = track.distance;
+
+        if (!track.isPickup)
         {
-            ++result.back().l;
-            continue;
+            auto dy = LRUD_4[LRUD_4_i[track.direction]][0];
+            auto dx = LRUD_4[LRUD_4_i[track.direction]][1];
+            const auto below = iter.GetMoved(1, 0);
+            if (below.IsInside())
+            {
+                const ll belowIndex = activeSlimes[below.GetR(), below.GetC()];
+
+                if (0 <= belowIndex)
+                {
+                    const auto &belowToken = tokens[belowIndex];
+                    ll bonus = 0;
+
+                    for (const char tokenColor : belowToken.colors)
+                    {
+                        if (tokenColor != color)
+                        {
+                            break;
+                        }
+
+                        ++bonus;
+                    }
+
+                    if (0 < bonus)
+                    {
+                        --bonus;
+                    }
+                    /*
+                     * ジャンプで飛ばすマスを確認する。
+                     *
+                     * ・lineの経路上に存在すること
+                     * ・現在と同じ方向にまっすぐ進んでいること
+                     * ・回収対象を飛ばさないこと
+                     */
+                    ll maxBonus = 0;
+
+                    for (ll j = 1; j <= bonus; ++j)
+                    {
+                        const ll nextIndex = i + j;
+                        if (line.size() <= nextIndex)
+                        {
+                            break;
+                        }
+                        const auto &next = line[nextIndex];
+                        // 次のTRACKが同じ方向でなければ、ここまで
+                        if (next.direction != track.direction)
+                        {
+                            break;
+                        }
+
+                        // 回収対象を飛ばすことになるなら、ここまで
+                        if (next.isPickup)
+                        {
+                            break;
+                        }
+
+                        // 本当に現在地から一直線上のマスか確認
+                        const auto nextIter = BOARD.GetIterator(next.pos);
+
+                        const ll expectedR = r + dy * j;
+                        const ll expectedC = c + dx * j;
+
+                        if (nextIter.GetR() != expectedR || nextIter.GetC() != expectedC)
+                        {
+                            break;
+                        }
+
+                        maxBonus = j;
+                    }
+
+                    distance += maxBonus;
+                }
+            }
         }
-        auto task = RESULT{
-            .i = iter.GetR(),
-            .j = iter.GetC(),
-            .k = k,
-            .d = line[i].direction,
-            .l = line[i].distance,
-        };
-        result.push_back(task);
+
+        result.push_back({r, c, k, track.direction, distance});
+
+        /*
+         * 今回のdistance分は、このRESULTで一気に進む。
+         *
+         * ただし着地点のマスは次のループで処理する必要があるので、
+         * 飛ばした分だけiを進める。
+         */
+        i += distance - 1;
     }
 
     return result;
@@ -708,29 +841,24 @@ int64_t Eval(const vector<RESULT> &result, int64_t penalty = 0)
     return result.size() + penalty * 1e6;
 };
 
-int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<int64_t> groupSizes, vector<SLIME_SCORE> &tentative)
+int64_t UpdateTentative(vector<ll> &scores, vector<vector<ll>> &slimes, vector<SLIME_SCORE> &tentative)
 {
-    ll result = 0;
-    for (ll i = 0; i < orderes.size(); ++i)
+    ll score = 0;
+    for (ll i = 0; i < K; ++i)
     {
-        ll score = Eval(orderes[i]);
-        if (score < tentative[i].score)
+        if (scores[i] < tentative[i].score)
         {
-            tentative[i].slimes = slimes[i];
-            tentative[i].score = score;
-            tentative[i].groupSize = groupSizes[i];
+            tentative[i].result = slimes[i];
         }
-        result += score;
+        score += scores[i];
     }
-    return result;
+    return score;
 }
 
-vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSize, vector<int64_t> &nests, Board<char> &BOARD)
+std::queue<TOKEN> GenerateSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &nests, Board<char> &BOARD)
 {
 
-    vector<vector<RESULT>> result(K, vector<RESULT>());
-
-    vector<bool> isActive(CELLS, false); // スライムの色
+    std::queue<TOKEN> currentSlimes; // スライムの色
     // 巣・スライム位置把握
     for (ll i = 0; i < N; ++i)
     {
@@ -738,66 +866,83 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
         {
             if ('a' <= BOARD[i, j] && BOARD[i, j] <= 'z')
             {
-                isActive[BOARD.GetIndex(i, j)] = true;
+                auto token = TOKEN{
+                    .pos = BOARD.GetIterator(i, j),
+                    .height = 1,
+                    .colors = vector<char>(1, BOARD[i, j]),
+                    .isNest = false,
+                };
+                currentSlimes.push(token);
             }
         }
     }
+    return currentSlimes;
+}
+
+SCORE_RESULT TryTask(vector<SLIME_GROUP> &currentSlimes, vector<TOKEN> slimeTokens, vector<int64_t> &nests, Board<char> &BOARD)
+{
+    vector<RESULT> result;
+    std::queue<SLIME_GROUP> tasks;
+    Board<int64_t> activeSlimes(N, N, -1);
+    for (ll i = 0; i < currentSlimes.size(); ++i)
+    {
+        currentSlimes[i].contents.push_back(nests[currentSlimes[i].nest]);
+        std::reverse(all(currentSlimes[i].contents));
+        tasks.push(currentSlimes[i]);
+        for (ll j = 0; j < currentSlimes[i].contents.size(); ++j)
+        {
+            activeSlimes[slimeTokens[currentSlimes[i].contents[j]].pos.GetIndex()] = currentSlimes[i].contents[j];
+        }
+    }
+    vector<ll> scores(K);
+    while (!tasks.empty())
+    {
+        auto &task = tasks.front();
+        auto &group = task.contents;
+        auto nest = task.nest;
+        auto from = group.back();
+        group.pop_back();
+        auto to = group.back();
+        auto nestColor = *(slimeTokens[group.front()]).pos;
+        auto line = GenerateLine(BOARD, slimeTokens[from].pos.GetIndex(), slimeTokens[to].pos.GetIndex(), nestColor);
+        if (!slimeTokens[to].isNest)
+        {
+            slimeTokens[to].height += slimeTokens[from].height;
+        }
+        else
+        {
+            activeSlimes[slimeTokens[to].pos.GetIndex()] = -1;
+        }
+        auto r = GenerateResult(line, activeSlimes, slimeTokens, BOARD, slimeTokens[from].colors[0]);
+        activeSlimes[slimeTokens[from].pos.GetIndex()] = -1;
+        scores[nest] += Eval(r);
+        result.insert(result.end(), all(r));
+        if (1 < task.contents.size())
+        {
+            tasks.push(task);
+        }
+        tasks.pop();
+    }
+    return SCORE_RESULT{.score = scores, .result = result};
+}
+
+SCORE_RESULT Answer(vector<SLIME_SCORE> &tentative, vector<TOKEN> &tokens, vector<int64_t> &nests, Board<char> &BOARD)
+{
+    vector<vector<ll>> slimes(K);
     for (ll i = 0; i < K; ++i)
     {
-        auto slimeGroups = PlacementSlimes(slimes[i], groupSize[i]);
-        // スライムを7個ごとのグループに分ける
-        {
-            // グラフ構築(グラフ)
-            for (int64_t j = 0; j < slimeGroups.size(); ++j)
-            {
-                slimeGroups[j].push_back(nests[i]);
-                auto tasks = GenerateGroupTasks(BOARD, slimeGroups[j]);
-                auto groupResult = GenerateResult(tasks, BOARD, isActive, nests);
-                result[i].insert(result[i].end(), all(groupResult));
-            }
-        }
+        slimes[i] = tentative[i].result;
     }
+    auto slimeGroups = PlacementSlimes(slimes, nests);
+    auto result = TryTask(slimeGroups, tokens, nests, BOARD);
     return result;
 }
 
-vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Board<char> &BOARD)
-{
-    vector<vector<int64_t>> slimes(K);
-    vector<int64_t> groupSize(K);
-    for (ll i = 0; i < K; ++i)
-    {
-        slimes[i] = tentative[i].slimes;
-        groupSize[i] = tentative[i].groupSize;
-    }
-    auto result = TryTask(slimes, groupSize, nests, BOARD);
-    vector<RESULT> retVal;
-    for (ll i = 0; i < K; ++i)
-    {
-        for (ll j = 0; j < result[i].size(); ++j)
-        {
-            retVal.push_back(result[i][j]);
-        }
-    }
-    return retVal;
-}
-
-void ShuffleSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSizes)
+void ShuffleSlimes(vector<vector<int64_t>> &slimes)
 {
     for (ll i = 0; i < K; ++i)
     {
-        if (slimes[i].size() < 2)
-        {
-            continue;
-        }
         std::shuffle(all(slimes[i]), randomGenerator);
-        vector<ll> nums(slimes[i].size());
-        for (ll i = 0; i < nums.size(); ++i)
-        {
-            nums[i] = i;
-        }
-        std::shuffle(all(nums), randomGenerator);
-        std::swap(slimes[i][nums[0]], slimes[i][nums[1]]);
-        groupSizes[i] = 7;
     }
 }
 
@@ -814,9 +959,10 @@ void solve()
     BOARD = Board<char>(N, N);
     cin >> BOARD;
     // 巣とスライムのグラフ作成
-    vector<vector<int64_t>> slimes(K); // スライム位置
-    vector<int64_t> nests(K);          // 巣の位置
+    vector<TOKEN> tokens; // スライム位置
     // 巣・スライム位置把握
+    vector<vector<int64_t>> slimes(K);
+    vector<int64_t> nests(K);
     for (ll i = 0; i < N; ++i)
     {
         for (ll j = 0; j < N; ++j)
@@ -824,11 +970,23 @@ void solve()
             auto iter = BOARD.GetIterator(i, j);
             if ('a' <= *iter && *iter <= 'z')
             {
-                slimes[*iter - 'a'].push_back(BOARD.GetIterator(i, j).GetIndex());
+                slimes[*iter - 'a'].push_back(tokens.size());
+                tokens.push_back(TOKEN{
+                    .pos = iter,
+                    .height = 1,
+                    .colors = vector<char>(1, *iter),
+                    .isNest = false,
+                });
             }
             if ('A' <= *iter && *iter <= 'Z')
             {
-                nests[*iter - 'A'] = BOARD.GetIterator(i, j).GetIndex();
+                nests[*iter - 'A'] = tokens.size();
+                tokens.push_back(TOKEN{
+                    .pos = iter,
+                    .height = 1,
+                    .colors = vector<char>(1, *iter),
+                    .isNest = true,
+                });
             }
         }
     }
@@ -839,21 +997,18 @@ void solve()
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
 
-    vector<ll> groupSizes(K, MAX_GROUP_SIZE);
-    while (elapsed < TIME_LIMIT)
+    vector<ll> groupSizes(K);
+    // while (elapsed < TIME_LIMIT)
     {
-        ShuffleSlimes(slimes, groupSizes);
-        auto result = TryTask(slimes, groupSizes, nests, BOARD);
-        UpdateTentative(result, slimes, groupSizes, tentative);
-        for (ll i = 0; i < K; ++i)
-        {
-            slimes[i] = tentative[i].slimes;
-        }
+        ShuffleSlimes(slimes);
+        auto slimeGroups = PlacementSlimes(slimes, nests);
+        auto result = TryTask(slimeGroups, tokens, nests, BOARD);
+        UpdateTentative(result.score, slimes, tentative);
         now = std::chrono::steady_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
     }
-    auto result = Answer(tentative, nests, BOARD);
-    for (auto &r : result)
+    auto result = Answer(tentative, tokens, nests, BOARD);
+    for (auto &r : result.result)
     {
         cout << r.i << " " << r.j << " " << r.k << " " << r.d << " " << r.l << endl;
     }
