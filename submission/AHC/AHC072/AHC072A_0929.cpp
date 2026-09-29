@@ -524,6 +524,7 @@ const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
 const int MAX_HEIGHT = 8;
 const int MAX_GROUP_SIZE = 7;
+const int MIN_GROUP_SIZE = 1;
 const int MAX_K = 12;
 int K = 12;
 Board<char> BOARD(0, 0);
@@ -567,6 +568,13 @@ struct SLIME_SCORE
     ll score = INT64_MAX;
     ll groupSize;
     vector<ll> slimes;
+};
+
+struct TENTATIVE
+{
+    vector<SLIME_SCORE> slimes;
+    vector<ll> colors;
+    int64_t score = INT64_MAX;
 };
 
 // ノードとノードの間にどのノードがいるのかを求める関数
@@ -708,27 +716,38 @@ int64_t Eval(const vector<RESULT> &result, int64_t penalty = 0)
     return result.size() + penalty * 1e6;
 };
 
-int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<int64_t> groupSizes, vector<SLIME_SCORE> &tentative)
+int64_t UpdateTentative(TENTATIVE &tentative, vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<int64_t> &groupSizes, vector<ll> &colorOrder)
 {
+    auto tent = tentative.slimes;
     ll result = 0;
     for (ll i = 0; i < orderes.size(); ++i)
     {
         ll score = Eval(orderes[i]);
-        if (score < tentative[i].score)
+        if (score < tent[i].score)
         {
-            tentative[i].slimes = slimes[i];
-            tentative[i].score = score;
-            tentative[i].groupSize = groupSizes[i];
+            tent[i].slimes = slimes[i];
+            tent[i].score = score;
+            tent[i].groupSize = groupSizes[i];
         }
         result += score;
+    }
+    if (result < tentative.score)
+    {
+        tentative.colors = colorOrder;
+        tentative.score = result;
     }
     return result;
 }
 
-vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSize, vector<int64_t> &nests, Board<char> &BOARD)
+vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<ll> colorOrder, vector<int64_t> &groupSize, vector<int64_t> &nests, Board<char> &BOARD)
 {
 
     vector<vector<RESULT>> result(K, vector<RESULT>());
+    vector<vector<int64_t>> orderedSlimes(K);
+    for (ll i = 0; i < colorOrder.size(); ++i)
+    {
+        orderedSlimes[colorOrder[i]] = slimes[i];
+    }
 
     vector<bool> isActive(CELLS, false); // スライムの色
     // 巣・スライム位置把握
@@ -744,7 +763,7 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
     }
     for (ll i = 0; i < K; ++i)
     {
-        auto slimeGroups = PlacementSlimes(slimes[i], groupSize[i]);
+        auto slimeGroups = PlacementSlimes(orderedSlimes[i], groupSize[i]);
         // スライムを7個ごとのグループに分ける
         {
             // グラフ構築(グラフ)
@@ -760,16 +779,16 @@ vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> 
     return result;
 }
 
-vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Board<char> &BOARD)
+vector<RESULT> Answer(TENTATIVE &tentative, vector<int64_t> &nests, Board<char> &BOARD)
 {
     vector<vector<int64_t>> slimes(K);
     vector<int64_t> groupSize(K);
     for (ll i = 0; i < K; ++i)
     {
-        slimes[i] = tentative[i].slimes;
-        groupSize[i] = tentative[i].groupSize;
+        slimes[i] = tentative.slimes[i].slimes;
+        groupSize[i] = tentative.slimes[i].groupSize;
     }
-    auto result = TryTask(slimes, groupSize, nests, BOARD);
+    auto result = TryTask(slimes, tentative.colors, groupSize, nests, BOARD);
     vector<RESULT> retVal;
     for (ll i = 0; i < K; ++i)
     {
@@ -789,7 +808,6 @@ void ShuffleSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSizes)
         {
             continue;
         }
-        std::shuffle(all(slimes[i]), randomGenerator);
         vector<ll> nums(slimes[i].size());
         for (ll i = 0; i < nums.size(); ++i)
         {
@@ -797,7 +815,16 @@ void ShuffleSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSizes)
         }
         std::shuffle(all(nums), randomGenerator);
         std::swap(slimes[i][nums[0]], slimes[i][nums[1]]);
-        groupSizes[i] = 7;
+        if (nums[2] % 2 == 0)
+        {
+            --groupSizes[i];
+        }
+        else
+        {
+            ++groupSizes[i];
+        }
+        groupSizes[i] = std::min<ll>(groupSizes[i], MAX_GROUP_SIZE);
+        groupSizes[i] = std::max<ll>(MIN_GROUP_SIZE, groupSizes[i]);
     }
 }
 
@@ -832,23 +859,37 @@ void solve()
             }
         }
     }
-    int64_t score = INT64_MAX;
-    vector<SLIME_SCORE> tentative(K);
+
+    vector<ll> groupSizes(K, MAX_GROUP_SIZE);
+    vector<ll> colorOrder(K);
+    vector<SLIME_SCORE> tent(K);
+    for (ll i = 0; i < K; ++i)
+    {
+        colorOrder[i] = i;
+        tent[i] = SLIME_SCORE{.score = INT64_MAX, .groupSize = 4, .slimes = slimes[i]};
+    }
+
+    auto tentative = TENTATIVE{
+        .slimes = tent,
+        .colors = colorOrder,
+        .score = INT64_MAX,
+    };
 
     const auto start = std::chrono::steady_clock::now();
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
 
-    vector<ll> groupSizes(K, MAX_GROUP_SIZE);
     while (elapsed < TIME_LIMIT)
     {
         ShuffleSlimes(slimes, groupSizes);
-        auto result = TryTask(slimes, groupSizes, nests, BOARD);
-        UpdateTentative(result, slimes, groupSizes, tentative);
+        auto result = TryTask(slimes, colorOrder, groupSizes, nests, BOARD);
+        UpdateTentative(tentative, result, slimes, groupSizes, colorOrder);
+
         for (ll i = 0; i < K; ++i)
         {
-            slimes[i] = tentative[i].slimes;
+            slimes[i] = tentative.slimes[i].slimes;
         }
+        colorOrder = tentative.colors;
         now = std::chrono::steady_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
     }
