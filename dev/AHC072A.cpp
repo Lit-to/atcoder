@@ -591,7 +591,7 @@ struct TOKEN
 {
     Iter pos;
     int64_t height;
-    vector<char> contents;
+    vector<char> colors;
     bool isNest;
 };
 
@@ -696,7 +696,7 @@ int64_t GetDistance(ll u1, ll v1, ll u2, ll v2)
     return std::max(abs(u1 - u1), abs(v1 - v2));
 };
 
-vector<RESULT> GenerateResult(vector<TRACK> line, Board<int64_t> &activeSlimes, vector<TOKEN> &tokens, Board<char> &BOARD)
+vector<RESULT> GenerateResult(vector<TRACK> line, Board<int64_t> &activeSlimes, vector<TOKEN> &tokens, Board<char> &BOARD, char color)
 {
     vector<RESULT> result;
 
@@ -710,23 +710,37 @@ vector<RESULT> GenerateResult(vector<TRACK> line, Board<int64_t> &activeSlimes, 
 
         ll k = 0;
 
-        // このマスにいる TOKEN
         const ll tokenIndex = activeSlimes[r, c];
 
         if (0 <= tokenIndex)
         {
             const auto &token = tokens[tokenIndex];
 
-            // 回収対象なら回収する
-            if (track.isPickup)
+            if (token.isNest)
             {
                 k = 0;
-                activeSlimes[r, c] = -1;
+                result.push_back({r, c, k, track.direction, track.distance});
+                break;
+            }
+
+            if (track.isPickup && token.colors[0] == color)
+            {
+                auto &colors = tokens[tokenIndex].colors;
+
+                colors.erase(
+                    std::remove(colors.begin(), colors.end(), color),
+                    colors.end());
+
+                k = colors.size();
+
+                if (colors.empty())
+                {
+                    activeSlimes[r, c] = -1;
+                }
             }
             else
             {
-                // 拾わないので、全部このマスに残す
-                k = token.contents.size();
+                k = token.colors.size();
             }
         }
 
@@ -741,11 +755,25 @@ vector<RESULT> GenerateResult(vector<TRACK> line, Board<int64_t> &activeSlimes, 
             {
                 const ll belowIndex = activeSlimes[below.GetR(), below.GetC()];
 
-                if (belowIndex >= 0)
+                if (0 <= belowIndex)
                 {
                     const auto &belowToken = tokens[belowIndex];
-                    ll bonus = belowToken.contents.size();
+                    ll bonus = 0;
 
+                    for (const char tokenColor : belowToken.colors)
+                    {
+                        if (tokenColor != color)
+                        {
+                            break;
+                        }
+
+                        ++bonus;
+                    }
+
+                    if (0 < bonus)
+                    {
+                        --bonus;
+                    }
                     /*
                      * ジャンプで飛ばすマスを確認する。
                      *
@@ -841,7 +869,7 @@ std::queue<TOKEN> GenerateSlimes(vector<vector<int64_t>> &slimes, vector<int64_t
                 auto token = TOKEN{
                     .pos = BOARD.GetIterator(i, j),
                     .height = 1,
-                    .contents = vector<char>(1, BOARD[i, j]),
+                    .colors = vector<char>(1, BOARD[i, j]),
                     .isNest = false,
                 };
                 currentSlimes.push(token);
@@ -885,8 +913,8 @@ SCORE_RESULT TryTask(vector<SLIME_GROUP> &currentSlimes, vector<TOKEN> slimeToke
         {
             activeSlimes[slimeTokens[to].pos.GetIndex()] = -1;
         }
+        auto r = GenerateResult(line, activeSlimes, slimeTokens, BOARD, slimeTokens[from].colors[0]);
         activeSlimes[slimeTokens[from].pos.GetIndex()] = -1;
-        auto r = GenerateResult(line, activeSlimes, slimeTokens, BOARD);
         scores[nest] += Eval(r);
         result.insert(result.end(), all(r));
         if (1 < task.contents.size())
@@ -946,7 +974,7 @@ void solve()
                 tokens.push_back(TOKEN{
                     .pos = iter,
                     .height = 1,
-                    .contents = vector<char>(1, *iter),
+                    .colors = vector<char>(1, *iter),
                     .isNest = false,
                 });
             }
@@ -956,7 +984,7 @@ void solve()
                 tokens.push_back(TOKEN{
                     .pos = iter,
                     .height = 1,
-                    .contents = vector<char>(1, *iter),
+                    .colors = vector<char>(1, *iter),
                     .isNest = true,
                 });
             }
