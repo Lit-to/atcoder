@@ -569,7 +569,7 @@ int K = 12;
 Board<char> BOARD(0, 0);
 int64_t N;
 int64_t CELLS;
-const int64_t TIME_LIMIT = 1900;
+const int64_t TIME_LIMIT = 1500;
 
 // 定数表現ここまで
 
@@ -776,30 +776,27 @@ vector<RESULT> TryTask(
 {
     const ll COLOR_COUNT = slimes.size();
     const ll CELL_COUNT = N * N;
-    const ll MAX_HEIGHT = 8;
-    const ll INF = (1LL << 60);
 
-    // ========================================
-    // スライム情報
+    // ============================================================
+    // スライムID
     //
-    // slimes[color][rank] は初期位置。
-    // 内部では各スライムにIDを振る。
-    // ========================================
+    // orderedIds[color] は、外から渡された処理順そのもの。
+    // ============================================================
 
-    struct SLIME_INFO
+    struct SLIME
     {
         ll color;
         ll rank;
     };
 
-    vector<SLIME_INFO> slimeInfo;
+    vector<SLIME> slimeInfo;
     vector<vector<ll>> orderedIds(COLOR_COUNT);
 
     for (ll color = 0; color < COLOR_COUNT; ++color)
     {
         for (ll rank = 0; rank < (ll)slimes[color].size(); ++rank)
         {
-            const ll id = slimeInfo.size();
+            ll id = slimeInfo.size();
 
             slimeInfo.push_back({
                 .color = color,
@@ -812,16 +809,13 @@ vector<RESULT> TryTask(
 
     const ll SLIME_COUNT = slimeInfo.size();
 
-    // ========================================
-    // 状態
+    // ============================================================
+    // 盤面状態
     //
-    // towers[cell]
-    //   下 -> 上
-    //
-    // pos[id]
-    //   現在位置
-    //   帰巣済みなら -1
-    // ========================================
+    // towers[cell] : 下 -> 上
+    // pos[id]      : 現在位置
+    // homed[id]    : 帰巣済み
+    // ============================================================
 
     struct STATE
     {
@@ -830,11 +824,11 @@ vector<RESULT> TryTask(
         vector<bool> homed;
     };
 
-    STATE initialState;
-
-    initialState.towers.resize(CELL_COUNT);
-    initialState.pos.assign(SLIME_COUNT, -1);
-    initialState.homed.assign(SLIME_COUNT, false);
+    STATE initialState{
+        .towers = vector<vector<ll>>(CELL_COUNT),
+        .pos = vector<ll>(SLIME_COUNT, -1),
+        .homed = vector<bool>(SLIME_COUNT, false),
+    };
 
     {
         ll id = 0;
@@ -853,9 +847,9 @@ vector<RESULT> TryTask(
         }
     }
 
-    // ========================================
+    // ============================================================
     // 巣
-    // ========================================
+    // ============================================================
 
     vector<ll> nestColor(CELL_COUNT, -1);
 
@@ -863,25 +857,6 @@ vector<RESULT> TryTask(
     {
         nestColor[nests[color]] = color;
     }
-
-    // ========================================
-    // 床判定
-    // ========================================
-
-    vector<bool> isFloor(CELL_COUNT, false);
-
-    for (ll r = 0; r < N; ++r)
-    {
-        for (ll c = 0; c < N; ++c)
-        {
-            // 壁が '#' という前提。
-            isFloor[r * N + c] = BOARD[r, c] != '#';
-        }
-    }
-
-    // ========================================
-    // 方向
-    // ========================================
 
     const ll DR[4] = {
         0,
@@ -904,9 +879,9 @@ vector<RESULT> TryTask(
         'D',
     };
 
-    // ========================================
-    // 帰巣処理
-    // ========================================
+    // ============================================================
+    // 帰巣
+    // ============================================================
 
     auto ApplyHome = [&](STATE &state, ll cell)
     {
@@ -935,20 +910,15 @@ vector<RESULT> TryTask(
         }
     };
 
-    // ========================================
-    // 1手実行
-    //
-    // k = 下に残す数
-    //
-    // 上側 [k, height) が飛ぶ。
-    // ========================================
+    // ============================================================
+    // 1操作
+    // ============================================================
 
-    auto ApplyMove = [&](const STATE &source,
+    auto ApplyMove = [&](STATE &state,
                          ll from,
                          ll k,
                          ll direction,
                          ll distance,
-                         STATE &dest,
                          RESULT &result) -> bool
     {
         if (from < 0 || CELL_COUNT <= from)
@@ -956,7 +926,7 @@ vector<RESULT> TryTask(
             return false;
         }
 
-        const auto &sourceTower = source.towers[from];
+        auto &sourceTower = state.towers[from];
 
         const ll height = sourceTower.size();
 
@@ -970,7 +940,6 @@ vector<RESULT> TryTask(
             return false;
         }
 
-        // l <= k + 1
         if (distance <= 0 || k + 1 < distance)
         {
             return false;
@@ -981,12 +950,13 @@ vector<RESULT> TryTask(
 
         ll to = -1;
 
-        // 途中に壁がないか確認。
-        // 塔は飛び越えてよい。
         for (ll step = 1; step <= distance; ++step)
         {
-            const ll r = fromR + DR[direction] * step;
-            const ll c = fromC + DC[direction] * step;
+            const ll r =
+                fromR + DR[direction] * step;
+
+            const ll c =
+                fromC + DC[direction] * step;
 
             if (r < 0 || N <= r ||
                 c < 0 || N <= c)
@@ -994,9 +964,10 @@ vector<RESULT> TryTask(
                 return false;
             }
 
-            const ll cell = r * N + c;
+            const ll cell =
+                BOARD.GetIndex(r, c);
 
-            if (!isFloor[cell])
+            if (BOARD[cell] == '#')
             {
                 return false;
             }
@@ -1004,39 +975,39 @@ vector<RESULT> TryTask(
             to = cell;
         }
 
-        const ll movingCount = height - k;
+        const ll movingCount =
+            height - k;
 
-        // 帰巣前の高さで判定。
-        if ((ll)source.towers[to].size() + movingCount > MAX_HEIGHT)
+        if ((ll)state.towers[to].size() +
+                movingCount >
+            MAX_HEIGHT)
         {
             return false;
         }
 
-        dest = source;
-
-        auto &fromTower = dest.towers[from];
-        auto &toTower = dest.towers[to];
-
         vector<ll> moving(
-            fromTower.begin() + k,
-            fromTower.end());
+            sourceTower.begin() + k,
+            sourceTower.end());
 
-        fromTower.erase(
-            fromTower.begin() + k,
-            fromTower.end());
+        sourceTower.erase(
+            sourceTower.begin() + k,
+            sourceTower.end());
 
-        // 宙返りなので上下反転。
-        reverse(moving.begin(), moving.end());
+        // 宙返り
+        reverse(all(moving));
+
+        auto &destTower =
+            state.towers[to];
 
         for (ll id : moving)
         {
-            toTower.push_back(id);
-            dest.pos[id] = to;
+            destTower.push_back(id);
+            state.pos[id] = to;
         }
 
-        // 操作後、出発点と着地点の両方で帰巣。
-        ApplyHome(dest, from);
-        ApplyHome(dest, to);
+        // 両端で帰巣
+        ApplyHome(state, from);
+        ApplyHome(state, to);
 
         result = RESULT{
             .i = fromR,
@@ -1049,700 +1020,801 @@ vector<RESULT> TryTask(
         return true;
     };
 
-    // ========================================
-    // 帰巣数
-    // ========================================
+    // ============================================================
+    // 最短経路
+    //
+    // from, ..., to のセル列を返す。
+    // 塔は障害物ではない。
+    // ============================================================
 
-    auto CountHomed = [&](const STATE &state)
+    auto GetShortestPath =
+        [&](ll from, ll to) -> vector<ll>
     {
-        ll result = 0;
-
-        for (bool b : state.homed)
+        if (from == to)
         {
-            result += b;
+            return {from};
         }
 
-        return result;
+        vector<ll> parent(
+            CELL_COUNT,
+            -1);
+
+        std::queue<ll> q;
+
+        parent[from] = from;
+        q.push(from);
+
+        while (!q.empty())
+        {
+            const ll current =
+                q.front();
+
+            q.pop();
+
+            const ll r =
+                current / N;
+
+            const ll c =
+                current % N;
+
+            for (ll d = 0; d < 4; ++d)
+            {
+                const ll nr =
+                    r + DR[d];
+
+                const ll nc =
+                    c + DC[d];
+
+                if (nr < 0 || N <= nr ||
+                    nc < 0 || N <= nc)
+                {
+                    continue;
+                }
+
+                const ll next =
+                    BOARD.GetIndex(nr, nc);
+
+                if (BOARD[next] == '#')
+                {
+                    continue;
+                }
+
+                if (parent[next] != -1)
+                {
+                    continue;
+                }
+
+                parent[next] = current;
+
+                if (next == to)
+                {
+                    vector<ll> path;
+
+                    ll p = to;
+
+                    while (p != from)
+                    {
+                        path.push_back(p);
+                        p = parent[p];
+                    }
+
+                    path.push_back(from);
+
+                    reverse(all(path));
+
+                    return path;
+                }
+
+                q.push(next);
+            }
+        }
+
+        return {};
     };
 
-    // ========================================
-    // あるスライム1匹を帰巣させる経路探索
-    //
-    // 重要:
-    //
-    // target が塔の途中にいる場合、
-    //
-    //      A
-    //      B
-    //   -> T  target
-    //      C
-    //      D
-    //
-    // k = targetより下の匹数
-    //
-    // として T から上をまとめて飛ばす。
-    //
-    // 飛んだ部分は反転するので
-    // target が一番上になる。
-    //
-    // 以降は target だけを飛ばす。
-    //
-    // その途中で他色の塔に着地すれば、
-    // その塔を踏み台として長距離ジャンプできる。
-    // ========================================
+    // ============================================================
+    // tower 内で slimeId の位置
+    // ============================================================
 
-    struct PLAN
+    auto GetTowerIndex =
+        [&](const STATE &state,
+            ll cell,
+            ll slimeId) -> ll
     {
-        bool success = false;
-        vector<RESULT> operations;
-        STATE state;
-    };
-
-    auto FindPlan = [&](const STATE &startState, ll target) -> PLAN
-    {
-        PLAN failure;
-
-        if (startState.homed[target])
-        {
-            return PLAN{
-                .success = true,
-                .operations = {},
-                .state = startState,
-            };
-        }
-
-        const ll color = slimeInfo[target].color;
-
-        // --------------------------------------------------
-        // target が塔の一番上にいる状態から、
-        // target だけを巣まで運ぶ軽量 BFS
-        //
-        // BFSノードには STATE を入れない。
-        // --------------------------------------------------
-
-        auto SearchTop = [&](const STATE &baseState) -> PLAN
-        {
-            PLAN fail;
-
-            if (baseState.homed[target])
-            {
-                return PLAN{
-                    .success = true,
-                    .operations = {},
-                    .state = baseState,
-                };
-            }
-
-            const ll start = baseState.pos[target];
-
-            if (start < 0)
-            {
-                return fail;
-            }
-
-            const auto &startTower = baseState.towers[start];
-
-            if (startTower.empty() ||
-                startTower.back() != target)
-            {
-                return fail;
-            }
-
-            struct NODE
-            {
-                ll parent = -1;
-                RESULT operation{};
-                bool done = false;
-            };
-
-            vector<NODE> nodes(CELL_COUNT);
-            vector<bool> visited(CELL_COUNT, false);
-
-            std::queue<ll> q;
-
-            visited[start] = true;
-            q.push(start);
-
-            ll goal = -1;
-
-            while (!q.empty())
-            {
-                const ll from = q.front();
-                q.pop();
-
-                /*
-                 * start には既に target が乗っている。
-                 *
-                 * それ以外のセルについては、
-                 * 「target がそのセルの一番上に来た状態」
-                 * を仮定するので +1。
-                 */
-                ll height;
-
-                if (from == start)
-                {
-                    height = baseState.towers[from].size();
-                }
-                else
-                {
-                    height =
-                        (ll)baseState.towers[from].size() + 1;
-                }
-
-                /*
-                 * target だけを飛ばす。
-                 */
-                const ll k = height - 1;
-                const ll maxDistance = k + 1;
-
-                const ll fromR = from / N;
-                const ll fromC = from % N;
-
-                for (ll direction = 0;
-                     direction < 4;
-                     ++direction)
-                {
-                    for (ll distance = 1;
-                         distance <= maxDistance;
-                         ++distance)
-                    {
-                        bool ok = true;
-
-                        ll to = -1;
-
-                        /*
-                         * 飛距離内に壁があれば不可。
-                         */
-                        for (ll step = 1;
-                             step <= distance;
-                             ++step)
-                        {
-                            const ll r =
-                                fromR +
-                                DR[direction] * step;
-
-                            const ll c =
-                                fromC +
-                                DC[direction] * step;
-
-                            if (r < 0 || N <= r ||
-                                c < 0 || N <= c)
-                            {
-                                ok = false;
-                                break;
-                            }
-
-                            const ll cell =
-                                r * N + c;
-
-                            if (!isFloor[cell])
-                            {
-                                ok = false;
-                                break;
-                            }
-
-                            to = cell;
-                        }
-
-                        if (!ok)
-                        {
-                            /*
-                             * この方向はこれ以上伸ばしても
-                             * 同じ壁/盤外にぶつかる。
-                             */
-                            break;
-                        }
-
-                        if (visited[to])
-                        {
-                            continue;
-                        }
-
-                        /*
-                         * target 1匹を着地させるので
-                         * 着地前高さ + 1 <= 8。
-                         */
-                        if ((ll)baseState.towers[to].size() + 1 >
-                            MAX_HEIGHT)
-                        {
-                            continue;
-                        }
-
-                        visited[to] = true;
-
-                        nodes[to] = NODE{
-                            .parent = from,
-                            .operation =
-                                RESULT{
-                                    .i = fromR,
-                                    .j = fromC,
-                                    .k = k,
-                                    .d = DIR[direction],
-                                    .l = distance,
-                                },
-                            .done = true,
-                        };
-
-                        /*
-                         * target の巣へ到着。
-                         */
-                        if (to == nests[color])
-                        {
-                            goal = to;
-
-                            while (!q.empty())
-                            {
-                                q.pop();
-                            }
-
-                            break;
-                        }
-
-                        q.push(to);
-                    }
-
-                    if (goal != -1)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            if (goal == -1)
-            {
-                return fail;
-            }
-
-            vector<RESULT> operations;
-
-            ll current = goal;
-
-            while (current != start)
-            {
-                operations.push_back(
-                    nodes[current].operation);
-
-                current =
-                    nodes[current].parent;
-
-                if (current < 0)
-                {
-                    return fail;
-                }
-            }
-
-            reverse(
-                operations.begin(),
-                operations.end());
-
-            /*
-             * BFSでは盤面をコピーしていないので、
-             * 最後に1回だけ実際に操作列を再生する。
-             */
-            STATE state = baseState;
-
-            for (const auto &op : operations)
-            {
-                const ll from =
-                    BOARD.GetIndex(
-                        op.i,
-                        op.j);
-
-                ll direction = -1;
-
-                for (ll d = 0; d < 4; ++d)
-                {
-                    if (DIR[d] == op.d)
-                    {
-                        direction = d;
-                        break;
-                    }
-                }
-
-                if (direction == -1)
-                {
-                    return fail;
-                }
-
-                STATE nextState;
-                RESULT dummy;
-
-                if (!ApplyMove(
-                        state,
-                        from,
-                        op.k,
-                        direction,
-                        op.l,
-                        nextState,
-                        dummy))
-                {
-                    return fail;
-                }
-
-                state = std::move(nextState);
-            }
-
-            if (!state.homed[target])
-            {
-                return fail;
-            }
-
-            return PLAN{
-                .success = true,
-                .operations = std::move(operations),
-                .state = std::move(state),
-            };
-        };
-
-        // --------------------------------------------------
-        // 現在 target が塔のどこにいるか
-        // --------------------------------------------------
-
-        const ll targetPos =
-            startState.pos[target];
-
-        if (targetPos < 0)
-        {
-            return failure;
-        }
-
         const auto &tower =
-            startState.towers[targetPos];
-
-        ll targetIndex = -1;
+            state.towers[cell];
 
         for (ll i = 0;
              i < (ll)tower.size();
              ++i)
         {
-            if (tower[i] == target)
+            if (tower[i] == slimeId)
             {
-                targetIndex = i;
+                return i;
+            }
+        }
+
+        return -1;
+    };
+
+    // ============================================================
+    // path の先頭から同方向に何マス続くか
+    //
+    // path:
+    //   [現在位置, 次, 次, ...]
+    // ============================================================
+
+    auto GetStraightLength =
+        [&](const vector<ll> &path) -> std::pair<ll, ll>
+    {
+        if (path.size() < 2)
+        {
+            return {-1, 0};
+        }
+
+        const ll from =
+            path[0];
+
+        const ll next =
+            path[1];
+
+        const ll fr = from / N;
+        const ll fc = from % N;
+
+        const ll nr = next / N;
+        const ll nc = next % N;
+
+        ll direction = -1;
+
+        for (ll d = 0; d < 4; ++d)
+        {
+            if (fr + DR[d] == nr &&
+                fc + DC[d] == nc)
+            {
+                direction = d;
                 break;
             }
         }
 
-        if (targetIndex == -1)
+        if (direction == -1)
         {
-            return failure;
+            return {-1, 0};
         }
 
-        // --------------------------------------------------
-        // 既に一番上ならそのまま軽量BFS
-        // --------------------------------------------------
+        ll length = 1;
 
-        if (targetIndex ==
-            (ll)tower.size() - 1)
+        for (ll i = 1;
+             i + 1 < (ll)path.size();
+             ++i)
         {
-            return SearchTop(startState);
-        }
+            const ll a = path[i];
+            const ll b = path[i + 1];
 
-        // --------------------------------------------------
-        // 塔の途中なら、
-        //
-        // target から上をまとめて1回飛ばして反転
-        //              ↓
-        // target を一番上にする
-        //
-        // この「最初の1手」だけ候補を全部試す。
-        // --------------------------------------------------
+            const ll ar = a / N;
+            const ll ac = a % N;
 
-        const ll k = targetIndex;
-        const ll maxDistance = k + 1;
+            const ll br = b / N;
+            const ll bc = b % N;
 
-        PLAN bestPlan;
-        ll bestSize = INF;
-
-        for (ll direction = 0;
-             direction < 4;
-             ++direction)
-        {
-            for (ll distance = 1;
-                 distance <= maxDistance;
-                 ++distance)
+            if (ar + DR[direction] != br ||
+                ac + DC[direction] != bc)
             {
-                STATE extractedState;
-                RESULT firstOperation;
-
-                if (!ApplyMove(
-                        startState,
-                        targetPos,
-                        k,
-                        direction,
-                        distance,
-                        extractedState,
-                        firstOperation))
-                {
-                    continue;
-                }
-
-                /*
-                 * 最初のジャンプだけで帰巣した場合。
-                 */
-                if (extractedState.homed[target])
-                {
-                    if (1 < bestSize)
-                    {
-                        bestSize = 1;
-
-                        bestPlan = PLAN{
-                            .success = true,
-                            .operations = {
-                                firstOperation,
-                            },
-                            .state = std::move(extractedState),
-                        };
-                    }
-
-                    continue;
-                }
-
-                /*
-                 * 反転後、target は一番上になるはず。
-                 */
-                const ll newPos =
-                    extractedState.pos[target];
-
-                if (newPos < 0 ||
-                    extractedState.towers[newPos].empty() ||
-                    extractedState.towers[newPos].back() != target)
-                {
-                    continue;
-                }
-
-                auto rest =
-                    SearchTop(extractedState);
-
-                if (!rest.success)
-                {
-                    continue;
-                }
-
-                const ll operationCount =
-                    1 +
-                    (ll)rest.operations.size();
-
-                if (operationCount >= bestSize)
-                {
-                    continue;
-                }
-
-                bestSize = operationCount;
-
-                vector<RESULT> operations;
-
-                operations.reserve(
-                    operationCount);
-
-                operations.push_back(
-                    firstOperation);
-
-                operations.insert(
-                    operations.end(),
-                    rest.operations.begin(),
-                    rest.operations.end());
-
-                bestPlan = PLAN{
-                    .success = true,
-                    .operations =
-                        std::move(operations),
-                    .state =
-                        std::move(rest.state),
-                };
+                break;
             }
+
+            ++length;
         }
 
-        return bestPlan;
+        return {
+            direction,
+            length,
+        };
     };
-    // ========================================
-    // 全体処理
-    // ========================================
 
-    STATE current = initialState;
+    // ============================================================
+    // 最短経路上で次の1操作を決定
+    //
+    // carrier は絶対に動く側に残す。
+    //
+    // 最優先:
+    //   ・最短経路上
+    //   ・ジャンプによって手数を削る
+    //
+    // 同程度なら、
+    //   ・下に残す同色スライムが少ない
+    //   ・kが小さい
+    // ============================================================
 
-    vector<RESULT> answer;
-
-    while (CountHomed(current) < SLIME_COUNT)
+    struct MOVE_CHOICE
     {
-        /*
-         * 各色について
-         * 「順序上まだ帰っていない最初のスライム」
-         * だけを候補にする。
-         *
-         * 色そのものの順番は固定しない。
-         */
-        vector<ll> targets;
-
-        for (ll color = 0;
-             color < COLOR_COUNT;
-             ++color)
-        {
-            for (ll id : orderedIds[color])
-            {
-                if (!current.homed[id])
-                {
-                    targets.push_back(id);
-                    break;
-                }
-            }
-        }
-
         bool found = false;
 
-        PLAN bestPlan;
+        ll k = 0;
+        ll direction = 0;
+        ll distance = 1;
 
-        double bestScore = std::numeric_limits<double>::infinity();
+        ll score = INT64_MIN;
+    };
 
-        ll bestOperationCount = INF;
+    auto ChooseMove =
+        [&](const STATE &state,
+            ll carrier,
+            const vector<ll> &path) -> MOVE_CHOICE
+    {
+        MOVE_CHOICE best;
 
-        const ll beforeHomed =
-            CountHomed(current);
-
-        // ====================================
-        // 通常探索
-        // ====================================
-
-        for (ll target : targets)
+        if (path.size() < 2)
         {
-            auto plan =
-                FindPlan(current, target);
+            return best;
+        }
 
-            if (!plan.success ||
-                plan.operations.empty())
+        const ll from =
+            state.pos[carrier];
+
+        if (from == -1)
+        {
+            return best;
+        }
+
+        const auto [direction, straightLength] =
+            GetStraightLength(path);
+
+        if (direction == -1)
+        {
+            return best;
+        }
+
+        const auto &tower =
+            state.towers[from];
+
+        const ll carrierIndex =
+            GetTowerIndex(
+                state,
+                from,
+                carrier);
+
+        if (carrierIndex == -1)
+        {
+            return best;
+        }
+
+        /*
+         * carrier を動かすには
+         *
+         * k <= carrierIndex
+         *
+         * でなければならない。
+         *
+         * また
+         *
+         * l <= k+1
+         *
+         * なので、
+         *
+         * 最大ジャンプ距離 =
+         * carrierIndex + 1
+         */
+        const ll maxDistance = std::min(straightLength, carrierIndex + 1);
+
+        for (ll distance = 1;
+             distance <= maxDistance;
+             ++distance)
+        {
+            /*
+             * この距離を飛ぶためには
+             *
+             * k >= distance - 1
+             */
+            for (ll k = distance - 1;
+                 k <= carrierIndex;
+                 ++k)
+            {
+                const ll movingCount =
+                    tower.size() - k;
+
+                const ll to =
+                    path[distance];
+
+                if ((ll)state.towers[to].size() +
+                        movingCount >
+                    MAX_HEIGHT)
+                {
+                    continue;
+                }
+
+                /*
+                 * 下に残される
+                 * 「carrierと同じ色」の数。
+                 *
+                 * これが多いほど後で回収が必要になるため
+                 * 若干不利にする。
+                 */
+                ll leftSameColor = 0;
+
+                for (ll i = 0; i < k; ++i)
+                {
+                    const ll id =
+                        tower[i];
+
+                    if (slimeInfo[id].color ==
+                        slimeInfo[carrier].color)
+                    {
+                        ++leftSameColor;
+                    }
+                }
+
+                /*
+                 * distance-1:
+                 *   1マス移動を何回省略できるか。
+                 *
+                 * leftSameColor:
+                 *   後で回収する可能性がある数。
+                 *
+                 * 同点なら長く飛ぶ方を選ぶ。
+                 */
+                const ll score =
+                    (distance - 1) -
+                    leftSameColor;
+
+                if (!best.found ||
+                    score > best.score ||
+                    (score == best.score &&
+                     distance > best.distance) ||
+                    (score == best.score &&
+                     distance == best.distance &&
+                     k < best.k))
+                {
+                    best = MOVE_CHOICE{
+                        .found = true,
+                        .k = k,
+                        .direction = direction,
+                        .distance = distance,
+                        .score = score,
+                    };
+                }
+            }
+        }
+
+        return best;
+    };
+
+    // ============================================================
+    // carrier を targetCell まで
+    // 「最短経路上だけ」で運ぶ。
+    //
+    // 毎回 shortest path を取り直す。
+    // ============================================================
+
+    auto MoveCarrierTo =
+        [&](STATE &state,
+            ll carrier,
+            ll targetCell,
+            vector<RESULT> &operations) -> bool
+    {
+        ll safety = CELL_COUNT * 4;
+
+        while (!state.homed[carrier] &&
+               state.pos[carrier] != targetCell)
+        {
+            if (--safety < 0)
+            {
+                return false;
+            }
+
+            const ll from =
+                state.pos[carrier];
+
+            auto path =
+                GetShortestPath(
+                    from,
+                    targetCell);
+
+            if (path.size() < 2)
+            {
+                return false;
+            }
+
+            const auto choice =
+                ChooseMove(
+                    state,
+                    carrier,
+                    path);
+
+            if (!choice.found)
+            {
+                return false;
+            }
+
+            RESULT operation;
+
+            if (!ApplyMove(
+                    state,
+                    from,
+                    choice.k,
+                    choice.direction,
+                    choice.distance,
+                    operation))
+            {
+                return false;
+            }
+
+            operations.push_back(
+                operation);
+        }
+
+        return true;
+    };
+
+    // ============================================================
+    // 巣でcarrierの上に別色が乗っている場合、
+    // 上だけ隣へ退かしてcarrierを帰巣させる。
+    // ============================================================
+
+    auto ExposeCarrierAtNest =
+        [&](STATE &state,
+            ll carrier,
+            vector<RESULT> &operations) -> bool
+    {
+        if (state.homed[carrier])
+        {
+            return true;
+        }
+
+        const ll cell =
+            state.pos[carrier];
+
+        if (cell == -1)
+        {
+            return true;
+        }
+
+        const ll color =
+            slimeInfo[carrier].color;
+
+        if (cell != nests[color])
+        {
+            return false;
+        }
+
+        ApplyHome(state, cell);
+
+        if (state.homed[carrier])
+        {
+            return true;
+        }
+
+        const ll carrierIndex =
+            GetTowerIndex(
+                state,
+                cell,
+                carrier);
+
+        if (carrierIndex == -1)
+        {
+            return false;
+        }
+
+        const ll height =
+            state.towers[cell].size();
+
+        /*
+         * carrierより上だけ飛ばす。
+         */
+        const ll k =
+            carrierIndex + 1;
+
+        if (k >= height)
+        {
+            return false;
+        }
+
+        const ll r =
+            cell / N;
+
+        const ll c =
+            cell % N;
+
+        for (ll d = 0; d < 4; ++d)
+        {
+            const ll nr =
+                r + DR[d];
+
+            const ll nc =
+                c + DC[d];
+
+            if (nr < 0 || N <= nr ||
+                nc < 0 || N <= nc)
             {
                 continue;
             }
 
-            const ll afterHomed =
-                CountHomed(plan.state);
+            const ll to =
+                BOARD.GetIndex(nr, nc);
 
-            const ll gained =
-                afterHomed - beforeHomed;
+            if (BOARD[to] == '#')
+            {
+                continue;
+            }
 
-            if (gained <= 0)
+            const ll movingCount =
+                height - k;
+
+            if ((ll)state.towers[to].size() +
+                    movingCount >
+                MAX_HEIGHT)
+            {
+                continue;
+            }
+
+            RESULT operation;
+
+            if (!ApplyMove(
+                    state,
+                    cell,
+                    k,
+                    d,
+                    1,
+                    operation))
+            {
+                continue;
+            }
+
+            operations.push_back(
+                operation);
+
+            return state.homed[carrier];
+        }
+
+        return false;
+    };
+
+    // ============================================================
+    // 1色について1回の処理を行う
+    //
+    // carrier =
+    //   指定順の中で最初の未帰巣スライム
+    //
+    // carrier
+    //   ↓
+    // 次のスライム
+    //   ↓
+    // 次のスライム
+    //   ↓
+    // ...
+    //   ↓
+    // 巣
+    //
+    // 各区間は必ず最短路。
+    // ============================================================
+
+    struct PLAN
+    {
+        bool success = false;
+
+        vector<RESULT> operations;
+
+        STATE state;
+
+        ll gained = 0;
+    };
+
+    auto CountHomed =
+        [&](const STATE &state) -> ll
+    {
+        ll result = 0;
+
+        for (bool value : state.homed)
+        {
+            result += value;
+        }
+
+        return result;
+    };
+
+    auto ProcessColor =
+        [&](const STATE &source,
+            ll color) -> PLAN
+    {
+        PLAN failure;
+
+        ll carrier = -1;
+        ll carrierRank = -1;
+
+        for (ll rank = 0;
+             rank < (ll)orderedIds[color].size();
+             ++rank)
+        {
+            const ll id =
+                orderedIds[color][rank];
+
+            if (!source.homed[id])
+            {
+                carrier = id;
+                carrierRank = rank;
+                break;
+            }
+        }
+
+        if (carrier == -1)
+        {
+            return failure;
+        }
+
+        STATE state = source;
+
+        vector<RESULT> operations;
+
+        const ll before =
+            CountHomed(state);
+
+        /*
+         * 外から渡された順番通りに
+         * 残りの同色スライムを通る。
+         */
+        for (ll rank = carrierRank + 1;
+             rank < (ll)orderedIds[color].size();
+             ++rank)
+        {
+            if (state.homed[carrier])
+            {
+                break;
+            }
+
+            const ll target =
+                orderedIds[color][rank];
+
+            if (state.homed[target])
             {
                 continue;
             }
 
             /*
-             * 1帰巣あたり何手か。
-             *
-             * target以外も同時に帰れば
-             * そのルートを評価する。
+             * 既に同じ塔なら訪問済み扱い。
              */
+            if (state.pos[target] ==
+                state.pos[carrier])
+            {
+                continue;
+            }
+
+            const ll targetCell =
+                state.pos[target];
+
+            if (!MoveCarrierTo(
+                    state,
+                    carrier,
+                    targetCell,
+                    operations))
+            {
+                return failure;
+            }
+        }
+
+        /*
+         * 最後に自分の巣へ。
+         */
+        if (!state.homed[carrier])
+        {
+            if (!MoveCarrierTo(
+                    state,
+                    carrier,
+                    nests[color],
+                    operations))
+            {
+                return failure;
+            }
+        }
+
+        /*
+         * 別色が上に乗っていて
+         * carrierが帰れなかった場合。
+         */
+        if (!state.homed[carrier])
+        {
+            if (!ExposeCarrierAtNest(
+                    state,
+                    carrier,
+                    operations))
+            {
+                return failure;
+            }
+        }
+
+        if (!state.homed[carrier])
+        {
+            return failure;
+        }
+
+        const ll after =
+            CountHomed(state);
+
+        return PLAN{
+            .success = true,
+            .operations =
+                std::move(operations),
+            .state =
+                std::move(state),
+            .gained =
+                after - before,
+        };
+    };
+
+    // ============================================================
+    // 全体
+    //
+    // colorOrder は外から渡さない。
+    //
+    // 現在の盤面から各色を1回処理してみて、
+    // 1帰巣あたりの操作数が良い色を採用する。
+    // ============================================================
+
+    STATE current =
+        initialState;
+
+    vector<RESULT> answer;
+
+    while (CountHomed(current) <
+           SLIME_COUNT)
+    {
+        bool found = false;
+
+        PLAN bestPlan;
+
+        double bestScore =
+            std::numeric_limits<double>::infinity();
+
+        for (ll color = 0;
+             color < COLOR_COUNT;
+             ++color)
+        {
+            bool remaining = false;
+
+            for (ll id :
+                 orderedIds[color])
+            {
+                if (!current.homed[id])
+                {
+                    remaining = true;
+                    break;
+                }
+            }
+
+            if (!remaining)
+            {
+                continue;
+            }
+
+            auto plan =
+                ProcessColor(
+                    current,
+                    color);
+
+            if (!plan.success ||
+                plan.operations.empty() ||
+                plan.gained <= 0)
+            {
+                continue;
+            }
+
             const double score =
                 (double)plan.operations.size() /
-                (double)gained;
+                (double)plan.gained;
 
             if (!found ||
                 score < bestScore ||
                 (score == bestScore &&
-                 (ll)plan.operations.size() <
-                     bestOperationCount))
+                 plan.operations.size() <
+                     bestPlan.operations.size()))
             {
                 found = true;
 
                 bestScore = score;
-
-                bestOperationCount =
-                    plan.operations.size();
 
                 bestPlan =
                     std::move(plan);
             }
         }
 
-        // ====================================
-        // 通常候補で詰まった場合
-        //
-        // 各色の順序を絶対条件にすると、
-        // 先頭スライムが完全に埋まっている場合などに
-        // 手詰まりになる可能性がある。
-        //
-        // その場合だけ、
-        // 現在塔の一番上にいるスライムから
-        // 動かせるものを探す。
-        // ====================================
-
-        if (!found)
-        {
-            bestScore = std::numeric_limits<double>::infinity();
-
-            bestOperationCount = INF;
-
-            for (ll cell = 0;
-                 cell < CELL_COUNT;
-                 ++cell)
-            {
-                if (current.towers[cell].empty())
-                {
-                    continue;
-                }
-
-                const ll target =
-                    current.towers[cell].back();
-
-                if (current.homed[target])
-                {
-                    continue;
-                }
-
-                auto plan =
-                    FindPlan(current, target);
-
-                if (!plan.success ||
-                    plan.operations.empty())
-                {
-                    continue;
-                }
-
-                const ll afterHomed =
-                    CountHomed(plan.state);
-
-                const ll gained =
-                    afterHomed - beforeHomed;
-
-                if (gained <= 0)
-                {
-                    continue;
-                }
-
-                /*
-                 * fallbackでも、
-                 * 指定された処理順の前の方を少し優遇。
-                 */
-                const double score =
-                    (double)plan.operations.size() /
-                        (double)gained +
-                    slimeInfo[target].rank * 0.001;
-
-                if (!found ||
-                    score < bestScore ||
-                    (score == bestScore &&
-                     (ll)plan.operations.size() <
-                         bestOperationCount))
-                {
-                    found = true;
-
-                    bestScore = score;
-
-                    bestOperationCount =
-                        plan.operations.size();
-
-                    bestPlan =
-                        std::move(plan);
-                }
-            }
-        }
-
-        /*
-         * ここに来るなら、
-         * この探索方式では合法な帰巣経路を
-         * 発見できなかった。
-         *
-         * 不正操作は絶対に出さないため、
-         * そこで終了する。
-         */
         if (!found)
         {
             break;
@@ -1755,85 +1827,6 @@ vector<RESULT> TryTask(
 
         current =
             std::move(bestPlan.state);
-    }
-    {
-        STATE verifyState = initialState;
-
-        for (ll operationIndex = 0;
-             operationIndex < (ll)answer.size();
-             ++operationIndex)
-        {
-            const auto &op = answer[operationIndex];
-
-            if (op.i < 0 || N <= op.i ||
-                op.j < 0 || N <= op.j)
-            {
-                cerr << "Invalid operation coordinate: "
-                     << operationIndex << endl;
-
-                return {};
-            }
-
-            const ll from = BOARD.GetIndex(op.i, op.j);
-
-            if (verifyState.towers[from].empty())
-            {
-                cerr << "Source empty at operation "
-                     << operationIndex
-                     << ": "
-                     << op.i << " "
-                     << op.j
-                     << endl;
-
-                return {};
-            }
-
-            ll direction = -1;
-
-            for (ll d = 0; d < 4; ++d)
-            {
-                if (DIR[d] == op.d)
-                {
-                    direction = d;
-                    break;
-                }
-            }
-
-            if (direction == -1)
-            {
-                cerr << "Invalid direction at operation "
-                     << operationIndex << endl;
-
-                return {};
-            }
-
-            STATE nextState;
-            RESULT dummy;
-
-            if (!ApplyMove(
-                    verifyState,
-                    from,
-                    op.k,
-                    direction,
-                    op.l,
-                    nextState,
-                    dummy))
-            {
-                cerr << "Invalid operation "
-                     << operationIndex
-                     << ": "
-                     << op.i << " "
-                     << op.j << " "
-                     << op.k << " "
-                     << op.d << " "
-                     << op.l
-                     << endl;
-
-                return {};
-            }
-
-            verifyState = std::move(nextState);
-        }
     }
 
     return answer;
@@ -1959,7 +1952,7 @@ void solve()
 
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
-    while (elapsed < TIME_LIMIT)
+    // while (elapsed < TIME_LIMIT)
     {
 
         // 現在の最良解から候補を作る
