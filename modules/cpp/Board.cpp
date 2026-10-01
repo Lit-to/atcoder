@@ -45,7 +45,7 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードかつ同じ位置かどうか
          */
-        bool operator=(const Iterator &rhs) const
+        Iterator operator=(const Iterator &rhs) const
         {
             return Iterator(rhs);
         }
