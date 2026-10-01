@@ -63,7 +63,7 @@ public:
          * 参照演算子(const)
          * @param イテレータが指し示す先の参照
          */
-        T &operator*() const
+        const T &operator*() const
         {
             return m_data->Get(m_r, m_c);
         }
@@ -283,6 +283,17 @@ public:
      * @return イテレータが指し示す先の参照
      */
     T &operator[](const int64_t m_r, const int64_t m_c)
+    {
+        return Get(m_r, m_c);
+    }
+
+    /**
+     * 添え字演算子
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
+     */
+    const T &operator[](const int64_t m_r, const int64_t m_c) const
     {
         return Get(m_r, m_c);
     }
