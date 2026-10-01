@@ -33,6 +33,28 @@ public:
         {
         }
 
+    private:
+        /**
+         * ボード上の位置を表すインデックスをRC座標に変換してセットする
+         * @param index 左上から右下までの通し番号
+         */
+        void _setPosFromIndex(int64_t index)
+        {
+            this.m_r = index / m_width;
+            this.m_c = index % m_width;
+        }
+
+    public:
+        /**
+         * ボードと位置から作成するコンストラクタ
+         * @param board 対応するボード
+         * @param index 左上から右下までの通し番号
+         */
+        Iterator(Board<T> &board, const int64_t index) : m_data(&board)
+        {
+            _setPosFromIndex(index);
+        }
+
         /**
          * コピーコンストラクタ
          * @param target コピー元イテレータのイテレータ
@@ -296,17 +318,6 @@ public:
      * @return イテレータが指し示す先の参照
      */
     const T &operator[](const int64_t m_r, const int64_t m_c) const
-    {
-        return Get(m_r, m_c);
-    }
-
-    /**
-     * 添え字演算子
-     * @param m_r 左上からの縦方向の位置
-     * @param m_c 左上からの横方向の位置
-     * @return イテレータが指し示す先の参照
-     */
-    T &operator[](const int64_t m_r, const int64_t m_c) const
     {
         return Get(m_r, m_c);
     }
