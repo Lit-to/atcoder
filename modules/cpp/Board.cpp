@@ -37,7 +37,9 @@ public:
          * コピーコンストラクタ
          * @param target コピー元イテレータのイテレータ
          */
-        Iterator(const Iterator &rhs) : m_data(rhs.m_data), m_r(rhs.m_r), m_c(rhs.m_c) {}
+        Iterator(const Iterator &rhs) : m_data(rhs.m_data), m_r(rhs.m_r), m_c(rhs.m_c)
+        {
+        }
 
         //== 演算子,主要メソッド
         /**
