@@ -69,7 +69,7 @@ public:
          * @param rhs 比較相手のイテレータ
          * @return 同じボードかつ同じ位置かどうか
          */
-        Iterator operator=(const Iterator &rhs)
+        Iterator &operator=(const Iterator &rhs)
         {
             return Iterator(rhs);
         }
