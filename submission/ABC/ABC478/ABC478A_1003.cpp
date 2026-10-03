@@ -1,4 +1,4 @@
-// ABC478C
+// ABC478A
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,18 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto N = input<ll>();
+    const auto M = input<ll>();
+    vector<ll> people(N);
+    for (ll i = 0; i < M; ++i)
+    {
+        ++people[i % N];
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        cout << people[i] << " ";
+    }
+    cout << endl;
 }
 
 /**

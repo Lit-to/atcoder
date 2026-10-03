@@ -1,4 +1,4 @@
-# ABC478F
+# ABC478B
 # template
 
 def main():
@@ -15,6 +15,19 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N = im.intInput()
+    V = im.intInput()
+    W = im.listIntInput(N)
+    result = 0
+    for i in range(N):
+        for j in range(i+1,N):
+            if (V<i+j+2):
+                break
+            for k in range(j+1,N):
+                if(V<i+j+k+3):
+                    break
+                result = max(result,W[i]+W[j]+W[k])
+    print(result)
 
 
     ...

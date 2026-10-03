@@ -1,4 +1,4 @@
-// ABC478A
+// ABC478D
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,39 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto N = input<ll>();
+    const auto Q = input<ll>();
+    struct SECTION
+    {
+        ll L;
+        ll R;
+        ll X;
+    };
+    vector<SECTION> queries(Q);
+    for (ll i = 0; i < Q; ++i)
+    {
+        cin >> queries[i].L >> queries[i].R >> queries[i].X;
+        --queries[i].L;
+    }
+    vector<HashMap<ll, ll>> sections(N + 1, HashMap<ll, ll>());
+    for (ll i = 0; i < Q; ++i)
+    {
+        ++sections[queries[i].L][queries[i].X];
+        --sections[queries[i].R][queries[i].X];
+    }
+    HashMap<int64_t, int64_t> count;
+    for (ll i = 0; i < N; ++i)
+    {
+        for (auto &q : sections[i])
+        {
+            count[q.first] += q.second;
+            if (count[q.first] == 0)
+            {
+                count.erase(q.first);
+            }
+        }
+        cout << count.size() << endl;
+    }
 }
 
 /**
