@@ -67,11 +67,14 @@ public:
         /**
          * コピー代入演算子
          * @param rhs 比較相手のイテレータ
-         * @return 同じボードかつ同じ位置かどうか
+         * @return
          */
         Iterator &operator=(const Iterator &rhs)
         {
-            return Iterator(rhs);
+            this->m_r = rhs.m_r;
+            this->m_c = rhs.m_c;
+            this->m_data = rhs.m_data;
+            return *this;
         }
 
         /**
