@@ -33,12 +33,34 @@ public:
 
     template <class T>
     /**
+     * 特定の順番で並べ替える
+     * @param target シャッフル対象
+     * @param order シャッフル順序
+     */
+    void Place(std::vector<T> &target, std::vector<int64_t> order)
+    {
+        vector<int64_t> retVal(target.size());
+        for (int64_t i = 0; i < target.size(); ++i)
+        {
+            retVal[i] = target[order[i]];
+        }
+        std::swap(target, retVal);
+    }
+    template <class T>
+    /**
      * べくたーのシャッフルする
      * @param target シャッフル対象
      */
     void Shuffle(std::vector<T> &target)
     {
-        std::shuffle(target.begin(), target.end(), this->m_generator);
+        std::vector<int64_t> rank;
+        for (int64_t i = 0; i < target.size(); ++i)
+        {
+            rank.push_back(i);
+        }
+        std::shuffle(rank.begin(), rank.end(), this->m_generator);
+        Place(target, rank);
+        return target;
     }
 
 private:
