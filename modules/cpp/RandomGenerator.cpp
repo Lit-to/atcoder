@@ -18,7 +18,7 @@ public:
      */
     int64_t Generate(int64_t min, int64_t max)
     {
-        std::uniform_int_distribution<> dist(min, max);
+        std::uniform_int_distribution<int64_t> dist(min, max);
         return dist(m_generator);
     }
     /**
@@ -39,7 +39,7 @@ public:
      */
     void Place(std::vector<T> &target, std::vector<int64_t> order)
     {
-        vector<int64_t> retVal(target.size());
+        vector<T> retVal(target.size());
         for (int64_t i = 0; i < target.size(); ++i)
         {
             retVal[i] = target[order[i]];
@@ -53,14 +53,7 @@ public:
      */
     void Shuffle(std::vector<T> &target)
     {
-        std::vector<int64_t> rank;
-        for (int64_t i = 0; i < target.size(); ++i)
-        {
-            rank.push_back(i);
-        }
-        std::shuffle(rank.begin(), rank.end(), this->m_generator);
-        Place(target, rank);
-        return target;
+        std::shuffle(target.begin(), target.end(), this->m_generator);
     }
 
 private:
