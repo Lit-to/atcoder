@@ -10,13 +10,26 @@ public:
     /**
      * コンストラクタ
      */
-    randomGenerator() : m_generator(std::random_device{}()) {}
+    randomGenerator() : m_generator(std::random_device{}())
+    {
+    }
+
+    /**
+     * シードを返す
+     * @return シード
+     */
+    std::mt19937 GetGenerator()
+    {
+        return m_generator;
+    }
+
     /**
      * @brief 値から乱数生成関数
      * @param min 最小値
      * @param max 最大値
      */
-    int64_t Generate(int64_t min, int64_t max)
+    int64_t
+    Generate(int64_t min, int64_t max)
     {
         std::uniform_int_distribution<int64_t> dist(min, max);
         return dist(m_generator);
@@ -47,13 +60,24 @@ public:
         std::swap(target, retVal);
     }
     template <class T>
+
     /**
-     * べくたーのシャッフルする
-     * @param target シャッフル対象
+     * 一定確率でtrueを返す
+     * @param probability 確率
      */
-    void Shuffle(std::vector<T> &target)
+    bool probIfTrue(double probability)
     {
-        std::shuffle(target.begin(), target.end(), this->m_generator);
+        std::bernoulli_distribution dist(probability);
+        return dist(m_generator);
+    }
+
+    template <class T>
+    /**
+     * @param target 対象のvector
+     */
+    T &Choice(std::vector<T> &target)
+    {
+        return target[Generate(0, target.size() - 1)];
     }
 
 private:
