@@ -38,27 +38,7 @@ public:
      */
     void Shuffle(std::vector<T> &target)
     {
-        struct TOKEN
-        {
-            int64_t index;
-            int64_t value;
-            bool operator<(const TOKEN &target) const
-            {
-                return value < target.value;
-            }
-        };
-        std::vector<TOKEN> order;
-        for (int64_t i = 0; i < target.size(); ++i)
-        {
-            order.push_back(TOKEN{.index = i, value = this->Generate(0, (target.size() - 1) * 100000)});
-        }
-        std::sort(all(value));
-        vector<int64_t> retVal;
-        for (int64_t i = 0; i < order.size(); ++i)
-        {
-            retVal.push_back(target[order[i].index]);
-        }
-        return retVal;
+        std::shuffle(target.begin(), target.end(), this->m_generator);
     }
 
 private:
