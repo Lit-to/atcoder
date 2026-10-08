@@ -1,0 +1,871 @@
+// AHC072A
+#include <iostream>
+#include <cstdint>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <atcoder/all>
+#include <random>
+#include <chrono>
+#include <map>
+template <class KEY_TYPE, class VALUE_TYPE>
+using TreeMap = std::map<KEY_TYPE, VALUE_TYPE>;
+#include <unordered_map>
+template <class KEY_TYPE, class VALUE_TYPE>
+using HashMap = std::unordered_map<KEY_TYPE, VALUE_TYPE>;
+
+#include <set>
+template <class VALUE_TYPE>
+using TreeSet = std::set<VALUE_TYPE>;
+#include <unordered_set>
+template <class VALUE_TYPE>
+using HashSet = std::unordered_set<VALUE_TYPE>;
+
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define DEFAULT_TESTCASE (1);
+using std::abs;
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+using ll = int64_t;
+using vll = std::vector<int64_t>;
+using mint = atcoder::modint998244353;
+// using mint = atcoder::modint1000000007;
+template <typename T>
+T input()
+{
+    T variable;
+    cin >> variable;
+    return variable;
+}
+template <typename T>
+std::vector<T> input(int64_t n)
+{
+    std::vector<T> contents(n);
+    for (int64_t i = 0; i < n; ++i)
+    {
+        contents[i] = input<T>();
+    }
+    return contents;
+}
+// 自作ライブラリここから
+#include <stdexcept>
+#include <vector>
+#include <fstream>
+#include <sstream>
+/**
+ * 二次元ボード
+ */
+template <class T>
+class Board
+{
+public:
+    /**
+     * イテレータ
+     */
+    class Iterator
+    {
+    public:
+        //==コンストラクタ
+        /**
+         * デフォルトコンストラクタ
+         */
+        Iterator() : m_data(nullptr), m_r(0), m_c(0)
+        {
+        }
+
+        /**
+         * ボードと位置から作成するコンストラクタ
+         * @param board 対応するボード
+         * @param r 上から何行目か
+         * @param c 左から何列目か
+         */
+        Iterator(Board<T> &board, const int64_t r, const int64_t c) : m_data(&board), m_r(r), m_c(c)
+        {
+        }
+
+        /**
+         * ボードと位置から作成するコンストラクタ
+         * @param board 対応するボード
+         * @param r 上から何行目か
+         * @param c 左から何列目か
+         */
+        Iterator(Board<T> &board, const int64_t index) : m_data(&board)
+        {
+            m_r = index / board.m_width;
+            m_c = index % board.m_width;
+        }
+
+        /**
+         * コピーコンストラクタ
+         * @param target コピー元イテレータのイテレータ
+         */
+        Iterator(const Iterator &rhs) : m_data(rhs.m_data), m_r(rhs.m_r), m_c(rhs.m_c)
+        {
+        }
+
+        //== 演算子,主要メソッド
+        /**
+         * コピー代入演算子
+         * @param rhs 比較相手のイテレータ
+         * @return 同じボードかつ同じ位置かどうか
+         */
+        Iterator operator=(const Iterator &rhs) const
+        {
+            return Iterator(rhs);
+        }
+
+        /**
+         * 参照演算子
+         * @param イテレータが指し示す先の参照
+         */
+        T &operator*()
+        {
+            return m_data->Get(m_r, m_c);
+        }
+
+        /**
+         * 参照演算子(const)
+         * @param イテレータが指し示す先の参照
+         */
+        T &operator*() const
+        {
+            return m_data->Get(m_r, m_c);
+        }
+
+        /**
+         * 移動
+         * @param r 移動差分(縦)
+         * @param c 移動差分(横)
+         */
+        void Move(const int64_t r, const int64_t c)
+        {
+            m_r += r;
+            m_c += c;
+        }
+
+        /**
+         * 移動先のイテレータを取得
+         * @param r 移動差分(縦)
+         * @param c 移動差分(横)
+         */
+        Iterator GetMoved(const int64_t r, const int64_t c) const
+        {
+            auto itr = *this;
+            itr.Move(r, c);
+            return itr;
+        };
+
+        /**
+         * 等価演算子
+         * @param rhs 比較相手のイテレータ
+         * @return 同じボードかつ同じ位置かどうか
+         */
+        bool operator==(const Iterator &rhs) const
+        {
+            return m_data == rhs.m_data && m_r == rhs.m_r && m_c == rhs.m_c;
+        }
+
+        /**
+         * 不等価演算子
+         * @param rhs 比較相手のイテレータ
+         * @return 同じボードもしくは同じ位置ではない
+         */
+        bool operator!=(const Iterator &rhs) const
+        {
+            return (!(*this == rhs));
+        }
+
+        /**
+         * 自分自身がボードの範囲内かどうか
+         * @return 範囲内ならtrue
+         */
+        bool IsInside() const
+        {
+            return m_data->IsInside(m_r, m_c);
+        }
+
+        /**
+         * 自分自身がボードの範囲外かどうか
+         * @return 範囲外ならtrue
+         */
+        bool IsOutside() const
+        {
+            return (!IsInside());
+        }
+
+        /**
+         * 自分自身の位置を表す一意の値を返す
+         * @return 値
+         */
+        int64_t GetIndex() const
+        {
+            return m_data->GetIndex(m_r, m_c);
+        }
+
+        /**
+         * イテレータの指し示す左上からの縦の距離を返す
+         * @return 値
+         */
+        int64_t GetR() const
+        {
+            return m_r;
+        }
+
+        /**
+         * イテレータの指し示す左上からの横の距離を返す
+         * @return 値
+         */
+        int64_t GetC() const
+        {
+            return m_c;
+        }
+
+    private:
+        //==メンバー変数
+        Board *m_data; //<!対応するボード
+        int64_t m_r;   //<! 指し示すボードの縦方向の位置(index/int64_t)
+        int64_t m_c;   //<! 指し示すボードの横方向の位置(index/int64_t)
+    };
+
+    //==コンストラクタ
+    /**
+     * デフォルトコンストラクタ
+     */
+    Board() : m_data(nullptr), m_height(0), m_width(0)
+    {
+    }
+
+    /**
+     * コピーコンストラクタ
+     */
+    Board(const Board &rhs) : m_data(rhs.m_data), m_height(rhs.m_height), m_width(rhs.m_width)
+    {
+    }
+
+    /**
+     * コンストラクタ
+     * 縦と横を指定してボードを作成
+     */
+    Board(const int64_t height, const int64_t width) : m_data(height * width), m_height(height), m_width(width)
+    {
+    }
+
+    /**
+     * コンストラクタ
+     * 縦と横とデフォルト値を指定してボードを作成
+     */
+    Board(const int64_t height, const int64_t width, const T value) : m_data(height * width, value), m_height(height), m_width(width)
+    {
+    }
+
+    //==主要メソッド
+    /**
+     * ある位置についてその位置を表す一意の値を返す
+     * @param r 縦方向の位置
+     * @param c 横方向の位置
+     */
+    int64_t GetIndex(const int64_t r, const int64_t c) const
+    {
+        return r * m_width + c;
+    }
+
+    /**
+     * 特定位置のイテレータを取得する
+     * @param r 縦方向の位置
+     * @param c 横方向の位置
+     */
+    Iterator GetIterator(const int64_t r, const int64_t c) const
+    {
+        return Iterator(const_cast<Board<T> &>(*this), r, c);
+    }
+
+    /**
+     * 特定位置のイテレータを取得する
+     * @param index m_data上の位置
+     */
+    Iterator GetIterator(const int64_t index) const
+    {
+        return Iterator(const_cast<Board<T> &>(*this), index);
+    }
+
+    /**
+     * 全ての位置に同じ値を埋める
+     * @param value 埋めたい値
+     */
+    void Fill(const T value)
+    {
+        for (int64_t i = 0; i < GetSize(); ++i)
+        {
+            m_data[i] = value;
+        }
+    }
+
+    /**
+     * 特定位置がボードの範囲内かどうか
+     * @return 範囲内ならtrue
+     */
+    bool IsInside(const int64_t r, const int64_t c) const
+    {
+        return (0 <= r && r < m_height) && (0 <= c && c < m_width);
+    }
+
+    /**
+     * 特定位置がボードの範囲外かどうか
+     * @return 範囲外ならtrue
+     */
+    bool IsOutside(const int64_t r, const int64_t c) const
+    {
+        return !IsInside(r, c);
+    }
+
+    /**
+     * 特定位置の参照を取得
+     * @param r 縦方向の位置
+     * @param c 横方向の位置
+     * @return 参照
+     */
+    T &Get(const int64_t r, const int64_t c)
+    {
+        return m_data[GetIndex(r, c)];
+    }
+
+    /**
+     * 特定位置の値を取得
+     * @param r 縦方向の位置
+     * @param c 横方向の位置
+     * @return 値
+     */
+    const T &Get(const int64_t r, const int64_t c) const
+    {
+        return Get(r, c);
+    }
+
+    /**
+     * 特定位置の参照を取得
+     * @param index 位置
+     * @return 参照
+     */
+    T &Get(const int64_t index)
+    {
+        return m_data[index];
+    }
+
+    /**
+     * 特定位置の値を取得
+     * @param index 位置
+     * @return 値
+     */
+    const T &Get(const int64_t index) const
+    {
+        return m_data[index];
+    }
+
+    /**
+     * ボードのサイズ取得
+     * @return 値
+     */
+    int64_t GetSize() const
+    {
+        return m_height * m_width;
+    }
+
+    /**
+     * 添え字演算子
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
+     */
+    T &operator[](const int64_t m_r, const int64_t m_c)
+    {
+        return Get(m_r, m_c);
+    }
+
+    /**
+     * 添え字演算子
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
+     */
+    T &operator[](const int64_t m_r, const int64_t m_c) const
+    {
+        return Get(m_r, m_c);
+    }
+
+    /**
+     * 添え字演算子
+     * @param m_r 左上からの縦方向の位置
+     * @param m_c 左上からの横方向の位置
+     * @return イテレータが指し示す先の参照
+     */
+    T &operator[](const int64_t index)
+    {
+        return Get(index);
+    }
+
+    /**
+     * 添え字演算子
+     * @return イテレータが指し示す先の参照
+     */
+    const T &operator[](const int64_t index) const
+    {
+        return Get(index);
+    }
+
+    /**
+     * デバッグ用文字列生成
+     * @return mermaid文字列
+     */
+    const std::string ToMermaidString() const
+    {
+        std::ostringstream result;
+        result << "```mermaid\n";
+        result << "block-beta\n";
+        result << "columns " + std::to_string(m_width) + "\n";
+        std::string classPatternAStr = "class ";
+        std::string classPatternBStr = "class ";
+        for (int64_t i = 0; i < m_height; ++i)
+        {
+            for (int64_t j = 0; j < m_width; ++j)
+            {
+                result << "   ";
+                std::string key = "n" + std::to_string(GetIndex(i, j));
+                result << key;
+                result << "[\"";
+                result << m_data[GetIndex(i, j)];
+                result << "\"]\n";
+                if ((i + j) % 2 == 0)
+                {
+                    classPatternAStr += key + ",";
+                }
+                else
+                {
+                    classPatternBStr += key + ",";
+                }
+            }
+        }
+        result << "classDef patternA fill:#1B2026,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
+        result << "classDef patternB fill:#303740,color:#E6E6E6,stroke:#30363D,stroke-width:1px\n";
+        classPatternAStr.pop_back(); //","を消す
+        classPatternBStr.pop_back(); //","を消す
+        classPatternAStr += " patternA";
+        classPatternBStr += " patternB";
+
+        std::string classDefStr = "";
+        std::string resultStr = "";
+        result << classPatternAStr + "\n";
+        result << classPatternBStr + "\n";
+        result << "```";
+        return result.str();
+    }
+
+    /**
+     * デバッグ用 ファイル出力(mermaid形式)
+     * @param fileName ファイル名
+     */
+    void Dump(const std::string &fileName = "out.md") const
+    {
+        std::ofstream file(fileName);
+        file << ToMermaidString() << std::endl;
+        file.close();
+    }
+
+    /**
+     * 入力ストリーム演算子
+     * 左上から右下まで順にデータを入力として取り込む
+     * @return 更新後の入力ストリーム
+     */
+    friend std::istream &operator>>(std::istream &stream, Board<T> &target)
+    {
+        for (int64_t i = 0; i < target.m_height; ++i)
+        {
+            for (int64_t j = 0; j < target.m_width; ++j)
+            {
+                stream >> target.m_data[target.GetIndex(i, j)];
+            }
+        }
+        return stream;
+    }
+
+    /**
+     * 出力ストリーム演算子
+     * 左上から右下まで順に出力する
+     * @return 更新後の出力ストリーム
+     */
+    friend std::ostream &operator<<(std::ostream &stream, const Board<T> &target)
+    {
+        for (int64_t i = 0; i < target.m_height; ++i)
+        {
+            for (int64_t j = 0; j < target.m_width; ++j)
+            {
+                stream << target.m_data[target.GetIndex(i, j)] << " ";
+            }
+        }
+        return stream;
+    }
+
+private:
+    //==メンバ変数
+    std::vector<T> m_data; //<! データ実体
+    int64_t m_height;      //<! 高さ
+    int64_t m_width;       //<! 横幅
+
+    // フレンド登録
+    friend Iterator;
+};
+// 自作ライブラリここまで
+// 定数表現
+
+using Iter = Board<char>::Iterator;
+const int64_t LRUD_4[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+const char LRUD_4_c[4] = {'L', 'R', 'U', 'D'};
+const int MAX_HEIGHT = 8;
+const int MAX_GROUP_SIZE = 7;
+const int MAX_K = 12;
+int K = 12;
+Board<char> BOARD(0, 0);
+int64_t N;
+int64_t CELLS;
+const int64_t TIME_LIMIT = 1950;
+std::mt19937 randomGenerator(std::random_device{}());
+
+// 定数表現ここまで
+
+// 型定義
+
+/**
+ * 移動方法を持つ構造体
+ */
+struct TRACK
+{
+    int64_t pos;      // トークンの位置を表す
+    char direction;   // トークンの方向を表す
+    int64_t distance; // 距離
+    bool isPickup;    // 拾うかどうか
+};
+/**
+ * 答え配列の各命令指示
+ */
+struct RESULT
+{
+    ll i;
+    ll j;
+    ll k;
+    char d;
+    ll l;
+};
+
+/**
+ * 最適解回収構造体
+ */
+
+struct SLIME_SCORE
+{
+    ll score = INT64_MAX;
+    ll groupSize;
+    vector<ll> slimes;
+};
+
+// ノードとノードの間にどのノードがいるのかを求める関数
+vector<TRACK> GenerateLine(const Board<char> &BOARD, int64_t from, int64_t to, char nestType)
+{
+    int64_t HW = BOARD.GetSize();
+    vector<TRACK> result;
+    vector<int64_t> done(HW);
+    done[from] = true;
+    std::queue<int64_t> tasks;
+    tasks.push(from);
+    vector<TRACK> parent(HW);
+    // 探索
+    TRACK posToken; // ゴールノードが入る予定の変数
+    auto Search = [&]() -> void
+    {
+        while (!tasks.empty())
+        {
+            int64_t task = tasks.front();
+            auto iterator = BOARD.GetIterator(task);
+            tasks.pop();
+            for (int i = 0; i < 4; ++i)
+            {
+                auto destIter = iterator.GetMoved(LRUD_4[i][0], LRUD_4[i][1]);
+                if (destIter.IsOutside())
+                {
+                    continue;
+                }
+                auto destIndex = destIter.GetIndex();
+                if (BOARD[destIndex] == '#')
+                {
+                    continue;
+                }
+                if (done[destIndex])
+                {
+                    continue;
+                }
+                done[destIndex] = true;
+                int64_t distance = std::max(abs(LRUD_4[i][0]), abs(LRUD_4[i][1]));
+                parent[destIndex] = TRACK{
+                    .pos = task,
+                    .direction = LRUD_4_c[i],
+                    .distance = distance,
+                    .isPickup = false,
+                };
+                if (destIndex == to || BOARD[destIndex] == nestType)
+                {
+                    posToken = TRACK{.pos = destIndex}; // ここから先に進むことはない
+                    return;
+                }
+                tasks.push(destIndex);
+            }
+        }
+    };
+    Search();
+    while (posToken.pos != from)
+    {
+        auto pos = posToken;
+        posToken = parent[pos.pos];
+        result.push_back(posToken);
+    }
+    std::reverse(all(result));
+    result[0].isPickup = true;
+    return result;
+};
+
+vector<TRACK> GenerateGroupTasks(const Board<char> &BOARD, vector<ll> nodes)
+{
+    vector<TRACK> result;
+    for (ll i = 0; i + 1 < nodes.size(); ++i)
+    {
+        auto line = GenerateLine(BOARD, nodes[i], nodes[i + 1], BOARD[nodes.back()]);
+        result.insert(result.end(), all(line));
+    }
+    return result;
+}
+
+// スライム同士のグループ分けを行った結果を返す
+vector<vector<int64_t>> PlacementSlimes(vector<int64_t> slimes, int64_t groupSize)
+{
+    vector<vector<int64_t>> result;
+    for (int64_t i = 0; i < slimes.size(); ++i)
+    {
+        if (i % (groupSize) == 0)
+        {
+            result.push_back(vector<int64_t>());
+        }
+        result.back().push_back(slimes[i]);
+    }
+    return result;
+}
+
+int64_t GetDistance(ll u1, ll v1, ll u2, ll v2)
+{
+    return std::max(abs(u1 - u1), abs(v1 - v2));
+};
+
+vector<RESULT> GenerateResult(vector<TRACK> line, Board<char> &BOARD, vector<bool> &isActive, vector<int64_t> nests)
+{
+    vector<RESULT> result;
+    auto firstIter = BOARD.GetIterator(line[0].pos);
+    isActive[firstIter.GetIndex()] = false;
+    for (ll i = 0; i < line.size(); ++i)
+    {
+        const auto pos = line[i].pos;
+        const auto iter = BOARD.GetIterator(line[i].pos);
+        ll newSlime = 0;
+        ll k = 0;
+        if (isActive[iter.GetIndex()])
+        {
+            ++k;
+            if (line[i].isPickup)
+            {
+                isActive[iter.GetIndex()] = false;
+                ++newSlime;
+                --k;
+            }
+        }
+        else if (!result.empty() && GetDistance(iter.GetR(), iter.GetC(), result.back().i, result.back().j) <= 1 && result.back().l + 1 <= result.back().k + 1 && result.back().d == line[i].direction)
+        {
+            ++result.back().l;
+            continue;
+        }
+        auto task = RESULT{
+            .i = iter.GetR(),
+            .j = iter.GetC(),
+            .k = k,
+            .d = line[i].direction,
+            .l = line[i].distance,
+        };
+        result.push_back(task);
+    }
+
+    return result;
+}
+
+int64_t Eval(const vector<RESULT> &result, int64_t penalty = 0)
+{
+    return result.size() + penalty * 1e6;
+};
+
+int64_t UpdateTentative(const vector<vector<RESULT>> &orderes, vector<vector<ll>> &slimes, vector<int64_t> groupSizes, vector<SLIME_SCORE> &tentative)
+{
+    ll result = 0;
+    for (ll i = 0; i < orderes.size(); ++i)
+    {
+        ll score = Eval(orderes[i]);
+        if (score < tentative[i].score)
+        {
+            tentative[i].slimes = slimes[i];
+            tentative[i].score = score;
+            tentative[i].groupSize = groupSizes[i];
+        }
+        result += score;
+    }
+    return result;
+}
+
+vector<vector<RESULT>> TryTask(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSize, vector<int64_t> &nests, Board<char> &BOARD)
+{
+
+    vector<vector<RESULT>> result(K, vector<RESULT>());
+
+    vector<bool> isActive(CELLS, false); // スライムの色
+    // 巣・スライム位置把握
+    for (ll i = 0; i < N; ++i)
+    {
+        for (ll j = 0; j < N; ++j)
+        {
+            if ('a' <= BOARD[i, j] && BOARD[i, j] <= 'z')
+            {
+                isActive[BOARD.GetIndex(i, j)] = true;
+            }
+        }
+    }
+    for (ll i = 0; i < K; ++i)
+    {
+        auto slimeGroups = PlacementSlimes(slimes[i], groupSize[i]);
+        // スライムを7個ごとのグループに分ける
+        {
+            // グラフ構築(グラフ)
+            for (int64_t j = 0; j < slimeGroups.size(); ++j)
+            {
+                slimeGroups[j].push_back(nests[i]);
+                auto tasks = GenerateGroupTasks(BOARD, slimeGroups[j]);
+                auto groupResult = GenerateResult(tasks, BOARD, isActive, nests);
+                result[i].insert(result[i].end(), all(groupResult));
+            }
+        }
+    }
+    return result;
+}
+
+vector<RESULT> Answer(vector<SLIME_SCORE> &tentative, vector<int64_t> &nests, Board<char> &BOARD)
+{
+    vector<vector<int64_t>> slimes(K);
+    vector<int64_t> groupSize(K);
+    for (ll i = 0; i < K; ++i)
+    {
+        slimes[i] = tentative[i].slimes;
+        groupSize[i] = tentative[i].groupSize;
+    }
+    auto result = TryTask(slimes, groupSize, nests, BOARD);
+    vector<RESULT> retVal;
+    for (ll i = 0; i < K; ++i)
+    {
+        for (ll j = 0; j < result[i].size(); ++j)
+        {
+            retVal.push_back(result[i][j]);
+        }
+    }
+    return retVal;
+}
+
+void ShuffleSlimes(vector<vector<int64_t>> &slimes, vector<int64_t> &groupSizes)
+{
+    for (ll i = 0; i < K; ++i)
+    {
+        std::shuffle(all(slimes[i]), randomGenerator);
+        groupSizes[i] = std::uniform_int_distribution<ll>(1, MAX_GROUP_SIZE)(randomGenerator);
+    }
+}
+
+/**
+ * 1ケースぶんの処理実行
+ */
+void solve()
+{
+    std::mt19937 randomGenerator(std::random_device{}());
+    // 入力受け取り
+    N = input<ll>();
+    CELLS = N * N;
+    K = input<ll>();
+    BOARD = Board<char>(N, N);
+    cin >> BOARD;
+    // 巣とスライムのグラフ作成
+    vector<vector<int64_t>> slimes(K); // スライム位置
+    vector<int64_t> nests(K);          // 巣の位置
+    // 巣・スライム位置把握
+    for (ll i = 0; i < N; ++i)
+    {
+        for (ll j = 0; j < N; ++j)
+        {
+            auto iter = BOARD.GetIterator(i, j);
+            if ('a' <= *iter && *iter <= 'z')
+            {
+                slimes[*iter - 'a'].push_back(BOARD.GetIterator(i, j).GetIndex());
+            }
+            if ('A' <= *iter && *iter <= 'Z')
+            {
+                nests[*iter - 'A'] = BOARD.GetIterator(i, j).GetIndex();
+            }
+        }
+    }
+    int64_t score = INT64_MAX;
+    vector<SLIME_SCORE> tentative(K);
+
+    const auto start = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
+
+    vector<ll> groupSizes(K);
+    while (elapsed < TIME_LIMIT)
+    {
+        ShuffleSlimes(slimes, groupSizes);
+        auto result = TryTask(slimes, groupSizes, nests, BOARD);
+        UpdateTentative(result, slimes, groupSizes, tentative);
+        now = std::chrono::steady_clock::now();
+        elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
+    }
+    auto result = Answer(tentative, nests, BOARD);
+    for (auto &r : result)
+    {
+        cout << r.i << " " << r.j << " " << r.k << " " << r.d << " " << r.l << endl;
+    }
+}
+
+/**
+ * エントリポイント
+ * テストケースごとに回す(デフォルトは1)
+ */
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int64_t TESTCASES = DEFAULT_TESTCASE;
+    // std::cin >> TESTCASES;
+    for (int64_t i = 0; i < TESTCASES; ++i)
+    {
+        solve();
+    }
+}
+
+//======================
+/**
+ *方針メモ欄
+ *
+ */
+//======================
+
+// AtCoder提出用テンプレート
+// 自作ライブラリ・スニペットはここ:https://github.com/Lit-to/atcoder/tree/main/modules/cpp

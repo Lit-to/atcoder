@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+pushd "$(dirname "$0")" > /dev/null
+pushd .. > /dev/null
+
+#================================
+# 設定読み込み
+
+source config
+
+#================================
+# 引数から受け取り
+
+args=()
+
+for arg in "$@"; do
+    if [ "$arg" = "-notl" ]; then
+        continue
+    else
+        args+=("$arg")
+    fi
+done
+
+if [ "${#args[@]}" -eq 0 ]; then
+    execCommand="$targetProgram"
+else
+    execCommand="${args[@]}"
+fi
+
+# コンパイル
+if [ -n "${compileProgram:-}" ]; then
+    eval "$compileProgram" || exit 1
+fi
+
+# シェル事故時の救済おまじない
+set -euo pipefail
+
+#================================
+# 入力フォルダ
+
+input="./input"
+
+if [ ! -d "$input" ]; then
+    echo "Input directory not found: $input" >&2
+    exit 1
+fi
+
+#================================
+# 出力フォルダ
+
+dump="./dump"
+mkdir -p "$dump"
+
+#================================
+# 全入力ファイルを実行
+
+shopt -s nullglob
+
+inputFiles=("$input"/*)
+
+if [ "${#inputFiles[@]}" -eq 0 ]; then
+    echo "No input files found: $input" >&2
+    exit 1
+fi
+
+for sampleFile in "${inputFiles[@]}"; do
+    if [ ! -f "$sampleFile" ]; then
+        continue
+    fi
+
+    fileName=$(basename "$sampleFile")
+    result="$dump/${fileName}"
+
+    echo "================================"
+    echo "Input : $sampleFile"
+    echo "Output: $result"
+
+    eval "$execCommand" < "$sampleFile" > "$result"
+
+    echo "Done"
+done
+
+#================================
+# dump を VS Code で開く
+
+resultPath=$(realpath "$dump")
+echo "$resultPath"
+
+
+popd > /dev/null
+popd > /dev/null

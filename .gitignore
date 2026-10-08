@@ -8,6 +8,7 @@ __pycache__
 .vscode/settings.json
 sandBox/input
 sandBox/output
+sandBox/dump
 sandBox/expect
 sandBox/bk
 !sandBox/tools/*
