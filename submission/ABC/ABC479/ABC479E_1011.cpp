@@ -60,12 +60,87 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
-    //
+    const auto N = input<ll>();
+    struct EDGE
+    {
+        ll A;
+        ll B;
+    };
+    vector<EDGE> edges(N - 1);
+    for (ll i = 0; i < N - 1; ++i)
+    {
+        cin >> edges[i].A >> edges[i].B;
+        --edges[i].A;
+        --edges[i].B;
+    }
+    struct DIST
+    {
+        ll to;
+    };
+    vector<vector<ll>> GRAPH(N);
+    for (ll i = 0; i < N - 1; ++i)
+    {
+        GRAPH[edges[i].A].push_back(edges[i].B);
+    }
+    vector<ll> weight(N);
+    auto dfs = [&](auto self, ll pos) -> ll
+    {
+        if (weight[pos] != 0)
+        {
+            return weight[pos];
+        }
+        ll result = 1;
+        for (auto &to : GRAPH[pos])
+        {
+            result += self(self, to);
+        }
+        weight[pos] = result;
+        return result;
+    };
+    for (ll i = 0; i < N; ++i)
+    {
+        dfs(dfs, i);
+    }
+    vector<ll> xValue(N);
+    for (ll i = 0; i < N - 1; ++i)
+    {
+        ll a = edges[i].A - edges[i].B;
+        ll b = edges[i].B;
+        if (a < b)
+        {
+            xValue[edges[i].B] += weight[edges[i].B];
+        }
+        else
+        {
+            xValue[edges[i].A] += weight[edges[i].A];
+        }
+    }
+    vector<bool> done(N);
+    vector<ll> resultValues(N);
+    auto dfs_fill = [&](auto self, ll pos, ll value) -> void
+    {
+        if (done[pos] != true)
+        {
+            return;
+        }
+        done[pos] = true;
+        resultValues[pos] = value;
+        for (auto &to : GRAPH[pos])
+        {
+            self(self, to, value + xValue[to]);
+        }
+        return;
+    };
+    for (ll i = 0; i < N; ++i)
+    {
+        dfs_fill(dfs_fill, i, xValue[i]);
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        cout << xValue[i] << " ";
+    }
+    cout << endl;
 }
-
 /**
  * エントリポイント
  * テストケースごとに回す(デフォルトは1)

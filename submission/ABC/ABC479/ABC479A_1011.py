@@ -11,11 +11,15 @@ def main():
     入力受け取り例
 
     S = im.input()
-    N = im.intInput()
     H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
-
+    N = im.intInput()
+    A = im.listIntInput(N)
+    result = 0
+    for i in range(N):
+        if i%2==0:
+            result += A[i]
+    print(result)
 
     ...
 
