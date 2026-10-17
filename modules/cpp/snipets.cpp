@@ -1,3 +1,4 @@
+// https://github.com/Lit-to/atcoder/blob/main/modules/cpp/snipets.cpp
 #include <string>
 #include <vector>
 #include <cstdint>

@@ -1,3 +1,4 @@
+// https://github.com/Lit-to/atcoder/blob/main/modules/cpp/SegmentTree.cpp
 #include <vector>
 #include <iostream>
 #include <bit>

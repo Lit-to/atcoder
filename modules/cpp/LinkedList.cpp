@@ -1,3 +1,4 @@
+// https://github.com/Lit-to/atcoder/blob/main/modules/cpp/LinkedList.cpp
 #include <vector>
 #include <cstdint>
 #include <iostream>

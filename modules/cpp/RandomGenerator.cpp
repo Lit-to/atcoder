@@ -1,3 +1,4 @@
+// https://github.com/Lit-to/atcoder/blob/main/modules/cpp/RandomGenerator.cpp
 #include <random>
 
 /**
