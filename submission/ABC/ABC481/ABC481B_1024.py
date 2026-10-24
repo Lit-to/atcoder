@@ -1,4 +1,4 @@
-# ABC481C
+# ABC481B
 # template
 
 def main():
@@ -12,11 +12,22 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
-    A = im.listIntInput(N)
     """
-
-
+    N,K = im.listIntInput(2)
+    A = im.listIntInput(N)
+    now = A[0]
+    result = 0
+    if (now==K):
+        result +=1
+    for i in range(1,N):
+        if (A[i]==K):
+            result+=1
+        elif (now<K and K<A[i]):
+            result += 1
+        elif (K<now and A[i]<K):
+            result += 1
+        now = A[i]
+    print(result)
     ...
 
     # 処理スペース

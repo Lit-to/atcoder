@@ -15,6 +15,7 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    print(len(str(sum(im.listIntInput(2)))))
 
 
     ...

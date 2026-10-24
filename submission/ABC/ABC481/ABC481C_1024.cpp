@@ -1,4 +1,4 @@
-// ABC481D
+// ABC481C
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,20 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
     //
+    const auto Q = input<ll>();
+    const auto PUMPKINS = input<std::string>(Q);
+    HashMap<std::string, ll> banks;
+    ll id = 0;
+    for (auto &name : PUMPKINS)
+    {
+        if (banks[name] == 0)
+        {
+            banks[name] = ++id;
+        }
+        cout << banks[name] << endl;
+    }
 }
 
 /**
