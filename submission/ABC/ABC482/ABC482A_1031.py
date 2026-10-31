@@ -1,4 +1,4 @@
-# ABC482G
+# ABC482A
 # template
 
 def main():
@@ -15,6 +15,11 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    if im.input().count("o")%2==0:
+        print("even")
+    else:
+        print("odd")
+
 
 
     ...

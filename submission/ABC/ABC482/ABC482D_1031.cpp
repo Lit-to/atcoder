@@ -1,4 +1,4 @@
-// ABC482A
+// ABC482D
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,35 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
     //
+    const auto N = input<ll>();
+    const auto X = input<ll>(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        ll k = i;
+        ll r;
+        if (i == 0 || i == N - 1)
+        {
+            r = (X.back() - X.front()) / 2;
+        }
+        else
+        {
+            auto calc = [&](ll pos, ll headCost) -> ll
+            {
+                ll first = X[0] + headCost;
+                ll last = X[N - 1] - headCost;
+                ll cost_pl = (last - pos) / 2;
+                ll cost_mi = (pos - first) / 2;
+                return std::max(cost_pl, cost_mi) + headCost;
+            };
+            ll d_mi = (X[k + 1] - X[k]) / 2;
+            ll d_pl = (X[k] - X[k - 1]) / 2;
+            ll r_mi = calc(d_mi + X[k], d_mi);
+            ll r_pl = calc(d_pl + X[k - 1], d_pl);
+            r = std::min(r_mi, r_pl);
+        }
+        cout << r << endl;
+    }
 }
 
 /**

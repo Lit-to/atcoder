@@ -1,9 +1,22 @@
-# ABC482D
+# ABC482B
 # template
 
 def main():
     # 関数定義スペース
+    def eval(goal):
+        result = 0
+        for i in range(5):
+            for j in range(5):
+                result += (goal[i][j]=="o" and card[i][j]==".")
+        return result
 
+    def blank():
+        b = []
+        for i in range(5):
+            b.append([])
+            for j in range(5):
+                b[i].append(".") 
+        return b
     ...    
 
     # 入力スペース
@@ -15,7 +28,39 @@ def main():
     H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    card = []
+    for i in range(5):
+        card.append(list(input()))
 
+    r = 5
+    # ななめ\
+    t = blank()
+    for i in range(5):
+        t[i][i] = "o"
+    r = min(r,eval(t))
+
+
+    # ななめ/
+    t = blank()
+    for i in range(5):
+        t[4-i][i] = "o"
+    r = min(r,eval(t))
+
+    # たて
+    for i in range(5):
+        t = blank()
+        for j in range(5):
+            t[i][j] = "o"
+        r = min(r,eval(t))
+        
+    # よこ
+    for i in range(5):
+        t = blank()
+        for j in range(5):
+            t[j][i] = "o"
+        r = min(r,eval(t))
+
+    print(r)
 
     ...
 
