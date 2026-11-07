@@ -1,4 +1,4 @@
-# ABC483C
+# ABC483B
 # template
 
 def main():
@@ -12,9 +12,29 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N,Q = im.listIntInput(2)
+    K = im.listIntInput(Q)
+    cards = []
+    for i in range(N):
+        cards.append(N-i)
+    bucket = deque()
+    for i in range(Q):
+        for _ in range(K[i]):
+            bucket.append(cards.pop())
+        while(0<len(bucket)):
+            cards.append(bucket.popleft()*-1)
+    cards.reverse()
+    print(*cards,sep="\n")
+
+
+
+        
+
+
+
+
 
 
     ...
