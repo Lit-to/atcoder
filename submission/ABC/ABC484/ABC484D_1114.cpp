@@ -60,10 +60,24 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
     //
+    const auto N = input<ll>();
+    const auto A = input<ll>(N);
+
+    vector<ll> count(N);
+    ll r = 1;
+    for (ll i = 0; i < N; ++i)
+    {
+        ++count[A[i]];
+        if (0 < i && A[i] == A[i - 1])
+        {
+
+            continue;
+        }
+        r += i - (count[A[i]] - 1);
+    }
+    cout << r << endl;
 }
 
 /**
