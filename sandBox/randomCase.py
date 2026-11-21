@@ -37,12 +37,9 @@ for test in range(100):
     N = random.randint(1,10)
     a = []
     for i in range(N):
-        a.append(random.randint(-1*(10**9),1*(10**9)))
-    A = set(a)
-    a.append(10**9)
-    random.shuffle(a)
-    fm.print(len(A))
-    fm.print(*A)
+        a.append(random.randint(1,N))
+    fm.print(len(a))
+    fm.print(*a)
     
 
 

@@ -1,4 +1,4 @@
-// ABC485C
+// ABC485D
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,10 +60,55 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
-    // const auto S = input<std::string>();
     // const auto A = input<ll>(N);
     //
+    const auto N = input<ll>();
+    const auto S = input<std::string>();
+    ll left = 0;
+    ll right = 0;
+    vector<ll> countABC(3);
+    countABC[0] = 0;
+    countABC[1] = 0;
+    countABC[2] = 0;
+    for (ll i = 0; i < N; ++i)
+    {
+        ++countABC[S[i] - 'A'];
+        if (0 < countABC[0] && 0 < countABC[1] && 0 < countABC[2])
+        {
+            left = i;
+            break;
+        }
+    }
+    countABC[0] = 0;
+    countABC[1] = 0;
+    countABC[2] = 0;
+    for (ll i = N - 1; 0 < i; --i)
+    {
+        ++countABC[S[i] - 'A'];
+        if (0 < countABC[0] && 0 < countABC[1] && 0 < countABC[2])
+        {
+            right = i;
+            break;
+        }
+    }
+    vector<ll> abc(3);
+    ll m = left;
+    ll result = 0;
+    for (ll i = left; i < right; ++i)
+    {
+        while (m + 1 < right && !(0 < abc[0] && 0 < abc[1] && 0 < abc[2]))
+        {
+            ++m;
+            ++abc[S[m] - 'A'];
+        }
+        if (!(0 < abc[0] && 0 < abc[1] && 0 < abc[2]))
+        {
+            break;
+        }
+        result += right - m;
+        --abc[S[i + 1] - 'A'];
+    }
+    cout << result << endl;
 }
 
 /**

@@ -1,4 +1,4 @@
-// ABC485D
+// ABC485C
 // template
 #include <iostream>
 #include <cstdint>
@@ -60,12 +60,40 @@ std::vector<T> input(int64_t n)
 void solve()
 {
     // 入力スニペ
-    // const auto N = input<ll>();
     // const auto S = input<std::string>();
-    // const auto A = input<ll>(N);
     //
+    const auto N = input<ll>();
+    const auto A = input<ll>(N);
+    struct NEIGHBOR
+    {
+        ll prev;
+        ll next = 1e8;
+    };
+    ll start = 0;
+    ll previous = (-1 * (1e8));
+    vector<NEIGHBOR> distances(N);
+    for (ll i = 0; i < N; ++i)
+    {
+        if (A[i] == A[start])
+        {
+            distances[i].prev = previous;
+            continue;
+        }
+        while (A[i] != A[start])
+        {
+            distances[start].next = i;
+            previous = start;
+            ++start;
+        }
+        distances[i].prev = i - 1;
+    }
+    for (ll i = 0; i < N; ++i)
+    {
+        ll r = std::min(abs(i - distances[i].prev), abs(distances[i].next - i));
+        cout << r << " ";
+    }
+    cout << endl;
 }
-
 /**
  * エントリポイント
  * テストケースごとに回す(デフォルトは1)

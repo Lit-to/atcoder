@@ -1,4 +1,4 @@
-# ABC485G
+# ABC485A
 # template
 
 def main():
@@ -12,10 +12,13 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
-
+    A,B = im.listIntInput(2)
+    T = 0
+    yes(T < A  and T < B)
+    yes(A < T  and B < T)
+    no()
 
     ...
 

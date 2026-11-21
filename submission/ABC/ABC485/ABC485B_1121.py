@@ -1,4 +1,4 @@
-# ABC485C
+# ABC485B
 # template
 
 def main():
@@ -12,9 +12,34 @@ def main():
 
     S = im.input()
     N = im.intInput()
-    H,W = im.listIntInput(2)
     A = im.listIntInput(N)
     """
+    N,M = im.listIntInput(2)
+    S = []
+    for i in range(N):
+        S.append(list(input()))
+    # jaguchi
+    for i in range(N):
+        for j in range(M):
+            if (S[i][j]=="x"):
+                if (j==M-1):
+                    print("Faucet",i+1)
+                else:
+                    continue
+            else:
+                break
+    #haisuikan
+    for j in range(M):
+        for i in range(N):
+            if (S[i][j]=="x"):
+                if (i==N-1):
+                    print("Drain",j+1)
+                else:
+                    continue
+            else:
+                break
+
+
 
 
     ...
